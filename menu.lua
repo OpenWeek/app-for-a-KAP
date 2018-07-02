@@ -44,9 +44,7 @@ function launchMenu()
 			-- launch a mini game
 		end)
 	button4:addEventListener("click", 
-		function() 
-			-- launch a mini game
-		end)
+		level4)
 	
 	button1:setPosition(40, 30)
 	button2:setPosition(40, 120)

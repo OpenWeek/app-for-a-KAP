@@ -17,6 +17,7 @@
    </export>
   </exports>
  </properties>
+ <file source="questions.txt"/>
  <file source="FondNiveauBlanc.png"/>
  <file source="TextWrap.lua"/>
  <file source="long_button_up.png"/>
