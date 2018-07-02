@@ -36,13 +36,9 @@ function launchMenu()
 	button1:addEventListener("click", 
 		level1)
 	button2:addEventListener("click", 
-		function() 
-			-- launch a mini game
-		end)	
+		level2)	
 	button3:addEventListener("click", 
-		function() 
-			-- launch a mini game
-		end)
+		level3)
 	button4:addEventListener("click", 
 		level4)
 	
