@@ -1,4 +1,5 @@
 function level3()
+-- TODO barre de progression pour l'avancement des questions
 
 local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 	stage:addChild(fond)
@@ -17,20 +18,21 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 	-- 0 pour non, 1 pour oui
 	-- Question, réponse, explication
 	-- Il faudrait que ces questions soient lues depuis un fichier
-	local questions = {{"Se faire tatouer, pratique a risque ?", 0, "Pas si tu le fais dans un salon\n qui respecte les normes d'hygiène"},
+	local questions = {{"Se faire tatouer, pratique a risque ?", 0, "Pas si tu le fais dans un salon qui respecte les normes d'hygiène"},
 	                   {"Une fellation, pratique a risque ?", 1, "Cela nécessite un préservatif"},
-					   {"Faire des massages", 0, "Le contact peau à peau\n n'est pas un mode de transmission,\n pas de soucis à se faire !"},
-					   {"Une caresse sexuelle", 1, "Tu peux contracter l'herpès génital, le papillomavirus, la chlamydia,\n la gonorrhée et la syphilis au stade secondaire"},
+					   {"Faire des massages", 0, "Le contact peau à peau n'est pas un mode de transmission, pas de soucis à se faire !"},
+					   {"Une caresse sexuelle", 1, "Tu peux contracter l'herpès génital, le papillomavirus, la chlamydia, la gonorrhée et la syphilis au stade secondaire"},
 					   {"Se faire piquer par un moustique", 0, "Les moustiques peuvent transmettre des maladies mais PAS des IST"},
-					   {"Une pénétration", 1, "Anale comme vaginale, une pénétration doit se faire avec une capote !\n Comme tu t'en doutes, les risques sont grands, tu peux contacter le VIH, l'hépatite B et C, la syphilis, l'herpès génital, le papillomavirus, la chlamydia et la gonorrhée"},
-					   {"Echanger sa seringue", 1, "Il s'agit d'un contact de sang à sang,\n tu risques de contracter le VIH,\n l'hépatite B et C et la syphilis"},
+					   {"Une pénétration", 1, "Anale comme vaginale, une pénétration doit se faire avec une capote ! Comme tu t'en doutes, les risques sont grands, tu peux contacter le VIH, l'hépatite B et C, la syphilis, l'herpès génital, le papillomavirus, la chlamydia et la gonorrhée"},
+					   {"Echanger sa seringue", 1, "Il s'agit d'un contact de sang à sang, tu risques de contracter le VIH, l'hépatite B et C et la syphilis"},
 					   {"Embrasser quelqu'un", 0, "Tu peux pécho sans remord. Par contre si ça va plus loin protège-toi !"},
-					   {"Un cunnilingus", 1, "Pour pratiquer un cunnilingus safe,\n tu peux utiliser des carrés de latex, disponible en pharmacie.\n Tu risques de contracter l’hépatite B, la syphilis, l’herpès génital, le papillomavirus, la chlamydia et la gonorrhée"},
-					   {"S’assoir sur une planche de toilette publique", 0, "Ce n’est pas toujours très ragoutant,\n on est d’accord mais pas de risque d’y attraper des IST !"},
-					   {"Boire dans le verre d’un inconnu", 0, "La salive n’est pas un mode de transmission,\n par contre reste quand même vigilant·e, on ne sait pas ce qu’il peut y avoir d’autre dedans..."},
-					   {"Se faire vacciner", 0, "En Belgique les mesures d’hygiène sont très contrôlées, \n tu ne risques pas de contracter une IST lors d’une visite chez le médecin"},
-					   {"Recevoir une transfusion sanguine", 0, "le sang donné est strictement contrôlé,\n pas de panique"}}
+					   {"Un cunnilingus", 1, "Pour pratiquer un cunnilingus safe, tu peux utiliser des carrés de latex, disponible en pharmacie. Tu risques de contracter l’hépatite B, la syphilis, l’herpès génital, le papillomavirus, la chlamydia et la gonorrhée"},
+					   {"S’assoir sur une planche de toilette publique", 0, "Ce n’est pas toujours très ragoutant, on est d’accord mais pas de risque d’y attraper des IST !"},
+					   {"Boire dans le verre d’un inconnu", 0, "La salive n’est pas un mode de transmission, par contre reste quand même vigilant·e, on ne sait pas ce qu’il peut y avoir d’autre dedans..."},
+					   {"Se faire vacciner", 0, "En Belgique les mesures d’hygiène sont très contrôlées,  tu ne risques pas de contracter une IST lors d’une visite chez le médecin"},
+					   {"Recevoir une transfusion sanguine", 0, "le sang donné est strictement contrôlé, pas de panique"}}
 	
+	-- Boutons
 	local upLO = Bitmap.new(Texture.new("little_button_up.png"))
 	local downLO = Bitmap.new(Texture.new("little_button_down.png"))
 	local upLN = Bitmap.new(Texture.new("little_button_up.png"))
@@ -59,12 +61,21 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 	buttonRE:setPosition(200,250)
 	buttonFIN:setPosition(200,250)
 	
-	numQ = 1
-	ansField = {}
+	---- Questions
+	-- Liste des réponses aux questions, indice correspond à l'indice de la question et true/false
+	local ansField = {}
+	-- Question en cours
+	local q
+	local numQ = math.random(#questions)
 	
+	math.randomseed(os.time())
+	math.random(); math.random(); math.random()
+	-- https://stackoverflow.com/questions/20154991/generating-uniform-random-numbers-in-lua
+	
+	---- Comportement des boutons
 	function printQuestion()
 		q = questions[numQ]
-		quest = TextField.new(nil, q[1])
+		quest = TextWrap.new(q[1], 300, "justify")
 		quest:setPosition(10, 150)
 		fond:addChild(quest)
 		fond:addChild(buttonO)
@@ -72,15 +83,15 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 	end
 	
 	function check(answer) 
+		local txtA
 		if q[2] == answer then
-			ansField[#ansField+1] = true
+			ansField[numQ] = true
 			txtA = "VRAI : " .. q[3]
-			ans = TextField.new(nil, txtA)
 		else
-			ansField[#ansField+1] = false
+			ansField[numQ] = false
 			txtA = "FAUX : " .. q[3]
-			ans = TextField.new(nil, txtA)
 		end
+		ans = TextWrap.new(txtA, 300, "justify")
 		fond:removeChild(quest)
 		fond:removeChild(buttonO)
 		fond:removeChild(buttonN)
@@ -88,35 +99,48 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 		ans:setPosition(10, 150)
 		fond:addChild(ans)
 		fond:addChild(buttonOK)
-		numQ = numQ + 1
 	end
 	
 	function next()
 		fond:removeChild(ans)
 		fond:removeChild(buttonOK)
-		
-		if numQ > #questions then
-			goodAns = countGoodAnswers(ansField)
-			if goodAns < (#ansField * 0.8) then
-				Txt = "Vous n'avez pas assez de bonnes réponses, \nvous en avez " .. goodAns .. " bonnes sur " .. #ansField
+		-------
+		-- On ajoute toutes les indices questions restantes dans remaining
+		local remaining = {}
+		for i = 1, #questions do
+			if ansField[i] == nil then
+				table.insert(remaining, i)
+			end
+		end		
+		if #remaining ~= 0 then
+			local i = math.random(#remaining)
+			numQ = remaining[i]
+			printQuestion()
+		else
+			local goodAns = 0
+			for k, v in pairs(ansField) do
+				if v then
+					goodAns = goodAns + 1
+				end
+			end
+			if goodAns < (#questions * 0.8) then
+				Txt = "Vous n'avez pas assez de bonnes réponses, vous en avez " .. goodAns .. " bonnes sur " .. #questions
 				faux = TextField.new(nil, Txt)
 				faux:setPosition(10, 150)
 				fond:addChild(faux)
 				fond:addChild(buttonRE)
 			else
-				Txt = "Vous avez " .. goodAns .. " bonnes réponses sur " .. #ansField
+				Txt = "Vous avez " .. goodAns .. " bonnes réponses sur " .. #questions
 				vrai = TextField.new(nil, Txt)
 				vrai:setPosition(10, 150)
 				fond:addChild(vrai)
 				fond:addChild(buttonFIN)
 			end
-		else
-			printQuestion()
 		end
 	end
 	
 	function reset()
-		numQ = 1
+		numQ = math.random(#questions)
 		ansField = {}
 		fond:removeChild(faux)
 		fond:removeChild(buttonRE)
