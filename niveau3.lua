@@ -1,7 +1,8 @@
 function level3()
 -- TODO barre de progression pour l'avancement des questions
+	font = TTFont.new("Roboto-Black.ttf", 14)
 
-local fond = Bitmap.new(Texture.new("FondNiveau.png"))
+	local fond = Bitmap.new(Texture.new("FondNiveauBlanc.png"))
 	stage:addChild(fond)	
 	
 	-- 0 pour non, 1 pour oui
@@ -22,21 +23,23 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 					   {"Recevoir une transfusion sanguine", 0, "le sang donné est strictement contrôlé, pas de panique"}}
 	
 	-- Boutons
-	local upLO = Bitmap.new(Texture.new("little_button_up.png"))
-	local downLO = Bitmap.new(Texture.new("little_button_down.png"))
-	local upLN = Bitmap.new(Texture.new("little_button_up.png"))
-	local downLN = Bitmap.new(Texture.new("little_button_down.png"))
-	local upOK = Bitmap.new(Texture.new("little_button_up.png"))
-	local downOK = Bitmap.new(Texture.new("little_button_down.png"))
-	local upRE = Bitmap.new(Texture.new("little_button_up.png"))
-	local downRE = Bitmap.new(Texture.new("little_button_down.png"))
-	local txtO = TextField.new(nil, "OUI")
-	local txtN = TextField.new(nil, "NON")
-	local txtOK = TextField.new(nil, "OK")
-	local txtRE = TextField.new(nil, "Refaire")
-	local up = Bitmap.new(Texture.new("button_up.png"))
-	local down = Bitmap.new(Texture.new("button_down.png"))
-	local txt = TextField.new(nil, "Quitter le niveau")
+	textureUp = Texture.new("little_button_up.png")
+	textureDown = Texture.new("little_button_down.png")
+	local up = Bitmap.new(Texture.new("quit_button_up.png"))
+	local down = Bitmap.new(Texture.new("quit_button_down.png"))
+	local upLO = Bitmap.new(textureUp)
+	local downLO = Bitmap.new(textureDown)
+	local upLN = Bitmap.new(textureUp)
+	local downLN = Bitmap.new(textureDown)
+	local upOK = Bitmap.new(textureUp)
+	local downOK = Bitmap.new(textureDown)
+	local upRE = Bitmap.new(textureUp)
+	local downRE = Bitmap.new(textureDown)
+	local txt = TextField.new(font, "Quitter le niveau")
+	local txtO = TextField.new(font, "OUI")
+	local txtN = TextField.new(font, "NON")
+	local txtOK = TextField.new(font, "OK")
+	local txtRE = TextField.new(font, "Refaire")	
 	
 	local buttonO = Button.new(upLO, downLO, txtO)
 	local buttonN = Button.new(upLN, downLN, txtN)
@@ -64,7 +67,7 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 	---- Comportement des boutons
 	function printQuestion()
 		q = questions[numQ]
-		quest = TextWrap.new(q[1], 300, "justify")
+		quest = TextWrap.new(q[1], 300, "justify", nil, font)
 		quest:setPosition(10, 150)
 		fond:addChild(quest)
 		fond:addChild(buttonO)
@@ -80,7 +83,7 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 			ansField[numQ] = false
 			txtA = "FAUX : " .. q[3]
 		end
-		ans = TextWrap.new(txtA, 300, "justify")
+		ans = TextWrap.new(txtA, 300, "justify", nil, font)
 		fond:removeChild(quest)
 		fond:removeChild(buttonO)
 		fond:removeChild(buttonN)
@@ -114,14 +117,18 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 			end
 			if goodAns < (#questions * 0.8) then
 				Txt = "Vous n'avez pas assez de bonnes réponses, vous en avez " .. goodAns .. " bonnes sur " .. #questions
-				faux = TextField.new(nil, Txt)
+				faux = TextField.new(font, Txt)
 				faux:setPosition(10, 150)
 				fond:addChild(faux)
 				fond:addChild(buttonRE)
 			else
+				lock3 = 1
 				Txt = "Vous avez " .. goodAns .. " bonnes réponses sur " .. #questions
-				vrai = TextField.new(nil, Txt)
+				vrai = TextField.new(font, Txt)
 				vrai:setPosition(10, 150)
+				Txt2 = "Continent 3 débloqué !"
+				debloc = TextField(font, Txt2)
+				debloc:setPosition(10,100)
 				fond:addChild(vrai)
 			end
 		end
