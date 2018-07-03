@@ -18,22 +18,23 @@
   </exports>
  </properties>
  <file source="images/quit_button_up.png"/>
+ <file source="images/gray_button.png"/>
  <file source="preservatifs.jpg"/>
  <file source="questions.txt"/>
- <file source="FondNiveauBlanc.png"/>
+ <file source="images/FondNiveauBlanc.png"/>
  <file source="TextWrap.lua"/>
- <file source="long_button_up.png"/>
- <file source="long_button_down.png"/>
- <file source="little_button_up.png"/>
- <file source="little_button_down.png"/>
- <file source="FondNiveau.png"/>
+ <file source="images/long_button_up.png"/>
+ <file source="images/long_button_down.png"/>
+ <file source="images/little_button_up.png"/>
+ <file source="images/little_button_down.png"/>
+ <file source="images/FondNiveau.png"/>
  <file source="menu.lua"/>
  <file source="niveau4.lua"/>
  <file source="niveau3.lua"/>
  <file source="niveau2.lua"/>
  <file source="niveau1.lua"/>
- <file source="button_down.png"/>
- <file source="button_up.png"/>
+ <file source="images/button_down.png"/>
+ <file source="images/button_up.png"/>
  <file source="button.lua"/>
  <file source="main.lua"/>
 </project>
