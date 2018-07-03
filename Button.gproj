@@ -17,9 +17,13 @@
    </export>
   </exports>
  </properties>
+ <file source="Roboto-Black.ttf"/>
+ <file source="images/LICENSE"/>
+ <file source="questions.txt"/>
+ <file source="answers.lua"/>
+ <file source="TextWrap.lua"/>
  <file source="images/quit_button_up.png"/>
  <file source="images/gray_button.png"/>
- <file source="preservatifs.jpg"/>
  <file source="questions.txt"/>
  <file source="images/FondNiveauBlanc.png"/>
  <file source="TextWrap.lua"/>
@@ -37,4 +41,10 @@
  <file source="images/button_up.png"/>
  <file source="button.lua"/>
  <file source="main.lua"/>
+ <file source="images/left_arrow.png"/>
+ <file source="images/right_arrow.png"/>
+ <file source="preservatifs.jpg"/>
+ <file source="images/gray_button.png"/>
+ <file source="images/quit_button_up.png"/>
+ <file source="images/quit_button_down.png"/>
 </project>

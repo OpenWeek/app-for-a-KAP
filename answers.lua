@@ -5,6 +5,7 @@ function friendlyMessage()
 	return frdlyMsg[rdm]
 end
 
+-- compte le nombre de true dans une liste de booléens
 function countGoodAnswers(table)
 	local i = 1
 	local count = 0
