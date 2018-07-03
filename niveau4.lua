@@ -13,6 +13,7 @@ function level4()
 	buttonQuit:addEventListener("click", 
 		function() 
 			stage:removeChild(fond)
+			launchMenuContinent(3,1)
 		end)	
 	-- 0 pour non, 1 pour oui
 	-- Question, réponse, explication
@@ -96,6 +97,5 @@ end
 	printQuestion()
 	buttonO:addEventListener("click", check, 1)
 	buttonN:addEventListener("click", check, 0)
-	buttonOK:addEventListener("click", next)
-	
+	buttonOK:addEventListener("click", next)	
 end
