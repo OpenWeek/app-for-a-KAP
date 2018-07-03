@@ -12,7 +12,6 @@ function level2()
 	-- Symptoms
 	
 	local symp = {}
-	
 	local temp = {}
 	for line in io.lines("QuestionsLvl2.txt") do
 		table.insert(temp, line)
