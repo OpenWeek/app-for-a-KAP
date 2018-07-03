@@ -2,19 +2,8 @@ function level3()
 -- TODO barre de progression pour l'avancement des questions
 
 local fond = Bitmap.new(Texture.new("FondNiveau.png"))
-	stage:addChild(fond)
+	stage:addChild(fond)	
 	
-	local up = Bitmap.new(Texture.new("button_up.png"))
-	local down = Bitmap.new(Texture.new("button_down.png"))
-	local txt = TextField.new(nil, "Quitter le niveau")
-	
-	local buttonQuit = Button.new(up, down, txt)
-	buttonQuit:setPosition(70, 400)
-	fond:addChild(buttonQuit)
-	buttonQuit:addEventListener("click", 
-		function() 
-			stage:removeChild(fond)
-		end)	
 	-- 0 pour non, 1 pour oui
 	-- Question, réponse, explication
 	-- Il faudrait que ces questions soient lues depuis un fichier
@@ -41,25 +30,25 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 	local downOK = Bitmap.new(Texture.new("little_button_down.png"))
 	local upRE = Bitmap.new(Texture.new("little_button_up.png"))
 	local downRE = Bitmap.new(Texture.new("little_button_down.png"))
-	local upFIN = Bitmap.new(Texture.new("little_button_up.png"))
-	local downFIN = Bitmap.new(Texture.new("little_button_down.png"))
 	local txtO = TextField.new(nil, "OUI")
 	local txtN = TextField.new(nil, "NON")
 	local txtOK = TextField.new(nil, "OK")
 	local txtRE = TextField.new(nil, "Refaire")
-	local txtFIN = TextField.new(nil, "Bien joué !")
+	local up = Bitmap.new(Texture.new("button_up.png"))
+	local down = Bitmap.new(Texture.new("button_down.png"))
+	local txt = TextField.new(nil, "Quitter le niveau")
 	
 	local buttonO = Button.new(upLO, downLO, txtO)
 	local buttonN = Button.new(upLN, downLN, txtN)
 	local buttonOK = Button.new(upOK, downOK, txtOK)
 	local buttonRE = Button.new(upRE, downRE, txtRE)
-	local buttonFIN = Button.new(upFIN, downFIN, txtFIN)
+	local buttonQuit = Button.new(up, down, txt)
 	
 	buttonO:setPosition(40, 250)
 	buttonN:setPosition(200, 250)
 	buttonOK:setPosition(200, 250)
 	buttonRE:setPosition(200,250)
-	buttonFIN:setPosition(200,250)
+	buttonQuit:setPosition(70, 400)	
 	
 	---- Questions
 	-- Liste des réponses aux questions, indice correspond à l'indice de la question et true/false
@@ -134,7 +123,6 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 				vrai = TextField.new(nil, Txt)
 				vrai:setPosition(10, 150)
 				fond:addChild(vrai)
-				fond:addChild(buttonFIN)
 			end
 		end
 	end
@@ -149,12 +137,15 @@ local fond = Bitmap.new(Texture.new("FondNiveau.png"))
 	
 	function finishLvl()
 		stage:removeChild(fond)
+		launchMenuContinent(2,1)
 	end
 	
+	fond:addChild(buttonQuit)
+	
 	printQuestion()
+	buttonQuit:addEventListener("click", finishLvl)	
 	buttonO:addEventListener("click", check, 1)
 	buttonN:addEventListener("click", check, 0)
 	buttonOK:addEventListener("click", next)
 	buttonRE:addEventListener("click", reset)
-	buttonFIN:addEventListener("click", finishLvl)
 end
