@@ -11,4 +11,7 @@ LongButtonUp = Texture.new("long_button_up.png")
 QuitButtonDown = Texture.new("quit_button_down.png")
 QuitButtonUp = Texture.new("quit_button_up.png")
 RightArrow = Texture.new("right_arrow.png")
-
+GameOver = Texture.new("images/gameover.png")
+smallFont = TTFont.new("Roboto-Black.ttf", 10)
+font = TTFont.new("Roboto-Black.ttf", 12)
+titleFont = TTFont.new("Roboto-Black.ttf", 14)

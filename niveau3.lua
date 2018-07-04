@@ -1,6 +1,6 @@
 function level3()
 -- TODO barre de progression pour l'avancement des questions
-	font = TTFont.new("Roboto-Black.ttf", 14)
+	font = TTFont.new("Roboto-Condensed.ttf", 14)
 
 	local fond = Bitmap.new(Texture.new("FondNiveauBlanc.png"))
 	stage:addChild(fond)	
@@ -117,7 +117,7 @@ function level3()
 			end
 			if goodAns < (#questions * 0.8) then
 				Txt = "Vous n'avez pas assez de bonnes réponses, vous en avez " .. goodAns .. " bonnes sur " .. #questions
-				faux = TextField.new(font, Txt)
+				faux = TextWrap.new(Txt, 300, "justify", nil, font)
 				faux:setPosition(10, 150)
 				fond:addChild(faux)
 				fond:addChild(buttonRE)
@@ -127,7 +127,7 @@ function level3()
 				vrai = TextField.new(font, Txt)
 				vrai:setPosition(10, 150)
 				Txt2 = "Continent 3 débloqué !"
-				debloc = TextField(font, Txt2)
+				debloc = TextField.new(font, Txt2)
 				debloc:setPosition(10,100)
 				fond:addChild(vrai)
 			end
