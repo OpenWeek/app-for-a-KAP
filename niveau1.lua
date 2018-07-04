@@ -1,6 +1,6 @@
 function level1()
 
-	wallLevel1 = Bitmap.new(Texture.new('preservatifs.jpg'))
+	wallLevel1 = Bitmap.new(Texture.new('FondNiveau.png'))
 	stage:addChild(wallLevel1)
 
 	local backUp = Bitmap.new(Texture.new("button_up.png"))
@@ -12,6 +12,14 @@ function level1()
 			stage:removeChild(wallLevel1)
 			launchMenuContinent(1,2)
 		end)
+	
+	local bu = Bitmap.new(Texture.new('button_up.png'))
+	local bd = Bitmap.new(Texture.new('button_down.png'))
+	local bt = TextField.new(nil, 'QUESTION BIATCH')
+	
+	local b = Button.new(bu, bd, bt)
+	
+	
 	
 	wallLevel1:addChild(back)
 end
