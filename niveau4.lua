@@ -23,9 +23,7 @@ function lines_from()
     lines = {}
     for line in io.lines("questions.txt") do
 		lines[#lines + 1] = line
-		print("hihi")
 		if #lines == 5 then
-			print("hoho")
 			questions[#questions+1] = lines
 			lines = {}
         end

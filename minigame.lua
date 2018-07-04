@@ -1,6 +1,5 @@
 -- Square Dodge by Jason Oakley (C) 2013 Blue Bilby
 function startMiniGame(level)
-	print(level)
 	-- Define our variables and tables as local to save memory
 	local score
 	local hiScore
@@ -63,7 +62,7 @@ function startMiniGame(level)
 		end
 		if score > hiScore then
 			hiScore = score
-			hiScoreText:setText("Hi Score: " .. hiScore)	
+			hiScoreText:setText("HighScore: " .. hiScore)	
 		end
 	end
 
