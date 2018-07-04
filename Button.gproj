@@ -17,7 +17,6 @@
    </export>
   </exports>
  </properties>
-<<<<<<< HEAD
  <file source="images/long_button_gray.png"/>
  <file source="init.lua"/>
  <file source="images/right_arrow.png"/>
