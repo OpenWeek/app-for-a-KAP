@@ -1,13 +1,11 @@
 function level4()
 
-	local fond = Bitmap.new(Texture.new("FondNiveau.png"))
+	local fond = Bitmap.new(FondNiveau)
 	stage:addChild(fond)
 	
-	local up = Bitmap.new(Texture.new("button_up.png"))
-	local down = Bitmap.new(Texture.new("button_down.png"))
-	local txt = TextField.new(nil, "Quitter le niveau")
+	local txt = TextField.new(font, "Quitter le niveau")
 	
-	local buttonQuit = Button.new(up, down, txt)
+	local buttonQuit = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt)
 	buttonQuit:setPosition(70, 400)
 	fond:addChild(buttonQuit)
 	buttonQuit:addEventListener("click", 
@@ -19,32 +17,24 @@ function level4()
 	-- Question, réponse, explication
 	-- Il faudrait que ces questions soient lues depuis un fichier
 	local questions = {}
-function lines_from()
-    lines = {}
-    for line in io.lines("questions.txt") do
-		lines[#lines + 1] = line
-		if #lines == 5 then
-			questions[#questions+1] = lines
-			lines = {}
-        end
-    end
-	return lines
-end
-
-	local upLO = Bitmap.new(Texture.new("little_button_up.png"))
-	local downLO = Bitmap.new(Texture.new("little_button_down.png"))
-	local upLN = Bitmap.new(Texture.new("little_button_up.png"))
-	local downLN = Bitmap.new(Texture.new("little_button_down.png"))
-	local upOK = Bitmap.new(Texture.new("little_button_up.png"))
-	local downOK = Bitmap.new(Texture.new("little_button_down.png"))
-	local txtO = TextField.new(nil, "OUI")
-	local txtN = TextField.new(nil, "NON")
-	local txtOK = TextField.new(nil, "OK")
+	function lines_from()
+		lines = {}
+		for line in io.lines("questions.txt") do
+			lines[#lines + 1] = line
+			if #lines == 5 then
+				questions[#questions+1] = lines
+				lines = {}
+			end
+		end
+		return lines
+	end
 	
-	local buttonO = Button.new(upLO, downLO, txtO)
-	local buttonN = Button.new(upLN, downLN, txtN)
-	local buttonOK = Button.new(upOK, downOK, txtOK)
-	txtOK:setText("hihihi")
+	local txtO = TextField.new(font, "OUI")
+	local txtN = TextField.new(font, "NON")
+	
+	local buttonO = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), )
+	local buttonN = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), )
+	local buttonOK = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "OK"))
 	
 	buttonO:setPosition(40, 250)
 	buttonN:setPosition(200, 250)
@@ -53,7 +43,7 @@ end
 	
 	function printQuestion()
 		q = questions[numQ]
-		quest = TextField.new(nil, q[1])
+		quest = TextField.new(font, q[1])
 		quest:setPosition(10, 150)
 		fond:addChild(quest)
 		fond:addChild(buttonO)
@@ -65,10 +55,10 @@ end
 	function check(answer) 
 		if tonumber(q[2]) == answer then
 			txtA = "VRAI : " .. q[3]
-			ans = TextField.new(nil, txtA)
+			ans = TextField.new(font, txtA)
 		else
 			txtA = "FAUX : " .. q[3]
-			ans = TextField.new(nil, txtA)
+			ans = TextField.new(font, txtA)
 		end
 		fond:removeChild(quest)
 		fond:removeChild(buttonO)

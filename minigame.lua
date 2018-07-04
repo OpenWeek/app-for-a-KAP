@@ -48,7 +48,7 @@ function startMiniGame(level)
 		scoreText = TextField.new(nil, "Score: " .. score)
 		scoreText:setPosition(10,10)
 		stage:addChild(scoreText)
-		hiScoreText = TextField.new(nil, "Hi Score: " .. hiScore)
+		hiScoreText = TextField.new(nil, "HighScore: " .. hiScore)
 		hiScoreText:setPosition(200,10)
 		stage:addChild(hiScoreText)
 	end
@@ -107,7 +107,7 @@ function startMiniGame(level)
 	-- Set up the player object
 	local function initPlayer()
 		-- Create the player object
-		player = Bitmap.new(Texture.new("images/player.png"))
+		player = Bitmap.new(PlayerTxtu)
 		player.x, player.y = 160,240
 		player.width, player.height = 32, 32
 		player:setPosition(player.x, player.y)
@@ -300,7 +300,7 @@ function startMiniGame(level)
 	-- Start game. Display START button and logo
 	local function startGame()
 		-- Create a Start Button object and display it
-		startbuttonImg = Bitmap.new(Texture.new("images/squaredodge.png"))
+		startbuttonImg = Bitmap.new(Squaredodge)
 		startbuttonImg.x, startbuttonImg.y = 0,200
 		startbuttonImg:setPosition(startbuttonImg.x, startbuttonImg.y)
 		stage:addChild(startbuttonImg)

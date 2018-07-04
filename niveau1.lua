@@ -1,11 +1,11 @@
 function level1()
 
-	wallLevel1 = Bitmap.new(Texture.new('preservatifs.jpg'))
+	wallLevel1 = Bitmap.new(FondPreservatif)
 	stage:addChild(wallLevel1)
 
-	local backUp = Bitmap.new(Texture.new("button_up.png"))
-	local backDown = Bitmap.new(Texture.new("button_down.png"))
-	local backText = TextField.new(nil,'Level 1 - Retour')	
+	local backUp = Bitmap.new(ButtonUp)
+	local backDown = Bitmap.new(ButtonDown)
+	local backText = TextField.new(font,'Level 1 - Retour')	
 	local back = Button.new(backUp, backDown, backText)
 	back:addEventListener("click", 
 		function()
