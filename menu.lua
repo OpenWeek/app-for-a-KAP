@@ -21,6 +21,7 @@ function launchMenu()
 		end)
 	button1:setPosition(40, 30)
 	wallMenu:addChild(button1)
+	lock2 = 1
 
 	if(lock2 == 0)then -- continent 2 and 3 is locked
 		local lockedButton2 = Bitmap.new(Texture.new("gray_button.png"))
@@ -34,16 +35,17 @@ function launchMenu()
 		wallMenu:addChild(lockedButton3)
 		lockedButton3:addChild(txt3)
 	else --continent 2 is accessible
-		local up2 = Bitmap.new(Texture.new("button_up.png"))
-		local down2 = Bitmap.new(Texture.new("button_down.png"))
+		local up2 = Bitmap.new(ButtonUp)
+		local down2 = Bitmap.new(ButtonDown)
 		local button2 = Button.new(up2, down2, txt2)
 		button2:addEventListener("click", 
-		function()
-			stage:removeChild(wallMenu)
-			launchMenuContinent(2,1)
-		end)
-			button2:setPosition(40, 120)
-			wallMenu:addChild(button2)
+			function()
+				stage:removeChild(wallMenu)
+				launchMenuContinent(2,1)
+			end)
+		button2:setPosition(40, 120)
+		wallMenu:addChild(button2)
+		
 		if(lock3 == 0)then --continent 3 is locked
 			local lockedButton3 = Bitmap.new(Texture.new("gray_button.png"))
 			lockedButton3:setPosition(40, 210)
@@ -51,8 +53,8 @@ function launchMenu()
 			wallMenu:addChild(lockedButton3)
 			lockedButton3:addChild(txt3)
 		else --continent 3 is accessible
-			local up3 = Bitmap.new(Texture.new("button_up.png"))
-			local down3 = Bitmap.new(Texture.new("button_down.png"))
+			local up3 = Bitmap.new(ButtonUp)
+			local down3 = Bitmap.new(ButtonDown)
 			local button3 = Button.new(up3, down3, txt3)
 			button3:addEventListener("click", 
 			function()
@@ -66,8 +68,8 @@ function launchMenu()
 end
 
 
---Take care of the menus of the different continents
---Cnbr is the continent number
+-- Take care of the menus of the different continents
+-- Cnbr is the continent number
 -- Bnbr is the number of button to set up, "go back" button not included
 function launchMenuContinent(Cnbr, Bnbr)
 
@@ -133,8 +135,10 @@ function launchMenuContinent(Cnbr, Bnbr)
 				end)
 				button2:setPosition(40, 210)
 				wallContinent:addChild(button2)
+				
+				
+				
 			end
-			
 		else
 			-- This 'other' button is not used yet --
 			buttonText2 = TextField.new(nil,'Autre')
@@ -147,6 +151,11 @@ function launchMenuContinent(Cnbr, Bnbr)
 		end
 	end
 	
+	createButtonMiniG(Cnbr)
+	buttonMiniG:setPosition(40, 300)
+	wallContinent:addChild(buttonMiniG)
+	
+				
 	--Creation of "go back" button
 	local backUp = Bitmap.new(Texture.new("button_up.png"))
 	local backDown = Bitmap.new(Texture.new("button_down.png"))
@@ -159,4 +168,13 @@ function launchMenuContinent(Cnbr, Bnbr)
 		end)
 	back:setPosition(70,430)
 	wallContinent:addChild(back)
+end
+
+function createButtonMiniG(level)
+	buttonMiniG = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonUp), TextField.new(nil, "Minijeu"))
+	buttonMiniG:addEventListener("click",
+		function()
+			stage:removeChild(wallContinent)
+			startMiniGame(level)
+		end)
 end
