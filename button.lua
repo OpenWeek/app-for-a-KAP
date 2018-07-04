@@ -1,6 +1,6 @@
 --[[
 A generic button class
-gyghgh
+
 This code is MIT licensed, see http://www.opensource.org/licenses/mit-license.php
 (C) 2010 - 2011 Gideros Mobile 
 ]]
