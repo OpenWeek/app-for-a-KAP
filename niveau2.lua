@@ -112,7 +112,7 @@ function level2()
 	
 	-- Quit Button
 	
-	local up = Bitmap.new(Texture.new("button_up.png"))
+	local up = Bitmap.new(Texture.new("quit_button_up.png"))
 	local down = Bitmap.new(Texture.new("button_down.png"))
 	local txt = TextField.new(nil, "Quitter le niveau")
 	
