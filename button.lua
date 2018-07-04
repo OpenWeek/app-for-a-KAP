@@ -10,10 +10,12 @@ Button = Core.class(Sprite)
 function Button:init(upState, downState, txt)
 	self.upState = upState
 	self.downState = downState
-	self.txt = txt
-	x, y = txt:getPosition()
-	self.txt:setPosition(x + 30, y + 20)
-	self:addChild(self.txt)
+	if txt ~= nul then
+		self.txt = txt
+		x, y = txt:getPosition()
+		self.txt:setPosition(x + 30, y + 20)
+		self:addChild(self.txt)
+	end
 	self.focus = false
 
 	-- set the visual state as "up"
@@ -28,6 +30,18 @@ function Button:init(upState, downState, txt)
 	self:addEventListener(Event.TOUCHES_MOVE, self.onTouchesMove, self)
 	self:addEventListener(Event.TOUCHES_END, self.onTouchesEnd, self)
 	self:addEventListener(Event.TOUCHES_CANCEL, self.onTouchesCancel, self)
+end
+
+function Button:setState(upState, downState)
+	self.upState = upState
+	self.downState = downState
+	self:updateVisualState(false)
+end
+
+function Button:setText(str)
+	if self.txt ~= nil then
+		self.txt:setText(str)
+	end
 end
 
 function Button:onMouseDown(event)
@@ -98,11 +112,11 @@ function Button:updateVisualState(state)
 			self:addChild(self.downState)
 		end
 		
-		if self:contains(self.txt) then
+		if self.txt ~= nil and self:contains(self.txt) then
 			self:removeChild(self.txt)
 		end
 		
-		if not self:contains(self.txt) then
+		if self.txt ~= nil and not self:contains(self.txt) then
 			self:addChild(self.txt)
 		end
 	else
@@ -113,14 +127,14 @@ function Button:updateVisualState(state)
 		if not self:contains(self.upState) then
 			self:addChild(self.upState)
 		end
-		if self:contains(self.txt) then
+		
+		if self.txt ~= nil and self:contains(self.txt) then
 			self:removeChild(self.txt)
 		end
 		
-		if not self:contains(self.txt) then
+		if self.txt ~= nil and not self:contains(self.txt) then
 			self:addChild(self.txt)
 		end
-		
 	end
 end
 
