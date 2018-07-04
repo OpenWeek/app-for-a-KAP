@@ -17,13 +17,16 @@
    </export>
   </exports>
  </properties>
+ <file source="images/long_button_gray.png"/>
+ <file source="init.lua"/>
+ <file source="images/right_arrow.png"/>
+ <file source="images/left_arrow.png"/>
+ <file source="images/gray_button.png"/>
+ <file source="QuestionsLvl2.txt"/>
+ <file source="preservatifs.jpg"/>
  <file source="Roboto-Black.ttf"/>
  <file source="images/LICENSE"/>
- <file source="questions.txt"/>
  <file source="answers.lua"/>
- <file source="TextWrap.lua"/>
- <file source="images/quit_button_up.png"/>
- <file source="images/gray_button.png"/>
  <file source="questions.txt"/>
  <file source="images/FondNiveauBlanc.png"/>
  <file source="TextWrap.lua"/>
