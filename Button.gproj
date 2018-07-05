@@ -21,47 +21,48 @@
   <file source="audio/DST-909Dreams.mp3"/>
   <file source="audio/gameover.wav"/>
  </folder>
+ <folder name="fonts">
+  <file source="fonts/Roboto-Condensed.ttf"/>
+ </folder>
  <folder name="images">
-  <file source="images/button_up.png"/>
   <file source="images/button_down.png"/>
+  <file source="images/button_up.png"/>
+  <file source="images/FondNiveauBlanc.png"/>
+  <file source="images/gameover.png"/>
   <file source="images/gray_button.png"/>
+  <file source="images/left_arrow.png"/>
   <file source="images/little_button_down.png"/>
   <file source="images/little_button_up.png"/>
   <file source="images/long_button_down.png"/>
   <file source="images/long_button_gray.png"/>
   <file source="images/long_button_up.png"/>
+  <file source="images/penis_condom.png"/>
+  <file source="images/penis.png"/>
+  <file source="images/player.png"/>
+  <file source="images/preservatifs.jpg"/>
   <file source="images/quit_button_down.png"/>
   <file source="images/quit_button_up.png"/>
   <file source="images/right_arrow.png"/>
-  <file source="images/left_arrow.png"/>
-  <file source="images/FondNiveauBlanc.png"/>
-  <file source="preservatifs.jpg"/>
-  <file source="squaredodge.png"/>
-  <file source="player.png"/>
-  <file source="gameover.png"/>
-  <file source="preservatifs.jpg"/>
-  <file source="images/gray_button.png"/>
-  <file source="images/FondNiveau.png"/>
-  <file source="images/vulva_internal_condom.png"/>
+  <file source="images/squaredodge.png"/>
   <file source="images/vulva_dental_dam.png"/>
+  <file source="images/vulva_internal_condom.png"/>
   <file source="images/vulva.png"/>
-  <file source="images/penis_condom.png"/>
-  <file source="images/penis.png"/>
+ </folder>
+ <folder name="questions">
+  <file source="questions/QuestionsLvl2.txt"/>
+  <file source="questions/questions.txt"/>
+  <file source="questions/questionsLvl3.txt"/>
  </folder>
  <file source="addionalFunctions.lua"/>
- <file source="minigame.lua"/>
- <file source="Roboto-Condensed.ttf"/>
- <file source="init.lua"/>
- <file source="QuestionsLvl2.txt"/>
- <file source="images/LICENSE"/>
- <file source="questions.txt"/>
- <file source="TextWrap.lua"/>
- <file source="menu.lua"/>
- <file source="niveau4.lua"/>
- <file source="niveau3.lua"/>
- <file source="niveau2.lua"/>
- <file source="niveau1.lua"/>
  <file source="button.lua"/>
+ <file source="init.lua"/>
  <file source="main.lua"/>
- <file source="questionsLvl3.txt"/>
+ <file source="menu.lua"/>
+ <file source="minigame.lua"/>
+ <file source="niveau1.lua"/>
+ <file source="niveau2.lua"/>
+ <file source="niveau3.lua"/>
+ <file source="niveau4.lua"/>
+ <file source="TextWrap.lua"/>
+>>>>>>> 35cea5aac016734a96c2bc8b5d95b02bda679da2
 </project>
