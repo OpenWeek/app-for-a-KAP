@@ -7,14 +7,12 @@ function level3()
 	-- 0 pour non, 1 pour oui
 	-- Question, réponse, explication
 	local questions = {}
-	function lines_from()
-		local lines = {}
-		for line in io.lines("questionsLvl3.txt") do
-			table.insert(lines, line)
-			if #lines == 3 then
-				table.insert(questions, lines)
-				lines = {}
-			end
+	local lines = {}
+	for line in io.lines("questions/questionsLvl3.txt") do
+		table.insert(lines, line)
+		if #lines == 3 then
+			table.insert(questions, lines)
+			lines = {}
 		end
 	end
 	
@@ -130,7 +128,6 @@ function level3()
 	
 	fond:addChild(buttonQuit)
 	
-	lines_from()
 	printQuestion()
 	buttonQuit:addEventListener("click", finishLvl)	
 	buttonO:addEventListener("click", check, 1)

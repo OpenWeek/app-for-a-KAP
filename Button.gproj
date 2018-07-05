@@ -50,8 +50,8 @@
  </folder>
  <folder name="questions">
   <file source="questions/QuestionsLvl2.txt"/>
-  <file source="questions/questions.txt"/>
   <file source="questions/questionsLvl3.txt"/>
+  <file source="questions/questions.txt"/>
  </folder>
  <file source="addionalFunctions.lua"/>
  <file source="button.lua"/>
