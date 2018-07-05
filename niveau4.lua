@@ -15,18 +15,16 @@ function level4()
 		end)	
 	-- 0 pour non, 1 pour oui
 	-- Question, réponse, explication
-	-- Il faudrait que ces questions soient lues depuis un fichier
 	local questions = {}
 	function lines_from()
-		lines = {}
+		local lines = {}
 		for line in io.lines("questions/questions.txt") do
-			lines[#lines + 1] = line
+			table.insert(lines, line)
 			if #lines == 5 then
-				questions[#questions+1] = lines
+				table.insert(questions, lines)
 				lines = {}
 			end
 		end
-		return lines
 	end
 	
 	local txtO = TextField.new(font, "OUI")

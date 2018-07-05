@@ -2,24 +2,19 @@ function level3()
 -- TODO barre de progression pour l'avancement des questions
 
 	local fond = Bitmap.new(FondNiveau)
-	stage:addChild(fond)	
-	
+	stage:addChild(fond)
+
 	-- 0 pour non, 1 pour oui
 	-- Question, réponse, explication
-	-- Il faudrait que ces questions soient lues depuis un fichier
-	local questions = {{"Se faire tatouer, pratique a risque ?", 0, "Pas si tu le fais dans un salon qui respecte les normes d'hygiène"},
-	                   {"Une fellation, pratique a risque ?", 1, "Cela nécessite un préservatif"},
-					   {"Faire des massages", 0, "Le contact peau à peau n'est pas un mode de transmission, pas de soucis à se faire !"},
-					   {"Une caresse sexuelle", 1, "Tu peux contracter l'herpès génital, le papillomavirus, la chlamydia, la gonorrhée et la syphilis au stade secondaire"},
-					   {"Se faire piquer par un moustique", 0, "Les moustiques peuvent transmettre des maladies mais PAS des IST"},
-					   {"Une pénétration", 1, "Anale comme vaginale, une pénétration doit se faire avec une capote ! Comme tu t'en doutes, les risques sont grands, tu peux contacter le VIH, l'hépatite B et C, la syphilis, l'herpès génital, le papillomavirus, la chlamydia et la gonorrhée"},
-					   {"Echanger sa seringue", 1, "Il s'agit d'un contact de sang à sang, tu risques de contracter le VIH, l'hépatite B et C et la syphilis"},
-					   {"Embrasser quelqu'un", 0, "Tu peux pécho sans remord. Par contre si ça va plus loin protège-toi !"},
-					   {"Un cunnilingus", 1, "Pour pratiquer un cunnilingus safe, tu peux utiliser des carrés de latex, disponible en pharmacie. Tu risques de contracter l’hépatite B, la syphilis, l’herpès génital, le papillomavirus, la chlamydia et la gonorrhée"},
-					   {"S’assoir sur une planche de toilette publique", 0, "Ce n’est pas toujours très ragoutant, on est d’accord mais pas de risque d’y attraper des IST !"},
-					   {"Boire dans le verre d’un inconnu", 0, "La salive n’est pas un mode de transmission, par contre reste quand même vigilant·e, on ne sait pas ce qu’il peut y avoir d’autre dedans..."},
-					   {"Se faire vacciner", 0, "En Belgique les mesures d’hygiène sont très contrôlées,  tu ne risques pas de contracter une IST lors d’une visite chez le médecin"},
-					   {"Recevoir une transfusion sanguine", 0, "le sang donné est strictement contrôlé, pas de panique"}}
+	local questions = {}
+	local lines = {}
+	for line in io.lines("questions/questionsLvl3.txt") do
+		table.insert(lines, line)
+		if #lines == 3 then
+			table.insert(questions, lines)
+			lines = {}
+		end
+	end
 	
 	-- Définitions Boutons
 	local buttonO = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "OUI"))
