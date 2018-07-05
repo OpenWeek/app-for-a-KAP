@@ -32,8 +32,8 @@ function level4()
 	local txtO = TextField.new(font, "OUI")
 	local txtN = TextField.new(font, "NON")
 	
-	local buttonO = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), )
-	local buttonN = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), )
+	local buttonO = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), txtO)
+	local buttonN = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), txtN)
 	local buttonOK = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "OK"))
 	
 	buttonO:setPosition(40, 250)
@@ -43,7 +43,7 @@ function level4()
 	
 	function printQuestion()
 		q = questions[numQ]
-		quest = TextField.new(font, q[1])
+		quest = TextWrap.new(q[1], 280, "justify", 1.5, font)
 		quest:setPosition(10, 150)
 		fond:addChild(quest)
 		fond:addChild(buttonO)
@@ -53,13 +53,13 @@ function level4()
 	end
 	
 	function check(answer) 
+		local txtA
 		if tonumber(q[2]) == answer then
 			txtA = "VRAI : " .. q[3]
-			ans = TextField.new(font, txtA)
 		else
 			txtA = "FAUX : " .. q[3]
-			ans = TextField.new(font, txtA)
 		end
+		ans = TextWrap.new(txtA, 280, "justify", 1.5, font)
 		fond:removeChild(quest)
 		fond:removeChild(buttonO)
 		fond:removeChild(buttonN)
