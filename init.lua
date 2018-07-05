@@ -1,5 +1,7 @@
 ------ init.lua ------
+
 --- Textures PreLoading
+
 -- General textures
 ButtonDown = Texture.new("images/button_down.png")
 ButtonUp = Texture.new("images/button_up.png")
@@ -30,6 +32,14 @@ titleFont = TTFont.new("fonts/Roboto-Condensed.ttf", 14)
 bigTitleFont = TTFont.new("fonts/Roboto-Condensed.ttf", 28)
 
 --- Constants used for element positions
+
 MARGE =  40
 TXTBUTTON_W = 90
 TXTBUTTON_H = 35
+
+--- global variables that lock and unlock continents
+
+lock0 = 0
+lock1 = 0 -- Continent 1 is accessible from the start
+lock2 = 0 -- Continent 2 (and 3) is locked
+lock3 = 0

@@ -26,7 +26,7 @@ function level2()
 
 	check = function(thisIST)
 		if result[thisIST] == nil then
-			btns[thisIST]:setText(symp[thisIST][2] .. " (" .. current_symp .. ")")
+			btns[thisIST]:setText(symp[thisIST][2] .. " - " .. current_symp)
 			btns[thisIST]:setState(Bitmap.new(LongButtonGray), Bitmap.new(LongButtonDown))
 			result[thisIST] = current_symp
 		else
@@ -69,23 +69,25 @@ function level2()
 			vert = vert + 20
 		end
 
-		errorText = ""
-		for i = 1, #errors do
-			if i < #errors - 1 then
-				errorText = errorText .. errors[i] .. ", "
-			elseif i == #errors - 1 then
-				errorText = errorText .. errors[i] .. " et "
+		local errorText = ""
+		local i = 0
+		for k, v in pairs(errors) do
+			i = i + 1
+			if i < total - correctVals - 1 then
+				errorText = errorText .. v .. ", "
+			elseif i == total - correctVals - 1 then
+				errorText = errorText .. v .. " et "
 			else
-				errorText = errorText .. errors[i] .. "."
+				errorText = errorText .. v .. "."
 			end
 		end
 
-		if #errors > 0 then
+		if i > 0 then
 			local error = TextWrap.new("Vous vous êtes trompé aux IST suivantes : " .. errorText, 280, "justify", 1.5, font)
 			error:setPosition(0, vert)
 			res:addChild(error)
 
-			vert = vert + 40
+			vert = vert + 50
 		end
 
 		local reload = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), TextField.new(font, "Réessayer"))
@@ -98,7 +100,7 @@ function level2()
 			end
 		)
 
-		vert = vert + 100
+		vert = vert + 80
 
 		if lock2 == 1 then
 			local next = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), TextField.new(font, "Aller au continent suivant"))
@@ -124,7 +126,7 @@ function level2()
 				if k == v then
 					correctVals = correctVals + 1
 				else
-					table.insert(errors, symp[k][2])
+					errors[v] = symp[k][2]
 				end
 			end
 			i = i + 1
