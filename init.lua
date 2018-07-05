@@ -41,5 +41,5 @@ TXTBUTTON_H = 35
 
 lock0 = 0
 lock1 = 0 -- Continent 1 is accessible from the start
-lock2 = 0 -- Continent 2 (and 3) is locked
+lock2 = 1 -- Continent 2 (and 3) is locked
 lock3 = 0

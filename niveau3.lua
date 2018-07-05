@@ -54,6 +54,7 @@ function level3()
 	-- answer : boolean
 	function check(answer) 
 		local txtA
+		q[2] = tonumber(q[2])
 		if q[2] == answer then
 			ansField[numQ] = true
 			txtA = "VRAI : " .. q[3]
