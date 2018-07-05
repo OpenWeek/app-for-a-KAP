@@ -19,7 +19,7 @@ function level4()
 	local questions = {}
 	function lines_from()
 		lines = {}
-		for line in io.lines("questions.txt") do
+		for line in io.lines("questions/questions.txt") do
 			lines[#lines + 1] = line
 			if #lines == 5 then
 				questions[#questions+1] = lines
