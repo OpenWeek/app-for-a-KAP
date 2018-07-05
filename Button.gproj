@@ -1,5 +1,5 @@
 <project>
- <properties encryptCode="0" touchToMouse="1" exportMode="0" retinaDisplay="0" vsync="0" html5_fbinstant="0" autorotation="0" encryptAssets="0" backgroundColor="#ffffff" splash_h_image="" win_domain="openweek.info.ucl.ac.be" osx_category="5" winrt_package="com.yourdomain.yourapp" html5_host="" version_code="1" html5_mem="256" splashScaleMode="0" osx_signingId="" win_org="OpenWeek" build_number="1" osx_domain="giderosmobile.com" android_template="0" app_icon="" disableSplash="0" html5_pack="0" logicalHeight="720" ios_bundle="com.yourdomain." fps="60" tv_icon="" packageName="com.yourdomain.yourapp" osx_installerId="" windowHeight="0" windowWidth="0" logicalWidth="1280" mouseToTouch="1" version="1.0" osx_bundle="com.yourdomain." html5_fbload="100" winrt_org="GiderosMobile" mouseTouchOrder="0" orientation="0" scaleMode="0" app_name="" splash_v_image="" osx_org="GiderosMobile" architecture="2" iosDevice="0">
+ <properties osx_installerId="" touchToMouse="1" splash_v_image="" win_org="OpenWeek" tv_icon="" version="1.0" scaleMode="0" osx_bundle="com.yourdomain." android_template="0" html5_host="" osx_category="5" app_icon="" ios_bundle="com.yourdomain." architecture="2" build_number="1" packageName="com.yourdomain.yourapp" vsync="0" iosDevice="0" mouseToTouch="1" html5_pack="0" fps="60" version_code="1" splash_h_image="" disableSplash="0" logicalHeight="720" osx_org="GiderosMobile" logicalWidth="1280" encryptCode="0" retinaDisplay="0" mouseTouchOrder="0" html5_mem="256" winrt_package="com.yourdomain.yourapp" splashScaleMode="0" app_name="" html5_fbinstant="0" exportMode="0" winrt_org="GiderosMobile" encryptAssets="0" html5_fbload="100" autorotation="0" orientation="0" windowWidth="0" win_domain="openweek.info.ucl.ac.be" windowHeight="0" backgroundColor="#ffffff" osx_domain="giderosmobile.com" osx_signingId="">
   <imageScales/>
   <plugins/>
   <exports>
@@ -25,6 +25,7 @@
   <file source="fonts/Roboto-Condensed.ttf"/>
  </folder>
  <folder name="images">
+  <file source="images/button_next.png"/>
   <file source="images/button_down.png"/>
   <file source="images/button_up.png"/>
   <file source="images/FondNiveauBlanc.png"/>
@@ -47,10 +48,20 @@
   <file source="images/vulva_dental_dam.png"/>
   <file source="images/vulva_internal_condom.png"/>
   <file source="images/vulva.png"/>
+  <file source="images/mireille_1.png"/>
+  <file source="images/mireille_2.png"/>
+  <file source="images/mireille_3.png"/>
+  <file source="images/mireille_4.png"/>
+  <file source="images/mireille_5.png"/>
+  <file source="images/mireille_6.png"/>
+  <file source="images/mireille_7.png"/>
+  <file source="images/mireille_8.png"/>
+  <file source="images/mireille_9.png"/>
+  <file source="images/bouton_next.png"/>
+  <file source="images/bouton_next_down.png"/>
  </folder>
  <folder name="questions">
   <file source="questions/QuestionsLvl2.txt"/>
-  <file source="questions/questionsLvl3.txt"/>
   <file source="questions/questions.txt"/>
  </folder>
  <file source="addionalFunctions.lua"/>

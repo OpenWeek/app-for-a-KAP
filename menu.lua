@@ -65,7 +65,102 @@ function launchMenu()
 			button3:setPosition(MARGE, posBut3H)
 			wallMenu:addChild(button3)
 		end
-	end	
+	end
+	
+	-- Initial animation
+	if(lock0 == 0)then
+		local mireille1 = Bitmap.new(Mireille1)
+		mireille1:setPosition(80,160)
+		local mireille2 = Bitmap.new(Mireille2)
+		mireille2:setPosition(80,119)
+		local mireille3 = Bitmap.new(Mireille3)
+		mireille3:setPosition(80,118)
+		local mireille4 = Bitmap.new(Mireille4)
+		mireille4:setPosition(80,117)
+		local mireille5 = Bitmap.new(Mireille5)
+		mireille5:setPosition(80,116)
+		local mireille6 = Bitmap.new(Mireille6)
+		mireille6:setPosition(80,115)
+		local mireille7 = Bitmap.new(Mireille7)
+		mireille7:setPosition(80,114)
+		local mireille8 = Bitmap.new(Mireille8)
+		mireille8:setPosition(80,113)
+		local mireille9 = Bitmap.new(Mireille9)
+		mireille9:setPosition(80,112)
+		
+		local talk11 = TextField.new(font, "Bienvenue à Kapotopia !")
+		talk11:setPosition(20,20)
+		local talk12 = TextField.new(font, "Je suis Mireille la capote.")
+		talk12:setPosition(20,50)
+		local talk21 = TextField.new(font, "J’imagine que tu sais, au moins vaguement, à quoi le petit bout extensible de latex que je suis sert dans la vie. ")
+		talk21:setPosition(20,20)
+		local talk31 = TextField.new(font, "Mais à quel point es-tu au courant de toutes les subtilités du monde du sexe, de ses pratiques et de ses risques ? ")
+		talk31:setPosition(20,20)
+		local talk32 = TextField.new(font, "Je vais te le dire, t’es sûrement pas au top mon pote !")
+		talk32:setPosition(20,20)
+		local talk41 = TextField.new(font, "Alors prends tes valises, c’est le moment de partir à l’aventure.")
+		talk41:setPosition(20,20)
+		local talk42 = TextField.new(font, "Ca va être fun, ça cause de sexe et c’est pour ton bien !")
+		talk42:setPosition(20,20)
+		local talk43 = TextField.new(font, "Et puis c’est marrant et t’as sûrement pas mieux à faire là maintenant.")
+		talk43:setPosition(20,20)
+		local talk51 = TextField.new(font, "Kapotopia est divisée en trois continents.")
+		talk51:setPosition(20,20)
+		local talk61 = TextField.new(font, "Ben t’attends quoi l’ami(e) ?")
+		talk61:setPosition(20,20)
+		local talk62 = TextField.new(font, "Allez on y va.")
+		talk62:setPosition(20,20)
+		
+		bubble = Bitmap.new(ButtonUp)
+		bubble:setPosition(10,-100)
+		
+		wallMenu:addChild(mireille1)
+		mireille1:addChild(bubble)
+		bubble:addChild(talk11)
+		bubble:addChild(talk12)
+		--Mireille sautille
+		
+		--local nextButtonUp = Bitmap.new(Texture.new("images/button_next.png"))
+		--local nextButtonDown = Bitmap.new(Texture.new("images/button_next_down.png"))
+		local nextText = TextField.new(font, "Next")
+		nextButton = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), nextText)
+		nextButton:setPosition(140,-30)
+		mireille1:addChild(nextButton)
+		i = 1
+		nextButton:addEventListener("click",
+			function()
+				if(i == 1)then
+					bubble:removeChild(talk11)
+					bubble:removeChild(talk12)
+					bubble:addChild(talk21)
+				elseif(i == 2)then
+					bubble:removeChild(talk21)
+					bubble:addChild(talk31)
+					bubble:addChild(talk32)
+				elseif(i == 3)then
+					bubble:removeChild(talk31)
+					bubble:removeChild(talk32)
+					bubble:addChild(talk41)
+					bubble:addChild(talk42)
+					bubble:addChild(talk43)
+				elseif(i == 4)then
+					bubble:removeChild(talk41)
+					bubble:removeChild(talk42)
+					bubble:removeChild(talk43)
+					bubble:addChild(talk51)
+				elseif(i == 5)then
+					bubble:removeChild(talk51)
+					bubble:addChild(talk61)
+					bubble:addChild(talk62)
+				elseif(i == 6)then
+					wallMenu:removeChild(mireille1)
+					lock0 = 1
+					lock1 = 1
+				end
+				i = i+1
+			end
+		,i)
+	end
 end
 
 

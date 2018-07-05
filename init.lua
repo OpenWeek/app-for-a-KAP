@@ -20,9 +20,18 @@ FondPreservatif = Texture.new('images/preservatifs.jpg')
 -- Minigames textures
 GameOver = Texture.new("images/gameover.png")
 PlayerTxtu = Texture.new("images/player.png")
-PlayerTxtu2 = Texture.new("images/penis.png")
-PlayerTxtu3 = Texture.new("images/vulva.png")
 Squaredodge = Texture.new("images/squaredodge.png")
+--Mireille textures
+Mireille1 = Texture.new("images/mireille_1.png")
+Mireille2 = Texture.new("images/mireille_2.png")
+Mireille3 = Texture.new("images/mireille_3.png")
+Mireille4 = Texture.new("images/mireille_4.png")
+Mireille5 = Texture.new("images/mireille_5.png")
+Mireille6 = Texture.new("images/mireille_6.png")
+Mireille7 = Texture.new("images/mireille_7.png")
+Mireille8 = Texture.new("images/mireille_8.png")
+Mireille9 = Texture.new("images/mireille_9.png")
+
 
 --- Fonts definitions
 
