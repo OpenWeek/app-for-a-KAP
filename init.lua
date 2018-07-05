@@ -23,10 +23,10 @@ Squaredodge = Texture.new("images/squaredodge.png")
 
 --- Fonts definitions
 
-smallFont = TTFont.new("Roboto-Condensed.ttf", 10)
-font = TTFont.new("Roboto-Condensed.ttf", 12)
-titleFont = TTFont.new("Roboto-Condensed.ttf", 14)
-bigTitleFont = TTFont.new("Roboto-Condensed.ttf", 28)
+smallFont = TTFont.new("fonts/Roboto-Condensed.ttf", 10)
+font = TTFont.new("fonts/Roboto-Condensed.ttf", 12)
+titleFont = TTFont.new("fonts/Roboto-Condensed.ttf", 14)
+bigTitleFont = TTFont.new("fonts/Roboto-Condensed.ttf", 28)
 
 --- Constants used for element positions
 MARGE =  40
