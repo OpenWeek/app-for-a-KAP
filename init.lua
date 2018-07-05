@@ -18,6 +18,7 @@ FondPreservatif = Texture.new('images/preservatifs.jpg')
 -- Minigames textures
 GameOver = Texture.new("images/gameover.png")
 PlayerTxtu = Texture.new("images/player.png")
+PlayerTxtu2 = Texture.new("images/penis.png")
 Squaredodge = Texture.new("images/squaredodge.png")
 
 --- Fonts definitions

@@ -108,7 +108,9 @@ function startMiniGame(level)
 	-- Set up the player object
 	local function initPlayer()
 		-- Create the player object
-		player = Bitmap.new(PlayerTxtu)
+		player = Bitmap.new(PlayerTxtu2)
+		player:setScaleX(0.5)
+		player:setScaleY(0.5)
 		player.x, player.y = 160,240
 		player.width, player.height = 32, 32
 		player:setPosition(player.x, player.y)
@@ -170,8 +172,8 @@ function startMiniGame(level)
 		-- Create enemy objects
 			local i = 1
 			capoteShape[i] = Shape.new()
-			capoteShape[i]:setLineStyle(1, 0x000000, 0.25)
-			capoteShape[i]:setFillStyle(Shape.SOLID, 0x000000)
+			capoteShape[i]:setLineStyle(1, 0xFF358B, 0.25)
+			capoteShape[i]:setFillStyle(Shape.SOLID, 0xFF358B)
 			capoteShape[i]:beginPath()
 			capoteShape[i]:moveTo(1,1)
 			capoteShape[i]:lineTo(19,1)
