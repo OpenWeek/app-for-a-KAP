@@ -2,6 +2,8 @@ function level1()
 
 	wallLevel1 = Bitmap.new(Texture.new('preservatifs.jpg'))
 	stage:addChild(wallLevel1)
+	
+	lock1 = 2
 
 	local backUp = Bitmap.new(Texture.new("button_up.png"))
 	local backDown = Bitmap.new(Texture.new("button_down.png"))
