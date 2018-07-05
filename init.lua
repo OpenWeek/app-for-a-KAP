@@ -1,8 +1,8 @@
 ButtonDown = Texture.new("button_down.png")
 ButtonUp = Texture.new("button_up.png")
-FondNiveau = Texture.new("FondNiveauBlanc.png")
 GrayButton = Texture.new("gray_button.png")
 LeftArrow = Texture.new("left_arrow.png")
+RightArrow = Texture.new("right_arrow.png")
 LittleButtonDown = Texture.new("little_button_down.png")
 LittleButtonUp = Texture.new("little_button_up.png")
 LongButtonDown = Texture.new("long_button_down.png")
@@ -10,5 +10,14 @@ LongButtonGray = Texture.new("long_button_gray.png")
 LongButtonUp = Texture.new("long_button_up.png")
 QuitButtonDown = Texture.new("quit_button_down.png")
 QuitButtonUp = Texture.new("quit_button_up.png")
-RightArrow = Texture.new("right_arrow.png")
+GameOver = Texture.new("images/gameover.png")
+FondNiveau = Texture.new("FondNiveauBlanc.png")
+FondPreservatif = Texture.new('preservatifs.jpg')
+smallFont = TTFont.new("Roboto-Condensed.ttf", 10)
+font = TTFont.new("Roboto-Condensed.ttf", 12)
+titleFont = TTFont.new("Roboto-Condensed.ttf", 14)
+bigTitleFont = TTFont.new("Roboto-Condensed.ttf", 18)
 
+MARGE =  40
+TXTBUTTON_W = 90
+TXTBUTTON_H = 35
