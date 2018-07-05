@@ -68,8 +68,9 @@ function startMiniGame(level)
 
 	-- Play tune
 	local function playTune()
-		local gametune = Sound.new("audio/DST-909Dreams.mp3")
-		gametune:play(100,true)
+		gametune = Sound.new("audio/DST-909Dreams.mp3")
+		channel = gametune:play(100,true)
+		
 	end
 
 	-- Play sound effects
@@ -320,12 +321,14 @@ function startMiniGame(level)
 					stage:removeChild(enemyShape[i])
 					enemyShape[i]= nil
 			end
+			stage:removeChild(capoteShape[1])
 			stage:removeChild(player)
 			player=nil
 			stage:removeChild(hiScoreText)
 			hiScoreText=nil
 			stage:removeChild(scoreText)
 			scoreText=nil
+			channel:stop()
 			-- Restart the game
 			launchMenu(sucess)
 		end	
