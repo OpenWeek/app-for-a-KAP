@@ -1,8 +1,7 @@
 function level3()
 -- TODO barre de progression pour l'avancement des questions
-	font = TTFont.new("Roboto-Condensed.ttf", 14)
 
-	local fond = Bitmap.new(Texture.new("FondNiveauBlanc.png"))
+	local fond = Bitmap.new(FondNiveau)
 	stage:addChild(fond)	
 	
 	-- 0 pour non, 1 pour oui
@@ -22,30 +21,12 @@ function level3()
 					   {"Se faire vacciner", 0, "En Belgique les mesures d’hygiène sont très contrôlées,  tu ne risques pas de contracter une IST lors d’une visite chez le médecin"},
 					   {"Recevoir une transfusion sanguine", 0, "le sang donné est strictement contrôlé, pas de panique"}}
 	
-	-- Boutons
-	textureUp = Texture.new("little_button_up.png")
-	textureDown = Texture.new("little_button_down.png")
-	local up = Bitmap.new(Texture.new("quit_button_up.png"))
-	local down = Bitmap.new(Texture.new("quit_button_down.png"))
-	local upLO = Bitmap.new(textureUp)
-	local downLO = Bitmap.new(textureDown)
-	local upLN = Bitmap.new(textureUp)
-	local downLN = Bitmap.new(textureDown)
-	local upOK = Bitmap.new(textureUp)
-	local downOK = Bitmap.new(textureDown)
-	local upRE = Bitmap.new(textureUp)
-	local downRE = Bitmap.new(textureDown)
-	local txt = TextField.new(font, "Quitter le niveau")
-	local txtO = TextField.new(font, "OUI")
-	local txtN = TextField.new(font, "NON")
-	local txtOK = TextField.new(font, "OK")
-	local txtRE = TextField.new(font, "Refaire")	
-	
-	local buttonO = Button.new(upLO, downLO, txtO)
-	local buttonN = Button.new(upLN, downLN, txtN)
-	local buttonOK = Button.new(upOK, downOK, txtOK)
-	local buttonRE = Button.new(upRE, downRE, txtRE)
-	local buttonQuit = Button.new(up, down, txt)
+	-- Définitions Boutons
+	local buttonO = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "OUI"))
+	local buttonN = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "NON"))
+	local buttonOK = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "OK"))
+	local buttonRE = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "Refaire"))
+	local buttonQuit = Button.new(Bitmap.new(QuitButtonUp), Bitmap.new(QuitButtonDown), TextField.new(font, "Quitter le niveau"))
 	
 	buttonO:setPosition(40, 250)
 	buttonN:setPosition(200, 250)
@@ -74,6 +55,8 @@ function level3()
 		fond:addChild(buttonN)
 	end
 	
+	-- Check si la réponse est correcte
+	-- answer : boolean
 	function check(answer) 
 		local txtA
 		if q[2] == answer then
@@ -134,6 +117,7 @@ function level3()
 		end
 	end
 	
+	-- Fonction pour le bouton recommencer
 	function reset()
 		numQ = math.random(#questions)
 		ansField = {}

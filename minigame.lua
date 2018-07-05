@@ -1,6 +1,5 @@
 -- Square Dodge by Jason Oakley (C) 2013 Blue Bilby
 function startMiniGame(level)
-	print(level)
 	-- Define our variables and tables as local to save memory
 	local score
 	local hiScore
@@ -49,7 +48,7 @@ function startMiniGame(level)
 		scoreText = TextField.new(nil, "Score: " .. score)
 		scoreText:setPosition(10,10)
 		stage:addChild(scoreText)
-		hiScoreText = TextField.new(nil, "Hi Score: " .. hiScore)
+		hiScoreText = TextField.new(nil, "HighScore: " .. hiScore)
 		hiScoreText:setPosition(200,10)
 		stage:addChild(hiScoreText)
 	end
@@ -63,14 +62,15 @@ function startMiniGame(level)
 		end
 		if score > hiScore then
 			hiScore = score
-			hiScoreText:setText("Hi Score: " .. hiScore)	
+			hiScoreText:setText("HighScore: " .. hiScore)	
 		end
 	end
 
 	-- Play tune
 	local function playTune()
-		local gametune = Sound.new("audio/DST-909Dreams.mp3")
-		gametune:play(100,true)
+		gametune = Sound.new("audio/DST-909Dreams.mp3")
+		channel = gametune:play(100,true)
+		
 	end
 
 	-- Play sound effects
@@ -108,7 +108,7 @@ function startMiniGame(level)
 	-- Set up the player object
 	local function initPlayer()
 		-- Create the player object
-		player = Bitmap.new(Texture.new("images/player.png"))
+		player = Bitmap.new(PlayerTxtu)
 		player.x, player.y = 160,240
 		player.width, player.height = 32, 32
 		player:setPosition(player.x, player.y)
@@ -301,7 +301,7 @@ function startMiniGame(level)
 	-- Start game. Display START button and logo
 	local function startGame()
 		-- Create a Start Button object and display it
-		startbuttonImg = Bitmap.new(Texture.new("images/squaredodge.png"))
+		startbuttonImg = Bitmap.new(Squaredodge)
 		startbuttonImg.x, startbuttonImg.y = 0,200
 		startbuttonImg:setPosition(startbuttonImg.x, startbuttonImg.y)
 		stage:addChild(startbuttonImg)
@@ -321,12 +321,14 @@ function startMiniGame(level)
 					stage:removeChild(enemyShape[i])
 					enemyShape[i]= nil
 			end
+			stage:removeChild(capoteShape[1])
 			stage:removeChild(player)
 			player=nil
 			stage:removeChild(hiScoreText)
 			hiScoreText=nil
 			stage:removeChild(scoreText)
 			scoreText=nil
+			channel:stop()
 			-- Restart the game
 			launchMenu(sucess)
 		end	

@@ -1,0 +1,1 @@
+-- This file contains all additional functions that are used in this app and that are shared between files

@@ -43,12 +43,14 @@ function level1()
 						table.insert(other, line)
 					end
 				else
-					table.insert(ist, line)
+					table.insert(ist, split(line, "="))
 				end
 			end
 		end
 		
 	end
+	
+	
 	
 	
 	wallLevel1:addChild(back)

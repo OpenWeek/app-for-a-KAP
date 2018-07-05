@@ -10,10 +10,15 @@ Button = Core.class(Sprite)
 function Button:init(upState, downState, txt)
 	self.upState = upState
 	self.downState = downState
-	if txt ~= nul then
+	if txt ~= nil then
 		self.txt = txt
 		x, y = txt:getPosition()
-		self.txt:setPosition(x + 30, y + 20)
+		if (x ~= 0 or y ~= 0) then
+			self.txt:setPosition(x, y)
+		else
+			self.txt:setPosition(x + 30, y + 20)
+		end
+		
 		self:addChild(self.txt)
 	end
 	self.focus = false
