@@ -159,7 +159,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 			stage:removeChild(wallContinent)
 			launchMenu()
 		end)
-	back:setPosition(70,430)
+	back:setPosition(MARGE,430)
 	wallContinent:addChild(back)
 end
 

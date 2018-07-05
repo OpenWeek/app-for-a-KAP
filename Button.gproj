@@ -1,19 +1,19 @@
 <project>
- <properties splash_h_image="" architecture="2" winrt_org="GiderosMobile" win_org="OpenWeek" touchToMouse="1" mouseTouchOrder="0" html5_fbload="100" encryptAssets="0" retinaDisplay="0" version="1.0" android_template="0" mouseToTouch="1" osx_bundle="com.yourdomain." windowHeight="0" html5_host="" html5_fbinstant="0" windowWidth="0" fps="60" tv_icon="" iosDevice="0" orientation="0" autorotation="0" osx_signingId="" exportMode="0" splashScaleMode="0" html5_mem="256" win_domain="openweek.info.ucl.ac.be" splash_v_image="" logicalHeight="720" scaleMode="0" ios_bundle="com.yourdomain." osx_category="5" encryptCode="0" version_code="1" app_icon="" disableSplash="0" backgroundColor="#ffffff" html5_pack="0" logicalWidth="1280" build_number="1" vsync="0" osx_installerId="" app_name="" osx_org="GiderosMobile" winrt_package="com.yourdomain.yourapp" packageName="com.yourdomain.yourapp" osx_domain="giderosmobile.com">
+ <properties encryptCode="0" touchToMouse="1" exportMode="0" retinaDisplay="0" vsync="0" html5_fbinstant="0" autorotation="0" encryptAssets="0" backgroundColor="#ffffff" splash_h_image="" win_domain="openweek.info.ucl.ac.be" osx_category="5" winrt_package="com.yourdomain.yourapp" html5_host="" version_code="1" html5_mem="256" splashScaleMode="0" osx_signingId="" win_org="OpenWeek" build_number="1" osx_domain="giderosmobile.com" android_template="0" app_icon="" disableSplash="0" html5_pack="0" logicalHeight="720" ios_bundle="com.yourdomain." fps="60" tv_icon="" packageName="com.yourdomain.yourapp" osx_installerId="" windowHeight="0" windowWidth="0" logicalWidth="1280" mouseToTouch="1" version="1.0" osx_bundle="com.yourdomain." html5_fbload="100" winrt_org="GiderosMobile" mouseTouchOrder="0" orientation="0" scaleMode="0" app_name="" splash_v_image="" osx_org="GiderosMobile" architecture="2" iosDevice="0">
   <imageScales/>
   <plugins/>
   <exports>
    <export name="APK">
-    <property name="androidPath" value=""/>
-    <property name="androidSdk" value=""/>
-    <property name="androidTarget" value="26"/>
-    <property name="androidTools" value=""/>
-    <property name="buildApk" value="1"/>
-    <property name="deployApk" value="0"/>
-    <property name="javaPath" value=""/>
-    <property name="keyAlias" value=""/>
-    <property name="keyStore" value=""/>
-    <property name="packageName" value="com.yourdomain.yourapp"/>
+    <property value="" name="androidPath"/>
+    <property value="" name="androidSdk"/>
+    <property value="26" name="androidTarget"/>
+    <property value="" name="androidTools"/>
+    <property value="1" name="buildApk"/>
+    <property value="0" name="deployApk"/>
+    <property value="" name="javaPath"/>
+    <property value="" name="keyAlias"/>
+    <property value="" name="keyStore"/>
+    <property value="com.yourdomain.yourapp" name="packageName"/>
    </export>
   </exports>
  </properties>
@@ -63,4 +63,5 @@
  <file source="niveau1.lua"/>
  <file source="button.lua"/>
  <file source="main.lua"/>
+ <file source="questionsLvl3.txt"/>
 </project>
