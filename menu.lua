@@ -10,10 +10,18 @@ function launchMenu()
 	local posBut3H = posBut2H + 90
 	
 	local mainTtl = TextField.new(bigTitleFont, "Kapotopia")
-	mainTtl:setPosition(120, 30)
+	mainTtl:setPosition(100, 30)
 	wallMenu:addChild(mainTtl)
 	
-	local button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), TextField.new(font, "Continent 1"))
+	local txt1 = TextField.new(font, "Continent 1")
+	local txt2 = TextField.new(font, "Continent 2")
+	local txt3 = TextField.new(font, "Continent 3")
+	
+	txt1:setPosition(TXTBUTTON_W, TXTBUTTON_H)
+	txt2:setPosition(TXTBUTTON_W, TXTBUTTON_H)
+	txt3:setPosition(TXTBUTTON_W, TXTBUTTON_H)
+	
+	local button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt1)
 	button1:addEventListener("click",
 		function()
 			stage:removeChild(wallMenu)
@@ -21,20 +29,15 @@ function launchMenu()
 		end)
 	button1:setPosition(MARGE, posBut1H)
 	wallMenu:addChild(button1)
-	
-	local txt2 = TextField.new(font, "Continent 2")
-	local txt3 = TextField.new(font, "Continent 3")
 
 	if (lock2 == 0) then -- continent 2 and 3 is locked
 		local lockedButton2 = Bitmap.new(GrayButton)
 		lockedButton2:setPosition(MARGE, posBut2H)
-		txt2:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 		wallMenu:addChild(lockedButton2)
 		lockedButton2:addChild(txt2)
 		-----
 		local lockedButton3 = Bitmap.new(GrayButton)
 		lockedButton3:setPosition(MARGE, posBut3H)
-		txt3:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 		wallMenu:addChild(lockedButton3)
 		lockedButton3:addChild(txt3)
 	else -- continent 2 is accessible
@@ -50,10 +53,9 @@ function launchMenu()
 		if (lock3 == 0) then -- continent 3 is locked
 			local lockedButton3 = Bitmap.new(GrayButton)
 			lockedButton3:setPosition(MARGE, posBut3H)
-			txt3:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 			wallMenu:addChild(lockedButton3)
 			lockedButton3:addChild(txt3)
-		else --continent 3 is accessible
+		else -- continent 3 is accessible
 			local button3 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt3)
 			button3:addEventListener("click", 
 			function()
@@ -81,21 +83,27 @@ function launchMenuContinent(Cnbr, Bnbr)
 	-- Creation of button 1	
 	local button1
 	if(Cnbr == 1) then -- Continent 1
-		button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), TextField.new(font,'Reconnaitre les IST'))
+		local txt = TextField.new(font,'Reconnaitre les IST')
+		txt:setPosition(TXTBUTTON_W-20, TXTBUTTON_H)
+		button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt)
 		button1:addEventListener("click", 
 		function()
 			stage:removeChild(wallContinent)
 			level1()
 		end)
 	elseif(Cnbr == 2) then -- Continent 2
-		button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), TextField.new(font,'Pratiques à risque'))
+		local txt = TextField.new(font,'Pratiques à risque')
+		txt:setPosition(TXTBUTTON_W-20, TXTBUTTON_H)
+		button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt)
 		button1:addEventListener("click", 
 		function()
 			stage:removeChild(wallContinent)
 			level3()
 		end)
 	elseif(Cnbr == 3) then -- Continent 3
-		button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), TextField.new(font,'Dépistage'))
+		local txt = TextField.new(font,'Dépistage')
+		txt:setPosition(TXTBUTTON_W, TXTBUTTON_H)
+		button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt)
 		button1:addEventListener("click", 
 		function()
 			stage:removeChild(wallContinent)
@@ -111,10 +119,10 @@ function launchMenuContinent(Cnbr, Bnbr)
 		local button2
 		if(Cnbr == 1) then -- In continent 1, the second button leads to the second game
 			buttonText2 = TextField.new(font,'Symptomes des IST')
+			buttonText2:setPosition(TXTBUTTON_W-20, TXTBUTTON_H)
 			if(lock1 == 1)then
 				local lockedButton2 = Bitmap.new(GrayButton)
 				lockedButton2:setPosition(MARGE, 210)
-				buttonText2:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 				wallContinent:addChild(lockedButton2)
 				lockedButton2:addChild(buttonText2)
 			else
@@ -131,6 +139,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 		else
 			-- This 'other' button is not used yet --
 			local buttonText2 = TextField.new(font,'Autre')
+			buttonText2:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 			button2 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), buttonText2)
 			-- !! Do something (for example: statistics, previous scores...) !! --
 			button2:setPosition(MARGE, 210)
@@ -156,7 +165,9 @@ end
 
 -- Crée un bouton pour les minijeu avec une difficulté donné par level:int
 function createButtonMiniG(level)
-	buttonMiniG = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonUp), TextField.new(font, "Minijeu"))
+	local txt = TextField.new(font, "Minijeu")
+	txt:setPosition(TXTBUTTON_W, TXTBUTTON_H)
+	buttonMiniG = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonUp), txt)
 	buttonMiniG:addEventListener("click",
 		function()
 			stage:removeChild(wallContinent)

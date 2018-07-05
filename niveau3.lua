@@ -21,7 +21,7 @@ function level3()
 					   {"Se faire vacciner", 0, "En Belgique les mesures d’hygiène sont très contrôlées,  tu ne risques pas de contracter une IST lors d’une visite chez le médecin"},
 					   {"Recevoir une transfusion sanguine", 0, "le sang donné est strictement contrôlé, pas de panique"}}
 	
-	-- Boutons
+	-- Définitions Boutons
 	local buttonO = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "OUI"))
 	local buttonN = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "NON"))
 	local buttonOK = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "OK"))
@@ -117,6 +117,7 @@ function level3()
 		end
 	end
 	
+	-- Fonction pour le bouton recommencer
 	function reset()
 		numQ = math.random(#questions)
 		ansField = {}
