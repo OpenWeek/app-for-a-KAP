@@ -18,6 +18,7 @@ function startMiniGame(level)
 	local gameoverImg, startbuttonImg
 	local noCollision
 	local index 
+	local genreG
 
 	-- Cache math.random to make access faster
 	local rnd = math.random
@@ -109,8 +110,17 @@ function startMiniGame(level)
 	local function initPlayer()
 		-- Create the player object
 		player = Bitmap.new(PlayerTxtu2)
-		player:setScaleX(0.5)
-		player:setScaleY(0.5)
+		print(genre)
+		if (genreG == true) then
+			player = Bitmap.new(PlayerTxtu2)
+			player:setScaleX(0.5)
+			player:setScaleY(0.5)
+		end
+		if (genreG == false) then
+			player = Bitmap.new(PlayerTxtu3)
+			player:setScaleX(0.5)
+			player:setScaleY(0.5)
+		end
 		player.x, player.y = 160,240
 		player.width, player.height = 32, 32
 		player:setPosition(player.x, player.y)
@@ -300,8 +310,9 @@ function startMiniGame(level)
 		end
 	end
 
-	-- Start game. Display START button and logo
-	local function startGame()
+	local function startGame2(genre)
+		genreG = genre
+		stage:removeChild(fond)
 		-- Create a Start Button object and display it
 		startbuttonImg = Bitmap.new(Squaredodge)
 		startbuttonImg.x, startbuttonImg.y = 0,200
@@ -310,6 +321,30 @@ function startMiniGame(level)
 		-- Make the Start Button object touchable
 		startbuttonImg:addEventListener(Event.TOUCHES_BEGIN, startTouch, startbuttonImg)
 	end
+	
+	-- Start game. Display START button and logo
+	local function startGame()
+			fond = Bitmap.new(FondNiveau)
+			stage:addChild(fond)
+			local txt = TextField.new(font, "Incarne Joris le penis ou Vivianne la vulve !")
+			local txt2 = TextField.new(font, "Evite les IST et capture le preservatif rose")
+			txt:setPosition(40, 40)
+			txt2:setPosition(40, 50)
+			fond:addChild(txt2)
+			fond:addChild(txt)
+			local txtG = TextField.new(font, "JORIS")
+			local txtF = TextField.new(font, "VULVA")
+			local buttonG = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), txtG)
+			local buttonF = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), txtF)	
+			buttonG:setPosition(40, 250)
+			buttonF:setPosition(200, 250)
+			fond:addChild(buttonG)
+			fond:addChild(buttonF)
+			buttonG:addEventListener("click", startGame2, true)
+			buttonF:addEventListener("click", startGame2, false)
+	end
+	
+	
 
 	local function goTouch(gameOverImage, event)
 		-- See if the Game Over object was touched
