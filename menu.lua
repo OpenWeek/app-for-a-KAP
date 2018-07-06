@@ -1,4 +1,3 @@
-
 --launch the initial menu
 function launchMenu()
 
