@@ -51,5 +51,11 @@ TXTBUTTON_H = 35
 
 lock0 = 1
 lock1 = 2 -- Continent 1 is accessible from the start
-lock2 = 0 -- Continent 2 (and 3) is locked
+lock2 = 1 -- Continent 2 (and 3) is locked
 lock3 = 0
+
+--- random init
+
+math.randomseed(os.time())
+math.random(); math.random(); math.random()
+-- https://stackoverflow.com/questions/20154991/generating-uniform-random-numbers-in-lua#20157671
