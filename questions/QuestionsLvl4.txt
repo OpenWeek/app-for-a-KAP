@@ -7,15 +7,15 @@ Tu as déjà fait ton vaccin pour le papillomavirus, impossible que tu le contra
 1
 NON: Le vaccin se fait contre les 3 souches principales, cependant il en reste d’autre contre lesquelles tu n’es pas protégé·e !
 OUI
-NON 
+NON
 Existent-ils d’autres types de dépistages à part la prise de sang ?
 1
-NON: Il y a 4 types de dépistages : l’examen médical, la prise de sang, le frottis vaginal, buccal ou anal, et le prélèvement d’urine. 
+NON: Il y a 4 types de dépistages : l’examen médical, la prise de sang, le frottis vaginal, buccal ou anal, et le prélèvement d’urine.
 OUI
-NON  
+NON
 Quand dois-tu aller te faire dépister ?
 1
-Rapport à risque: Les IST peuvent être asymptomatiques, n’attends pas d’en voir pour te faire dépister ! 
+Rapport à risque: Les IST peuvent être asymptomatiques, n’attends pas d’en voir pour te faire dépister !
 Je présente des symtpômes.
 J’ai eu des rapports à risque.
 Toutes les IST se dépistent de la même manière ?
@@ -30,12 +30,12 @@ OUI
 NON
 Après combien de temps pour un dépisage complet?
 1
-6 semaines, mais ton médecin peut te demander d’attendre 3 mois  pour tester l’hépatite B ou C. 
+6 semaines, mais ton médecin peut te demander d’attendre 3 mois  pour tester l’hépatite B ou C.
 2 semaines
 6 semaines
 Fabriquer un digue dentaire soi-même oui ou non ?
 0
-Il suffit de couper dans un préservatif ou dans un gant de latex ! 
+Il suffit de couper dans un préservatif ou dans un gant de latex !
 OUI
 NON
 Qu’est ce que la prévention combinée ?
@@ -45,7 +45,7 @@ Le trio prévention – dépistage – traitement
 Enfiler deux préservatifs
 Existe-t-il un traitement d’urgence après une prise de risque?
 0
-OUI: Il s’agit du traitement de post-exposition qui se fait jusqu’à 48h après la prise de risque pour empêcher la contamination. 
+OUI: Il s’agit du traitement de post-exposition qui se fait jusqu’à 48h après la prise de risque pour empêcher la contamination.
 OUI
 NON
 Le fait d’avoir ses règles augmente-t-il le risque de transmition lors d'un rapport sexuel?
@@ -55,7 +55,7 @@ OUI
 NON
 Tu as pris des risques, peux-tu prendre des antibiotiques que tu possèdes déjà ?
 1
-NON: Surtout pas ! Va chez ton médecin et demande un dépistage complet, si besoin est, il·elle te préscrira le traitement adéquat. 
+NON: Surtout pas ! Va chez ton médecin et demande un dépistage complet, si besoin est, il·elle te préscrira le traitement adéquat.
 OUI
 NON
 Peux-tu te faire dépister ailleurs que chez ton médecin traitant?

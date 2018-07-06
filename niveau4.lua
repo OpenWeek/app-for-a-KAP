@@ -18,7 +18,7 @@ function level4()
 	local questions = {}
 	function lines_from()
 		local lines = {}
-		for line in io.lines("questions/questions.txt") do
+		for line in io.lines("questions/QuestionsLvl4.txt") do
 			table.insert(lines, line)
 			if #lines == 5 then
 				table.insert(questions, lines)
