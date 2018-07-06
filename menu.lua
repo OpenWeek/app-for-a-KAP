@@ -3,23 +3,23 @@ function launchMenu()
 
 	wallMenu = Bitmap.new(FondPreservatif)
 	stage:addChild(wallMenu)
-	
+
 	local posBut1H = 50
 	local posBut2H = posBut1H + 90
 	local posBut3H = posBut2H + 90
-	
+
 	local mainTtl = TextField.new(bigTitleFont, "Kapotopia")
 	mainTtl:setPosition(100, 30)
 	wallMenu:addChild(mainTtl)
-	
+
 	local txt1 = TextField.new(font, "Continent 1")
 	local txt2 = TextField.new(font, "Continent 2")
 	local txt3 = TextField.new(font, "Continent 3")
-	
+
 	txt1:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 	txt2:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 	txt3:setPosition(TXTBUTTON_W, TXTBUTTON_H)
-	
+
 	local button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt1)
 	button1:addEventListener("click",
 		function()
@@ -41,14 +41,14 @@ function launchMenu()
 		lockedButton3:addChild(txt3)
 	else -- continent 2 is accessible
 		local button2 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt2)
-		button2:addEventListener("click", 
+		button2:addEventListener("click",
 			function()
 				stage:removeChild(wallMenu)
 				launchMenuContinent(2,1)
 			end)
 		button2:setPosition(MARGE, posBut2H)
 		wallMenu:addChild(button2)
-		
+
 		if (lock3 == 0) then -- continent 3 is locked
 			local lockedButton3 = Bitmap.new(GrayButton)
 			lockedButton3:setPosition(MARGE, posBut3H)
@@ -56,7 +56,7 @@ function launchMenu()
 			lockedButton3:addChild(txt3)
 		else -- continent 3 is accessible
 			local button3 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt3)
-			button3:addEventListener("click", 
+			button3:addEventListener("click",
 			function()
 				stage:removeChild(wallMenu)
 				launchMenuContinent(3,1)
@@ -65,7 +65,7 @@ function launchMenu()
 			wallMenu:addChild(button3)
 		end
 	end
-	
+
 	-- Initial animation
 	if(lock0 == 0)then
 		local mireille1 = Bitmap.new(Mireille1)
@@ -86,22 +86,22 @@ function launchMenu()
 		mireille8:setPosition(80,113)
 		local mireille9 = Bitmap.new(Mireille9)
 		mireille9:setPosition(80,112)
-		
+
 		local talk11 = TextField.new(font, "Bienvenue à Kapotopia !")
 		talk11:setPosition(20,20)
 		local talk12 = TextField.new(font, "Je suis Mireille la capote.")
 		talk12:setPosition(20,50)
-		local talk21 = TextField.new(font, "J’imagine que tu sais, au moins vaguement, à quoi le petit bout extensible de latex que je suis sert dans la vie. ")
+		local talk21 = TextWrap.new("J’imagine que tu sais, au moins vaguement, à quoi le petit bout extensible de latex que je suis sert dans la vie.", 200, "justify", 1, font)
 		talk21:setPosition(20,20)
-		local talk31 = TextField.new(font, "Mais à quel point es-tu au courant de toutes les subtilités du monde du sexe, de ses pratiques et de ses risques ? ")
+		local talk31 = TextWrap.new("Mais à quel point es-tu au courant de toutes les subtilités du monde du sexe, de ses pratiques et de ses risques ?", 200, "justify", 1, font)
 		talk31:setPosition(20,20)
-		local talk32 = TextField.new(font, "Je vais te le dire, t’es sûrement pas au top mon pote !")
+		local talk32 = TextWrap.new("Je vais te le dire, t’es sûrement pas au top mon pote !", 200, "justify", 1, font)
 		talk32:setPosition(20,20)
-		local talk41 = TextField.new(font, "Alors prends tes valises, c’est le moment de partir à l’aventure.")
+		local talk41 = TextWrap.new("Alors prends tes valises, c’est le moment de partir à l’aventure.", 200, "justify", 1, font)
 		talk41:setPosition(20,20)
-		local talk42 = TextField.new(font, "Ca va être fun, ça cause de sexe et c’est pour ton bien !")
+		local talk42 = TextWrap.new("Ca va être fun, ça cause de sexe et c’est pour ton bien !", 200, "justify", 1, font)
 		talk42:setPosition(20,20)
-		local talk43 = TextField.new(font, "Et puis c’est marrant et t’as sûrement pas mieux à faire là maintenant.")
+		local talk43 = TextWrap.new("Et puis c’est marrant et t’as sûrement pas mieux à faire là maintenant.", 200, "justify", 1, font)
 		talk43:setPosition(20,20)
 		local talk51 = TextField.new(font, "Kapotopia est divisée en trois continents.")
 		talk51:setPosition(20,20)
@@ -109,16 +109,16 @@ function launchMenu()
 		talk61:setPosition(20,20)
 		local talk62 = TextField.new(font, "Allez on y va.")
 		talk62:setPosition(20,20)
-		
+
 		bubble = Bitmap.new(ButtonUp)
 		bubble:setPosition(10,-100)
-		
+
 		wallMenu:addChild(mireille1)
 		mireille1:addChild(bubble)
 		bubble:addChild(talk11)
 		bubble:addChild(talk12)
 		--Mireille sautille
-		
+
 		--local nextButtonUp = Bitmap.new(Texture.new("images/button_next.png"))
 		--local nextButtonDown = Bitmap.new(Texture.new("images/button_next_down.png"))
 		local nextText = TextField.new(font, "Next")
@@ -174,13 +174,13 @@ function launchMenuContinent(Cnbr, Bnbr)
 	wallContinent = Bitmap.new(FondPreservatif)
 	stage:addChild(wallContinent)
 
-	-- Creation of button 1	
+	-- Creation of button 1
 	local button1
 	if(Cnbr == 1) then -- Continent 1
 		local txt = TextField.new(font,'Reconnaitre les IST')
 		txt:setPosition(TXTBUTTON_W-20, TXTBUTTON_H)
 		button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt)
-		button1:addEventListener("click", 
+		button1:addEventListener("click",
 		function()
 			stage:removeChild(wallContinent)
 			level1()
@@ -189,7 +189,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 		local txt = TextField.new(font,'Pratiques à risque')
 		txt:setPosition(TXTBUTTON_W-20, TXTBUTTON_H)
 		button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt)
-		button1:addEventListener("click", 
+		button1:addEventListener("click",
 		function()
 			stage:removeChild(wallContinent)
 			level3()
@@ -198,7 +198,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 		local txt = TextField.new(font,'Dépistage')
 		txt:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 		button1 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt)
-		button1:addEventListener("click", 
+		button1:addEventListener("click",
 		function()
 			stage:removeChild(wallContinent)
 			level4()
@@ -206,7 +206,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 	end
 	button1:setPosition(MARGE, 120)
 	wallContinent:addChild(button1)
-	
+
 	-- Creation of second button if needed
 	if(Bnbr>=2)then
 		local buttonText2
@@ -228,7 +228,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 				end)
 				button2:setPosition(MARGE, 210)
 				wallContinent:addChild(button2)
-				
+
 			end
 		else
 			-- This 'other' button is not used yet --
@@ -240,15 +240,15 @@ function launchMenuContinent(Cnbr, Bnbr)
 			wallContinent:addChild(button2)
 		end
 	end
-	
+
 	createButtonMiniG(Cnbr)
 	buttonMiniG:setPosition(MARGE, 300)
 	wallContinent:addChild(buttonMiniG)
-	
-				
+
+
 	--Creation of "go back" button
 	local back = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), TextField.new(font,'Retour'))
-	back:addEventListener("click", 
+	back:addEventListener("click",
 		function()
 			stage:removeChild(wallContinent)
 			launchMenu()
