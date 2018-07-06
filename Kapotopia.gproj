@@ -1,5 +1,5 @@
 <project>
- <properties orientation="0" win_domain="giderosmobile.com" mouseToTouch="1" touchToMouse="1" iosDevice="0" architecture="0" splash_h_image="" packageName="com.yourdomain.yourapp" encryptAssets="0" disableSplash="0" autorotation="0" exportMode="0" splash_v_image="" tv_icon="" version="1.0" logicalHeight="480" osx_category="5" osx_installerId="" windowWidth="0" osx_signingId="" fps="60" ios_bundle="com.yourdomain." osx_org="GiderosMobile" android_template="0" winrt_org="GiderosMobile" html5_pack="0" vsync="0" osx_bundle="com.yourdomain." app_icon="" backgroundColor="#ffffff" winrt_package="com.yourdomain.yourapp" encryptCode="0" html5_host="" mouseTouchOrder="0" windowHeight="0" build_number="1" html5_fbload="100" scaleMode="0" version_code="1" retinaDisplay="0" html5_fbinstant="0" osx_domain="giderosmobile.com" splashScaleMode="0" html5_mem="256" logicalWidth="320" win_org="GiderosMobile" app_name="">
+ <properties html5_fbload="100" build_number="1" scaleMode="0" exportMode="0" orientation="0" osx_org="GiderosMobile" splash_h_image="" html5_fbinstant="0" splashScaleMode="0" winrt_package="com.yourdomain.yourapp" win_domain="openweek.info.ucl.ac.be" splash_v_image="" version="1.0" mouseTouchOrder="0" ios_bundle="com.yourdomain." windowHeight="0" retinaDisplay="0" encryptAssets="0" windowWidth="0" backgroundColor="#ffffff" logicalWidth="1280" html5_pack="0" packageName="com.yourdomain.yourapp" encryptCode="0" osx_installerId="" tv_icon="" osx_bundle="com.yourdomain." win_org="OpenWeek" vsync="0" logicalHeight="720" autorotation="0" mouseToTouch="1" touchToMouse="1" iosDevice="0" version_code="1" fps="60" osx_domain="giderosmobile.com" html5_host="" architecture="2" app_icon="" osx_category="5" android_template="0" osx_signingId="" disableSplash="0" app_name="" winrt_org="GiderosMobile" html5_mem="256">
   <imageScales/>
   <plugins/>
   <exports/>
@@ -7,45 +7,49 @@
  <folder name="questions">
   <file source="questions/questionsLvl3.txt"/>
   <file source="questions/QuestionsLvl2.txt"/>
-  <file source="questions/questions.txt"/>
+  <file source="questions/questionsLvl4.txt"/>
  </folder>
  <folder name="images">
-  <file source="images/vulva.png"/>
-  <file source="images/vulva_internal_condom.png"/>
-  <file source="images/vulva_dental_dam.png"/>
-  <file source="images/squaredodge.xcf"/>
-  <file source="images/squaredodge.png"/>
-  <file source="images/right_arrow.png"/>
-  <file source="images/quit_button_up.png"/>
-  <file source="images/quit_button_down.png"/>
-  <file source="images/preservatifs.jpg"/>
-  <file source="images/player.png"/>
-  <file source="images/penis.png"/>
-  <file source="images/penis_condom.png"/>
-  <file source="images/mireille_9.png"/>
-  <file source="images/mireille_8.png"/>
-  <file source="images/mireille_7.png"/>
-  <file source="images/mireille_6.png"/>
-  <file source="images/mireille_5.png"/>
-  <file source="images/mireille_4.png"/>
-  <file source="images/mireille_3.png"/>
-  <file source="images/mireille_2.png"/>
-  <file source="images/mireille_1.png"/>
-  <file source="images/long_button_up.png"/>
-  <file source="images/long_button_gray.png"/>
-  <file source="images/long_button_down.png"/>
-  <file source="images/little_button_up.png"/>
-  <file source="images/little_button_down.png"/>
-  <file source="images/left_arrow.png"/>
-  <file source="images/gray_button.png"/>
-  <file source="images/gameover.xcf"/>
-  <file source="images/gameover.png"/>
-  <file source="images/FondNiveauBlanc.png"/>
-  <file source="images/button_up.png"/>
+  <file source="images/TextBubble.png"/>
+  <file source="images/button_next.png"/>
   <file source="images/button_down.png"/>
- </folder>
- <folder name="fonts">
+  <file source="images/button_up.png"/>
+  <file source="images/FondNiveauBlanc.png"/>
+  <file source="images/gameover.png"/>
+  <file source="images/gray_button.png"/>
+  <file source="images/left_arrow.png"/>
+  <file source="images/little_button_down.png"/>
+  <file source="images/little_button_up.png"/>
+  <file source="images/long_button_down.png"/>
+  <file source="images/long_button_gray.png"/>
+  <file source="images/long_button_up.png"/>
+  <file source="images/penis_condom.png"/>
+  <file source="images/penis.png"/>
+  <file source="images/player.png"/>
+  <file source="images/preservatifs.jpg"/>
+  <file source="images/quit_button_down.png"/>
+  <file source="images/quit_button_up.png"/>
+  <file source="images/right_arrow.png"/>
+  <file source="images/squaredodge.png"/>
+  <file source="images/vulva_dental_dam.png"/>
+  <file source="images/vulva_internal_condom.png"/>
+  <file source="images/vulva.png"/>
+  <file source="images/mireille_1.png"/>
+  <file source="images/mireille_2.png"/>
+  <file source="images/mireille_3.png"/>
+  <file source="images/mireille_4.png"/>
+  <file source="images/mireille_5.png"/>
+  <file source="images/mireille_6.png"/>
+  <file source="images/mireille_7.png"/>
+  <file source="images/mireille_8.png"/>
+  <file source="images/mireille_9.png"/>
+  </folder>
+  <folder name="fonts">
   <file source="fonts/Roboto-Condensed.ttf"/>
+  </folder>
+  <folder name="questions">
+  <file source="questions/QuestionsLvl2.txt"/>
+  <file source="questions/questions.txt"/>
  </folder>
  <folder name="audio">
   <file source="audio/gameover.wav"/>
@@ -63,3 +67,4 @@
  <file source="button.lua"/>
  <file source="addionalFunctions.lua"/>
 </project>
+
