@@ -20,6 +20,8 @@ FondPreservatif = Texture.new('images/preservatifs.jpg')
 -- Minigames textures
 GameOver = Texture.new("images/gameover.png")
 PlayerTxtu = Texture.new("images/player.png")
+PlayerTxtu2 = Texture.new("images/penis.png")
+PlayerTxtu3 = Texture.new("images/vulva.png")
 Squaredodge = Texture.new("images/squaredodge.png")
 --Mireille textures
 Mireille1 = Texture.new("images/mireille_1.png")
@@ -32,6 +34,7 @@ Mireille7 = Texture.new("images/mireille_7.png")
 Mireille8 = Texture.new("images/mireille_8.png")
 Mireille9 = Texture.new("images/mireille_9.png")
 TextBubble = Texture.new("images/TextBubble.png")
+
 --- Fonts definitions
 
 smallFont = TTFont.new("fonts/Roboto-Condensed.ttf", 10)
@@ -47,7 +50,6 @@ TXTBUTTON_H = 35
 
 --- global variables that lock and unlock continents
 
-lock0 = 0
-lock1 = 0 -- Continent 1 is accessible from the start
+lock1 = 0 --lock = 0 lauch the initial animation
 lock2 = 0 -- Continent 2 (and 3) is locked
 lock3 = 0
