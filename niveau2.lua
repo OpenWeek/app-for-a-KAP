@@ -65,7 +65,6 @@ function level2()
 			unlock:setPosition(0, vert)
 			res:addChild(unlock)
 
-			lock2 = 1
 			vert = vert + 20
 		end
 
@@ -102,14 +101,19 @@ function level2()
 
 		vert = vert + 80
 
-		if lock2 == 1 then
+		if correctVals >= 2 * total / 3 or lock2 == 1 then
 			local next = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), TextField.new(font, "Aller au continent suivant"))
 			next:setPosition(30, vert)
 			res:addChild(next)
 			next:addEventListener("click",
 				function()
 					stage:removeChild(background)
-					launchMenuContinent(2,1)
+					if lock2 ~= 1 then
+						lock2 = 1
+						startMiniGame(1)
+					else
+						launchMenuContinent(2,1)
+					end
 				end
 			)
 		end

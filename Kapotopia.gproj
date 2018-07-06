@@ -1,0 +1,65 @@
+<project>
+ <properties orientation="0" win_domain="giderosmobile.com" mouseToTouch="1" touchToMouse="1" iosDevice="0" architecture="0" splash_h_image="" packageName="com.yourdomain.yourapp" encryptAssets="0" disableSplash="0" autorotation="0" exportMode="0" splash_v_image="" tv_icon="" version="1.0" logicalHeight="480" osx_category="5" osx_installerId="" windowWidth="0" osx_signingId="" fps="60" ios_bundle="com.yourdomain." osx_org="GiderosMobile" android_template="0" winrt_org="GiderosMobile" html5_pack="0" vsync="0" osx_bundle="com.yourdomain." app_icon="" backgroundColor="#ffffff" winrt_package="com.yourdomain.yourapp" encryptCode="0" html5_host="" mouseTouchOrder="0" windowHeight="0" build_number="1" html5_fbload="100" scaleMode="0" version_code="1" retinaDisplay="0" html5_fbinstant="0" osx_domain="giderosmobile.com" splashScaleMode="0" html5_mem="256" logicalWidth="320" win_org="GiderosMobile" app_name="">
+  <imageScales/>
+  <plugins/>
+  <exports/>
+ </properties>
+ <folder name="questions">
+  <file source="questions/questionsLvl3.txt"/>
+  <file source="questions/QuestionsLvl2.txt"/>
+  <file source="questions/questions.txt"/>
+ </folder>
+ <folder name="images">
+  <file source="images/vulva.png"/>
+  <file source="images/vulva_internal_condom.png"/>
+  <file source="images/vulva_dental_dam.png"/>
+  <file source="images/squaredodge.xcf"/>
+  <file source="images/squaredodge.png"/>
+  <file source="images/right_arrow.png"/>
+  <file source="images/quit_button_up.png"/>
+  <file source="images/quit_button_down.png"/>
+  <file source="images/preservatifs.jpg"/>
+  <file source="images/player.png"/>
+  <file source="images/penis.png"/>
+  <file source="images/penis_condom.png"/>
+  <file source="images/mireille_9.png"/>
+  <file source="images/mireille_8.png"/>
+  <file source="images/mireille_7.png"/>
+  <file source="images/mireille_6.png"/>
+  <file source="images/mireille_5.png"/>
+  <file source="images/mireille_4.png"/>
+  <file source="images/mireille_3.png"/>
+  <file source="images/mireille_2.png"/>
+  <file source="images/mireille_1.png"/>
+  <file source="images/long_button_up.png"/>
+  <file source="images/long_button_gray.png"/>
+  <file source="images/long_button_down.png"/>
+  <file source="images/little_button_up.png"/>
+  <file source="images/little_button_down.png"/>
+  <file source="images/left_arrow.png"/>
+  <file source="images/gray_button.png"/>
+  <file source="images/gameover.xcf"/>
+  <file source="images/gameover.png"/>
+  <file source="images/FondNiveauBlanc.png"/>
+  <file source="images/button_up.png"/>
+  <file source="images/button_down.png"/>
+ </folder>
+ <folder name="fonts">
+  <file source="fonts/Roboto-Condensed.ttf"/>
+ </folder>
+ <folder name="audio">
+  <file source="audio/gameover.wav"/>
+  <file source="audio/DST-909Dreams.mp3"/>
+ </folder>
+ <file source="TextWrap.lua"/>
+ <file source="niveau4.lua"/>
+ <file source="niveau3.lua"/>
+ <file source="niveau2.lua"/>
+ <file source="niveau1.lua"/>
+ <file source="minigame.lua"/>
+ <file source="menu.lua"/>
+ <file source="main.lua"/>
+ <file source="init.lua"/>
+ <file source="button.lua"/>
+ <file source="addionalFunctions.lua"/>
+</project>

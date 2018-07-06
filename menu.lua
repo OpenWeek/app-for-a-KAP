@@ -1,4 +1,3 @@
-
 --launch the initial menu
 function launchMenu()
 
@@ -215,7 +214,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 		if(Cnbr == 1) then -- In continent 1, the second button leads to the second game
 			buttonText2 = TextField.new(font,'Symptomes des IST')
 			buttonText2:setPosition(TXTBUTTON_W-20, TXTBUTTON_H)
-			if(lock1 == 1)then
+			if(lock1 ~= 2)then
 				local lockedButton2 = Bitmap.new(GrayButton)
 				lockedButton2:setPosition(MARGE, 210)
 				wallContinent:addChild(lockedButton2)
