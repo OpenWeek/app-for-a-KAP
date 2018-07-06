@@ -166,7 +166,7 @@ function level3()
 	buttonRE:setPosition(40,250)
 	buttonRE:addEventListener("click", reset)
 	
-	-- Button Reset --
+	-- Button End --
 	
 	buttonEnd = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "Terminer"))
 	buttonEnd:setPosition(200,250)
