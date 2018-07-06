@@ -12,9 +12,9 @@ function launchMenu()
 	mainTtl:setPosition(100, 30)
 	wallMenu:addChild(mainTtl)
 	
-	local txt1 = TextField.new(font, "Continent 1")
-	local txt2 = TextField.new(font, "Continent 2")
-	local txt3 = TextField.new(font, "Continent 3")
+	local txt1 = TextField.new(font, "Jungle infectieuse")
+	local txt2 = TextField.new(font, "Roches pentues")
+	local txt3 = TextField.new(font, "Safe Town")
 	
 	txt1:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 	txt2:setPosition(TXTBUTTON_W, TXTBUTTON_H)
@@ -327,10 +327,16 @@ end
 function createButtonMiniG(level)
 	local txt = TextField.new(font, "Minijeu")
 	txt:setPosition(TXTBUTTON_W, TXTBUTTON_H)
-	buttonMiniG = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonUp), txt)
-	buttonMiniG:addEventListener("click",
-		function()
-			stage:removeChild(wallContinent)
-			startMiniGame(level)
-		end)
+	lockTable = {lock2,lock3,lock4}
+	if(lockTable[level] == 0)then
+		buttonMiniG = Bitmap.new(GrayButton)
+		buttonMiniG:addChild(txt)
+	else
+		buttonMiniG = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonUp), txt)
+		buttonMiniG:addEventListener("click",
+			function()
+				stage:removeChild(wallContinent)
+				startMiniGame(level)
+			end)
+	end
 end
