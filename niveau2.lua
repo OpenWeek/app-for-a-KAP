@@ -144,16 +144,9 @@ function level2()
 
 	symp = readFile("QuestionsLvl2.txt")
 	current_symp = 1
-
 	vert = 100
-
 	btns = {}
 	result = {}
-
-	math.randomseed(os.time())
-	math.random(); math.random(); math.random()
-
-	-- https://stackoverflow.com/questions/20154991/generating-uniform-random-numbers-in-lua#20157671
 
 
 	---- Interface
@@ -173,7 +166,7 @@ function level2()
 	-- Explication text --
 
 	exp = TextField.new(font, "Appuyez sur les flèches pour changer de symptôme.")
-	exp:setPosition(10, 45)
+	exp:setPosition(10, 50)
 	background:addChild(exp)
 
 	help = TextField.new(font, "Vous êtes au symptôme " .. current_symp .. " sur " .. #symp .. ".")
@@ -183,7 +176,7 @@ function level2()
 	-- Left button --
 
 	leftArrow = Button.new(Bitmap.new(LeftArrow), Bitmap.new(LeftArrow), nil)
-	leftArrow:setPosition(0, 50)
+	leftArrow:setPosition(0, 45)
 	exp:addChild(leftArrow)
 	leftArrow:addEventListener("click",
 		function()
@@ -204,7 +197,7 @@ function level2()
 	-- Right button --
 
 	rightArrow = Button.new(Bitmap.new(RightArrow), Bitmap.new(RightArrow), nil)
-	rightArrow:setPosition(290, 50)
+	rightArrow:setPosition(290, 45)
 	exp:addChild(rightArrow)
 	rightArrow:addEventListener("click",
 		function()

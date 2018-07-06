@@ -54,3 +54,4 @@ lock1 = 0 --lock = 0 lauch the initial animation
 lock2 = 0 -- Continent 2 (and 3) is locked
 lock3 = 0
 lock4 = 0
+
