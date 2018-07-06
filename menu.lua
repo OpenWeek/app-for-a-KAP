@@ -302,7 +302,7 @@ function createButtonMiniG(level)
 	txt:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 	lockTable = {lock2,lock3,lock4}
 	if(lockTable[level] == 0)then
-		buttonMiniG = Bitmap(GrayButton)
+		buttonMiniG = Bitmap.new(GrayButton)
 		buttonMiniG:addChild(txt)
 	else
 		buttonMiniG = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonUp), txt)
