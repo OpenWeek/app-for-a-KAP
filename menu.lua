@@ -92,8 +92,13 @@ function launchMenu()
 		talk11:setPosition(20,20)
 		local talk12 = TextField.new(font, "Je suis Mireille la capote.")
 		talk12:setPosition(20,50)
-		local talk21 = TextField.new(font, "J’imagine que tu sais, au moins vaguement, à quoi le petit bout extensible de latex que je suis sert dans la vie. ")
+		--local talk21 = TextField.new(font, "J’imagine que tu sais, au moins vaguement, à quoi le petit bout extensible de latex que je suis sert dans la vie. ")
+		--talk21:setPosition(20,20)
+		
+		-- !! Bonne fonction '' --
+		local talk21 = TextWrap.new("J’imagine que tu sais, au moins vaguement, à quoi le petit bout extensible de latex que je suis sert dans la vie. ", 250, "justify", 1.5, smallFont)
 		talk21:setPosition(20,20)
+		
 		local talk31 = TextField.new(font, "Mais à quel point es-tu au courant de toutes les subtilités du monde du sexe, de ses pratiques et de ses risques ? ")
 		talk31:setPosition(20,20)
 		local talk32 = TextField.new(font, "Je vais te le dire, t’es sûrement pas au top mon pote !")

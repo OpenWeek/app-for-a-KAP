@@ -31,8 +31,7 @@ Mireille6 = Texture.new("images/mireille_6.png")
 Mireille7 = Texture.new("images/mireille_7.png")
 Mireille8 = Texture.new("images/mireille_8.png")
 Mireille9 = Texture.new("images/mireille_9.png")
-
-
+TextBubble = Texture.new("images/TextBubble.png")
 --- Fonts definitions
 
 smallFont = TTFont.new("fonts/Roboto-Condensed.ttf", 10)
