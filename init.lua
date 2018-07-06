@@ -33,6 +33,7 @@ Mireille6 = Texture.new("images/mireille_6.png")
 Mireille7 = Texture.new("images/mireille_7.png")
 Mireille8 = Texture.new("images/mireille_8.png")
 Mireille9 = Texture.new("images/mireille_9.png")
+TextBubble = Texture.new("images/TextBubble.png")
 
 --- Fonts definitions
 
@@ -49,12 +50,8 @@ TXTBUTTON_H = 35
 
 --- global variables that lock and unlock continents
 
-lock1 = 2 -- Continent 1 is accessible from the start
+lock1 = 0 --lock = 0 lauch the initial animation
 lock2 = 0 -- Continent 2 (and 3) is locked
 lock3 = 0
+lock4 = 0
 
---- random init
-
-math.randomseed(os.time())
-math.random(); math.random(); math.random()
--- https://stackoverflow.com/questions/20154991/generating-uniform-random-numbers-in-lua#20157671

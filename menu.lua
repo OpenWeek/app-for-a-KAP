@@ -97,7 +97,7 @@ function launchMenu()
 	-- Initial animation
 	if(lock1 == 0)then
 		local mireille1 = Bitmap.new(Mireille1)
-		mireille1:setPosition(35,180)
+		mireille1:setPosition(80,120)
 		local mireille2 = Bitmap.new(Mireille2)
 		mireille2:setPosition(80,119)
 		local mireille3 = Bitmap.new(Mireille3)
@@ -140,10 +140,36 @@ function launchMenu()
 		talk62:setPosition(70,80)
 		
 		bubble = Bitmap.new(TextBubble)
-		bubble:setPosition(30,-130)
+		bubble:setPosition(35, 10)
 		
-		wallMenu:addChild(mireille1)
-		mireille1:addChild(bubble)
+		--[[local mc = MovieClip.new{
+								{1, 6, mireille1, {x = 80, y = {112, 120, "inBounce"}}},
+								{7, 13, mireille2, {x = 80, y = {112, 120, "inBounce"}}},
+								{14, 19, mireille3, {x = 80, y = {112, 120, "inBounce"}}},
+								{20, 25, mireille4, {x = 80, y = {112, 120, "inBounce"}}},
+								{26, 31, mireille5, {x = 80, y = {112, 120, "inBounce"}}},
+								{32, 37, mireille6, {x = 80, y = {112, 120, "inBounce"}}},
+								{38, 43, mireille7, {x = 80, y = {112, 120, "inBounce"}}},
+								{44, 49, mireille8, {x = 80, y = {112, 120, "inBounce"}}},
+								{50, 55, mireille9, {x = 80, y = {112, 120, "inBounce"}}}
+								}
+		mc:setGotoAction(55, 1)]]
+		local mc = MovieClip.new{
+								{1, 6, mireille1, {x = 35, y = 180}},
+								{7, 13, mireille2, {x = 35, y = 181}},
+								{14, 19, mireille3, {x = 35, y = 182}},
+								{20, 25, mireille4, {x = 35, y = 183}},
+								{26, 31, mireille5, {x = 35, y = 184}},
+								{32, 37, mireille6, {x = 35, y = 183}},
+								{38, 43, mireille7, {x = 35, y = 182}},
+								{44, 49, mireille8, {x = 35, y = 181}},
+								{50, 55, mireille9, {x = 35, y = 180}}
+								}
+		mc:setGotoAction(55, 1)
+		
+		--wallMenu:addChild(mireille1)	
+		wallMenu:addChild(mc)
+		mc:addChild(bubble)
 		bubble:addChild(talk11)
 		bubble:addChild(talk12)
 		--Mireille sautille
@@ -152,8 +178,9 @@ function launchMenu()
 		--local nextButtonDown = Bitmap.new(Texture.new("images/button_next_down.png"))
 		local nextText = TextField.new(font, "Next")
 		nextButton = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), nextText)
-		nextButton:setPosition(150,0)
-		mireille1:addChild(nextButton)
+		nextButton:setPosition(225,160)
+		mc:addChild(nextButton)
+		
 		i = 1
 		nextButton:addEventListener("click",
 			function()
@@ -181,7 +208,7 @@ function launchMenu()
 					bubble:addChild(talk61)
 					bubble:addChild(talk62)
 				elseif(i == 6)then
-					wallMenu:removeChild(mireille1)
+					wallMenu:removeChild(mc)
 					lock1 = 1
 					launchMenu()
 				end
@@ -190,14 +217,14 @@ function launchMenu()
 		,i)
 		local skipText = TextWrap.new("Passer l'intro", 50, "justify", 2, font)
 		skipButton = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), skipText)
-		skipButton:setPosition(150,60)
+		skipButton:setPosition(225,220)
 		skipButton:addEventListener("click",
 			function()
 				lock1 = 1
-				wallMenu:removeChild(mireille1)
+				wallMenu:removeChild(mc)
 				launchMenu()
 			end)
-		mireille1:addChild(skipButton)
+		mc:addChild(skipButton)
 	end
 end
 
