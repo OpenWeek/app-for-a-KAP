@@ -45,7 +45,7 @@ function level3()
 			quest:setText("Vrai : " .. questions[numQ][3])
 		else
 			ansField[numQ] = false
-			quest:setText("Vrai : " .. questions[numQ][3])
+			quest:setText("Faux : " .. questions[numQ][3])
 		end
 		background:removeChild(buttonO)
 		background:removeChild(buttonN)
@@ -92,7 +92,7 @@ function level3()
 		stage:removeChild(background)
 		if lock3 ~= 1 then
 			lock3 = 1
-			startMiniGame(1)
+			startMiniGame(2)
 		else
 			launchMenuContinent(3,1)
 		end
