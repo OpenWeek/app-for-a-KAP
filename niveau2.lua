@@ -65,7 +65,6 @@ function level2()
 			unlock:setPosition(0, vert)
 			res:addChild(unlock)
 
-			lock2 = 1
 			vert = vert + 20
 		end
 
@@ -102,14 +101,19 @@ function level2()
 
 		vert = vert + 80
 
-		if lock2 == 1 then
+		if correctVals >= 2 * total / 3 or lock2 == 1 then
 			local next = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), TextField.new(font, "Aller au continent suivant"))
 			next:setPosition(30, vert)
 			res:addChild(next)
 			next:addEventListener("click",
 				function()
 					stage:removeChild(background)
-					launchMenuContinent(2,1)
+					if lock2 ~= 1 then
+						lock2 = 1
+						startMiniGame(1)
+					else
+						launchMenuContinent(2,1)
+					end
 				end
 			)
 		end
@@ -140,16 +144,9 @@ function level2()
 
 	symp = readFile("QuestionsLvl2.txt")
 	current_symp = 1
-
 	vert = 100
-
 	btns = {}
 	result = {}
-
-	math.randomseed(os.time())
-	math.random(); math.random(); math.random()
-
-	-- https://stackoverflow.com/questions/20154991/generating-uniform-random-numbers-in-lua#20157671
 
 
 	---- Interface
@@ -169,7 +166,7 @@ function level2()
 	-- Explication text --
 
 	exp = TextField.new(font, "Appuyez sur les flèches pour changer de symptôme.")
-	exp:setPosition(10, 45)
+	exp:setPosition(10, 50)
 	background:addChild(exp)
 
 	help = TextField.new(font, "Vous êtes au symptôme " .. current_symp .. " sur " .. #symp .. ".")
@@ -179,7 +176,7 @@ function level2()
 	-- Left button --
 
 	leftArrow = Button.new(Bitmap.new(LeftArrow), Bitmap.new(LeftArrow), nil)
-	leftArrow:setPosition(0, 50)
+	leftArrow:setPosition(0, 45)
 	exp:addChild(leftArrow)
 	leftArrow:addEventListener("click",
 		function()
@@ -200,7 +197,7 @@ function level2()
 	-- Right button --
 
 	rightArrow = Button.new(Bitmap.new(RightArrow), Bitmap.new(RightArrow), nil)
-	rightArrow:setPosition(290, 50)
+	rightArrow:setPosition(290, 45)
 	exp:addChild(rightArrow)
 	rightArrow:addEventListener("click",
 		function()

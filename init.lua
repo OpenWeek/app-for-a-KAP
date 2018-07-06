@@ -34,7 +34,6 @@ Mireille7 = Texture.new("images/mireille_7.png")
 Mireille8 = Texture.new("images/mireille_8.png")
 Mireille9 = Texture.new("images/mireille_9.png")
 
-
 --- Fonts definitions
 
 smallFont = TTFont.new("fonts/Roboto-Condensed.ttf", 10)
@@ -50,7 +49,12 @@ TXTBUTTON_H = 35
 
 --- global variables that lock and unlock continents
 
-lock0 = 0
-lock1 = 0 -- Continent 1 is accessible from the start
-lock2 = 1 -- Continent 2 (and 3) is locked
+lock1 = 2 -- Continent 1 is accessible from the start
+lock2 = 0 -- Continent 2 (and 3) is locked
 lock3 = 0
+
+--- random init
+
+math.randomseed(os.time())
+math.random(); math.random(); math.random()
+-- https://stackoverflow.com/questions/20154991/generating-uniform-random-numbers-in-lua#20157671

@@ -74,6 +74,8 @@ function level4()
 		
 		if numQ > #questions then
 			stage:removeChild(fond)
+			lock4=1
+			launchMenuContinent(3,1)
 		else
 			printQuestion()
 		end

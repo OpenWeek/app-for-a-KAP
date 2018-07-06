@@ -111,12 +111,11 @@ function startMiniGame(level)
 		-- Create the player object
 		player = Bitmap.new(PlayerTxtu2)
 		print(genre)
-		if (genreG == true) then
+		if genre then
 			player = Bitmap.new(PlayerTxtu2)
 			player:setScaleX(0.5)
 			player:setScaleY(0.5)
-		end
-		if (genreG == false) then
+		elseif not genre then
 			player = Bitmap.new(PlayerTxtu3)
 			player:setScaleX(0.5)
 			player:setScaleY(0.5)
@@ -297,51 +296,61 @@ function startMiniGame(level)
 		loadScore()
 		initScores()
 	end
-
-	-- Start button touch handler
-	local function startTouch(startbuttonImage, event)
-		-- See if the Start Button object was touched
-		if startbuttonImage:hitTestPoint(event.touch.x, event.touch.y) then
-			startbuttonImage:removeEventListener(Event.TOUCHES_END, startTouch)
-			-- Clean up our objects
-			stage:removeChild(startbuttonImage)
-			startbuttonImage=nil
-			initGame()
-		end
-	end
-
-	local function startGame2(genre)
-		genreG = genre
-		stage:removeChild(fond)
-		-- Create a Start Button object and display it
-		startbuttonImg = Bitmap.new(Squaredodge)
-		startbuttonImg.x, startbuttonImg.y = 0,200
-		startbuttonImg:setPosition(startbuttonImg.x, startbuttonImg.y)
-		stage:addChild(startbuttonImg)
-		-- Make the Start Button object touchable
-		startbuttonImg:addEventListener(Event.TOUCHES_BEGIN, startTouch, startbuttonImg)
-	end
 	
 	-- Start game. Display START button and logo
 	local function startGame()
-			fond = Bitmap.new(FondNiveau)
+			local fond = Bitmap.new(FondNiveau)
 			stage:addChild(fond)
+			
 			local txt = TextField.new(font, "Incarne Joris le penis ou Vivianne la vulve !")
 			local txt2 = TextField.new(font, "Evite les IST et capture le preservatif rose")
 			txt:setPosition(40, 40)
-			txt2:setPosition(40, 50)
+			txt2:setPosition(40, 60)
 			fond:addChild(txt2)
 			fond:addChild(txt)
-			local txtG = TextField.new(font, "JORIS")
-			local txtF = TextField.new(font, "VULVA")
-			local buttonG = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), txtG)
-			local buttonF = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), txtF)	
-			buttonG:setPosition(40, 250)
-			buttonF:setPosition(200, 250)
+			
+			genre = true
+			
+			local txtG = TextField.new(font, "Joris")
+			local txtF = TextField.new(font, "Vivianne")
+			local buttonG = Button.new(Bitmap.new(LongButtonGray), Bitmap.new(LongButtonDown), txtG)
+			local buttonF = Button.new(Bitmap.new(LongButtonUp), Bitmap.new(LongButtonDown), txtF)	
+			buttonG:setPosition(40, 100)
+			buttonF:setPosition(40, 150)
 			fond:addChild(buttonG)
 			fond:addChild(buttonF)
-			buttonG:addEventListener("click", startGame2, true)
-			buttonF:addEventListener("click", startGame2, false)
+			buttonG:addEventListener("click", 
+				function()
+					genre = true
+					buttonG:setState(Bitmap.new(LongButtonGray), Bitmap.new(LongButtonDown))
+					buttonF:setState(Bitmap.new(LongButtonUp), Bitmap.new(LongButtonDown))
+				end
+			)
+			buttonF:addEventListener("click", 
+				function()
+					genre = false
+					buttonG:setState(Bitmap.new(LongButtonUp), Bitmap.new(LongButtonDown))
+					buttonF:setState(Bitmap.new(LongButtonGray), Bitmap.new(LongButtonDown))
+				end
+			)
+			
+			-- Start button touch handler
+			local function startTouch(startbuttonImage, event)
+				-- See if the Start Button object was touched
+				if startbuttonImage:hitTestPoint(event.touch.x, event.touch.y) then
+					startbuttonImage:removeEventListener(Event.TOUCHES_END, startTouch)
+					-- Clean up our objects
+					stage:removeChild(fond)
+					startbuttonImage=nil
+					initGame()
+				end
+			end
+			
+			startbuttonImg = Bitmap.new(Squaredodge)
+			startbuttonImg.x, startbuttonImg.y = 0, 250
+			startbuttonImg:setPosition(startbuttonImg.x, startbuttonImg.y)
+			fond:addChild(startbuttonImg)
+			startbuttonImg:addEventListener(Event.TOUCHES_BEGIN, startTouch, startbuttonImg)
 	end
 	
 	
