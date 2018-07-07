@@ -4,25 +4,12 @@ function level2()
 
 
 	local background, title, exp, help, leftArrow, symp_text, rightArrow, valid, quit
-	local readFile, check, printResult, countAnswers, checkButton, uncheckButton
+	local check, printResult, countAnswers, checkButton, uncheckButton
 	local symp, current_symp, vert, btns, result
 
 
 	---- Functions
 
-
-	readFile = function(file)
-		local symp = {}
-		local temp = {}
-		for line in io.lines("questions/QuestionsLvl2.txt") do
-			table.insert(temp, line)
-			if #temp == 2 then
-				table.insert(symp, temp)
-				temp = {}
-			end
-		end
-		return symp
-	end
 
 	check = function(thisIST)
 		if result[thisIST] == nil then
@@ -142,7 +129,7 @@ function level2()
 	---- Initialization
 
 
-	symp = readFile("QuestionsLvl2.txt")
+	symp = readFile("questions/QuestionsLvl2.txt", 2)
 	current_symp = 1
 	vert = 100
 	btns = {}

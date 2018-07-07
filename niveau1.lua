@@ -5,11 +5,29 @@ function level1()
 	
 	
 	local background, title, exp, help, quest, buttonO, buttonN, buttonOK, buttonRE, buttonEnd, buttonQuit
-	local split, readFile, nextQuestion, check, buttonNxt, reset, finishLvl
+	local split, nextQuestion, check, buttonNxt, reset, finishLvl
 	local ist, other, questions, ansField, passed, numQ
 	
 	
 	---- Functions
+	
+	
+	local function init()
+		local raw = readFile("questions/QuestionsLvl1.txt", 1)
+		other = raw[2]
+		ist = {}
+		questions = {}
+		
+		-- On sépare les noms d'ist et les questions
+		for i = 1, #raw[1] do
+			table.insert(ist, raw[1][i][1])
+			table.insert(questions, raw[1][i][2])
+		end
+		
+		ansField = {}
+		passed = 0
+		numQ = nextQuestion()
+	end
 	
 	split = function(inputstr, sep)
         if sep == nil then
@@ -21,37 +39,6 @@ function level1()
                 i = i + 1
         end
         return t
-	end
-	
-	readFile = function(file)
-		local ist = {}
-		local other = {}
-		local questions = {}
-		local istB = false
-		local otherB = false
-		for line in io.lines(file) do
-			if line == "<ist>" then
-				istB = true
-			elseif line == "</ist>" then
-				istB = false
-			else
-				if istB then
-					if line == "<other>" then
-						otherB = true
-					elseif line == "</other>" then
-						otherB = false
-					else
-						other[line] = true
-						table.insert(questions, line)
-					end
-				else
-					local thisIST = split(line, "=")
-					ist[thisIST[1]] = thisIST[2]
-					table.insert(questions, thisIST[1])
-				end
-			end
-		end
-		return ist, other, questions
 	end
 	
 	nextQuestion = function()
@@ -148,29 +135,7 @@ function level1()
 	
 	---- Initialization
 	
-	
-	-- ist, other, questions = readFile("questions/QuestionsLvl1.txt")
-	ist = {{"VIH", "C’est-à-dire le Virus de l’Immunodéficience Humaine. Si on le contracte on est séropositif. S’il reste non traité il détruit petit à petit le système immunitaire et on devient malade du sida (c’est-à-dire le Syndrome d’ImmunoDéficience Acquise)."},
-		   {"Chlamydia", "la population la plus touchée par cette bactérie sont les femmes de 20 à 24 ans."},
-		   {"Syphilis", "Elle est due à la bactérie tréponème pâle. La syphilis  est en troisième place sur le podium des IST les plus contractées par les belges."},
-		   {"Gonorrhée", "C’est une infection due au gonocoque. Elle est 2 fois plus diagnostiquée chez les hommes, aussi appelée chaude pisse."},
-		   {"Hépatite C", "1500 nouveaux cas de ce virus sont détectés chaque année en Belgique"},
-		   {"Herpès génital", "Le virus Herpes simplex touche près de 2 millions de belges."},
-		   {"Papillomavirus", "Ou HPV (human papillomavirus), il est responsable de la plupart des cancers du col de l’utérus."}}
-	other = {"Rougeole", "Gale", "Tuberculose", "Cancer des testicules", "Maladie crohn", "Méningite",
-				"Maladie de Lyme", "Fibromyalgie", "Mucoviscidose", "Polio", "Morpions",
-				"Sclérose en plaque", "Rubéole", "Oreillon"}
-	questions = {}
-	for i = 1, #ist do
-		table.insert(questions, ist[i][1])
-	end
-	for i = 1, #other do
-		table.insert(questions, other[i])
-	end
-	ansField = {}
-	passed = 0
-	numQ = nextQuestion()
-	
+	init()
 	
 	---- Interface
 
