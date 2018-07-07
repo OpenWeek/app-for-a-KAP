@@ -11,19 +11,59 @@ function level3()
 	
 	---- Functions
 	
+	
+	-- Read specified structured file containing following tags :
+	-- 	<question>
+	--		<practice></practice>
+	--		<ans></ans>
+	--		<explain></explain>
+	--	</question>
+	-- Returns a double list representing all questions
 	readFile = function(file)
-		local questions = {}
-		local lines = {}
+		local questions = {}	-- Double list, each single list containing : Question, Answer, Explanation
+		local lines = {}		-- String Buffer
+		local q					-- A single question
 		for line in io.lines(file) do
-			table.insert(lines, line)
-			if #lines == 3 then
-				table.insert(questions, lines)
-				lines = {}
-			end
+			if string.find(line, "<question>") then
+				q = {}
+			elseif string.find(line, "</question>") then
+				table.insert(questions, q)
+			elseif string.find(line, "<practice>") then
+				-- Removing tags from line
+				local str = string.gsub(line,"%<practice>","")
+				local str2 = string.gsub(str,"%</practice>","")
+				table.insert(q, str2)
+			elseif string.find(line, "<ans>") then
+				local str = string.gsub(line,"%<ans>","")
+				local str2 = string.gsub(str,"%</ans>","")
+				table.insert(q, str2)
+			elseif string.find(line, "<explain>") then
+				local str = string.gsub(line,"%<explain>","")
+				local str2 = string.gsub(str,"%</explain>","")
+				table.insert(q, str2)
+			else
+				print("Parsing error in file " .. file)
+			end			
 		end
 		return questions
 	end
 	
+	-- Check if question number 'numQ' has been correctly answered by 'answer'
+	function check(answer)
+		if tonumber(questions[numQ][2]) == answer then
+			ansField[numQ] = true
+			quest:setText("Vrai : " .. questions[numQ][3])
+		else
+			ansField[numQ] = false
+			quest:setText("Faux : " .. questions[numQ][3])
+		end
+		background:removeChild(buttonO)
+		background:removeChild(buttonN)
+		background:addChild(buttonNxt)
+	end
+	
+	-- Look at how much questions are remaining
+	-- Give a random question number or -1 if there isn't anymore
 	nextQuestion = function()
 		local remaining = {}
 		for i = 1, #questions do
@@ -39,19 +79,8 @@ function level3()
 		end
 	end
 	
-	function check(answer)
-		if tonumber(questions[numQ][2]) == answer then
-			ansField[numQ] = true
-			quest:setText("Vrai : " .. questions[numQ][3])
-		else
-			ansField[numQ] = false
-			quest:setText("Faux : " .. questions[numQ][3])
-		end
-		background:removeChild(buttonO)
-		background:removeChild(buttonN)
-		background:addChild(buttonNxt)
-	end
-	
+	-- Go to the next question or if there isn't anymore, compute final score and
+	-- unlock next continent or make quizz start again
 	function next()
 		background:removeChild(buttonNxt)
 		numQ = nextQuestion()
@@ -77,7 +106,7 @@ function level3()
 		end
 	end
 	
-	-- Fonction pour le bouton recommencer
+	-- Function for reset button
 	function reset()
 		background:removeChild(buttonRE)
 		ansField = {}
@@ -88,6 +117,7 @@ function level3()
 		background:addChild(buttonN)
 	end
 	
+	-- Function for quit button 
 	function finishLvl()
 		stage:removeChild(background)
 		if lock3 ~= 1 then
@@ -102,7 +132,7 @@ function level3()
 	---- Initialization
 	
 	
-	questions = readFile("questions/questionsLvl3.txt")
+	questions = readFile("questions/QuestionsLvl3.txt")
 	ansField = {}
 	passed = 0
 	numQ = nextQuestion()
