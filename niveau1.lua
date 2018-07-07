@@ -149,7 +149,7 @@ function level1()
 	---- Initialization
 	
 	
-	-- ist, other, questions = readFile("questions/questionsLvl3.txt")
+	-- ist, other, questions = readFile("questions/QuestionsLvl1.txt")
 	ist = {{"VIH", "C’est-à-dire le Virus de l’Immunodéficience Humaine. Si on le contracte on est séropositif. S’il reste non traité il détruit petit à petit le système immunitaire et on devient malade du sida (c’est-à-dire le Syndrome d’ImmunoDéficience Acquise)."},
 		   {"Chlamydia", "la population la plus touchée par cette bactérie sont les femmes de 20 à 24 ans."},
 		   {"Syphilis", "Elle est due à la bactérie tréponème pâle. La syphilis  est en troisième place sur le podium des IST les plus contractées par les belges."},

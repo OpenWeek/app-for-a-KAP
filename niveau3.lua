@@ -5,48 +5,12 @@ function level3()
 	
 	
 	local background, title, exp, help, quest, buttonO, buttonN, buttonOK, buttonRE, buttonEnd, buttonQuit
-	local readFile, nextQuestion, check, buttonNxt, reset, finishLvl
+	local nextQuestion, check, buttonNxt, reset, finishLvl
 	local questions, ansField, passed, numQ
 	
 	
 	---- Functions
-	
-	
-	-- Read specified structured file containing following tags :
-	-- 	<question>
-	--		<practice></practice>
-	--		<ans></ans>
-	--		<explain></explain>
-	--	</question>
-	-- Returns a double list representing all questions
-	readFile = function(file)
-		local questions = {}	-- Double list, each single list containing : Question, Answer, Explanation
-		local lines = {}		-- String Buffer
-		local q					-- A single question
-		for line in io.lines(file) do
-			if string.find(line, "<question>") then
-				q = {}
-			elseif string.find(line, "</question>") then
-				table.insert(questions, q)
-			elseif string.find(line, "<practice>") then
-				-- Removing tags from line
-				local str = string.gsub(line,"%<practice>","")
-				local str2 = string.gsub(str,"%</practice>","")
-				table.insert(q, str2)
-			elseif string.find(line, "<ans>") then
-				local str = string.gsub(line,"%<ans>","")
-				local str2 = string.gsub(str,"%</ans>","")
-				table.insert(q, str2)
-			elseif string.find(line, "<explain>") then
-				local str = string.gsub(line,"%<explain>","")
-				local str2 = string.gsub(str,"%</explain>","")
-				table.insert(q, str2)
-			else
-				print("Parsing error in file " .. file)
-			end			
-		end
-		return questions
-	end
+
 	
 	-- Check if question number 'numQ' has been correctly answered by 'answer'
 	function check(answer)
@@ -132,7 +96,7 @@ function level3()
 	---- Initialization
 	
 	
-	questions = readFile("questions/QuestionsLvl3.txt")
+	questions = readFile("questions/QuestionsLvl3.txt", 3)
 	ansField = {}
 	passed = 0
 	numQ = nextQuestion()

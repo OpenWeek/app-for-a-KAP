@@ -13,19 +13,8 @@ function level4()
 			stage:removeChild(fond)
 			launchMenuContinent(3,1)
 		end)	
-	-- 0 pour non, 1 pour oui
-	-- Question, réponse, explication
+		
 	local questions = {}
-	function lines_from()
-		local lines = {}
-		for line in io.lines("questions/QuestionsLvl4.txt") do
-			table.insert(lines, line)
-			if #lines == 5 then
-				table.insert(questions, lines)
-				lines = {}
-			end
-		end
-	end
 	
 	local txtO = TextField.new(font, "OUI")
 	local txtN = TextField.new(font, "NON")
@@ -81,7 +70,7 @@ function level4()
 		end
 	end
 	
-	lines_from()
+	questions = readFile("questions/QuestionsLvl4.txt", 4)
 	printQuestion()
 	buttonO:addEventListener("click", check, 1)
 	buttonN:addEventListener("click", check, 0)
