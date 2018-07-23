@@ -5,40 +5,35 @@ function level1()
 	
 	
 	local background, title, exp, help, quest, buttonO, buttonN, buttonOK, buttonRE, buttonEnd, buttonQuit
-	local split, nextQuestion, check, buttonNxt, reset, finishLvl
-	local ist, other, questions, ansField, passed, numQ
+	local nextQuestion, check, buttonNxt, reset, finishLvl
+	local ist, expl, other, questions, ansField, passed, numQ
 	
 	
 	---- Functions
 	
 	
 	local function init()
-		local raw = readFile("questions/QuestionsLvl1.txt", 1)
-		other = raw[2]
-		ist = {}
-		questions = {}
+		local raw = readFile("questions/QuestionsLvl1.txt", 1)	-- Contain raw data from questionLvl1 file
+		other = raw[2]											-- List containing notIST sickness
+		ist = {}												-- List containing names of IST sicknesses
+		questions = {}											-- List containing both IST and other sicknesses names
+		expl = {}												-- List containing descriptions of IST (with same index as ist)
 		
-		-- On sépare les noms d'ist et les questions
+		-- We separate IST names from questions
 		for i = 1, #raw[1] do
 			table.insert(ist, raw[1][i][1])
-			table.insert(questions, raw[1][i][2])
+			table.insert(expl, raw[1][i][2])
+		end
+		for i = 1, #ist do
+			table.insert(questions, ist[i])
+		end
+		for i = 1, #other do
+			table.insert(questions, other[i])
 		end
 		
 		ansField = {}
 		passed = 0
 		numQ = nextQuestion()
-	end
-	
-	split = function(inputstr, sep)
-        if sep == nil then
-                sep = "%s"
-        end
-        local t={} ; i=1
-        for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-                t[i] = str
-                i = i + 1
-        end
-        return t
 	end
 	
 	nextQuestion = function()
@@ -60,7 +55,7 @@ function level1()
 		local indexIST = -1
 		local indexOther = -1
 		for i = 1, #ist do
-			if questions[numQ] == ist[i][1] then
+			if questions[numQ] == ist[i] then
 				indexIST = i
 			end
 		end
@@ -71,7 +66,7 @@ function level1()
 		end
 		if answer and indexIST ~= -1 then
 			ansField[numQ] = true
-			quest:setText("Vrai : " .. ist[indexIST][2])
+			quest:setText("Vrai : " .. expl[indexIST])
 		elseif answer then
 			ansField[numQ] = false
 			quest:setText("Faux : ce n'est pas une IST.")
@@ -165,8 +160,8 @@ function level1()
 	
 	-- Question --
 	
-	quest = TextWrap.new(questions[numQ], 180, "justify", 1.5, font)
-	quest:setPosition(70, 150)
+	quest = TextWrap.new(questions[numQ], 200, "justify", 1.5, font)
+	quest:setPosition(30, 150)
 	background:addChild(quest)
 	
 	-- Button Oui --

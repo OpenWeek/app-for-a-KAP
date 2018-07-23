@@ -1,31 +1,31 @@
 <ist>
 	<sickness>
 		<name>VIH</name>
-		<descr>C’est-à-dire le Virus de l’Immunodéficience Humaine. Si on le contracte on est séropositif. S’il reste non traité il détruit petit à petit le système immunitaire et on devient malade du sida (c’est-à-dire le Syndrome d’ImmunoDéficience Acquise).</descr>
+		<descr>c'est-Ã -dire le Virus de l'ImmunodÃ©ficience Humaine. Si on le contracte on est sÃ©ropositif. S'il reste non traitÃ© il dÃ©truit petit Ã  petit le systÃ¨me immunitaire et on devient malade du sida (c'est-Ã -dire le Syndrome d'ImmunoDÃ©ficience Acquise).</descr>
 	</sickness>
 	<sickness>
 		<name>Chlamydia</name>
-		<descr>La population la plus touchée par cette bactérie sont les femmes de 20 à 24 ans.</descr>
+		<descr>La population la plus touchÃ©e par cette bactÃ©rie sont les femmes de 20 Ã  24 ans.</descr>
 	</sickness>
 	<sickness>
 		<name>Syphilis</name>
-		<descr>Elle est due à la bactérie tréponème pâle. La syphilis  est en troisième place sur le podium des IST les plus contractées par les belges.</descr>
+		<descr>Elle est due Ã  la bactÃ©rie trÃ©ponÃ¨me pÃ¢le. La syphilis  est en troisiÃ¨me place sur le podium des IST les plus contractÃ©es par les belges.</descr>
 	</sickness>
 	<sickness>
-		<name>Gonorrhée</name>
-		<descr>C’est une infection due au gonocoque. Elle est 2 fois plus diagnostiquée chez les hommes, aussi appelée chaude pisse.</descr>
+		<name>GonorrhÃ©e</name>
+		<descr>C'est une infection due au gonocoque. Elle est 2 fois plus diagnostiquÃ©e chez les hommes, aussi appelÃ©e chaude pisse.</descr>
 	</sickness>
 	<sickness>
-		<name>Hépatite C</name>
-		<descr>1500 nouveaux cas de ce virus sont détectés chaque année en Belgique</descr>
+		<name>HÃ©patite C</name>
+		<descr>1500 nouveaux cas de ce virus sont dÃ©tectÃ©s chaque annÃ©e en Belgique</descr>
 	</sickness>
 	<sickness>
-		<name>Herpès génital</name>
-		<descr>Le virus Herpes simplex touche près de 2 millions de belges.  </descr>
+		<name>HerpÃ¨s gÃ©nital</name>
+		<descr>Le virus Herpes simplex touche prÃ¨s de 2 millions de belges.  </descr>
 	</sickness>
 	<sickness>
 		<name>Papillomavirus</name>
-		<descr>Ou HPV (human papillomavirus), il est responsable de la plupart des cancers du col de l’utérus.</descr>
+		<descr>Ou HPV (human papillomavirus), il est responsable de la plupart des cancers du col de l'utÃ©rus.</descr>
 	</sickness>
 </ist>
 <other>
@@ -34,13 +34,13 @@
 	<nameOther>Tuberculose</nameOther>
 	<nameOther>Cancer des testicules</nameOther>
 	<nameOther>Maladie crohn</nameOther>
-	<nameOther>Méningite</nameOther>
+	<nameOther>MÃ©ningite</nameOther>
 	<nameOther>Maladie de Lyme</nameOther>
 	<nameOther>Fibromyalgie</nameOther>
 	<nameOther>Mucoviscidose</nameOther>
 	<nameOther>Polio</nameOther>
 	<nameOther>Morpions</nameOther>
-	<nameOther>Sclérose en plaque</nameOther>
-	<nameOther>Rubéole</nameOther>
+	<nameOther>SclÃ©rose en plaque</nameOther>
+	<nameOther>RubÃ©ole</nameOther>
 	<nameOther>Oreillon</nameOther>
 </other>
