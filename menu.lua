@@ -77,10 +77,10 @@ function launchMenu()
 			wallMenu:addChild(button2)
 		
 			if (lock3 == 0) then -- continent 3 is locked
-			local lockedButton3 = Bitmap.new(GrayButton)
-			lockedButton3:setPosition(MARGE, posBut3H)
-			wallMenu:addChild(lockedButton3)
-			lockedButton3:addChild(txt3)
+				local lockedButton3 = Bitmap.new(GrayButton)
+				lockedButton3:setPosition(MARGE, posBut3H)
+				wallMenu:addChild(lockedButton3)
+				lockedButton3:addChild(txt3)
 			else -- continent 3 is accessible
 				local button3 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), txt3)
 				button3:addEventListener("click", 

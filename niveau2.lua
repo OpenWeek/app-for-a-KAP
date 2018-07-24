@@ -239,6 +239,7 @@ function level2()
 	quit:addEventListener("click",
 		function()
 			stage:removeChild(background)
+			collectgarbage() 
 			launchMenuContinent(1,2)
 		end
 	)

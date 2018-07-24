@@ -1,17 +1,16 @@
 function level3()
 
-
 	---- Declaration
-	
-	
+
+
 	local background, title, exp, help, quest, buttonO, buttonN, buttonOK, buttonRE, buttonEnd, buttonQuit
 	local nextQuestion, check, buttonNxt, reset, finishLvl
 	local questions, ansField, passed, numQ
-	
-	
+
+
 	---- Functions
 
-	
+
 	-- Check if question number 'numQ' has been correctly answered by 'answer'
 	function check(answer)
 		if tonumber(questions[numQ][2]) == answer then
@@ -25,7 +24,7 @@ function level3()
 		background:removeChild(buttonN)
 		background:addChild(buttonNxt)
 	end
-	
+
 	-- Look at how much questions are remaining
 	-- Give a random question number or -1 if there isn't anymore
 	nextQuestion = function()
@@ -42,7 +41,7 @@ function level3()
 			return -1
 		end
 	end
-	
+
 	-- Go to the next question or if there isn't anymore, compute final score and
 	-- unlock next continent or make quizz start again
 	function next()
@@ -69,7 +68,7 @@ function level3()
 			end
 		end
 	end
-	
+
 	-- Function for reset button
 	function reset()
 		background:removeChild(buttonRE)
@@ -80,27 +79,28 @@ function level3()
 		background:addChild(buttonO)
 		background:addChild(buttonN)
 	end
-	
-	-- Function for quit button 
+
+	-- Function for quit button
 	function finishLvl()
 		stage:removeChild(background)
 		if lock3 ~= 1 then
 			lock3 = 1
+			collectgarbage()
 			startMiniGame(2)
 		else
 			launchMenuContinent(3,1)
 		end
 	end
-	
-	
+
+
 	---- Initialization
-	
-	
+
+
 	questions = readFile("questions/QuestionsLvl3.txt", 3)
 	ansField = {}
 	passed = 0
 	numQ = nextQuestion()
-	
+
 
 	---- Interface
 
@@ -109,69 +109,69 @@ function level3()
 
 	background = Bitmap.new(FondNiveau)
 	stage:addChild(background)
-	
+
 	-- Title --
 
 	title = TextField.new(titleFont, "Niveau 3 : Trouvez les pratiques à risque !")
 	title:setPosition(10, 25)
 	background:addChild(title)
-	
+
 	-- Explication text --
 
 	exp = TextWrap.new("Appuyez sur 'Oui' si la pratique suivant est à risque. Sinon, appuyez sur 'Non'.", 280, "justify", 1.5, font)
 	exp:setPosition(10, 50)
 	background:addChild(exp)
-	
+
 	-- Help text --
 
 	help = TextField.new(font, "Vous êtes à la question " .. passed .. " sur " .. #questions .. ".")
 	help:setPosition(10, 100)
 	background:addChild(help)
-	
+
 	-- Question --
-	
+
 	quest = TextWrap.new(questions[numQ][1], 180, "justify", 1.5, font)
 	quest:setPosition(70, 150)
 	background:addChild(quest)
-	
+
 	-- Button Oui --
-	
+
 	buttonO = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "Oui"))
 	buttonO:setPosition(40, 250)
 	background:addChild(buttonO)
 	buttonO:addEventListener("click", check, 1)
-	
+
 	-- Button Non --
-	
+
 	buttonN = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "Non"))
 	buttonN:setPosition(200, 250)
 	background:addChild(buttonN)
 	buttonN:addEventListener("click", check, 0)
-	
+
 	-- Button Next --
-	
+
 	buttonNxt = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "Suivant"))
 	buttonNxt:setPosition(200, 250)
 	buttonNxt:addEventListener("click", next)
-	
+
 	-- Button Reset --
-	
+
 	buttonRE = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "Réessayer"))
 	buttonRE:setPosition(40,250)
 	buttonRE:addEventListener("click", reset)
-	
+
 	-- Button End --
-	
+
 	buttonEnd = Button.new(Bitmap.new(LittleButtonUp), Bitmap.new(LittleButtonDown), TextField.new(font, "Terminer"))
 	buttonEnd:setPosition(200,250)
 	buttonEnd:addEventListener("click", finishLvl)
-	
+
 	-- Button Quit --
-	
+
 	buttonQuit = Button.new(Bitmap.new(QuitButtonUp), Bitmap.new(QuitButtonDown), TextField.new(font, "Quitter le niveau"))
 	buttonQuit:setPosition(140, 435)
 	background:addChild(buttonQuit)
 	buttonQuit:addEventListener("click", finishLvl)
 
-	
+
 end

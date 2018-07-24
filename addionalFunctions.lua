@@ -157,6 +157,22 @@ function readFile(file, template)
 	return questions
 end
 
+function each(things, fn)
+	for i, thing in ipairs(things) do
+		fn(thing)
+	end
+end
+
+function filter(things, fn)
+	local filtered = {}
+	each(things, function(thing)
+		if fn(thing) then
+			table.insert(filtered, thing)
+		end
+	end)
+	return filtered
+end
+
 function split(inputstr, sep)
         if sep == nil then
                 sep = "%s"
