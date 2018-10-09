@@ -44,12 +44,12 @@ function level2()
 		local total, correctVals, errors = answers()
 
 		local res = TextField.new(font, "Vous avez répondu correctement à " .. correctVals .. " questions sur " .. total .. ".")
-		res:setPosition(10, 45)
+		res:setPosition(MIN_MARGE_W_LEFT, 45)
 		background:addChild(res)
 
 		if correctVals >= 2 * total / 3 then
 			local unlock = TextField.new(font, "Vous avez débloqué le continent suivant !")
-			unlock:setPosition(0, vert)
+			unlock:setPosition(MIN_MARGE_W_LEFT, vert)
 			res:addChild(unlock)
 
 			vert = vert + 20

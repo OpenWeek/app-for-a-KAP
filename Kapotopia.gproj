@@ -1,9 +1,10 @@
 <project>
- <properties osx_org="GiderosMobile" osx_bundle="com.yourdomain." retinaDisplay="0" encryptCode="0" splash_h_image="" logicalWidth="1280" html5_mem="256" html5_host="" architecture="2" osx_category="5" encryptAssets="0" vsync="0" tv_icon="" autorotation="0" win_domain="openweek.info.ucl.ac.be" win_org="OpenWeek" packageName="com.yourdomain.yourapp" disableSplash="0" scaleMode="0" build_number="1" touchToMouse="1" mouseToTouch="1" html5_pack="0" app_name="" splashScaleMode="0" osx_installerId="" android_template="0" version="1.0" windowHeight="0" splash_v_image="" backgroundColor="#ffffff" winrt_org="GiderosMobile" iosDevice="0" exportMode="0" app_icon="" orientation="0" html5_fbload="100" fps="60" mouseTouchOrder="0" osx_domain="giderosmobile.com" ios_bundle="com.yourdomain." osx_signingId="" winrt_package="com.yourdomain.yourapp" html5_fbinstant="0" logicalHeight="720" windowWidth="0" version_code="1">
+ <properties vsync="0" osx_org="GiderosMobile" osx_signingId="" exportMode="0" osx_installerId="" iosDevice="0" mouseToTouch="1" html5_pack="0" scaleMode="0" osx_domain="giderosmobile.com" windowWidth="0" mouseTouchOrder="0" html5_fbinstant="0" backgroundColor="#ffffff" encryptAssets="0" win_domain="openweek.info.ucl.ac.be" html5_mem="256" winrt_package="com.yourdomain.yourapp" app_name="" version_code="1" encryptCode="0" android_template="0" touchToMouse="1" splash_v_image="" logicalWidth="1280" autorotation="0" packageName="com.yourdomain.yourapp" splashScaleMode="0" build_number="1" html5_host="" osx_bundle="com.yourdomain." architecture="2" fps="60" version="1.0" tv_icon="" retinaDisplay="0" winrt_org="GiderosMobile" osx_category="5" html5_fbload="100" ios_bundle="com.yourdomain." disableSplash="0" logicalHeight="720" win_org="OpenWeek" windowHeight="0" splash_h_image="" orientation="0" app_icon="">
   <imageScales/>
   <plugins/>
   <exports/>
  </properties>
+ <file source="activity.lua"/>
  <folder name="questions">
   <file source="questions/QuestionsLvl1.txt"/>
   <file source="questions/QuestionsLvl2.txt"/>

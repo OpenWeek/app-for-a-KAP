@@ -75,7 +75,7 @@ function level3()
 		ansField = {}
 		numQ = nextQuestion()
 		passed = 1
-		quest:setText(questions[numQ][1])
+		quest:sedtText(questions[numQ][1])
 		background:addChild(buttonO)
 		background:addChild(buttonN)
 	end

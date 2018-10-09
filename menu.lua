@@ -9,7 +9,7 @@ function launchMenu()
 	local posBut3H = posBut2H + 90
 	
 	local mainTtl = TextField.new(bigTitleFont, "Kapotopia")
-	mainTtl:setPosition(100, 30)
+	mainTtl:setPosition(TITLE_W, MIN_MARGE_H_UP)
 	wallMenu:addChild(mainTtl)
 	
 	local txt1 = TextField.new(font, "Jungle infectieuse")
@@ -27,23 +27,23 @@ function launchMenu()
 			stage:removeChild(wallMenu)
 			launchMenuContinent(1,2)
 		end)
-	button1:setPosition(MARGE, posBut1H)
+	button1:setPosition(MIN_MARGE_W_LEFT, posBut1H)
 	wallMenu:addChild(button1)
 
 
 	if (lock1 == 0) then -- continent 1, 2 and 3 are locked
 		local lockedButton1 = Bitmap.new(GrayButton)
-		lockedButton1:setPosition(MARGE, posBut1H)
+		lockedButton1:setPosition(MIN_MARGE_W_LEFT, posBut1H)
 		wallMenu:addChild(lockedButton1)
 		lockedButton1:addChild(txt1)
 		-----
 		local lockedButton2 = Bitmap.new(GrayButton)
-		lockedButton2:setPosition(MARGE, posBut2H)
+		lockedButton2:setPosition(MIN_MARGE_W_LEFT, posBut2H)
 		wallMenu:addChild(lockedButton2)
 		lockedButton2:addChild(txt2)
 		---
 		local lockedButton3 = Bitmap.new(GrayButton)
-		lockedButton3:setPosition(MARGE, posBut3H)
+		lockedButton3:setPosition(MIN_MARGE_W_LEFT, posBut3H)
 		wallMenu:addChild(lockedButton3)
 		lockedButton3:addChild(txt3)
 	else -- Continent 1 is accessible
@@ -53,17 +53,17 @@ function launchMenu()
 				stage:removeChild(wallMenu)
 				launchMenuContinent(1,2)
 			end)
-		button1:setPosition(MARGE, posBut1H)
+		button1:setPosition(MIN_MARGE_W_LEFT, posBut1H)
 		wallMenu:addChild(button1)
 	
 		if (lock2 == 0) then -- continent 2 and 3 are locked
 			local lockedButton2 = Bitmap.new(GrayButton)
-			lockedButton2:setPosition(MARGE, posBut2H)
+			lockedButton2:setPosition(MIN_MARGE_W_LEFT, posBut2H)
 			wallMenu:addChild(lockedButton2)
 			lockedButton2:addChild(txt2)
 			-----
 			local lockedButton3 = Bitmap.new(GrayButton)
-			lockedButton3:setPosition(MARGE, posBut3H)
+			lockedButton3:setPosition(MIN_MARGE_W_LEFT, posBut3H)
 			wallMenu:addChild(lockedButton3)
 			lockedButton3:addChild(txt3)
 		else -- continent 2 is accessible
@@ -73,12 +73,12 @@ function launchMenu()
 					stage:removeChild(wallMenu)
 					launchMenuContinent(2,1)
 				end)
-			button2:setPosition(MARGE, posBut2H)
+			button2:setPosition(MIN_MARGE_W_LEFT, posBut2H)
 			wallMenu:addChild(button2)
 		
 			if (lock3 == 0) then -- continent 3 is locked
 				local lockedButton3 = Bitmap.new(GrayButton)
-				lockedButton3:setPosition(MARGE, posBut3H)
+				lockedButton3:setPosition(MIN_MARGE_W_LEFT, posBut3H)
 				wallMenu:addChild(lockedButton3)
 				lockedButton3:addChild(txt3)
 			else -- continent 3 is accessible
@@ -88,7 +88,7 @@ function launchMenu()
 						stage:removeChild(wallMenu)
 						launchMenuContinent(3,1)
 					end)
-				button3:setPosition(MARGE, posBut3H)
+				button3:setPosition(MIN_MARGE_W_LEFT, posBut3H)
 				wallMenu:addChild(button3)
 			end
 		end
@@ -270,7 +270,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 			level4()
 		end)
 	end
-	button1:setPosition(MARGE, 120)
+	button1:setPosition(MIN_MARGE_W_LEFT, 120)
 	wallContinent:addChild(button1)
 	
 	-- Creation of second button if needed
@@ -282,7 +282,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 			buttonText2:setPosition(TXTBUTTON_W-20, TXTBUTTON_H)
 			if(lock1 == 1)then
 				local lockedButton2 = Bitmap.new(GrayButton)
-				lockedButton2:setPosition(MARGE, 210)
+				lockedButton2:setPosition(MIN_MARGE_W_LEFT, 210)
 				wallContinent:addChild(lockedButton2)
 				lockedButton2:addChild(buttonText2)
 			else
@@ -292,7 +292,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 					stage:removeChild(wallContinent)
 					level2()
 				end)
-				button2:setPosition(MARGE, 210)
+				button2:setPosition(MIN_MARGE_W_LEFT, 210)
 				wallContinent:addChild(button2)
 				
 			end
@@ -302,13 +302,13 @@ function launchMenuContinent(Cnbr, Bnbr)
 			buttonText2:setPosition(TXTBUTTON_W, TXTBUTTON_H)
 			button2 = Button.new(Bitmap.new(ButtonUp), Bitmap.new(ButtonDown), buttonText2)
 			-- !! Do something (for example: statistics, previous scores...) !! --
-			button2:setPosition(MARGE, 210)
+			button2:setPosition(MIN_MARGE_W_LEFT, 210)
 			wallContinent:addChild(button2)
 		end
 	end
 	
 	createButtonMiniG(Cnbr)
-	buttonMiniG:setPosition(MARGE, 300)
+	buttonMiniG:setPosition(MIN_MARGE_W_LEFT, 300)
 	wallContinent:addChild(buttonMiniG)
 	
 				
@@ -319,7 +319,7 @@ function launchMenuContinent(Cnbr, Bnbr)
 			stage:removeChild(wallContinent)
 			launchMenu()
 		end)
-	back:setPosition(MARGE,430)
+	back:setPosition(MIN_MARGE_W_LEFT,430)
 	wallContinent:addChild(back)
 end
 

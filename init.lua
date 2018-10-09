@@ -44,13 +44,15 @@ bigTitleFont = TTFont.new("fonts/Roboto-Condensed.ttf", 28)
 
 --- Constants used for element positions
 
-MARGE =  40
+MIN_MARGE_W_LEFT =  40
+MIN_MARGE_H_UP = 40
 TXTBUTTON_W = 90
 TXTBUTTON_H = 35
+TITLE_W = 107 -- Third of screen Width to position Big titles
 
 --- global variables that lock and unlock continents
 
-lock1 = 0 --lock = 0 lauch the initial animation
-lock2 = 0 -- Continent 2 (and 3) is locked
-lock3 = 0
+lock1 = 2 --lock = 0 lauch the initial animation
+lock2 = 1 -- Continent 2 (and 3) is locked
+lock3 = 1
 lock4 = 0
