@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Utils;
 
 public class MainMenu implements Screen {
 
@@ -31,14 +32,7 @@ public class MainMenu implements Screen {
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
         //Import font
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("SEASRN__.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 60;
-        parameter.color = Color.BLACK;
-        BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = font12;
-        generator.dispose();
+        TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         //setup Button
 
         Button world1 = new TextButton("World 4", style);
@@ -57,9 +51,8 @@ public class MainMenu implements Screen {
         world1.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                dispose();
                 //TODO : create new screens
-                // game.setScreen
+                game.setScreen(new Game1(game));
             }
         });
         world2.addListener(new ChangeListener() {
@@ -72,7 +65,6 @@ public class MainMenu implements Screen {
         world3.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                dispose();
                 //TODO : create new screens
                 // game.setScreen
             }
@@ -80,7 +72,6 @@ public class MainMenu implements Screen {
         world4.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                dispose();
                 //TODO : create new screens
                 // game.setScreen
             }
