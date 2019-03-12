@@ -1,10 +1,10 @@
 package gdx.kapotopia.Game3;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import gdx.kapotopia.Screens.Game3;
 
 import java.util.*;
 
@@ -14,7 +14,7 @@ public class Core {
     static int xOffSet = 0;
     static int yOffSet = 0;
 
-    private Screen parent;
+    private Game3 parent;
 
     private Tile[][] tiles;
     private int sizex;
@@ -31,11 +31,11 @@ public class Core {
     private ShapeRenderer shapeRenderer;
 
 
-    public Core(Screen parent, int sizex, int sizey){
+    public Core(Game3 parent, int sizex, int sizey){
         this(parent, sizex, sizey, 1);
     }
 
-    public Core(Screen parent, int sizex, int sizey, int nbGoals){
+    public Core(Game3 parent, int sizex, int sizey, int nbGoals){
         this.parent = parent;
         this.sizex = sizex;
         this.sizey = sizey;
@@ -279,7 +279,7 @@ public class Core {
             tiles[X][Y].rotate(1);
             updatePath(tiles[X][Y]);
             if(checkGoal()){
-                parent.dispose();
+                parent.back();
             }
         }
     }
