@@ -35,7 +35,7 @@ public class World2 implements Screen {
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
 
-        core = new Core(this, 8,8, 3);
+        core = new Core(this, 8,10, 3);
 
 
         stage.addActor(imgFond);

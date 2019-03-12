@@ -51,12 +51,12 @@ public class Core {
         for (int x = 0; x < sizex; x++){
             for(int y = 0; y < sizey; y++){
                 tiles[x][y] = new Tile(x,y);
-                for(int i =0; i < 4; i++){
-                    int r = random.nextInt(16);
+                /*for(int i =0; i < 4; i++){
+                    int r = random.nextInt(25);
                     if(r < 4){
                         tiles[x][y].connection[r] = true;
                     }
-                }
+                }*/
             }
         }
 
@@ -77,35 +77,43 @@ public class Core {
         //TODO : assign correct goal
         correctGoal = goals[nbGoals/2];
 
-        for (int i  = 0; i < goals.length; i++) {
-            createPath(goals[i], sizey - 1);
+        for(int i = 0; i < goals.length; i++) {
+            createPath(goals[i], sizey-1);
         }
+
+        for(Tile[] til : tiles){
+            for(Tile t : til){
+                t.rotate(random.nextInt(3));
+            }
+        }
+
         updatePath(tiles[0][0]);
 
     }
 
     private void createPath(int xDest, int yDest){
+
         Tile t = tiles[0][0];
         Tile g = tiles[xDest][yDest];
 
-        int p = 65;
+        t.connection[2] = true;
+        g.connection[0] = true;
+
+        final int p = 30;
         while (t != g){
-            boolean dx = (correctGoal-t.x) < 0;
-            boolean dy = (sizey -1 - t.y) < 0;
-            if(random.nextBoolean() &&  correctGoal-t.x != 0){
+            boolean dx = (xDest - t.x) < 0;
+            boolean dy = (yDest - t.y) < 0;
+            if(random.nextBoolean()){
                 if(random.nextInt(100) < p){
                     dx = !dx;
-                    p -= 5;
                 }
                 if (dx && t.x > 0) {
                     t.connection[1] = true;
-                    t.rotate(random.nextInt(3));
                     t = tiles[t.x - 1][t.y];
                     t.connection[3] = true;
                 }
                 else if(t.x < sizex - 1){
                     t.connection[3] = true;
-                    t.rotate(random.nextInt(3));
                     t = tiles[t.x + 1][t.y];
                     t.connection[1] = true;
                 }
@@ -113,17 +121,14 @@ public class Core {
             else{
                 if(random.nextInt(100) < p){
                     dy = !dy;
-                    p -= 5;
                 }
                 if(dy && t.y > 0){
                     t.connection[2] = true;
-                    t.rotate(random.nextInt(3));
                     t = tiles[t.x][t.y-1];
                     t.connection[0] = true;
                 }
                 else if(t.y < sizey-1){
                     t.connection[0] = true;
-                    t.rotate(random.nextInt(3));
                     t = tiles[t.x][t.y+1];
                     t.connection[2] = true;
                 }
@@ -191,7 +196,6 @@ public class Core {
         downdatePath(set, moved);
     }
     private void downdatePath(Set<Tile> set, Tile moved){
-        set.clear();
         if(!set.contains(moved)){
             set.add(moved);
             moved.lit = false;
