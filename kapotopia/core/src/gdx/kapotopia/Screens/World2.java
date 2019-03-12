@@ -25,7 +25,6 @@ public class World2 implements Screen {
 
     private Core core;
 
-
     public World2(final Kapotopia game) {
 
         Gdx.app.log("World2", "Hello");
@@ -40,8 +39,9 @@ public class World2 implements Screen {
 
         stage.addActor(imgFond);
 
-        EventHandler eventHandler = new EventHandler(core);
+        EventHandler eventHandler = new EventHandler(core, this);
         Gdx.input.setInputProcessor(eventHandler);
+        Gdx.input.setCatchBackKey(true);
 
 
     }

@@ -51,12 +51,6 @@ public class Core {
         for (int x = 0; x < sizex; x++){
             for(int y = 0; y < sizey; y++){
                 tiles[x][y] = new Tile(x,y);
-                /*for(int i =0; i < 4; i++){
-                    int r = random.nextInt(25);
-                    if(r < 4){
-                        tiles[x][y].connection[r] = true;
-                    }
-                }*/
             }
         }
 
@@ -99,7 +93,7 @@ public class Core {
         t.connection[2] = true;
         g.connection[0] = true;
 
-        final int p = 30;
+        final int p = 25;
         while (t != g){
             boolean dx = (xDest - t.x) < 0;
             boolean dy = (yDest - t.y) < 0;
@@ -137,9 +131,6 @@ public class Core {
     }
 
     private void setGoal(int nbGoals){
-        //if (nbGoals > tiles.length){
-        //    throw new NotImplementedException();
-        //}
         goals = new int[nbGoals];
         int part = sizex/(nbGoals+1);
         for (int i = 1; i <= nbGoals; i++){
@@ -148,14 +139,22 @@ public class Core {
 
     }
     private boolean checkGoal(){
-        return  tiles[correctGoal][sizey-1].lit;
+        return  tiles[correctGoal][sizey-1].connection[0] && tiles[correctGoal][sizey-1].lit;
     }
 
     private void updatePath(Tile moved){
 
-        stack.add(tiles[0][0]);
+        Tile origin =tiles[0][0];
+
         set.clear();
-        set.add(tiles[0][0]);
+        if (!origin.connection[2]){
+            downdatePath(set, origin);
+            return;
+        }
+
+        origin.lit = true;
+        stack.add(origin);
+        set.add(origin);
 
         while (!stack.isEmpty()){
             Tile t = stack.pop();
