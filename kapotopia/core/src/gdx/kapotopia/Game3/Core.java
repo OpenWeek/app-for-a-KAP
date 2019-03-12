@@ -24,7 +24,8 @@ public class Core {
 
     private int[] goals;//All goals at y = sizey-1
     private int correctGoal;
-    private ArrayDeque<Tile> queue;
+    private Stack<Tile> stack;
+    private HashSet<Tile> set;
     private Random random;
 
     private ShapeRenderer shapeRenderer;
@@ -38,13 +39,20 @@ public class Core {
         this.parent = parent;
         this.sizex = sizex;
         this.sizey = sizey;
+
+        Tile.tile_size = 96;
+
+        if (sizex*Tile.tile_size > Gdx.graphics.getWidth() || sizey*Tile.tile_size > Gdx.graphics.getHeight()){
+            Tile.tile_size = Math.min(Gdx.graphics.getWidth()/sizex,Gdx.graphics.getHeight()/sizey );
+        }
+
         random = new Random();
         tiles = new Tile[sizex][sizey];
         for (int x = 0; x < sizex; x++){
             for(int y = 0; y < sizey; y++){
                 tiles[x][y] = new Tile(x,y);
                 for(int i =0; i < 4; i++){
-                    int r = random.nextInt(8);
+                    int r = random.nextInt(16);
                     if(r < 4){
                         tiles[x][y].connection[r] = true;
                     }
@@ -58,47 +66,62 @@ public class Core {
         xOffSet = (Gdx.graphics.getWidth()-width)/2;
         yOffSet = (Gdx.graphics.getHeight()-height)/2;
 
-        queue = new ArrayDeque<Tile>();
+        stack = new Stack<Tile>();
+        set = new HashSet<Tile>(sizex*sizey);
+
         setGoal(nbGoals);
         tiles[0][0].lit = true;
 
         shapeRenderer = new ShapeRenderer();
 
         //TODO : assign correct goal
-        correctGoal = goals[0];
+        correctGoal = goals[nbGoals/2];
 
-        createPath();
+        for (int i  = 0; i < goals.length; i++) {
+            createPath(goals[i], sizey - 1);
+        }
+        updatePath(tiles[0][0]);
+
     }
 
-    private void createPath(){
+    private void createPath(int xDest, int yDest){
         Tile t = tiles[0][0];
-        Tile g = tiles[correctGoal][sizey-1];
+        Tile g = tiles[xDest][yDest];
+
+        int p = 65;
         while (t != g){
-            int dx = correctGoal-t.x;
-            int dy = sizey -1 - t.y;
-            if (dx < 0){
-                dx=-dx;
-                if(dx > dy){
+            boolean dx = (correctGoal-t.x) < 0;
+            boolean dy = (sizey -1 - t.y) < 0;
+            if(random.nextBoolean() &&  correctGoal-t.x != 0){
+                if(random.nextInt(100) < p){
+                    dx = !dx;
+                    p -= 5;
+                }
+                if (dx && t.x > 0) {
                     t.connection[1] = true;
                     t.rotate(random.nextInt(3));
-                    t = tiles[t.x-1][t.y];
+                    t = tiles[t.x - 1][t.y];
                     t.connection[3] = true;
                 }
-                else{
-                    t.connection[0] = true;
+                else if(t.x < sizex - 1){
+                    t.connection[3] = true;
                     t.rotate(random.nextInt(3));
-                    t = tiles[t.x][t.y+1];
-                    t.connection[2] = true;
+                    t = tiles[t.x + 1][t.y];
+                    t.connection[1] = true;
                 }
             }
             else{
-                if(dx > dy){
-                    t.connection[3] = true;
-                    t.rotate(random.nextInt(3));
-                    t = tiles[t.x+1][t.y];
-                    t.connection[1] = true;
+                if(random.nextInt(100) < p){
+                    dy = !dy;
+                    p -= 5;
                 }
-                else{
+                if(dy && t.y > 0){
+                    t.connection[2] = true;
+                    t.rotate(random.nextInt(3));
+                    t = tiles[t.x][t.y-1];
+                    t.connection[0] = true;
+                }
+                else if(t.y < sizey-1){
                     t.connection[0] = true;
                     t.rotate(random.nextInt(3));
                     t = tiles[t.x][t.y+1];
@@ -123,54 +146,135 @@ public class Core {
         return  tiles[correctGoal][sizey-1].lit;
     }
 
-    private void updatePath(){
+    private void updatePath(Tile moved){
 
-        /*TODO: update from rotated Tile,
-        * TODO: store preceding lit in each tile
-        * TODO: to both light up an down only the concerned tiles
-        */
-        queue.add(tiles[0][0]);
-        HashSet<Tile> set = new HashSet<Tile>(sizex*sizey);
+        stack.add(tiles[0][0]);
+        set.clear();
+        set.add(tiles[0][0]);
 
-        while (!queue.isEmpty()){
-            Tile t = queue.pop();
-            t.lit = true;
-            set.add(t);
+        while (!stack.isEmpty()){
+            Tile t = stack.pop();
             boolean[] dir = t.connection;
             if(dir[0] && t.y < sizey-1){
                 Tile t2 =  tiles[t.x][t.y+1];
                 if(t2.connection[2] && ! set.contains(t2)){
-                    queue.add(t2);
+                    stack.add(t2);
+                    set.add(t2);
+                    t2.lit = true;
                 }
             }
             if(dir[1] && t.x > 0){
                 Tile t2 = tiles[t.x-1][t.y];
                 if(t2.connection[3] && !set.contains(t2)){
-                    queue.add(t2);
+                    stack.add(t2);
+                    set.add(t2);
+                    t2.lit = true;
                 }
             }
             if(dir[2] && t.y > 0){
                 Tile t2 = tiles[t.x][t.y-1];
                 if(t2.connection[0] && !set.contains(t2)){
-                    queue.add(t2);
+                    stack.add(t2);
+                    set.add(t2);
+                    t2.lit = true;
                 }
             }
             if(dir[3] && t.x < sizex-1){
                 Tile t2 = tiles[t.x+1][t.y];
                 if(t2.connection[1] && !set.contains(t2) ){
-                    queue.add(t2);
+                    stack.add(t2);
+                    set.add(t2);
+                    t2.lit = true;
+                }
+            }
+        }
+        downdatePath(set, moved);
+    }
+    private void downdatePath(Set<Tile> set, Tile moved){
+        set.clear();
+        if(!set.contains(moved)){
+            set.add(moved);
+            moved.lit = false;
+        }
+        boolean[] dir = moved.connection;
+        if(moved.y < sizey-1){
+            Tile t2 =  tiles[moved.x][moved.y+1];
+            if(! set.contains(t2)){
+                stack.add(t2);
+                set.add(t2);
+                t2.lit = false;
+            }
+        }
+        if(moved.x > 0){
+            Tile t2 = tiles[moved.x-1][moved.y];
+            if(!set.contains(t2)){
+                stack.add(t2);
+                set.add(t2);
+                t2.lit = false;
+            }
+        }
+        if(moved.y > 0){
+            Tile t2 = tiles[moved.x][moved.y-1];
+            if(!set.contains(t2)){
+                stack.add(t2);
+                set.add(t2);
+                t2.lit = false;
+            }
+        }
+        if(moved.x < sizex-1){
+            Tile t2 = tiles[moved.x+1][moved.y];
+            if(!set.contains(t2) ){
+                stack.add(t2);
+                set.add(t2);
+                t2.lit = false;
+            }
+        }
+
+        while (!stack.isEmpty()){
+            Tile t = stack.pop();
+            dir = t.connection;
+            if(dir[0] && t.y < sizey-1){
+                Tile t2 =  tiles[t.x][t.y+1];
+                if(t2.connection[2] && ! set.contains(t2)){
+                    stack.add(t2);
+                    set.add(t2);
+                    t2.lit = false;
+                }
+            }
+            if(dir[1] && t.x > 0){
+                Tile t2 = tiles[t.x-1][t.y];
+                if(t2.connection[3] && !set.contains(t2)){
+                    stack.add(t2);
+                    set.add(t2);
+                    t2.lit = false;
+                }
+            }
+            if(dir[2] && t.y > 0){
+                Tile t2 = tiles[t.x][t.y-1];
+                if(t2.connection[0] && !set.contains(t2)){
+                    stack.add(t2);
+                    set.add(t2);
+                    t2.lit = false;
+                }
+            }
+            if(dir[3] && t.x < sizex-1){
+                Tile t2 = tiles[t.x+1][t.y];
+                if(t2.connection[1] && !set.contains(t2) ){
+                    stack.add(t2);
+                    set.add(t2);
+                    t2.lit = false;
                 }
             }
         }
     }
 
-    public void touchHandler(int x, int y){
+    void touchHandler(int x, int y){
         //Click inside puzzle
         if(x >= xOffSet && y >= yOffSet && x <= xOffSet+width && y <= yOffSet+height){
             int X = (x-xOffSet)/Tile.tile_size;
             int Y = (y-yOffSet)/Tile.tile_size;
             tiles[X][Y].rotate(1);
-            updatePath();
+            updatePath(tiles[X][Y]);
             if(checkGoal()){
                 parent.dispose();
             }
@@ -185,13 +289,19 @@ public class Core {
                 //TODO: DRAW TILE BACKGROUND
             }
         }
+
+        //TODO: replace with true goal indication
+        shapeRenderer.setColor(Color.RED);
+        for(int i = 0; i < goals.length; i++){
+            shapeRenderer.rect(xOffSet+goals[i]*Tile.tile_size, yOffSet+ sizey*Tile.tile_size, Tile.tile_size, Tile.tile_size);
+        }
         shapeRenderer.end();
     }
 }
 
 class Tile{
 
-    static final int tile_size = 96;
+    static int tile_size;
 
     //N,W,S,E
     boolean[] connection;
@@ -199,7 +309,7 @@ class Tile{
     int x;
     int y;
 
-    public Tile(int x, int y){
+    Tile(int x, int y){
         connection = new boolean[4];
         lit = false;
         this.x= x;
@@ -214,13 +324,13 @@ class Tile{
         }
         connection[3] = b;
     }
-    public void rotate(int step){
+    void rotate(int step){
         for(int i =0; i < step; i++){
             rotateC();
         }
     }
 
-    public void draw(ShapeRenderer shapeRenderer){
+    void draw(ShapeRenderer shapeRenderer){
         if(lit){
             shapeRenderer.setColor(Color.RED);
         }
