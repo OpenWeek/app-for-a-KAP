@@ -35,19 +35,19 @@ public class MainMenu implements Screen {
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         //setup Button
 
-        Button world1 = new TextButton("World 4", style);
-        Button world2 = new TextButton("World 3", style);
-        Button world3 = new TextButton("World 2", style);
-        Button world4 = new TextButton("World 1", style);
+        Button world1 = new TextButton("World 1", style);
+        Button world2 = new TextButton("World 2", style);
+        Button world3 = new TextButton("World 3", style);
+        Button world4 = new TextButton("World 4", style);
         float x = game.viewport.getWorldWidth() / 2.5f;
         float y = game.viewport.getWorldHeight() *0.2f;
-        world1.setPosition(x, y);
-        y = game.viewport.getWorldHeight() *0.4f;
-        world2.setPosition(x, y);
-        y = game.viewport.getWorldHeight()*0.6f;
-        world3.setPosition(x, y);
-        y = game.viewport.getWorldHeight()*0.8f;
         world4.setPosition(x, y);
+        y = game.viewport.getWorldHeight() *0.4f;
+        world3.setPosition(x, y);
+        y = game.viewport.getWorldHeight()*0.6f;
+        world2.setPosition(x, y);
+        y = game.viewport.getWorldHeight()*0.8f;
+        world1.setPosition(x, y);
         world1.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
