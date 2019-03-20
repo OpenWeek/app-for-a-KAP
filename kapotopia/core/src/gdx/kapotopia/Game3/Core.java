@@ -279,7 +279,7 @@ public class Core {
             tiles[X][Y].rotate(1);
             updatePath(tiles[X][Y]);
             if(checkGoal()){
-                parent.back();
+                parent.result(true);
             }
         }
     }
