@@ -65,8 +65,8 @@ public class MainMenu implements Screen {
         world3.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                //TODO : create new screens
-                // game.setScreen
+                game.setScreen(new World3(game));
+                dispose();
             }
         });
         world4.addListener(new ChangeListener() {
