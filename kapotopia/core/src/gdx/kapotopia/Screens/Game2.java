@@ -39,11 +39,12 @@ public class Game2 implements Screen {
         this.game = game;
         fond = new Texture("FondNiveauBlanc2.png");
         Image imgFond = new Image(fond);
+        stage = new Stage(game.viewport);
 
         //Creation the screen images
         final Image intro0 = new Image(new Texture("20_board_0"));
         prepareMockup(intro0);
-        intro0.setVisible(false);
+        intro0.setVisible(true);
         final Image intro1 = new Image(new Texture("20_board_1"));
         prepareMockup(intro1);
         final Image game0 = new Image(new Texture("21_board_0"));

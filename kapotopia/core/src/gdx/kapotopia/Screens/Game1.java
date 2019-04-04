@@ -67,6 +67,19 @@ public class Game1 implements Screen {
         });
         play.setVisible(false);
 
+        final Button game2 = new TextButton("Game2",style);
+        float xGame2 = game.viewport.getWorldWidth() / 2.5f;
+        float yGame2 = game.viewport.getWorldHeight() /10;
+        game2.setPosition(xGame2,yGame2);
+        game2.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new Game2(game));
+                dispose();
+            }
+        });
+        game2.setVisible(false);
+
         final Button next = new TextButton("Next", style);
         float xNext = game.viewport.getWorldWidth() / 2.5f;
         float yNext = game.viewport.getWorldHeight() / 10;
@@ -98,6 +111,7 @@ public class Game1 implements Screen {
                 }else if(mock6.isVisible()) {
                     mock6.setVisible(false);
                     play.setVisible(true);
+                    game2.setVisible(true);
                     next.setVisible(false);
                     dispose();
                 }
@@ -116,6 +130,7 @@ public class Game1 implements Screen {
         //buttons
         stage.addActor(play);
         stage.addActor(next);
+        stage.addActor(game2);
         Gdx.input.setInputProcessor(stage);
     }
 
