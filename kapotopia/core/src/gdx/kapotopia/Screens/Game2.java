@@ -23,6 +23,7 @@ public class Game2 implements Screen {
     private Kapotopia game;
     private Texture fond;
     private Stage stage;
+    private final String GAME_PATH = "World1/Game2/";
 
     /**
      * Prepare images to fullScreen and hidden
@@ -42,14 +43,14 @@ public class Game2 implements Screen {
         stage = new Stage(game.viewport);
 
         //Creation the screen images
-        final Image intro0 = new Image(new Texture("20_board_0"));
+        final Image intro0 = new Image(new Texture(GAME_PATH + "20_board_0.png"));
         prepareMockup(intro0);
         intro0.setVisible(true);
-        final Image intro1 = new Image(new Texture("20_board_1"));
+        final Image intro1 = new Image(new Texture(GAME_PATH + "20_board_1.png"));
         prepareMockup(intro1);
-        final Image game0 = new Image(new Texture("21_board_0"));
+        final Image game0 = new Image(new Texture(GAME_PATH + "21_board_0.png"));
         prepareMockup(game0);
-        final Image outro0 = new Image(new Texture("22_board_0"));
+        final Image outro0 = new Image(new Texture(GAME_PATH + "22_board_0.png"));
         prepareMockup(outro0);
 
         //Creation of buttons

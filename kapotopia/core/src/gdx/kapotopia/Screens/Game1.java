@@ -20,6 +20,7 @@ public class Game1 implements Screen {
     private Kapotopia game;
     private Texture fond;
     private Stage stage;
+    private final String GAME_PATH = "World1/Game1/";
 
     /**
      * Prepare images to fullScreen and hidden
@@ -37,18 +38,18 @@ public class Game1 implements Screen {
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
         //Mock-up
-        final Image mock1 = new Image(new Texture("w1_board_1.jpg"));
+        final Image mock1 = new Image(new Texture(GAME_PATH + "w1_board_1.jpg"));
         prepareMockup(mock1);
         mock1.setVisible(true);
-        final Image mock2 = new Image(new Texture("w1_board_2.jpg"));
+        final Image mock2 = new Image(new Texture(GAME_PATH + "w1_board_2.jpg"));
         prepareMockup(mock2);
-        final Image mock3 = new Image(new Texture("w1_board_3.jpg"));
+        final Image mock3 = new Image(new Texture(GAME_PATH + "w1_board_3.jpg"));
         prepareMockup(mock3);
-        final Image mock4 = new Image(new Texture("w1_board_4.jpg"));
+        final Image mock4 = new Image(new Texture(GAME_PATH + "w1_board_4.jpg"));
         prepareMockup(mock4);
-        final Image mock5 = new Image(new Texture("w11_board_0.jpg"));
+        final Image mock5 = new Image(new Texture(GAME_PATH + "w11_board_0.jpg"));
         prepareMockup(mock5);
-        final Image mock6 = new Image(new Texture("w12_board_0.jpg"));
+        final Image mock6 = new Image(new Texture(GAME_PATH + "w12_board_0.jpg"));
         prepareMockup(mock6);
         //Import font
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
