@@ -48,15 +48,16 @@ public class Game2 implements Screen {
         intro0.setVisible(true);
         final Image intro1 = new Image(new Texture(GAME_PATH + "20_board_1.png"));
         prepareMockup(intro1);
-        final Image game0 = new Image(new Texture(GAME_PATH + "21_board_0.png"));
+        final Image game0 = new Image(new Texture(GAME_PATH + "21_board_0.jpg"));
         prepareMockup(game0);
-        final Image outro0 = new Image(new Texture(GAME_PATH + "22_board_0.png"));
+        final Image outro0 = new Image(new Texture(GAME_PATH + "22_board_0.jpg"));
         prepareMockup(outro0);
 
         //Creation of buttons
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         float x = game.viewport.getWorldWidth() / 2.5f;
         float y = game.viewport.getWorldHeight() / 10;
+        float xRight = game.viewport.getWorldWidth() / 1.5f;
 
         //Creation of button Play
         final Button btnPlay = new TextButton("Play", style);
@@ -68,6 +69,18 @@ public class Game2 implements Screen {
             }
         });
         btnPlay.setVisible(false);
+
+        final Button btnBack = new TextButton("Back to Menu",style);
+        btnBack.setPosition(xRight ,y);
+        btnBack.addListener(new ChangeListener(){
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.input.vibrate(200);
+                game.setScreen(new MainMenu(game));
+                dispose();
+            }
+        });
+        btnBack.setVisible(false);
 
         //Creation of button next
         final Button btnNext = new TextButton("Next", style);
@@ -85,6 +98,7 @@ public class Game2 implements Screen {
                     btnNext.setVisible(false);
                     //TODO est-ce que ça enlève le listener?
                     btnPlay.setVisible(true);
+                    btnBack.setVisible(true);
                 }
             }
         });
@@ -98,7 +112,7 @@ public class Game2 implements Screen {
 
         stage.addActor(btnNext);
         stage.addActor(btnPlay);
-
+        stage.addActor(btnBack);
         Gdx.input.setInputProcessor(stage);
     }
 
