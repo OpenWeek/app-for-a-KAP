@@ -19,6 +19,4 @@ public class Utils {
         return style;
 
     }
-
-
 }

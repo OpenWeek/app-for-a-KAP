@@ -10,7 +10,6 @@ import java.util.*;
 
 public class Core {
 
-
     static int xOffSet = 0;
     static int yOffSet = 0;
 
