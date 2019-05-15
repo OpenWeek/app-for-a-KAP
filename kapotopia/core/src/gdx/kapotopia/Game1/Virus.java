@@ -16,27 +16,33 @@ public class Virus extends VirusAbstract {
     public Virus(Rectangle bounds) {
         this.bounds = bounds;
         random = new Random();
-        int randomTexture = random.nextInt() % TEXTURES_PATHS_IST.length;
-        System.out.println("RandomTextureNumber :" + randomTexture + " generated from " + TEXTURES_PATHS_IST.length + " Textures");
-        if (randomTexture < 0)
-            randomTexture = 0;
-        this.setTexture(new TextureRegion(new Texture(Gdx.files.internal(TEXTURES_PATHS_IST[randomTexture]))));
+
+        this.setTexture(getRandomTexture());
         this.setHeight(getTexture().getRegionHeight() >> SCALLING_FACTOR_ENTITY);
         this.setWidth(getTexture().getRegionWidth() >> SCALLING_FACTOR_ENTITY);
         this.setX(50);
         this.setY(bounds.getHeight());
-
-        this.speed = 500;
+        this.setSpeed(500);
     }
 
     // Méthode draw se trouve dans VirusAbstract
 
     public void act(float delta) {
-        this.setY(this.getY() - speed * delta);
+        this.setY(this.getY() - this.getSpeed() * delta);
         if (this.getY() < -200) {
             this.setY(bounds.getHeight());
             this.setX(50 + 275 * random.nextInt(3) + 1);
+            this.setTexture(getRandomTexture());
+
         }
+    }
+
+    private TextureRegion getRandomTexture() {
+        int randomTexture = random.nextInt() % TEXTURES_PATHS_IST.length;
+        System.out.println("RandomTextureNumber :" + randomTexture + " generated from " + TEXTURES_PATHS_IST.length + " Textures");
+        if (randomTexture < 0)
+            randomTexture = 0;
+        return new TextureRegion(new Texture(Gdx.files.internal(TEXTURES_PATHS_IST[randomTexture])));
     }
 }
 

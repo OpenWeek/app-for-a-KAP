@@ -18,8 +18,8 @@ public class MireilleBasic extends Actor {
         texture = new TextureRegion(new Texture(Gdx.files.internal(TEXTURE_PATH)));
         this.setHeight(texture.getRegionHeight() >> SCALLING_FACTOR_ENTITY);
         this.setWidth(texture.getRegionWidth() >> SCALLING_FACTOR_ENTITY);
-        this.setX(50);
-        this.setY(50);
+        this.setX(25);
+        this.setY(25);
     }
 
     public MireilleBasic(float X, float Y) {

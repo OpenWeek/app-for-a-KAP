@@ -15,6 +15,8 @@ import gdx.kapotopia.Utils;
 
 public class mockupG1 implements Screen {
 
+    private static final String MOCKUP_FOLDER = "World1/Game1/";
+
     private Kapotopia game;
     private Texture fond;
     private Stage stage;
@@ -35,18 +37,18 @@ public class mockupG1 implements Screen {
         imgFond.setVisible(false);
         stage = new Stage(game.viewport);
         //Mock-up
-        final Image mock1 = new Image(new Texture("w1_board_1.jpg"));
+        final Image mock1 = new Image(new Texture(MOCKUP_FOLDER +"w1_board_1.jpg"));
         prepareMockup(mock1);
         mock1.setVisible(true);
-        final Image mock2 = new Image(new Texture("w1_board_2.jpg"));
+        final Image mock2 = new Image(new Texture(MOCKUP_FOLDER + "w1_board_2.jpg"));
         prepareMockup(mock2);
-        final Image mock3 = new Image(new Texture("w1_board_3.jpg"));
+        final Image mock3 = new Image(new Texture(MOCKUP_FOLDER + "w1_board_3.jpg"));
         prepareMockup(mock3);
-        final Image mock4 = new Image(new Texture("w1_board_4.jpg"));
+        final Image mock4 = new Image(new Texture(MOCKUP_FOLDER + "w1_board_4.jpg"));
         prepareMockup(mock4);
-        final Image mock5 = new Image(new Texture("w11_board_0.jpg"));
+        final Image mock5 = new Image(new Texture(MOCKUP_FOLDER + "w11_board_0.jpg"));
         prepareMockup(mock5);
-        final Image mock6 = new Image(new Texture("w12_board_0.jpg"));
+        final Image mock6 = new Image(new Texture(MOCKUP_FOLDER + "w12_board_0.jpg"));
         prepareMockup(mock6);
         //Import font
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
@@ -156,6 +158,7 @@ public class mockupG1 implements Screen {
 
     @Override
     public void dispose() {
-
+        //fond.dispose();
+        //stage.dispose();
     }
 }

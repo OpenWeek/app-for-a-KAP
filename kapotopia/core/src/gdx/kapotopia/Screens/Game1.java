@@ -27,9 +27,9 @@ public class Game1 implements Screen {
     private Music music;
 
     // Constantes
-    private final static int minX = 25;
+    private final static int minX = 0;
     private final int maxX;
-    private final static int moveValueX = 275;
+    private final static int moveValueX = 250;
     private final Rectangle bounds;
 
     // Actors
@@ -46,7 +46,7 @@ public class Game1 implements Screen {
         this.fond = new Texture("FondNiveauBlanc2.png");
         this.bounds = new Rectangle(0,0,game.viewport.getScreenWidth(),game.viewport.getScreenHeight());
         music = prepareMusic();
-        maxX = game.viewport.getScreenWidth();
+        maxX = floorOfAMultipleOf250(game.viewport.getScreenWidth() /2);
 
         // Mise en place du décor
         final Image imgFond = new Image(fond);
@@ -131,5 +131,12 @@ public class Game1 implements Screen {
             }
         });
         return music;
+    }
+
+    private int floorOfAMultipleOf250(int nbr) {
+        for (int i=2000; i > 0; i = i - 250) {
+            if(nbr > i) return i;
+        }
+        return 0;
     }
 }
