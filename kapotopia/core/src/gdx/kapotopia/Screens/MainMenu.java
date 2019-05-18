@@ -128,7 +128,5 @@ public class MainMenu implements Screen {
     public void dispose() {
         fond.dispose();
         stage.dispose();
-
-
     }
 }

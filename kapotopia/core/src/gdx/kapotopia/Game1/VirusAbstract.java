@@ -3,11 +3,10 @@ package gdx.kapotopia.Game1;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
 
-public abstract class VirusAbstract extends Actor {
+public abstract class VirusAbstract extends EntityAbstract {
 
     /* CONSTANTES */
 
@@ -26,8 +25,7 @@ public abstract class VirusAbstract extends Actor {
     /* ENCAPSULED FIELDS */
 
     protected float speed;
-    protected Rectangle bounds;
-    protected TextureRegion texture;
+    protected Rectangle screenBounds;
 
     public float getSpeed() {
         return speed;
@@ -37,12 +35,12 @@ public abstract class VirusAbstract extends Actor {
         this.speed = speed;
     }
 
-    public Rectangle getBounds() {
-        return bounds;
+    public Rectangle getScreenBounds() {
+        return screenBounds;
     }
 
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
+    public void setScreenBounds(Rectangle screenBounds) {
+        this.screenBounds = screenBounds;
     }
 
     public TextureRegion getTexture() {
