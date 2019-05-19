@@ -2,6 +2,7 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.Scaling;
 
 import java.util.LinkedList;
 
+import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Utils;
 
@@ -23,6 +25,9 @@ public class Game2 implements Screen {
     private Kapotopia game;
     private Texture fond;
     private Stage stage;
+
+    private Sound successSound;
+
     private final String GAME_PATH = "World1/Game2/";
 
     /**
@@ -38,9 +43,12 @@ public class Game2 implements Screen {
     public Game2(final Kapotopia game){
 
         this.game = game;
-        fond = new Texture("FondNiveauBlanc2.png");
+        this.fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
+
+        // Sounds and Music
+        this.successSound = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/leszek-szary__success-1.wav"));
 
         //Creation the screen images
         final Image intro0 = new Image(new Texture(GAME_PATH + "20_board_0.png"));
@@ -152,6 +160,7 @@ public class Game2 implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        successSound.dispose();
     }
 }

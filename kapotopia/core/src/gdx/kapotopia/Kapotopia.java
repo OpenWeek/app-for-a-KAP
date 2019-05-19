@@ -11,7 +11,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private static final float GAME_WIDTH = 1080;
 	private static final int GAME_HEIGHT = 1920;
 
-	public final static int SCALLING_FACTOR_ENTITY = 2;
+	public final static float SCALLING_FACTOR_ENTITY = 5.3f;
 
 
 	@Override
@@ -22,5 +22,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	@Override
 	public void dispose (){
+		AssetsManager.getInstance().disposeAllResources();
 	}
 }

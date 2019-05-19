@@ -56,7 +56,7 @@ public abstract class VirusAbstract extends EntityAbstract {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(texture, this.getX(), this.getY(),
-                texture.getRegionWidth() >> SCALLING_FACTOR_ENTITY,
-                texture.getRegionHeight() >> SCALLING_FACTOR_ENTITY);
+                (float) texture.getRegionWidth() / SCALLING_FACTOR_ENTITY,
+                (float) texture.getRegionHeight() / SCALLING_FACTOR_ENTITY);
     }
 }

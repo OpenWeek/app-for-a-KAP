@@ -1,10 +1,13 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
+import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
 import gdx.kapotopia.Kapotopia;
@@ -15,17 +18,20 @@ public class Game3 implements Screen {
     private Texture fond;
     private Stage stage;
 
+    private Sound successSound;
+
     private Core core;
 
     public Game3(final Kapotopia game) {
 
         this.game = game;
-        fond = new Texture("FondNiveauBlanc2.png");
+        this.fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
 
-        core = new Core(this, 8,10, 3);
+        this.successSound = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/leszek-szary__success-1.wav"));
 
+        core = new Core(this, 8,10, 3);
 
         stage.addActor(imgFond);
 
@@ -47,11 +53,12 @@ public class Game3 implements Screen {
         iM.addProcessor(eventHandlerGame3);
 
         Gdx.input.setInputProcessor(iM);
-
-
     }
 
     public void back(){
+        if(core.playerSucceeded()) {
+            this.successSound.play();
+        }
         dispose();
         game.setScreen(new World2(game));
     }
@@ -90,7 +97,7 @@ public class Game3 implements Screen {
 
     @Override
     public void dispose() {
-        fond.dispose();
         stage.dispose();
+        successSound.dispose();
     }
 }

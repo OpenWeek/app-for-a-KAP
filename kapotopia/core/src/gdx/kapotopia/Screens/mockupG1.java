@@ -2,6 +2,7 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -10,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Timer;
+
+import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Utils;
 
@@ -20,6 +24,9 @@ public class mockupG1 implements Screen {
     private Kapotopia game;
     private Texture fond;
     private Stage stage;
+
+    private Sound gameStart;
+    private Sound changeScreenSound;
     /**
      * Prepare images to fullScreen and hidden
      * @param img the image to prepare
@@ -32,7 +39,7 @@ public class mockupG1 implements Screen {
 
     public mockupG1(final Kapotopia game) {
         this.game = game;
-        fond = new Texture("FondNiveauBlanc2.png");
+        this.fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
         final Image imgFond = new Image(fond);
         imgFond.setVisible(false);
         stage = new Stage(game.viewport);
@@ -54,6 +61,9 @@ public class mockupG1 implements Screen {
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         //Setup button
 
+        this.gameStart = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/plasterbrain__game-start.ogg"));
+        this.changeScreenSound = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/cmdrobot__text-message-or-videogame-jump.ogg"));
+
         final Button play = new TextButton("Play", style);
         float xPlay = game.viewport.getWorldWidth() / 2.5f;
         float yPlay = game.viewport.getWorldHeight() / 2;
@@ -62,9 +72,15 @@ public class mockupG1 implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.input.vibrate(200);
-                play.setVisible(false);
-                game.setScreen(new Game1(game));
-                dispose();
+                gameStart.play();
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        play.setVisible(false);
+                        game.setScreen(new Game1(game));
+                        dispose();
+                    }
+                }, 3f);
             }
         });
         play.setVisible(false);
@@ -78,31 +94,19 @@ public class mockupG1 implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
             Gdx.input.vibrate(50);
             if(mock1.isVisible()) {
-                mock1.setVisible(false);
-                mock2.setVisible(true);
-                dispose();
+                changeMockup(mock1,mock2);
             }else if(mock2.isVisible()) {
-                mock2.setVisible(false);
-                mock3.setVisible(true);
-                dispose();
+                changeMockup(mock2,mock3);
             }else if(mock3.isVisible()) {
-                mock3.setVisible(false);
-                mock4.setVisible(true);
-                dispose();
+                changeMockup(mock3,mock4);
             }else if(mock4.isVisible()) {
-                mock4.setVisible(false);
-                mock5.setVisible(true);
-                dispose();
+                changeMockup(mock4,mock5);
             }else if(mock5.isVisible()) {
-                mock5.setVisible(false);
-                mock6.setVisible(true);
-                dispose();
+                changeMockup(mock5,mock6);
             }else if(mock6.isVisible()) {
-                mock6.setVisible(false);
-                imgFond.setVisible(true);
+                changeMockup(mock6,imgFond);
                 play.setVisible(true);
                 next.setVisible(false);
-                dispose();
             }
             }
         });
@@ -120,6 +124,17 @@ public class mockupG1 implements Screen {
         stage.addActor(play);
         stage.addActor(next);
         Gdx.input.setInputProcessor(stage);
+    }
+
+    /**
+     * Change from mockup m1 to mockup m2 and play a sound effect
+     * @param m1 an Image file
+     * @param m2 an Image file
+     */
+    private void changeMockup(Image m1, Image m2) {
+        m1.setVisible(false);
+        m2.setVisible(true);
+        changeScreenSound.play();
     }
 
     @Override
@@ -158,7 +173,8 @@ public class mockupG1 implements Screen {
 
     @Override
     public void dispose() {
-        //fond.dispose();
-        //stage.dispose();
+        stage.dispose();
+        gameStart.dispose();
+        changeScreenSound.dispose();
     }
 }

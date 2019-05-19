@@ -1,6 +1,7 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,6 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Timer;
+
+import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Utils;
 
@@ -18,15 +22,18 @@ public class World2 implements Screen {
     private Texture fond;
     private Stage stage;
 
+    private Sound gameStart;
+
     public World2(final Kapotopia game) {
 
         this.game = game;
-        fond = new Texture("FondNiveauBlanc2.png");
+        this.fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
 
         stage.addActor(imgFond);
 
+        this.gameStart = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/plasterbrain__game-start.ogg"));
 
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
 
@@ -37,8 +44,14 @@ public class World2 implements Screen {
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new Game3(game));
-                dispose();
+                gameStart.play();
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new Game3(game));
+                        dispose();
+                    }
+                },2f);
             }
         });
 
@@ -58,7 +71,6 @@ public class World2 implements Screen {
         iM.addProcessor(stage);
 
         Gdx.input.setInputProcessor(iM);
-
     }
 
     @Override
@@ -75,7 +87,6 @@ public class World2 implements Screen {
     @Override
     public void resize(int width, int height) {
         game.viewport.update(width, height, true);
-
     }
 
     @Override
@@ -95,7 +106,7 @@ public class World2 implements Screen {
 
     @Override
     public void dispose() {
-        fond.dispose();
         stage.dispose();
+        gameStart.dispose();
     }
 }

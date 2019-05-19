@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Game1.MireilleBasic;
 import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Kapotopia;
@@ -27,7 +28,7 @@ public class World3 implements Screen {
     public World3(final Kapotopia game) {
 
         this.game = game;
-        fond = new Texture("FondNiveauBlanc2.png");
+        fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
@@ -93,7 +94,6 @@ public class World3 implements Screen {
 
     @Override
     public void dispose() {
-        fond.dispose();
         stage.dispose();
     }
 

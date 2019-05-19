@@ -13,10 +13,10 @@ public abstract class EntityAbstract extends Actor implements Entity {
     protected TextureRegion texture;
     private float originalX, originalY;
 
-    protected void builderHelper(String TEXTURE_PATH, float X, float Y) {
+    void builderHelper(String TEXTURE_PATH, float X, float Y) {
         this.texture = new TextureRegion(new Texture(Gdx.files.internal(TEXTURE_PATH)));
-        this.setHeight(texture.getRegionHeight() >> SCALLING_FACTOR_ENTITY);
-        this.setWidth(texture.getRegionWidth() >> SCALLING_FACTOR_ENTITY);
+        this.setHeight((float) texture.getRegionHeight() / SCALLING_FACTOR_ENTITY);
+        this.setWidth((float) texture.getRegionWidth() / SCALLING_FACTOR_ENTITY);
         this.setX(X);
         this.setY(Y);
         this.originalX = X;
@@ -32,7 +32,7 @@ public abstract class EntityAbstract extends Actor implements Entity {
      * @param height the height of the entity
      * @return a Circle with the right dimensions
      */
-    protected Circle buildCollisionBounds(float x, float y, float width, float height) {
+    private Circle buildCollisionBounds(float x, float y, float width, float height) {
         final float cx = y/2, cy = x/2;
         final float r = Math.max(width,height) / 3.5f;
         return new Circle(cx,cy,r);

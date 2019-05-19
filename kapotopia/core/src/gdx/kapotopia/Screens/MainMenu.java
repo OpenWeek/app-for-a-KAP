@@ -3,6 +3,7 @@ package gdx.kapotopia.Screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Utils;
 
@@ -24,13 +26,16 @@ public class MainMenu implements Screen {
     private Texture fond;
     private Stage stage;
 
+    private Sound clic;
 
     public MainMenu(final Kapotopia game) {
 
         this.game = game;
-        fond = new Texture("FondNiveauBlanc2.png");
+        fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
+
+        this.clic = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/kickhat__open-button-2.wav"));
         //Import font
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         //setup Button
@@ -51,6 +56,7 @@ public class MainMenu implements Screen {
         world1.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                clic.play();
                 game.setScreen(new mockupG1(game));
                 dispose();
             }
@@ -58,6 +64,7 @@ public class MainMenu implements Screen {
         world2.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                clic.play();
                 game.setScreen(new World2(game));
                 dispose();
             }
@@ -65,6 +72,7 @@ public class MainMenu implements Screen {
         world3.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                clic.play();
                 game.setScreen(new World3(game));
                 dispose();
             }
@@ -72,6 +80,7 @@ public class MainMenu implements Screen {
         world4.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                clic.play();
                 game.setScreen(new World4(game));
                 dispose();
             }
@@ -126,7 +135,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-        fond.dispose();
         stage.dispose();
+        clic.dispose();
     }
 }
