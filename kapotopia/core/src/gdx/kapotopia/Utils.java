@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class Utils {
-    public static TextButton.TextButtonStyle getStyleFont(String path) {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("SEASRN__.ttf"));
+    public static TextButton.TextButtonStyle getStyleFont(final String path) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(path));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 60;
         parameter.color = Color.BLACK;
@@ -17,6 +17,5 @@ public class Utils {
         style.font = font12;
         generator.dispose();
         return style;
-
     }
 }

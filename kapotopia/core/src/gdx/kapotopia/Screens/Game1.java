@@ -20,12 +20,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlReader.Element;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Game1.CollisionManager;
 import gdx.kapotopia.Game1.LifeListener;
 import gdx.kapotopia.Game1.MireilleBasic;
+import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
+import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Utils;
 
@@ -33,9 +41,9 @@ public class Game1 implements Screen, LifeListener {
 
     // Variables générales
     private Kapotopia game;
-    private Texture fond;
     private final Image imgFond;
     private Stage stage;
+    private Random random;
 
     private TextButton.TextButtonStyle style;
 
@@ -57,6 +65,9 @@ public class Game1 implements Screen, LifeListener {
     private final static int MOVE_VALUE_X = 250;
     private final Rectangle bounds;
 
+    private List<VirusContainer> ist;  // <Nom, VIRUS_TYPE>
+    private List<VirusContainer> fake; // <Nom, VIRUS_TYPE>
+
     // Actors
     private final Virus ennemi;
     private final MireilleBasic mireille;
@@ -69,18 +80,20 @@ public class Game1 implements Screen, LifeListener {
         // On initialize les attributs
         this.game = game;
         this.stage = new Stage(game.viewport);
-        this.fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
+        this.random = new Random();
 
         this.style = Utils.getStyleFont("SEASRN__.ttf");
 
         this.bounds = new Rectangle(0,0,game.viewport.getScreenWidth(),game.viewport.getScreenHeight());
-        maxX = floorOfAMultipleOf250((game.viewport.getScreenWidth() / 2) + 250);
+        this.maxX = floorOfAMultipleOf250((game.viewport.getScreenWidth() / 2) + 250);
 
         this.isFinish = false;
         this.didGameOverScreenAppeared = false;
 
+        initVirusTextures();
+
         // Mise en place du décor
-        this.imgFond = new Image(fond);
+        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         stage.addActor(imgFond);
 
         lifeLabel = new Label("Vies " + mireilleLife,new Label.LabelStyle(style.font, Color.BLACK));
@@ -89,16 +102,16 @@ public class Game1 implements Screen, LifeListener {
 
         // Musique
         this.music = prepareMusic();
-        this.touched = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/thefsoundman__punch-02.wav"));
-        this.fail = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/jivatma07__j1game-over-mono.wav"));
-        this.jump = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/lloydevans09__jump1.wav"));
-        this.pauseSound = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/crisstanza__pause.mp3"));
+        this.touched = AssetsManager.getInstance().getSoundByPath("sound/bruitage/thefsoundman__punch-02.wav");
+        this.fail = AssetsManager.getInstance().getSoundByPath("sound/bruitage/jivatma07__j1game-over-mono.wav");
+        this.jump = AssetsManager.getInstance().getSoundByPath("sound/bruitage/lloydevans09__jump1.wav");
+        this.pauseSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/crisstanza__pause.mp3");
 
         // Les acteurs principaux
         this.mireille = prepareMireille();
         this.mireille.addListener(this);
         this.mireilleLife = mireille.getLifes();
-        this.ennemi = new Virus(this.bounds);
+        this.ennemi = new Virus(this.bounds, this);
 
         stage.addActor(mireille);
         stage.addActor(ennemi);
@@ -143,8 +156,10 @@ public class Game1 implements Screen, LifeListener {
                 title.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        game.setScreen(new MainMenu(game));
                         dispose();
+                        //TODO optimiser le dispose
+                        AssetsManager.getInstance().disposeAllResources();
+                        game.setScreen(new MainMenu(game));
                     }
                 });
                 stage.addActor(title);
@@ -183,14 +198,11 @@ public class Game1 implements Screen, LifeListener {
     public void dispose() {
         stage.dispose();
         music.dispose();
-        touched.dispose();
-        fail.dispose();
-        jump.dispose();
-        pauseSound.dispose();
     }
 
     private MireilleBasic prepareMireille() {
         final MireilleBasic mireille = new MireilleBasic(MIN_X, MIN_Y);
+        mireille.updateCollision(MIN_X, MIN_Y);
 
         stage.addListener(new ActorGestureListener() {
             public void fling (InputEvent event, float velocityX, float velocityY, int button) {
@@ -249,5 +261,45 @@ public class Game1 implements Screen, LifeListener {
             this.isFinish = true;
         }
         this.mireilleLife = life;
+    }
+
+    /**
+     * Initalize les textures de virus (vrais et faux) en les enregistrant dans des listes
+     */
+    private void initVirusTextures() {
+        XmlReader xml = new XmlReader();
+        Element root = xml.parse(Gdx.files.internal("sprite.xml"));
+        Element ist_xml = root.getChildByName("ist-l");
+        Element fake_xml = root.getChildByName("fakeist-l");
+
+        List<VirusContainer> ist = new ArrayList<VirusContainer>();
+        List<VirusContainer> fake = new ArrayList<VirusContainer>();
+
+        for (Element el : ist_xml.getChildrenByName("ist")) {
+            ist.add(new VirusContainer(el.get("texture"),el.get("name")));
+        }
+
+        for (Element el : fake_xml.getChildrenByName("fakeist")) {
+            fake.add(new VirusContainer(el.get("texture"),el.get("name")));
+        }
+
+        this.ist = ist;
+        this.fake = fake;
+    }
+
+    public Texture getRdmVirusTexture(VIRUS_TYPE type) {
+        final int r;
+        switch (type) {
+            case IST:
+                r = Math.abs(random.nextInt() % ist.size());
+                return AssetsManager.getInstance().getTextureByPath(ist.get(r).getTexturePath());
+            case FAKEIST:
+                r = Math.abs(random.nextInt() % fake.size());
+                return AssetsManager.getInstance().getTextureByPath(fake.get(r).getTexturePath());
+            case BOSS:
+                r = Math.abs(random.nextInt() % ist.size());
+                return AssetsManager.getInstance().getTextureByPath(ist.get(r).getTexturePath());
+        }
+        return null;
     }
 }

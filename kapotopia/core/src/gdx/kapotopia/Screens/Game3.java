@@ -15,7 +15,6 @@ import gdx.kapotopia.Kapotopia;
 public class Game3 implements Screen {
 
     private Kapotopia game;
-    private Texture fond;
     private Stage stage;
 
     private Sound successSound;
@@ -25,11 +24,10 @@ public class Game3 implements Screen {
     public Game3(final Kapotopia game) {
 
         this.game = game;
-        this.fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
-        Image imgFond = new Image(fond);
+        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         stage = new Stage(game.viewport);
 
-        this.successSound = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/leszek-szary__success-1.wav"));
+        this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary__success-1.wav");
 
         core = new Core(this, 8,10, 3);
 
@@ -98,6 +96,5 @@ public class Game3 implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        successSound.dispose();
     }
 }

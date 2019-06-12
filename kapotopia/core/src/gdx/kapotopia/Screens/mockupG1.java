@@ -44,25 +44,25 @@ public class mockupG1 implements Screen {
         imgFond.setVisible(false);
         stage = new Stage(game.viewport);
         //Mock-up
-        final Image mock1 = new Image(new Texture(MOCKUP_FOLDER +"w1_board_1.jpg"));
+        final Image mock1 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_1.jpg"));
         prepareMockup(mock1);
         mock1.setVisible(true);
-        final Image mock2 = new Image(new Texture(MOCKUP_FOLDER + "w1_board_2.jpg"));
+        final Image mock2 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_2.jpg"));
         prepareMockup(mock2);
-        final Image mock3 = new Image(new Texture(MOCKUP_FOLDER + "w1_board_3.jpg"));
+        final Image mock3 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_3.jpg"));
         prepareMockup(mock3);
-        final Image mock4 = new Image(new Texture(MOCKUP_FOLDER + "w1_board_4.jpg"));
+        final Image mock4 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_4.jpg"));
         prepareMockup(mock4);
-        final Image mock5 = new Image(new Texture(MOCKUP_FOLDER + "w11_board_0.jpg"));
+        final Image mock5 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w11_board_0.jpg"));
         prepareMockup(mock5);
-        final Image mock6 = new Image(new Texture(MOCKUP_FOLDER + "w12_board_0.jpg"));
+        final Image mock6 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w12_board_0.jpg"));
         prepareMockup(mock6);
         //Import font
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         //Setup button
 
-        this.gameStart = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/plasterbrain__game-start.ogg"));
-        this.changeScreenSound = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/cmdrobot__text-message-or-videogame-jump.ogg"));
+        this.gameStart = AssetsManager.getInstance().getSoundByPath("sound/bruitage/plasterbrain__game-start.ogg");
+        this.changeScreenSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot__text-message-or-videogame-jump.ogg");
 
         final Button play = new TextButton("Play", style);
         float xPlay = game.viewport.getWorldWidth() / 2.5f;
@@ -77,10 +77,10 @@ public class mockupG1 implements Screen {
                     @Override
                     public void run() {
                         play.setVisible(false);
-                        game.setScreen(new Game1(game));
                         dispose();
+                        game.setScreen(new Game1(game));
                     }
-                }, 3f);
+                }, 2f);
             }
         });
         play.setVisible(false);
@@ -174,7 +174,5 @@ public class mockupG1 implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        gameStart.dispose();
-        changeScreenSound.dispose();
     }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sprites>
+    <ist-l>
+        <ist texture="IST/Blennorragie.png" name="Blennorragie"/>
+        <ist texture="IST/Chlamydia.png" name="Chlamydia"/>
+        <ist texture="IST/HepatiteB.png" name="HepatiteB"/>
+        <ist texture="IST/MissHerpes.png" name="MissHerpes"/>
+        <ist texture="IST/MisterMycose.png" name="MisterMycose"/>
+        <ist texture="IST/MrSida.png" name="MrSida"/>
+        <ist texture="IST/papillomavirus.png" name="papillomavirus"/>
+        <ist texture="IST/Syphillis.png" name="Syphillis"/>
+        <ist texture="IST/Trichonomas.png" name="Trichonomas"/>
+    </ist-l>
+    <fakeist-l>
+        <fakeist texture="IST/FausseIST1.png" name="FausseIST1"/>
+        <fakeist texture="IST/FausseIST2.png" name="Froide pisse"/>
+        <fakeist texture="IST/FausseIST4 - Lycanthropie.png" name="Lycanthropie"/>
+        <fakeist texture="IST/FausseIST4 - LycanthropieV2.png" name="Lycanthropie"/>
+        <fakeist texture="IST/Flemme.png" name="Flemme"/>
+    </fakeist-l>
+    <boss-l>
+        <boss texture="IST/MegaMST.png" name="MegaMST"/>
+        <boss texture="IST/MegaMST2.png" name="MegaMST2"/>
+        <boss texture="IST/MegaMST3.png" name="MegaMST3"/>
+    </boss-l>
+</sprites>

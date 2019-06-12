@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import gdx.kapotopia.AssetsManager;
+
 import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
 
 public abstract class EntityAbstract extends Actor implements Entity {
@@ -13,10 +15,14 @@ public abstract class EntityAbstract extends Actor implements Entity {
     protected TextureRegion texture;
     private float originalX, originalY;
 
-    void builderHelper(String TEXTURE_PATH, float X, float Y) {
-        this.texture = new TextureRegion(new Texture(Gdx.files.internal(TEXTURE_PATH)));
-        this.setHeight((float) texture.getRegionHeight() / SCALLING_FACTOR_ENTITY);
-        this.setWidth((float) texture.getRegionWidth() / SCALLING_FACTOR_ENTITY);
+    void builderHelper(Texture texture, float X, float Y) {
+        if(texture == null) {
+            this.texture = new TextureRegion(AssetsManager.getInstance().getTextureByPath("virus1.png"));
+        }else{
+            this.texture = new TextureRegion(texture);
+        }
+        this.setHeight((float) this.texture.getRegionHeight() / SCALLING_FACTOR_ENTITY);
+        this.setWidth((float) this.texture.getRegionWidth() / SCALLING_FACTOR_ENTITY);
         this.setX(X);
         this.setY(Y);
         this.originalX = X;

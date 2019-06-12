@@ -32,7 +32,7 @@ public class World3 implements Screen {
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
-        ennemi = new Virus(new Rectangle(0,0,game.viewport.getScreenWidth(),game.viewport.getScreenHeight()));
+        ennemi = new Virus(new Rectangle(0,0,game.viewport.getScreenWidth(),game.viewport.getScreenHeight()), null);
         stage.addActor(ennemi);
         mireille = new MireilleBasic();
         mireille.addListener(new ActorGestureListener() {

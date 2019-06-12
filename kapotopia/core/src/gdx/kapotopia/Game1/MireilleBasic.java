@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Circle;
 import java.util.ArrayList;
 import java.util.List;
 
+import gdx.kapotopia.AssetsManager;
+
 import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
 
 public class MireilleBasic extends EntityAbstract {
@@ -29,14 +31,12 @@ public class MireilleBasic extends EntityAbstract {
      *  CONSTRUCTEURS
      */
     public MireilleBasic() {
-        super();
-        builderHelper(TEXTURE_PATH,25,25);
-        this.lifes = MAX_LIFES;
+        this(25,25);
     }
 
     public MireilleBasic(float X, float Y) {
         super();
-        builderHelper(TEXTURE_PATH,X,Y);
+        builderHelper(AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH), X, Y);
         this.lifes = MAX_LIFES;
     }
 

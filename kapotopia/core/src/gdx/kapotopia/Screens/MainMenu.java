@@ -23,7 +23,6 @@ import gdx.kapotopia.Utils;
 public class MainMenu implements Screen {
 
     private Kapotopia game;
-    private Texture fond;
     private Stage stage;
 
     private Sound clic;
@@ -31,11 +30,10 @@ public class MainMenu implements Screen {
     public MainMenu(final Kapotopia game) {
 
         this.game = game;
-        fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
-        Image imgFond = new Image(fond);
+        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         stage = new Stage(game.viewport);
 
-        this.clic = Gdx.audio.newSound(Gdx.files.internal("sound/bruitage/kickhat__open-button-2.wav"));
+        this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat__open-button-2.wav");
         //Import font
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         //setup Button
@@ -44,7 +42,7 @@ public class MainMenu implements Screen {
         Button world2 = new TextButton("World 2", style);
         Button world3 = new TextButton("World 3", style);
         Button world4 = new TextButton("World 4", style);
-        float x = game.viewport.getWorldWidth() / 2.5f;
+        final float x = game.viewport.getWorldWidth() / 2.5f;
         float y = game.viewport.getWorldHeight() *0.2f;
         world4.setPosition(x, y);
         y = game.viewport.getWorldHeight() *0.4f;
@@ -57,37 +55,36 @@ public class MainMenu implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 clic.play();
-                game.setScreen(new mockupG1(game));
                 dispose();
+                game.setScreen(new World1(game));
             }
         });
         world2.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 clic.play();
-                game.setScreen(new World2(game));
                 dispose();
+                game.setScreen(new World2(game));
             }
         });
         world3.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 clic.play();
-                game.setScreen(new World3(game));
                 dispose();
+                game.setScreen(new World3(game));
             }
         });
         world4.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 clic.play();
-                game.setScreen(new World4(game));
                 dispose();
+                game.setScreen(new World4(game));
             }
         });
 
         stage.addActor(imgFond);
-
         //add button to the scene
         stage.addActor(world1);
         stage.addActor(world2);
@@ -136,6 +133,5 @@ public class MainMenu implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        clic.dispose();
     }
 }

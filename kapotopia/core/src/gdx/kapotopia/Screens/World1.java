@@ -1,74 +1,68 @@
 package gdx.kapotopia.Screens;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Utils;
 
-public class World2 implements Screen {
+public class World1 implements Screen {
 
     private Kapotopia game;
     private Stage stage;
 
-    private Sound gameStart;
+    private Sound clic;
 
-    public World2(final Kapotopia game) {
-
+    public World1(final Kapotopia game) {
         this.game = game;
         Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         stage = new Stage(game.viewport);
-
         stage.addActor(imgFond);
 
-        this.gameStart = AssetsManager.getInstance().getSoundByPath("sound/bruitage/plasterbrain__game-start.ogg");
+        this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat__open-button-2.wav");
 
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
 
-        Button play = new TextButton("Play", style);
-        float x = game.viewport.getWorldWidth() / 2.5f;
-        float y = game.viewport.getWorldHeight() / 2;
-        play.setPosition(x,y);
-        play.addListener(new ChangeListener() {
+        Button game1 = new TextButton("Game 1", style);
+        Button game2 = new TextButton("Game 2", style);
+        final float x = game.viewport.getWorldWidth() / 2.5f;
+        float y = game.viewport.getWorldHeight() * 0.6f;
+        game1.setPosition(x,y);
+        y = game.viewport.getWorldHeight() * 0.3f;
+        game2.setPosition(x,y);
+
+        game1.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                gameStart.play();
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        dispose();
-                        game.setScreen(new Game3(game));
-                    }
-                },2f);
+                clic.play();
+                dispose();
+                game.setScreen(new mockupG1(game));
             }
         });
 
-        stage.addActor(play);
-        InputMultiplexer iM = new InputMultiplexer();
-        iM.addProcessor(new InputAdapter() {
+        game2.addListener(new ChangeListener() {
             @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.BACK) {
-                    dispose();
-                    game.setScreen(new MainMenu(game));
-                    return true;
-                }
-                return false;
+            public void changed(ChangeEvent event, Actor actor) {
+                clic.play();
+                dispose();
+                game.setScreen(new Game2(game));
             }
         });
-        iM.addProcessor(stage);
 
-        Gdx.input.setInputProcessor(iM);
+        stage.addActor(imgFond);
+        stage.addActor(game1);
+        stage.addActor(game2);
+
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
