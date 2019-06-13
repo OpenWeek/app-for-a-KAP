@@ -3,7 +3,9 @@ package gdx.kapotopia.Game1;
 import java.util.Random;
 
 public enum VIRUS_TYPE {
-    IST, FAKEIST, BOSS;
+    IST,
+    FAKEIST,
+    BOSS;
 
     private static final Random RANDOM = new Random();
 

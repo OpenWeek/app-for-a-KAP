@@ -2,8 +2,6 @@ package gdx.kapotopia.Game1;
 
 import java.util.Random;
 
-import gdx.kapotopia.Game4.Mireille;
-
 /**
  * Manage collisions between two entities
  */
@@ -26,11 +24,13 @@ public final class CollisionManager {
      * @param target
      * @param projectile
      */
-    public void checkCollision(Entity target, Entity projectile) {
+    public boolean checkCollision(Entity target, Entity projectile) {
         if (target.isCollision(projectile)) {
             /* collision !!! */
             processCollision(target, projectile);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -39,13 +39,18 @@ public final class CollisionManager {
      * @param projectile
      */
     public void processCollision(Entity target, Entity projectile) {
-        //projectile.decreaseLife(target.getImpactForce());
-        //target.decreaseLife(projectile.getImpactForce());
-        target.resetPosition();
-        projectile.resetPosition();
         if(target instanceof MireilleBasic) {
             final MireilleBasic mireille = (MireilleBasic) target;
-            mireille.decreaseLife();
+            if(projectile instanceof Virus) {
+                final Virus virus = (Virus) projectile;
+                if(virus.isIST()) {
+                    mireille.increaseScore();
+                    virus.changeVirusType();
+                }else{
+                    mireille.decreaseLife();
+                    target.resetPosition();
+                }
+            }
         }
     }
 }

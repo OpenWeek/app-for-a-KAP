@@ -1,8 +1,6 @@
 package gdx.kapotopia.Game1;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Circle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +16,16 @@ public class MireilleBasic extends EntityAbstract {
      */
     private final static String TEXTURE_PATH = "MireilleImages/Mireille.png";
     private final static byte MAX_LIFES = 3;
+    private final static int SCORE_UP = 10;
 
     /*
      *  CHAMPS
      */
     // Pour avertir les autres composants qu'elle a perdu une vie
-    private List<LifeListener> listeners = new ArrayList<LifeListener>();
+    private List<MireilleListener> listeners = new ArrayList<MireilleListener>();
 
     private byte lifes;
+    private int score;
 
     /*
      *  CONSTRUCTEURS
@@ -38,6 +38,7 @@ public class MireilleBasic extends EntityAbstract {
         super();
         builderHelper(AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH), X, Y);
         this.lifes = MAX_LIFES;
+        this.score = 0;
     }
 
     /*
@@ -57,8 +58,17 @@ public class MireilleBasic extends EntityAbstract {
     /*
      *  LISTENERS
      */
-    public void addListener(LifeListener toAdd) {
+    public void addListener(MireilleListener toAdd) {
         listeners.add(toAdd);
+    }
+
+    public void increaseScore() {
+        increaseScore(SCORE_UP);
+    }
+
+    public void increaseScore(int add) {
+        this.score += add;
+        notifyScoreChanged(this.score);
     }
 
     public void decreaseLife() {
@@ -70,8 +80,17 @@ public class MireilleBasic extends EntityAbstract {
             System.out.println("Mireille a perdu");
         }
 
-        for (LifeListener l : listeners) {
+        for (MireilleListener l : listeners) {
             l.lifeChanged(this.lifes);
+        }
+
+        this.score -= 15;
+        notifyScoreChanged(this.score);
+    }
+
+    private void notifyScoreChanged(final int score) {
+        for(MireilleListener l : listeners) {
+            l.scoreChanged(score);
         }
     }
 

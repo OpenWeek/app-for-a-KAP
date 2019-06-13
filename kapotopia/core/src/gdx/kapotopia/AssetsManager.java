@@ -11,6 +11,8 @@ public final class AssetsManager {
     private static AssetsManager instance = new AssetsManager();
     private static List<RessourceHelper> textureList = new ArrayList<RessourceHelper>();
     private static List<RessourceHelper> soundList = new ArrayList<RessourceHelper>();
+    private static int indiceMarkerSound = 0;
+    private static int indiceMarkerTexture = 0;
 
     public static AssetsManager getInstance() {
         return instance;
@@ -51,6 +53,48 @@ public final class AssetsManager {
     }
 
     /**
+     * Applique un marqueur sur une ressource donnée. Utilisée avec disposeAllResourcesSinceLastMarker
+     * @param TYPE le type d'asset à dispose, enum de type AssetType
+     */
+    public void setMarker(AssetType TYPE) {
+        switch (TYPE) {
+            case SOUND:
+                indiceMarkerSound = soundList.size() - 1;
+                break;
+            case TEXTURE:
+                indiceMarkerTexture = textureList.size() - 1;
+                break;
+        }
+    }
+
+    /**
+     * Libère la mémoire des ressources se trouvant après le marker set précédemment
+     * marker <= dispose() < list.size()
+     * Doit être utilisé directement après setMarker, il ne peut y avoir d'autres dispose entre
+     * @param TYPE le type d'asset à dispose, enum de type AssetType
+     */
+    public void disposeAllResourcesSinceLastMarker(AssetType TYPE) {
+        switch (TYPE) {
+            case TEXTURE:
+                for (int i = textureList.size() - 1; i >= indiceMarkerTexture; i--) {
+                    final Texture t = (Texture) textureList.get(i).getRessource();
+                    t.dispose();
+                    textureList.remove(i);
+                }
+                indiceMarkerTexture = 0;
+                break;
+            case SOUND:
+                for (int i = soundList.size() - 1; i >= indiceMarkerSound; i--) {
+                    final Sound s = (Sound) soundList.get(i).getRessource();
+                    s.dispose();
+                    soundList.remove(i);
+                }
+                indiceMarkerSound = 0;
+                break;
+        }
+    }
+
+    /**
      * Dispose the ressources of a VIRUS_TYPE given its internalPath
      * @param internalPath a String
      */
@@ -61,6 +105,7 @@ public final class AssetsManager {
             t.dispose();
             textureList.remove(th);
         }
+        indiceMarkerTexture = 0;
     }
 
     /**
@@ -71,6 +116,7 @@ public final class AssetsManager {
         for(String path : internalPaths) {
             disposeTexture(path);
         }
+        indiceMarkerTexture = 0;
     }
 
     /**
@@ -84,6 +130,7 @@ public final class AssetsManager {
             s.dispose();
             soundList.remove(th);
         }
+        indiceMarkerSound = 0;
     }
 
     /**
@@ -94,6 +141,7 @@ public final class AssetsManager {
         for (String path : internalPaths) {
             disposeSound(path);
         }
+        indiceMarkerSound = 0;
     }
 
     /**
@@ -111,6 +159,8 @@ public final class AssetsManager {
             s.dispose();
             soundList.remove(th);
         }
+        indiceMarkerTexture = 0;
+        indiceMarkerSound = 0;
     }
 
     /**
