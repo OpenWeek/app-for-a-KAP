@@ -9,6 +9,7 @@ import java.util.List;
 
 public final class AssetsManager {
     private static AssetsManager instance = new AssetsManager();
+    // ArrayList suffisant car pas bcp d'éléments
     private static List<RessourceHelper> textureList = new ArrayList<RessourceHelper>();
     private static List<RessourceHelper> soundList = new ArrayList<RessourceHelper>();
     private static int indiceMarkerSound = 0;
@@ -171,7 +172,6 @@ public final class AssetsManager {
      * @return the RessourceHelper if its already in memory, null otherwise
      */
     private RessourceHelper searchRessource(final String path, int ressource) {
-        //TODO use another searching algorithm
         List<RessourceHelper> l;
         switch (ressource) {
             case 0:

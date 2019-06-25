@@ -17,6 +17,7 @@ import gdx.kapotopia.Game4.Choice;
 import gdx.kapotopia.Game4.Mireille;
 import gdx.kapotopia.Game4.Question;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
 public class World4 implements Screen {
@@ -111,7 +112,7 @@ public class World4 implements Screen {
         retour.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenu(game));
+                game.changeScreen(ScreenType.MAINMENU);
             }
         });
         choice2.addListener(new ChangeListener() {

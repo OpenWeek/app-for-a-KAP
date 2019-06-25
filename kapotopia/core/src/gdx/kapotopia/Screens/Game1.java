@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
@@ -36,6 +37,8 @@ import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
+import gdx.kapotopia.StandardInputAdapter;
 import gdx.kapotopia.Utils;
 
 public class Game1 implements Screen, MireilleListener {
@@ -73,6 +76,7 @@ public class Game1 implements Screen, MireilleListener {
     private final static int MIN_Y = 25;
     private final static int MOVE_VALUE_X = 250;
     private final Rectangle bounds;
+    private final int PERFECTENNEMYLABELLENGTH = 10;
 
     private final static String[] SOUNDSPATHS = {
             "sound/bruitage/thefsoundman__punch-02.wav",
@@ -142,19 +146,8 @@ public class Game1 implements Screen, MireilleListener {
         stage.addActor(ennemi);
 
         InputMultiplexer im = new InputMultiplexer();
-        im.addProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.BACK) {
-                    dispose();
-                    game.setScreen(new MainMenu(game));
-                    return true;
-                }
-                return false;
-            }
-        });
+        im.addProcessor(new StandardInputAdapter(this, game));
         im.addProcessor(stage);
-
         Gdx.input.setInputProcessor(im);
     }
     @Override
@@ -182,8 +175,7 @@ public class Game1 implements Screen, MireilleListener {
                 title.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        dispose();
-                        game.setScreen(new MainMenu(game));
+                        game.changeScreen(ScreenType.MAINMENU);
                     }
                 });
                 stage.addActor(title);
@@ -312,7 +304,25 @@ public class Game1 implements Screen, MireilleListener {
     }
 
     public void changeEnnemiLabel(String newName) {
-        this.ennemiName.setText(newName);
+        String name = addBlankSpace(newName);
+        this.ennemiName.setText(name);
+    }
+
+    /**
+     * prepare ennemi label by adding blank space if needed
+     * @param str
+     * @return
+     */
+    private String addBlankSpace(String str) {
+        if(str.length() < PERFECTENNEMYLABELLENGTH) {
+            StringBuilder strBldr = new StringBuilder();
+            for (int i = PERFECTENNEMYLABELLENGTH - str.length(); i < str.length(); i++ ) {
+                strBldr.append(" ");
+            }
+            strBldr.append(str);
+            return strBldr.toString();
+        }
+        return str;
     }
 
     /**

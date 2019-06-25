@@ -11,6 +11,7 @@ import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 
 public class Game3 implements Screen {
 
@@ -41,8 +42,7 @@ public class Game3 implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.BACK) {
-                    dispose();
-                    game.setScreen(new World2(game));
+                    game.changeScreen(ScreenType.WORLD2);
                     return true;
                 }
                 return false;
@@ -57,8 +57,7 @@ public class Game3 implements Screen {
         if(core.playerSucceeded()) {
             this.successSound.play();
         }
-        dispose();
-        game.setScreen(new World2(game));
+        game.changeScreen(ScreenType.WORLD2);
     }
     @Override
     public void show() {

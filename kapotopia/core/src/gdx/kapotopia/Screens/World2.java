@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
 public class World2 implements Screen {
@@ -46,8 +47,7 @@ public class World2 implements Screen {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        dispose();
-                        game.setScreen(new Game3(game));
+                        game.changeScreen(ScreenType.GAME3);
                     }
                 },2f);
             }
@@ -59,8 +59,7 @@ public class World2 implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.BACK) {
-                    dispose();
-                    game.setScreen(new MainMenu(game));
+                    game.changeScreen(ScreenType.MAINMENU);
                     return true;
                 }
                 return false;

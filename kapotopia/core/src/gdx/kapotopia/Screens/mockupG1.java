@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
 public class mockupG1 implements Screen {
@@ -77,8 +78,7 @@ public class mockupG1 implements Screen {
                     @Override
                     public void run() {
                         play.setVisible(false);
-                        dispose();
-                        game.setScreen(new Game1(game));
+                        game.changeScreen(ScreenType.GAME1);
                     }
                 }, 2f);
             }

@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
 public class MainMenu implements Screen {
@@ -55,32 +56,28 @@ public class MainMenu implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 clic.play();
-                dispose();
-                game.setScreen(new World1(game));
+                game.changeScreen(ScreenType.WORLD1);
             }
         });
         world2.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 clic.play();
-                dispose();
-                game.setScreen(new World2(game));
+                game.changeScreen(ScreenType.WORLD2);
             }
         });
         world3.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 clic.play();
-                dispose();
-                game.setScreen(new World3(game));
+                game.changeScreen(ScreenType.WORLD3);
             }
         });
         world4.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 clic.play();
-                dispose();
-                game.setScreen(new World4(game));
+                game.changeScreen(ScreenType.WORLD4);
             }
         });
 
@@ -91,7 +88,7 @@ public class MainMenu implements Screen {
         stage.addActor(world3);
         stage.addActor(world4);
         Gdx.input.setInputProcessor(stage);
-
+        System.out.println("coucou");
 
     }
     @Override
@@ -112,7 +109,6 @@ public class MainMenu implements Screen {
     @Override
     public void resize(int width, int height) {
         game.viewport.update(width, height, true);
-
     }
 
     @Override

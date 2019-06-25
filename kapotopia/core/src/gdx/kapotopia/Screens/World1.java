@@ -1,6 +1,9 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
+import gdx.kapotopia.StandardInputAdapter;
 import gdx.kapotopia.Utils;
 
 public class World1 implements Screen {
@@ -44,8 +49,7 @@ public class World1 implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 clic.play();
-                dispose();
-                game.setScreen(new mockupG1(game));
+                game.changeScreen(ScreenType.MOCKUPG1);
             }
         });
 
@@ -53,14 +57,16 @@ public class World1 implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 clic.play();
-                dispose();
-                game.setScreen(new Game2(game));
+                game.changeScreen(ScreenType.GAME2);
             }
         });
 
         stage.addActor(imgFond);
         stage.addActor(game1);
         stage.addActor(game2);
+
+        InputMultiplexer im = new InputMultiplexer();
+        im.addProcessor(new StandardInputAdapter(this, game));
 
         Gdx.input.setInputProcessor(stage);
     }

@@ -17,6 +17,7 @@ import java.util.LinkedList;
 
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
 
@@ -83,8 +84,7 @@ public class Game2 implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.input.vibrate(200);
-                game.setScreen(new MainMenu(game));
-                dispose();
+                game.changeScreen(ScreenType.MAINMENU);
             }
         });
         btnBack.setVisible(false);
