@@ -27,6 +27,7 @@ public class Game2 implements Screen {
     private Stage stage;
 
     private Sound successSound;
+    private Sound nextSound;
 
     private final String GAME_PATH = "World1/Game2/";
 
@@ -48,6 +49,7 @@ public class Game2 implements Screen {
 
         // Sounds and Music
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary__success-1.wav");
+        this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot__text-message-or-videogame-jump.ogg");
 
         //Creation the screen images
         final Image intro0 = new Image(new Texture(GAME_PATH + "20_board_0.png"));
@@ -72,8 +74,8 @@ public class Game2 implements Screen {
         btnPlay.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                //TODO
                 successSound.play();
+                //TODO
             }
         });
         btnPlay.setVisible(false);
@@ -83,7 +85,9 @@ public class Game2 implements Screen {
         btnBack.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                nextSound.play();
                 Gdx.input.vibrate(200);
+                //dispose();
                 game.changeScreen(ScreenType.MAINMENU);
             }
         });
@@ -95,6 +99,7 @@ public class Game2 implements Screen {
         btnNext.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                nextSound.play();
                 Gdx.input.vibrate(200);
                 if (intro0.isVisible()) {
                     intro0.setVisible(false);
@@ -103,7 +108,6 @@ public class Game2 implements Screen {
                     intro1.setVisible(false);
                     game0.setVisible(true);
                     btnNext.setVisible(false);
-                    //TODO est-ce que ça enlève le listener?
                     btnPlay.setVisible(true);
                     btnBack.setVisible(true);
                 }
