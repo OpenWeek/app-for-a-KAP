@@ -31,14 +31,16 @@ public class Game2 implements Screen {
 
     private final String GAME_PATH = "World1/Game2/";
 
+    //private Button btnBack;//Unsuccessfull test to use menu after using back button
+
     /**
      * Prepare images to fullScreen and hidden
      * @param img the image to prepare
      */
     private void prepareMockup(Image img) {
         img.setVisible(false);
-        img.setWidth(game.viewport.getScreenWidth());
-        img.setHeight(game.viewport.getScreenHeight());
+        img.setWidth(game.viewport.getWorldWidth());
+        img.setHeight(game.viewport.getWorldHeight());
     }
 
     public Game2(final Kapotopia game){
@@ -81,6 +83,7 @@ public class Game2 implements Screen {
         btnPlay.setVisible(false);
 
         final Button btnBack = new TextButton("Back to Menu",style);
+        //btnBack = new TextButton("Back to Menu",style); //Unsuccessfull test to use menu after using back button
         btnBack.setPosition(xRight ,y);
         btnBack.addListener(new ChangeListener(){
             @Override
