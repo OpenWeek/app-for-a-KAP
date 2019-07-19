@@ -34,8 +34,8 @@ public class mockupG1 implements Screen {
      */
     private void prepareMockup(Image img) {
         img.setVisible(false);
-        img.setWidth(game.viewport.getScreenWidth());
-        img.setHeight(game.viewport.getScreenHeight());
+        img.setWidth(game.viewport.getWorldWidth());
+        img.setHeight(game.viewport.getWorldHeight());
     }
 
     public mockupG1(final Kapotopia game) {
