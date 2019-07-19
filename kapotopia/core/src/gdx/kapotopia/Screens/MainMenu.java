@@ -1,14 +1,9 @@
 package gdx.kapotopia.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -28,10 +23,15 @@ public class MainMenu implements Screen {
 
     private Sound clic;
 
+    private static final String TAG = "Screen-MainMenu";
+
     public MainMenu(final Kapotopia game) {
 
+        Gdx.app.log(TAG,"Entering MainMenu function");
+
         this.game = game;
-        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        //Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        final Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png")); //Test for backbutton
         stage = new Stage(game.viewport);
 
         this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat__open-button-2.wav");
