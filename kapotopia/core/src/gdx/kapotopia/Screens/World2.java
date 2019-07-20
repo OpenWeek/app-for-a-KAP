@@ -77,7 +77,6 @@ public class World2 implements Screen {
     public void show() {
         //In case there are problems to restart the game where it was left after going to another screen and returning, it could maybe be solved by setting the Input Processor (Gdx.input.setInputProcessor(iM);) here and not when the game is first created
     }
-    }
 
     @Override
     public void render(float delta) {
