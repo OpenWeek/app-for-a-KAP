@@ -55,13 +55,12 @@ public class World3 implements Screen {
                                  }
                              });
         stage.addActor(mireille);
-        Gdx.input.setInputProcessor(stage);
 
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

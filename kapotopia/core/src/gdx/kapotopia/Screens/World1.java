@@ -1,8 +1,6 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -68,12 +66,11 @@ public class World1 implements Screen {
         InputMultiplexer im = new InputMultiplexer();
         im.addProcessor(new StandardInputAdapter(this, game));
 
-        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

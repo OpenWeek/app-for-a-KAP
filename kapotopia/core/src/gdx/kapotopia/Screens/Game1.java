@@ -1,11 +1,8 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -20,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
@@ -28,11 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import gdx.kapotopia.AssetType;
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Game1.CollisionManager;
-import gdx.kapotopia.Game1.MireilleListener;
 import gdx.kapotopia.Game1.MireilleBasic;
+import gdx.kapotopia.Game1.MireilleListener;
 import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
@@ -153,6 +148,7 @@ public class Game1 implements Screen, MireilleListener {
     @Override
     public void show() {
         music.play();
+        //In case there are problems to restart the game where it was left after going to another screen and returning, it could maybe be solved by setting the Input Processor (Gdx.input.setInputProcessor(im);) here and not when the game is first created
     }
 
     @Override

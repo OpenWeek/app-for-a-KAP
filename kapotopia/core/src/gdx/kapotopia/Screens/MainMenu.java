@@ -39,10 +39,12 @@ public class MainMenu implements Screen {
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         //setup Button
 
+
         Button world1 = new TextButton("World 1", style);
         Button world2 = new TextButton("World 2", style);
         Button world3 = new TextButton("World 3", style);
         Button world4 = new TextButton("World 4", style);
+
         final float x = game.viewport.getWorldWidth() / 2.5f;
         float y = game.viewport.getWorldHeight() *0.2f;
         world4.setPosition(x, y);
@@ -81,19 +83,20 @@ public class MainMenu implements Screen {
             }
         });
 
+
         stage.addActor(imgFond);
         //add button to the scene
         stage.addActor(world1);
         stage.addActor(world2);
         stage.addActor(world3);
         stage.addActor(world4);
-        Gdx.input.setInputProcessor(stage);
         System.out.println("coucou");
 
     }
     @Override
     public void show() {
-
+        Gdx.app.log(TAG,"Entering show function");
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

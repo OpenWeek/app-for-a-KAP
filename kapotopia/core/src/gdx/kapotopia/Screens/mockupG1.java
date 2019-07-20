@@ -123,7 +123,6 @@ public class mockupG1 implements Screen {
         //buttons
         stage.addActor(play);
         stage.addActor(next);
-        Gdx.input.setInputProcessor(stage);
     }
 
     /**
@@ -139,7 +138,7 @@ public class mockupG1 implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

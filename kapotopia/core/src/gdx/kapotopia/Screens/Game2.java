@@ -11,15 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Scaling;
-
-import java.util.LinkedList;
 
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
-
 
 public class Game2 implements Screen {
 
@@ -31,7 +27,7 @@ public class Game2 implements Screen {
 
     private final String GAME_PATH = "World1/Game2/";
 
-    //private Button btnBack;//Unsuccessfull test to use menu after using back button
+    private static final String TAG = "Screens-Game2";
 
     /**
      * Prepare images to fullScreen and hidden
@@ -45,8 +41,10 @@ public class Game2 implements Screen {
 
     public Game2(final Kapotopia game){
 
+        Gdx.app.log(TAG,"Entering Game2 function");
+
         this.game = game;
-        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         stage = new Stage(game.viewport);
 
         // Sounds and Music
@@ -118,7 +116,7 @@ public class Game2 implements Screen {
         });
         btnNext.setVisible(true);
 
-        stage.addActor(imgFond);
+        stage.addActor(imgBckground);
 
         stage.addActor(intro0);
         stage.addActor(intro1);
@@ -127,12 +125,11 @@ public class Game2 implements Screen {
         stage.addActor(btnNext);
         stage.addActor(btnPlay);
         stage.addActor(btnBack);
-        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
