@@ -48,8 +48,8 @@ public class Game2 implements Screen {
         stage = new Stage(game.viewport);
 
         // Sounds and Music
-        this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary__success-1.wav");
-        this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot__text-message-or-videogame-jump.ogg");
+        this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
+        this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
 
         //Creation the screen images
         final Image intro0 = new Image(new Texture(GAME_PATH + "20_board_0.png"));

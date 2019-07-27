@@ -31,7 +31,7 @@ public class World1 implements Screen {
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
 
-        this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat__open-button-2.wav");
+        this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat_open-button-2.wav");
 
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
 
@@ -63,14 +63,16 @@ public class World1 implements Screen {
         stage.addActor(game1);
         stage.addActor(game2);
 
-        InputMultiplexer im = new InputMultiplexer();
-        im.addProcessor(new StandardInputAdapter(this, game));
+
 
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        InputMultiplexer im = new InputMultiplexer();
+        im.addProcessor(new StandardInputAdapter(this, game));
+        im.addProcessor(stage);
+        Gdx.input.setInputProcessor(im);
     }
 
     @Override

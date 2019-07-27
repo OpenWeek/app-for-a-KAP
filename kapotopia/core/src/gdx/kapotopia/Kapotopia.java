@@ -38,16 +38,18 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	@Override
 	public void create () {
 		viewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT);
+		//We activate the BACK button for the whole app
+		Gdx.input.setCatchBackKey(true);
 		changeScreen(ScreenType.MAINMENU);
 	}
 
 	@Override
 	public void dispose (){
+		Gdx.app.log(TAG, "Disposing every game resources");
 		AssetsManager.getInstance().disposeAllResources();
 	}
 
 	public void changeScreen(ScreenType TYPE) {
-
 		Gdx.app.log(TAG,"Entering changeScreen function");
 
 		switch (TYPE) {

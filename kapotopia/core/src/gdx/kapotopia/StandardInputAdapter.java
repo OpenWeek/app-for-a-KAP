@@ -21,7 +21,7 @@ public class StandardInputAdapter extends InputAdapter {
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.BACK) {
             current.dispose();
-            game.setScreen(new MainMenu(game));
+            game.changeScreen(ScreenType.MAINMENU);
             return true;
         }
         return false;

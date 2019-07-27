@@ -34,7 +34,7 @@ public class MainMenu implements Screen {
         final Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png")); //Test for backbutton
         stage = new Stage(game.viewport);
 
-        this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat__open-button-2.wav");
+        this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat_open-button-2.wav");
         //Import font
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         //setup Button

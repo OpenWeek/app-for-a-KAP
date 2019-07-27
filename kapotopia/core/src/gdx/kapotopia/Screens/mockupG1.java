@@ -1,6 +1,7 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.Timer;
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
+import gdx.kapotopia.StandardInputAdapter;
 import gdx.kapotopia.Utils;
 
 public class mockupG1 implements Screen {
@@ -62,8 +64,8 @@ public class mockupG1 implements Screen {
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         //Setup button
 
-        this.gameStart = AssetsManager.getInstance().getSoundByPath("sound/bruitage/plasterbrain__game-start.ogg");
-        this.changeScreenSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot__text-message-or-videogame-jump.ogg");
+        this.gameStart = AssetsManager.getInstance().getSoundByPath("sound/bruitage/plasterbrain_game-start.ogg");
+        this.changeScreenSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
 
         final Button play = new TextButton("Play", style);
         float xPlay = game.viewport.getWorldWidth() / 2.5f;
@@ -138,7 +140,14 @@ public class mockupG1 implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        setUpInputProcessor();
+    }
+
+    private void setUpInputProcessor() {
+        InputMultiplexer im = new InputMultiplexer();
+        im.addProcessor(new StandardInputAdapter(this, game));
+        im.addProcessor(stage);
+        Gdx.input.setInputProcessor(im);
     }
 
     @Override

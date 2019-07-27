@@ -74,10 +74,10 @@ public class Game1 implements Screen, MireilleListener {
     private final int PERFECTENNEMYLABELLENGTH = 10;
 
     private final static String[] SOUNDSPATHS = {
-            "sound/bruitage/thefsoundman__punch-02.wav",
-            "sound/bruitage/jivatma07__j1game-over-mono.wav",
-            "sound/bruitage/lloydevans09__jump1.wav",
-            "sound/bruitage/crisstanza__pause.mp3"
+            "sound/bruitage/thefsoundman_punch-02.wav",
+            "sound/bruitage/jivatma07_j1game-over-mono.wav",
+            "sound/bruitage/lloydevans09_jump1.wav",
+            "sound/bruitage/crisstanza_pause.mp3"
     };
 
     private List<VirusContainer> ist;  // <Nom, VIRUS_TYPE>
@@ -139,15 +139,11 @@ public class Game1 implements Screen, MireilleListener {
 
         stage.addActor(mireille);
         stage.addActor(ennemi);
-
-        InputMultiplexer im = new InputMultiplexer();
-        im.addProcessor(new StandardInputAdapter(this, game));
-        im.addProcessor(stage);
-        Gdx.input.setInputProcessor(im);
     }
     @Override
     public void show() {
         music.play();
+        setUpInputProcessor();
         //In case there are problems to restart the game where it was left after going to another screen and returning, it could maybe be solved by setting the Input Processor (Gdx.input.setInputProcessor(im);) here and not when the game is first created
     }
 
@@ -267,6 +263,13 @@ public class Game1 implements Screen, MireilleListener {
             }
         });
         return music;
+    }
+
+    private void setUpInputProcessor() {
+        InputMultiplexer im = new InputMultiplexer();
+        im.addProcessor(new StandardInputAdapter(this, game));
+        im.addProcessor(stage);
+        Gdx.input.setInputProcessor(im);
     }
 
     @org.jetbrains.annotations.Contract(pure = true)

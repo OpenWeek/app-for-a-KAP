@@ -35,7 +35,7 @@ public class World2 implements Screen {
 
         stage.addActor(imgFond);
 
-        this.gameStart = AssetsManager.getInstance().getSoundByPath("sound/bruitage/plasterbrain__game-start.ogg");
+        this.gameStart = AssetsManager.getInstance().getSoundByPath("sound/bruitage/plasterbrain_game-start.ogg");
 
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
 

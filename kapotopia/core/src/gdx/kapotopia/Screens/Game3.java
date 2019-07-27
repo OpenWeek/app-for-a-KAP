@@ -31,29 +31,11 @@ public class Game3 implements Screen {
         Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         stage = new Stage(game.viewport);
 
-        this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary__success-1.wav");
+        this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
 
         core = new Core(this, 8,10, 3);
 
         stage.addActor(imgFond);
-
-        EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
-        Gdx.input.setCatchBackKey(true);
-
-        InputMultiplexer iM = new InputMultiplexer();
-        iM.addProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.BACK) {
-                    game.changeScreen(ScreenType.WORLD2);
-                    return true;
-                }
-                return false;
-            }
-        });
-        iM.addProcessor(eventHandlerGame3);
-
-        Gdx.input.setInputProcessor(iM);
     }
 
     public void back(){
@@ -65,6 +47,7 @@ public class Game3 implements Screen {
     @Override
     public void show() {
         //TODO Maybe Gdx.input.setInputProcessor(iM); needs to be here -> To check
+        setUpInputProcessor();
     }
 
     @Override
@@ -77,7 +60,6 @@ public class Game3 implements Screen {
     @Override
     public void resize(int width, int height) {
         game.viewport.update(width, height, true);
-
     }
 
     @Override
@@ -98,5 +80,23 @@ public class Game3 implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    private void setUpInputProcessor() {
+        EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
+        Gdx.input.setCatchBackKey(true);
+        InputMultiplexer iM = new InputMultiplexer();
+        iM.addProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.BACK) {
+                    game.changeScreen(ScreenType.WORLD2);
+                    return true;
+                }
+                return false;
+            }
+        });
+        iM.addProcessor(eventHandlerGame3);
+        Gdx.input.setInputProcessor(iM);
     }
 }
