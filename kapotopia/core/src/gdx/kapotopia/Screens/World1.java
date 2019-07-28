@@ -63,8 +63,7 @@ public class World1 implements Screen {
         stage.addActor(game1);
         stage.addActor(game2);
 
-
-
+        AssetsManager.getInstance().addStage(stage, "world1");
     }
 
     @Override
@@ -103,6 +102,6 @@ public class World1 implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("world1");
     }
 }

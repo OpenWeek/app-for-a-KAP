@@ -1,6 +1,7 @@
 package gdx.kapotopia;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import gdx.kapotopia.Screens.Game1;
@@ -23,6 +24,9 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	public final static float SCALLING_FACTOR_ENTITY = 5.3f;
 
 	private static final String TAG = "Class Kapotopia";
+
+	public static final String VERSION_NAME = "Alpha-0.2.4";
+	public static final int VERSION_CODE = 7;
 
 	// Screens
 	private Game1 game1;
@@ -51,46 +55,191 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	public void changeScreen(ScreenType TYPE) {
 		Gdx.app.log(TAG,"Entering changeScreen function");
+		selectScreen(ScreenAction.CHANGE, TYPE);
+	}
 
+	public boolean destroyScreen(ScreenType TYPE) {
+		Gdx.app.log(TAG, "Entering destroyScreen function");
+		return selectScreen(ScreenAction.DESTROY, TYPE);
+	}
+
+	public boolean destroyScreen(Screen sc) {
+		if (sc == game1) {
+			return destroyScreen(ScreenType.GAME1);
+		} else if(sc == game2) {
+			return destroyScreen(ScreenType.GAME2);
+		} else if(sc == game3) {
+			return destroyScreen(ScreenType.GAME3);
+		} else if(sc == mainMenu) {
+			return destroyScreen(ScreenType.MAINMENU);
+		} else if(sc == mockupG1) {
+			return destroyScreen(ScreenType.MOCKUPG1);
+		} else if(sc == world1) {
+			return destroyScreen(ScreenType.WORLD1);
+		} else if(sc == world2) {
+			return destroyScreen(ScreenType.WORLD2);
+		} else if(sc == world3) {
+			return destroyScreen(ScreenType.WORLD3);
+		} else if(sc == world4) {
+			return destroyScreen(ScreenType.WORLD4);
+		}
+
+		return false;
+	}
+
+	private boolean selectScreen(ScreenAction ACTION, ScreenType TYPE) {
+		boolean succeeded = false;
 		switch (TYPE) {
 			case GAME1:
-				if (game1 == null) game1 = new Game1(this);
-				setScreen(game1);
+				switch (ACTION) {
+					case CHANGE:
+						if (game1 == null) game1 = new Game1(this);
+						setScreen(game1);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (game1 != null) {
+							game1.dispose();
+							game1 = null;
+							succeeded = true;
+						}
+						break;
+				}
 				break;
 			case GAME2:
-				if (game2 == null) game2 = new Game2(this);
-				setScreen(game2);
+				switch (ACTION) {
+					case CHANGE:
+						if (game2 == null) game2 = new Game2(this);
+						setScreen(game2);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (game2 != null) {
+							game2.dispose();
+							game2 = null;
+							succeeded = true;
+						}
+						break;
+				}
 				break;
 			case GAME3:
-				if (game3 == null) game3 = new Game3(this);
-				setScreen(game3);
+				switch (ACTION) {
+					case CHANGE:
+						if (game3 == null) game3 = new Game3(this);
+						setScreen(game3);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (game3 != null) {
+							game3.dispose();
+							game3 = null;
+							succeeded = true;
+						}
+						break;
+				}
 				break;
 			case WORLD1:
-				if (world1 == null) world1 = new World1(this);
-				setScreen(world1);
+				switch (ACTION) {
+					case CHANGE:
+						if (world1 == null) world1 = new World1(this);
+						setScreen(world1);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (world1 != null) {
+							world1.dispose();
+							world1 = null;
+							succeeded = true;
+						}
+						break;
+				}
 				break;
 			case WORLD2:
-				if (world2 == null) world2 = new World2(this);
-				setScreen(world2);
+				switch (ACTION) {
+					case CHANGE:
+						if (world2 == null) world2 = new World2(this);
+						setScreen(world2);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (world2 != null) {
+							world2.dispose();
+							world2 = null;
+							succeeded = true;
+						}
+						break;
+				}
 				break;
 			case WORLD3:
-				if (world3 == null) world3 = new World3(this);
-				setScreen(world3);
+				switch (ACTION) {
+					case CHANGE:
+						if (world3 == null) world3 = new World3(this);
+						setScreen(world3);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (world3 != null) {
+							world3.dispose();
+							world3 = null;
+							succeeded = true;
+						}
+						break;
+				}
 				break;
 			case WORLD4:
-				if (world4 == null) world4 = new World4(this);
-				setScreen(world4);
+				switch (ACTION) {
+					case CHANGE:
+						if (world4 == null) world4 = new World4(this);
+						setScreen(world4);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (world4 != null) {
+							world4.dispose();
+							world4 = null;
+							succeeded = true;
+						}
+						break;
+				}
 				break;
 			case MAINMENU:
-				Gdx.app.log(TAG,"Entering case MAINMENU");
-				if (mainMenu == null) mainMenu = new MainMenu(this);
-				setScreen(mainMenu);
-				Gdx.app.log(TAG,"case MAINMENU completed");
+				switch (ACTION) {
+					case CHANGE:
+						if (mainMenu == null) mainMenu = new MainMenu(this);
+						setScreen(mainMenu);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (mainMenu != null) {
+							mainMenu.dispose();
+							mainMenu = null;
+							succeeded = true;
+						}
+						break;
+				}
 				break;
 			case MOCKUPG1:
-				if (mockupG1 == null) mockupG1 = new mockupG1(this);
-				setScreen(mockupG1);
+				switch (ACTION) {
+					case CHANGE:
+						if (mockupG1 == null) mockupG1 = new mockupG1(this);
+						setScreen(mockupG1);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (mockupG1 != null) {
+							mockupG1.dispose();
+							mockupG1 = null;
+							succeeded = true;
+						}
+						break;
+				}
 				break;
 		}
+		return succeeded;
+	}
+
+	private enum ScreenAction {
+		DESTROY,
+		CHANGE
 	}
 }

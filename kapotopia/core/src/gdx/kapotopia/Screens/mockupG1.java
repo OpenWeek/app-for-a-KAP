@@ -28,6 +28,17 @@ public class mockupG1 implements Screen {
     private Texture fond;
     private Stage stage;
 
+    private Button play;
+    private Button next;
+
+    private Image mock1;
+    private Image mock2;
+    private Image mock3;
+    private Image mock4;
+    private Image mock5;
+    private Image mock6;
+    private Image imgFond;
+
     private Sound gameStart;
     private Sound changeScreenSound;
     /**
@@ -43,22 +54,22 @@ public class mockupG1 implements Screen {
     public mockupG1(final Kapotopia game) {
         this.game = game;
         this.fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
-        final Image imgFond = new Image(fond);
+        imgFond = new Image(fond);
         imgFond.setVisible(false);
         stage = new Stage(game.viewport);
         //Mock-up
-        final Image mock1 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_1.jpg"));
+        mock1 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_1.jpg"));
         prepareMockup(mock1);
         mock1.setVisible(true);
-        final Image mock2 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_2.jpg"));
+        mock2 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_2.jpg"));
         prepareMockup(mock2);
-        final Image mock3 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_3.jpg"));
+        mock3 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_3.jpg"));
         prepareMockup(mock3);
-        final Image mock4 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_4.jpg"));
+        mock4 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w1_board_4.jpg"));
         prepareMockup(mock4);
-        final Image mock5 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w11_board_0.jpg"));
+        mock5 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w11_board_0.jpg"));
         prepareMockup(mock5);
-        final Image mock6 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w12_board_0.jpg"));
+        mock6 = new Image(AssetsManager.getInstance().getTextureByPath(MOCKUP_FOLDER +"w12_board_0.jpg"));
         prepareMockup(mock6);
         //Import font
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
@@ -67,7 +78,10 @@ public class mockupG1 implements Screen {
         this.gameStart = AssetsManager.getInstance().getSoundByPath("sound/bruitage/plasterbrain_game-start.ogg");
         this.changeScreenSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
 
-        final Button play = new TextButton("Play", style);
+        // Buttons
+        play = new TextButton("Play", style);
+        next = new TextButton("Next", style);
+        //// Play
         float xPlay = game.viewport.getWorldWidth() / 2.5f;
         float yPlay = game.viewport.getWorldHeight() / 2;
         play.setPosition(xPlay,yPlay);
@@ -79,15 +93,14 @@ public class mockupG1 implements Screen {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        play.setVisible(false);
+                        resetScreen();
                         game.changeScreen(ScreenType.GAME1);
                     }
                 }, 2f);
             }
         });
         play.setVisible(false);
-
-        final Button next = new TextButton("Next", style);
+        //// Next
         float xNext = game.viewport.getWorldWidth() / 2.5f;
         float yNext = game.viewport.getWorldHeight() / 10;
         next.setPosition(xNext, yNext);
@@ -125,6 +138,8 @@ public class mockupG1 implements Screen {
         //buttons
         stage.addActor(play);
         stage.addActor(next);
+
+        AssetsManager.getInstance().addStage(stage, "mockupG1");
     }
 
     /**
@@ -136,6 +151,19 @@ public class mockupG1 implements Screen {
         m1.setVisible(false);
         m2.setVisible(true);
         changeScreenSound.play();
+    }
+
+    private void resetScreen() {
+        mock1.setVisible(true);
+        next.setVisible(true);
+
+        play.setVisible(false);
+        mock2.setVisible(false);
+        mock3.setVisible(false);
+        mock4.setVisible(false);
+        mock5.setVisible(false);
+        mock6.setVisible(false);
+        imgFond.setVisible(false);
     }
 
     @Override
@@ -176,11 +204,11 @@ public class mockupG1 implements Screen {
 
     @Override
     public void hide() {
-
+        resetScreen();
     }
 
     @Override
     public void dispose() {
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("mockupG1");
     }
 }

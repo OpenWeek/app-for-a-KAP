@@ -71,6 +71,8 @@ public class World2 implements Screen {
         iM.addProcessor(stage);
 
         Gdx.input.setInputProcessor(iM);
+
+        AssetsManager.getInstance().addStage(stage, "world2");
     }
 
     @Override
@@ -106,6 +108,6 @@ public class World2 implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("world2");
     }
 }

@@ -1,8 +1,11 @@
 package gdx.kapotopia;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Predicate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +15,8 @@ public final class AssetsManager {
     // ArrayList suffisant car pas bcp d'éléments
     private static List<RessourceHelper> textureList = new ArrayList<RessourceHelper>();
     private static List<RessourceHelper> soundList = new ArrayList<RessourceHelper>();
-    private static int indiceMarkerSound = 0;
-    private static int indiceMarkerTexture = 0;
+    private static List<RessourceHelper> stageList = new ArrayList<RessourceHelper>();
+    private static List<RessourceHelper> musicList = new ArrayList<RessourceHelper>();
 
     public static AssetsManager getInstance() {
         return instance;
@@ -27,7 +30,7 @@ public final class AssetsManager {
      * @return
      */
     public Texture getTextureByPath(final String path) {
-        final RessourceHelper researchResult = searchRessource(path, 0);
+        final RessourceHelper researchResult = searchRessource(path, AssetType.TEXTURE);
         if(researchResult != null) {
             return (Texture) researchResult.getRessource();
         }
@@ -43,7 +46,7 @@ public final class AssetsManager {
      * @return
      */
     public Sound getSoundByPath(final String path) {
-        final RessourceHelper researchResult = searchRessource(path, 1);
+        final RessourceHelper researchResult = searchRessource(path, AssetType.SOUND);
         if(researchResult != null) {
             return (Sound) researchResult.getRessource();
         }
@@ -54,45 +57,41 @@ public final class AssetsManager {
     }
 
     /**
-     * Applique un marqueur sur une ressource donnée. Utilisée avec disposeAllResourcesSinceLastMarker
-     * @param TYPE le type d'asset à dispose, enum de type AssetType
+     * Get The ressource by its name
+     * @param name
+     * @return
      */
-    public void setMarker(AssetType TYPE) {
-        switch (TYPE) {
-            case SOUND:
-                indiceMarkerSound = soundList.size() - 1;
-                break;
-            case TEXTURE:
-                indiceMarkerTexture = textureList.size() - 1;
-                break;
-        }
+    public Stage getStageByName(final String name) {
+        final RessourceHelper researchResult = searchRessource(name, AssetType.STAGE);
+        if(researchResult != null)
+            return (Stage) researchResult.getRessource();
+        return null;
     }
 
     /**
-     * Libère la mémoire des ressources se trouvant après le marker set précédemment
-     * marker <= dispose() < list.size()
-     * Doit être utilisé directement après setMarker, il ne peut y avoir d'autres dispose entre
-     * @param TYPE le type d'asset à dispose, enum de type AssetType
+     * add a new stage in the ressourceList
+     * @param stage the Stage object to add
+     * @param name it's name (have to be unique)
+     * @return
      */
-    public void disposeAllResourcesSinceLastMarker(AssetType TYPE) {
-        switch (TYPE) {
-            case TEXTURE:
-                for (int i = textureList.size() - 1; i >= indiceMarkerTexture; i--) {
-                    final Texture t = (Texture) textureList.get(i).getRessource();
-                    t.dispose();
-                    textureList.remove(i);
-                }
-                indiceMarkerTexture = 0;
-                break;
-            case SOUND:
-                for (int i = soundList.size() - 1; i >= indiceMarkerSound; i--) {
-                    final Sound s = (Sound) soundList.get(i).getRessource();
-                    s.dispose();
-                    soundList.remove(i);
-                }
-                indiceMarkerSound = 0;
-                break;
+    public boolean addStage(final Stage stage, final String name) {
+        final RessourceHelper researchResult = searchRessource(name, AssetType.STAGE);
+        if(researchResult != null)
+            return false;
+        final RessourceHelper newRessourceHelper = new RessourceHelper<Stage>(name, stage);
+        stageList.add(newRessourceHelper);
+        return true;
+    }
+
+    public Music getMusicByPath(final String path) {
+        final RessourceHelper researchResult = searchRessource(path, AssetType.MUSIC);
+        if(researchResult != null) {
+            return (Music) researchResult.getRessource();
         }
+        // Si il elle n'est pas dedans, on la crée, on l'ajoute à la liste et on la renvoie
+        final RessourceHelper newRessourceHelper = new RessourceHelper<Music>(path, Gdx.audio.newMusic(Gdx.files.internal(path)));
+        musicList.add(newRessourceHelper);
+        return (Music) newRessourceHelper.getRessource();
     }
 
     /**
@@ -100,13 +99,12 @@ public final class AssetsManager {
      * @param internalPath a String
      */
     public void disposeTexture(final String internalPath) {
-        final RessourceHelper th = searchRessource(internalPath, 0);
+        final RessourceHelper th = searchRessource(internalPath, AssetType.TEXTURE);
         if(th != null) {
             final Texture t = (Texture) th.getRessource();
             t.dispose();
             textureList.remove(th);
         }
-        indiceMarkerTexture = 0;
     }
 
     /**
@@ -117,7 +115,6 @@ public final class AssetsManager {
         for(String path : internalPaths) {
             disposeTexture(path);
         }
-        indiceMarkerTexture = 0;
     }
 
     /**
@@ -125,13 +122,12 @@ public final class AssetsManager {
      * @param internalPath a String
      */
     public void disposeSound(final String internalPath) {
-        final RessourceHelper th = searchRessource(internalPath, 1);
+        final RessourceHelper th = searchRessource(internalPath, AssetType.SOUND);
         if(th != null) {
             final Sound s = (Sound) th.getRessource();
             s.dispose();
             soundList.remove(th);
         }
-        indiceMarkerSound = 0;
     }
 
     /**
@@ -142,11 +138,56 @@ public final class AssetsManager {
         for (String path : internalPaths) {
             disposeSound(path);
         }
-        indiceMarkerSound = 0;
     }
 
     /**
-     * Dispose all ressources taken by textures
+     * Dispose the ressources of a Stage given its name
+     * @param name a String
+     */
+    public void disposeStage(final String name) {
+        final RessourceHelper th = searchRessource(name, AssetType.STAGE);
+        if (th != null) {
+            final Stage s = (Stage) th.getRessource();
+            s.dispose();
+            stageList.remove(th);
+        }
+    }
+
+    /**
+     * Dispose the ressources of an array of Stages given their names
+     * @param names an Array of Strings
+     */
+    public void disposeStage(final String[] names) {
+        for (String name : names) {
+            disposeStage(name);
+        }
+    }
+
+    /**
+     * Dispose the ressources of a Music given its internalPath
+     * @param internalPath a String
+     */
+    public void disposeMusic(final String internalPath) {
+        final RessourceHelper th = searchRessource(internalPath, AssetType.MUSIC);
+        if(th != null) {
+            final Music s = (Music) th.getRessource();
+            s.dispose();
+            musicList.remove(th);
+        }
+    }
+
+    /**
+     * Dispose the ressources of an array of Musics given their internalPath
+     * @param internalPaths an Array of Strings
+     */
+    public void disposeMusic(final String[] internalPaths) {
+        for (String path : internalPaths) {
+            disposeMusic(path);
+        }
+    }
+
+    /**
+     * Dispose all ressources taken by textures, sounds and stages
      */
     public void disposeAllResources() {
         for (RessourceHelper th : textureList) {
@@ -160,8 +201,18 @@ public final class AssetsManager {
             s.dispose();
             soundList.remove(th);
         }
-        indiceMarkerTexture = 0;
-        indiceMarkerSound = 0;
+
+        for (RessourceHelper th : stageList) {
+            final Stage s = (Stage) th.getRessource();
+            s.dispose();
+            stageList.remove(th);
+        }
+
+        for (RessourceHelper th : musicList) {
+            final Music m = (Music) th.getRessource();
+            m.dispose();
+            musicList.remove(th);
+        }
     }
 
     /**
@@ -171,14 +222,20 @@ public final class AssetsManager {
      * @param ressource a number, 0 for selecting textureList, 1 for soundList, default is textureList
      * @return the RessourceHelper if its already in memory, null otherwise
      */
-    private RessourceHelper searchRessource(final String path, int ressource) {
+    private RessourceHelper searchRessource(final String path, AssetType ressource) {
         List<RessourceHelper> l;
         switch (ressource) {
-            case 0:
+            case TEXTURE:
                 l = textureList;
                 break;
-            case 1:
+            case SOUND:
                 l = soundList;
+                break;
+            case STAGE:
+                l = stageList;
+                break;
+            case MUSIC:
+                l = musicList;
                 break;
             default:
                 l = textureList;

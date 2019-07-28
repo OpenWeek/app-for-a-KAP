@@ -2,5 +2,7 @@ package gdx.kapotopia;
 
 public enum AssetType {
     TEXTURE,
-    SOUND
+    SOUND,
+    STAGE,
+    MUSIC
 }

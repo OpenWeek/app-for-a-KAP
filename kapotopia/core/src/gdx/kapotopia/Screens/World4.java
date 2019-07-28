@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Game4.Mireille;
 import gdx.kapotopia.Game4.Question;
 import gdx.kapotopia.Kapotopia;
@@ -47,8 +48,6 @@ public class World4 implements Screen {
     Animation<TextureRegion> mireilleAnimation;
 
     public World4(final Kapotopia game) {
-
-
         frame1 = new TextureRegion(new Texture(Gdx.files.internal("Mireille2b.png")));
         frame2 = new TextureRegion(new Texture(Gdx.files.internal("Mireille1b.png")));
         frame3 = new TextureRegion(new Texture(Gdx.files.internal("Mireille3b.png")));
@@ -158,6 +157,7 @@ public class World4 implements Screen {
             }
         });
 
+        AssetsManager.getInstance().addStage(stage, "world4");
     }
 
     @Override
@@ -234,6 +234,6 @@ public class World4 implements Screen {
     @Override
     public void dispose() {
         fond.dispose();
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("world4");
     }
 }

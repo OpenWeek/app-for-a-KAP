@@ -125,6 +125,8 @@ public class Game2 implements Screen {
         stage.addActor(btnNext);
         stage.addActor(btnPlay);
         stage.addActor(btnBack);
+
+        AssetsManager.getInstance().addStage(stage, "game2");
     }
 
     @Override
@@ -163,6 +165,6 @@ public class Game2 implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("game2");
     }
 }

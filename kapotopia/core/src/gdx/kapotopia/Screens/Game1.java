@@ -66,6 +66,7 @@ public class Game1 implements Screen, MireilleListener {
     private final static String SCORE_TXT = "Score: ";
 
     // Constantes
+    private static final String TAG = "game1";
     private final static int MIN_X = 0;
     private final int maxX;
     private final static int MIN_Y = 25;
@@ -79,6 +80,7 @@ public class Game1 implements Screen, MireilleListener {
             "sound/bruitage/lloydevans09_jump1.wav",
             "sound/bruitage/crisstanza_pause.mp3"
     };
+    private final static String MUSICPATH = "sound/Musique_fast_chiptune.ogg";
 
     private List<VirusContainer> ist;  // <Nom, VIRUS_TYPE>
     private List<VirusContainer> fake; // <Nom, VIRUS_TYPE>
@@ -117,7 +119,7 @@ public class Game1 implements Screen, MireilleListener {
         lifeLabel.setPosition(bounds.width - 240, bounds.height - 100);
         stage.addActor(lifeLabel);
         scoreLabel = new Label(SCORE_TXT  + totalScore, new Label.LabelStyle(style.font, Color.BLACK));
-        scoreLabel.setPosition(bounds.width - 360, bounds.height - 155);
+        scoreLabel.setPosition(25, bounds.height - 100);
         stage.addActor(scoreLabel);
 
         // Musique
@@ -139,6 +141,8 @@ public class Game1 implements Screen, MireilleListener {
 
         stage.addActor(mireille);
         stage.addActor(ennemi);
+
+        AssetsManager.getInstance().addStage(stage, TAG);
     }
     @Override
     public void show() {
@@ -162,11 +166,12 @@ public class Game1 implements Screen, MireilleListener {
                         actor.setVisible(false);
                     }
                 }
-                Button title = new TextButton("GAMEOVER",style);
+                final Button title = new TextButton("GAMEOVER",style);
                 title.setPosition((bounds.getWidth() / 2) - 175, bounds.getHeight() / 2);
                 title.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
+                        title.setVisible(false);
                         game.changeScreen(ScreenType.MAINMENU);
                     }
                 });
@@ -209,17 +214,15 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void dispose() {
-        stage.dispose();
-        music.dispose();
+        AssetsManager.getInstance().disposeStage(TAG);
+        AssetsManager.getInstance().disposeMusic(MUSICPATH);
         for (VirusContainer v : ist) {
             AssetsManager.getInstance().disposeTexture(v.getTexturePath());
         }
         for (VirusContainer v : fake) {
             AssetsManager.getInstance().disposeTexture(v.getTexturePath());
         }
-        for (String path : SOUNDSPATHS) {
-            AssetsManager.getInstance().disposeSound(path);
-        }
+        AssetsManager.getInstance().disposeSound(SOUNDSPATHS);
     }
 
     private MireilleBasic prepareMireille() {
@@ -232,13 +235,13 @@ public class Game1 implements Screen, MireilleListener {
                     final float newX;
                     if (velocityX > 0) {
                         newX = Math.min(mireille.getX() + MOVE_VALUE_X, maxX);
-                        System.out.println("mireille : (" + mireille.getX() + "),(" + MOVE_VALUE_X + "),(" + maxX + ")");
+                        Gdx.app.log(TAG, "mireille : (" + mireille.getX() + "),(" + MOVE_VALUE_X + "),(" + maxX + ")");
                     }else{
                         newX = Math.max(mireille.getX() - MOVE_VALUE_X, MIN_X);
                     }
                     mireille.setX(newX);
                     mireille.updateCollision(newX, MIN_Y);
-                    System.out.println("swipe!! " + velocityX + ", " + velocityY);
+                    Gdx.app.log(TAG, "swipe!! " + velocityX + ", " + velocityY);
                     jump.play();
                 }
             }
@@ -253,13 +256,15 @@ public class Game1 implements Screen, MireilleListener {
     }
 
     private Music prepareMusic() {
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("sound/Musique_fast_chiptune.ogg"));
+        Music music = AssetsManager.getInstance().getMusicByPath(MUSICPATH);
         music.setLooping(false);
-        music.setVolume(0.5f);
+        music.setVolume(0.66f);
         music.setOnCompletionListener(new Music.OnCompletionListener() {
             @Override
             public void onCompletion(Music music) {
                 music.setPosition(11.5f);
+                music.play();
+                Gdx.app.log(TAG, "Music stopped");
             }
         });
         return music;
@@ -267,7 +272,7 @@ public class Game1 implements Screen, MireilleListener {
 
     private void setUpInputProcessor() {
         InputMultiplexer im = new InputMultiplexer();
-        im.addProcessor(new StandardInputAdapter(this, game));
+        im.addProcessor(new StandardInputAdapter(this, game, true));
         im.addProcessor(stage);
         Gdx.input.setInputProcessor(im);
     }
@@ -325,7 +330,8 @@ public class Game1 implements Screen, MireilleListener {
     }
 
     /**
-     * Initalize les textures de virus (vrais et faux) en les enregistrant dans des listes
+     * Initialize virus textures (true and fake ones) selected by reading sprite.xml
+     * and by saving them into ArrayLists
      */
     private void initVirusTextures() {
         XmlReader xml = new XmlReader();

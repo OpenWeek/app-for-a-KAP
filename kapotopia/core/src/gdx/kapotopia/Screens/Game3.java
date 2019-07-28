@@ -36,6 +36,7 @@ public class Game3 implements Screen {
         core = new Core(this, 8,10, 3);
 
         stage.addActor(imgFond);
+        AssetsManager.getInstance().addStage(stage, "game3");
     }
 
     public void back(){
@@ -44,6 +45,7 @@ public class Game3 implements Screen {
         }
         game.changeScreen(ScreenType.WORLD2);
     }
+
     @Override
     public void show() {
         //TODO Maybe Gdx.input.setInputProcessor(iM); needs to be here -> To check
@@ -79,7 +81,7 @@ public class Game3 implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("game3");
     }
 
     private void setUpInputProcessor() {

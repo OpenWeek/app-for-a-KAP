@@ -56,6 +56,7 @@ public class World3 implements Screen {
                              });
         stage.addActor(mireille);
 
+        AssetsManager.getInstance().addStage(stage, "world3");
     }
 
     @Override
@@ -93,7 +94,7 @@ public class World3 implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("world3");
     }
 
 }

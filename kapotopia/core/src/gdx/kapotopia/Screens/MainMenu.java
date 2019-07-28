@@ -3,11 +3,13 @@ package gdx.kapotopia.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
@@ -37,6 +39,7 @@ public class MainMenu implements Screen {
         this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat_open-button-2.wav");
         //Import font
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
+        TextButton.TextButtonStyle styleTiny = Utils.getStyleFont("SEASRN__.ttf", 20);
         //setup Button
 
 
@@ -45,7 +48,7 @@ public class MainMenu implements Screen {
         Button world3 = new TextButton("World 3", style);
         Button world4 = new TextButton("World 4", style);
 
-        final float x = game.viewport.getWorldWidth() / 2.5f;
+        final float x = game.viewport.getWorldWidth() / 2.6f;
         float y = game.viewport.getWorldHeight() *0.2f;
         world4.setPosition(x, y);
         y = game.viewport.getWorldHeight() *0.4f;
@@ -83,6 +86,8 @@ public class MainMenu implements Screen {
             }
         });
 
+        Label version = new Label("v:" + Kapotopia.VERSION_NAME + " | code:" + Kapotopia.VERSION_CODE, new Label.LabelStyle(styleTiny.font, Color.BLACK));
+        version.setPosition(15, 0);
 
         stage.addActor(imgFond);
         //add button to the scene
@@ -90,8 +95,9 @@ public class MainMenu implements Screen {
         stage.addActor(world2);
         stage.addActor(world3);
         stage.addActor(world4);
-        System.out.println("coucou");
+        stage.addActor(version);
 
+        AssetsManager.getInstance().addStage(stage, "mainmenu");
     }
     @Override
     public void show() {
@@ -106,7 +112,6 @@ public class MainMenu implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
     }
 
     @Override
@@ -131,6 +136,6 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("mainmenu");
     }
 }
