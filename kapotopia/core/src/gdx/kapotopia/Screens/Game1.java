@@ -172,6 +172,7 @@ public class Game1 implements Screen, MireilleListener {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         title.setVisible(false);
+                        game.destroyScreen(ScreenType.MAINMENU);
                         game.changeScreen(ScreenType.MAINMENU);
                     }
                 });
@@ -241,8 +242,8 @@ public class Game1 implements Screen, MireilleListener {
                     }
                     mireille.setX(newX);
                     mireille.updateCollision(newX, MIN_Y);
-                    Gdx.app.log(TAG, "swipe!! " + velocityX + ", " + velocityY);
                     jump.play();
+                    Gdx.app.log(TAG, "swipe!! " + velocityX + ", " + velocityY);
                 }
             }
         });

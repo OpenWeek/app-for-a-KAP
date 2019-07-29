@@ -86,6 +86,9 @@ public class MireilleBasic extends EntityAbstract {
 
         this.score -= 15;
         notifyScoreChanged(this.score);
+
+        this.resetPosition();
+        this.updateCollision(this.getX(),this.getY());
     }
 
     private void notifyScoreChanged(final int score) {
