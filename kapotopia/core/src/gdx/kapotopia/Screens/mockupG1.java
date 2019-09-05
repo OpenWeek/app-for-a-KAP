@@ -41,6 +41,7 @@ public class mockupG1 implements Screen {
 
     private Sound gameStart;
     private Sound changeScreenSound;
+    private Sound pauseSound;
     /**
      * Prepare images to fullScreen and hidden
      * @param img the image to prepare
@@ -75,8 +76,10 @@ public class mockupG1 implements Screen {
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         //Setup button
 
+        // Sounds
         this.gameStart = AssetsManager.getInstance().getSoundByPath("sound/bruitage/plasterbrain_game-start.ogg");
         this.changeScreenSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
+        this.pauseSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/crisstanza_pause.mp3");
 
         // Buttons
         play = new TextButton("Play", style);
@@ -189,12 +192,12 @@ public class mockupG1 implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        game.viewport.update(width, height, true);
     }
 
     @Override
     public void pause() {
-
+        pauseSound.play();
     }
 
     @Override

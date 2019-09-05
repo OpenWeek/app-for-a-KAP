@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -84,6 +85,9 @@ public class Game1 implements Screen, MireilleListener {
 
     private List<VirusContainer> ist;  // <Nom, VIRUS_TYPE>
     private List<VirusContainer> fake; // <Nom, VIRUS_TYPE>
+    private List<VirusContainer> boss; // <Nom, VIRUS_TYPE>
+
+    private HashSet<String> missedIsts;
 
     // Actors
     private final Virus ennemi;
@@ -110,6 +114,7 @@ public class Game1 implements Screen, MireilleListener {
         this.totalScore = 0;
 
         initVirusTextures();
+        this.missedIsts = new HashSet<String>();
 
         // Mise en place du décor
         this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
@@ -172,8 +177,13 @@ public class Game1 implements Screen, MireilleListener {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         title.setVisible(false);
-                        game.destroyScreen(ScreenType.MAINMENU);
-                        game.changeScreen(ScreenType.MAINMENU);
+                        if(missedIsts.isEmpty()) {
+                            game.destroyScreen(ScreenType.MAINMENU);
+                            game.changeScreen(ScreenType.MAINMENU);
+                        }else{
+                            game.getTheValueGateway().addToTheStore("G1-missedIST", missedIsts);
+                            game.changeScreen(ScreenType.BILANG1);
+                        }
                     }
                 });
                 stage.addActor(title);
@@ -288,7 +298,7 @@ public class Game1 implements Screen, MireilleListener {
 
     /**
      * Method used by lifeListener
-     * @param life
+     * @param life the new life value given to MireilleLife
      */
     @Override
     public void lifeChanged(byte life) {
@@ -339,9 +349,11 @@ public class Game1 implements Screen, MireilleListener {
         Element root = xml.parse(Gdx.files.internal("sprite.xml"));
         Element ist_xml = root.getChildByName("ist-l");
         Element fake_xml = root.getChildByName("fakeist-l");
+        Element boss_xml = root.getChildByName("boss-l");
 
         List<VirusContainer> ist = new ArrayList<VirusContainer>();
         List<VirusContainer> fake = new ArrayList<VirusContainer>();
+        List<VirusContainer> boss = new ArrayList<VirusContainer>();
 
         for (Element el : ist_xml.getChildrenByName("ist")) {
             ist.add(new VirusContainer(el.get("texture"),el.get("name"), true));
@@ -351,8 +363,13 @@ public class Game1 implements Screen, MireilleListener {
             fake.add(new VirusContainer(el.get("texture"),el.get("name"), false));
         }
 
+        for (Element el : boss_xml.getChildrenByName("boss")) {
+            boss.add(new VirusContainer(el.get("texture"),el.get("name"), false));
+        }
+
         this.ist = ist;
         this.fake = fake;
+        this.boss = boss;
     }
 
     public VirusContainer getRdmVirusTexture(VIRUS_TYPE type) {
@@ -365,9 +382,17 @@ public class Game1 implements Screen, MireilleListener {
                 r = Math.abs(random.nextInt() % fake.size());
                 return fake.get(r);
             case BOSS:
-                r = Math.abs(random.nextInt() % ist.size());
-                return ist.get(r);
+                r = Math.abs(random.nextInt() % boss.size());
+                return boss.get(r);
         }
         return null;
+    }
+
+    public void addMissedIST(String virusName) {
+        missedIsts.add(virusName);
+    }
+
+    public HashSet<String> getMissedIST() {
+        return missedIsts;
     }
 }

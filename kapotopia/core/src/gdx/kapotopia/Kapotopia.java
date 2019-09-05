@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import gdx.kapotopia.Screens.BilanG1;
 import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.Screens.Game2;
 import gdx.kapotopia.Screens.Game3;
@@ -25,8 +26,9 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	private static final String TAG = "Class Kapotopia";
 
-	public static final String VERSION_NAME = "Alpha-0.2.4";
-	public static final int VERSION_CODE = 7;
+	// TODO changer VERSION_NAME ET VERSION_CODE à chaque fois que l'on update le jeu, pas trouvé de moyen pour les liés automatiquement au gradle build d'android
+	public static final String VERSION_NAME = "Alpha-0.2.5";
+	public static final int VERSION_CODE = 8;
 
 	// Screens
 	private Game1 game1;
@@ -34,36 +36,60 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private Game3 game3;
 	private MainMenu mainMenu;
 	private mockupG1 mockupG1;
+	private BilanG1 bilanG1;
 	private World1 world1;
 	private World2 world2;
 	private World3 world3;
 	private World4 world4;
+
+	// The value Gateway
+	private ValueGateway gate;
 
 	@Override
 	public void create () {
 		viewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT);
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
+		this.gate = new ValueGateway();
 		changeScreen(ScreenType.MAINMENU);
 	}
 
 	@Override
-	public void dispose (){
+	public void dispose () {
 		Gdx.app.log(TAG, "Disposing every game resources");
 		AssetsManager.getInstance().disposeAllResources();
 	}
 
-	public void changeScreen(ScreenType TYPE) {
-		Gdx.app.log(TAG,"Entering changeScreen function");
-		selectScreen(ScreenAction.CHANGE, TYPE);
+	public ValueGateway getTheValueGateway() {
+		return this.gate;
 	}
 
+	/**
+	 * Change the current screen, creating a new screen if needed, otherwise creating a new screen object
+	 * @param TYPE the enum SCREENTYPE that specify which screen to change to
+	 * @return true if the operation succeeded, false otherwise
+	 */
+	public boolean changeScreen(ScreenType TYPE) {
+		Gdx.app.log(TAG,"Entering changeScreen function");
+		return selectScreen(ScreenAction.CHANGE, TYPE);
+	}
+
+	/**
+	 * Destroy the specified screen and dispose all it's ressources
+	 * @param TYPE the enum SCREENTYPE that specify which screen to destroy
+	 * @return true if the operation succeeded, false otherwise
+	 */
 	public boolean destroyScreen(ScreenType TYPE) {
 		Gdx.app.log(TAG, "Entering destroyScreen function");
 		return selectScreen(ScreenAction.DESTROY, TYPE);
 	}
 
-	public boolean destroyScreen(Screen sc) {
+	/**
+	 * Destroy the specified screen and dispose it's ressources
+	 * @param sc The screen to destroy
+	 * @return true if the operation succeeded, false otherwise
+	 */
+	boolean destroyScreen(Screen sc) {
 		if (sc == game1) {
 			return destroyScreen(ScreenType.GAME1);
 		} else if(sc == game2) {
@@ -74,6 +100,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 			return destroyScreen(ScreenType.MAINMENU);
 		} else if(sc == mockupG1) {
 			return destroyScreen(ScreenType.MOCKUPG1);
+		} else if(sc == bilanG1) {
+			return destroyScreen(ScreenType.BILANG1);
 		} else if(sc == world1) {
 			return destroyScreen(ScreenType.WORLD1);
 		} else if(sc == world2) {
@@ -87,6 +115,12 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		return false;
 	}
 
+	/**
+	 * Select the specified screen and apply the specified method
+	 * @param ACTION the action to apply to the screen, specified in ScreenAction enum
+	 * @param TYPE the specified screen to apply the action
+	 * @return true if the operation succeeded, false otherwise
+	 */
 	private boolean selectScreen(ScreenAction ACTION, ScreenType TYPE) {
 		boolean succeeded = false;
 		switch (TYPE) {
@@ -229,6 +263,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 						if (mockupG1 != null) {
 							mockupG1.dispose();
 							mockupG1 = null;
+							succeeded = true;
+						}
+						break;
+				}
+				break;
+			case BILANG1:
+				switch (ACTION) {
+					case CHANGE:
+						if (bilanG1 == null) bilanG1 = new BilanG1(this);
+						setScreen(bilanG1);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (bilanG1 != null) {
+							bilanG1.dispose();
+							bilanG1 = null;
 							succeeded = true;
 						}
 						break;

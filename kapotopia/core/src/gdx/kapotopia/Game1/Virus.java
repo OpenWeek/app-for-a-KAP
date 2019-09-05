@@ -37,7 +37,11 @@ public class Virus extends VirusAbstract {
         final float newY = this.getY() - (this.getSpeed() * delta * acceleration) ;
         this.setY(newY);
         this.updateCollision(this.getX(),newY);
+        // If the virus has reached the end of the screen
         if (this.getY() < -200) {
+            if(isIST()) {
+                game.addMissedIST(getName());
+            }
             this.setY(screenBounds.getHeight());
             this.setX(50 + 275 * random.nextInt(3));
             changeVirusType();
@@ -74,4 +78,3 @@ public class Virus extends VirusAbstract {
         isIST = IST;
     }
 }
-

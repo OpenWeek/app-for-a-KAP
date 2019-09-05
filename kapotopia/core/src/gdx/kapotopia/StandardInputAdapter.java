@@ -19,6 +19,12 @@ public class StandardInputAdapter extends InputAdapter {
         this.destroyOnChange = false;
     }
 
+    /**
+     *
+     * @param current the current Screen
+     * @param game The game
+     * @param destroyOnChange if set to true, the current screen is destroyed and ressources disposed when the user type on the BACK button
+     */
     public StandardInputAdapter(Screen current, Kapotopia game, boolean destroyOnChange) {
         super();
         this.current = current;
@@ -26,6 +32,10 @@ public class StandardInputAdapter extends InputAdapter {
         this.destroyOnChange = destroyOnChange;
     }
 
+    /**
+     * @param keycode
+     * @return true if an action has been activated, else otherwise
+     */
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.BACK) {

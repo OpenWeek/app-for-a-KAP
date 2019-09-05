@@ -45,11 +45,11 @@ public final class CollisionManager {
                 final Virus virus = (Virus) projectile;
                 if(virus.isIST()) {
                     mireille.increaseScore();
-                    virus.changeVirusType();
                 }else{
                     mireille.decreaseLife();
-                    target.resetPosition();
+                    mireille.resetPosition();
                 }
+                virus.changeVirusType();
             }
         }
     }
