@@ -47,7 +47,7 @@ public class Virus extends VirusAbstract {
             changeVirusType();
             this.acceleration += 0.08f;
         }
-        game.setNewEnnemiLabelPosition(this.getX(), this.getY());
+        game.setNewEnnemiLabelPosition(this.getX(), this.getY() - 15);
     }
 
     /**

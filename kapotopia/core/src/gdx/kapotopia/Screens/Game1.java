@@ -68,10 +68,10 @@ public class Game1 implements Screen, MireilleListener {
 
     // Constantes
     private static final String TAG = "game1";
-    private final static int MIN_X = 0;
+    private final static int MIN_X = 15;
     private final int maxX;
     private final static int MIN_Y = 25;
-    private final static int MOVE_VALUE_X = 250;
+    private final int MOVE_VALUE_X;
     private final Rectangle bounds;
     private final int PERFECTENNEMYLABELLENGTH = 10;
 
@@ -106,8 +106,9 @@ public class Game1 implements Screen, MireilleListener {
         this.style = Utils.getStyleFont("SEASRN__.ttf");
         this.styleSmall = Utils.getStyleFont("SEASRN__.ttf", 38);
 
-        this.bounds = new Rectangle(0,0,game.viewport.getScreenWidth(),game.viewport.getScreenHeight());
-        this.maxX = floorOfAMultipleOf250((game.viewport.getScreenWidth() / 2) + 250);
+        this.bounds = new Rectangle(0,0,game.viewport.getWorldWidth(),game.viewport.getWorldHeight());
+        this.maxX = Float.floatToIntBits(game.viewport.getWorldWidth() - 15);
+        this.MOVE_VALUE_X = 250;
 
         this.isFinish = false;
         this.didGameOverScreenAppeared = false;
@@ -141,7 +142,7 @@ public class Game1 implements Screen, MireilleListener {
         this.ennemi = new Virus(this.bounds, this);
 
         this.ennemiName = new Label(ennemi.getName(), new Label.LabelStyle(styleSmall.font, Color.BLACK));
-        this.ennemiName.setPosition(ennemi.getX(),ennemi.getY());
+        this.ennemiName.setPosition(ennemi.getX(),ennemi.getY() - 15);
         stage.addActor(ennemiName);
 
         stage.addActor(mireille);
@@ -286,14 +287,6 @@ public class Game1 implements Screen, MireilleListener {
         im.addProcessor(new StandardInputAdapter(this, game, true));
         im.addProcessor(stage);
         Gdx.input.setInputProcessor(im);
-    }
-
-    @org.jetbrains.annotations.Contract(pure = true)
-    private int floorOfAMultipleOf250(int nbr) {
-        for (int i=2000; i > 0; i = i - 250) {
-            if(nbr > i) return i;
-        }
-        return 0;
     }
 
     /**
