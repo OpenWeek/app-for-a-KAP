@@ -4,8 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 
-import gdx.kapotopia.Screens.MainMenu;
-
 public class StandardInputAdapter extends InputAdapter {
 
     private Screen current;

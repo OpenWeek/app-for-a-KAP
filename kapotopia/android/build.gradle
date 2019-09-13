@@ -20,8 +20,8 @@ android {
         applicationId "gdx.kapotopia"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 8
-        versionName "Alpha-0.2.5"
+        versionCode 9
+        versionName "Alpha-0.2.6"
     }
     buildTypes {
         release {

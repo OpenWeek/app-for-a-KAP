@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
@@ -34,6 +35,7 @@ import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
+import gdx.kapotopia.SimpleDirectionGestureDetector;
 import gdx.kapotopia.StandardInputAdapter;
 import gdx.kapotopia.Utils;
 
@@ -56,12 +58,14 @@ public class Game1 implements Screen, MireilleListener {
     // Variables utiles
     private boolean isFinish;
     private boolean didGameOverScreenAppeared;
+    private boolean isPaused; // To check if the game is paused or not
     private byte mireilleLife;
     private int totalScore;
     // Labels
     private Label lifeLabel;
     private Label scoreLabel;
     private Label ennemiName;
+    private Label pauseLabel;
 
     private final static String LIFE_TXT = "Vies: ";
     private final static String SCORE_TXT = "Score: ";
@@ -73,7 +77,6 @@ public class Game1 implements Screen, MireilleListener {
     private final static int MIN_Y = 25;
     private final int MOVE_VALUE_X;
     private final Rectangle bounds;
-    private final int PERFECTENNEMYLABELLENGTH = 10;
 
     private final static String[] SOUNDSPATHS = {
             "sound/bruitage/thefsoundman_punch-02.wav",
@@ -107,11 +110,12 @@ public class Game1 implements Screen, MireilleListener {
         this.styleSmall = Utils.getStyleFont("SEASRN__.ttf", 38);
 
         this.bounds = new Rectangle(0,0,game.viewport.getWorldWidth(),game.viewport.getWorldHeight());
-        this.maxX = Float.floatToIntBits(game.viewport.getWorldWidth() - 15);
+        this.maxX = floorOfAMultipleOf250((game.viewport.getScreenWidth() / 2) + 250);
         this.MOVE_VALUE_X = 250;
 
         this.isFinish = false;
         this.didGameOverScreenAppeared = false;
+        this.isPaused = false;
         this.totalScore = 0;
 
         initVirusTextures();
@@ -127,6 +131,10 @@ public class Game1 implements Screen, MireilleListener {
         scoreLabel = new Label(SCORE_TXT  + totalScore, new Label.LabelStyle(style.font, Color.BLACK));
         scoreLabel.setPosition(25, bounds.height - 100);
         stage.addActor(scoreLabel);
+        pauseLabel = new Label("Pause", new Label.LabelStyle(style.font, Color.BLACK));
+        pauseLabel.setPosition((bounds.width / 2) - 10, bounds.height / 2);
+        pauseLabel.setVisible(false);
+        stage.addActor(pauseLabel);
 
         // Musique
         this.music = prepareMusic();
@@ -194,10 +202,12 @@ public class Game1 implements Screen, MireilleListener {
                 didGameOverScreenAppeared = true;
             }
         }else{
-            stage.act(delta);
+            if(!isPaused) {
+                stage.act(delta);
 
-            if(CollisionManager.getInstance().checkCollision(mireille,ennemi)) {
-                ennemi.setPosition(50 + 275 * random.nextInt(3), bounds.getHeight());
+                if(CollisionManager.getInstance().checkCollision(mireille,ennemi)) {
+                    ennemi.setPosition(50 + 275 * random.nextInt(3), bounds.getHeight());
+                }
             }
         }
         stage.draw();
@@ -212,11 +222,20 @@ public class Game1 implements Screen, MireilleListener {
     public void pause() {
         music.pause();
         pauseSound.play();
+        pauseLabel.setVisible(true);
+        isPaused = true;
     }
 
     @Override
     public void resume() {
-        music.play();
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                pauseLabel.setVisible(false);
+                music.play();
+                isPaused = false;
+            }
+        }, 3f);
     }
 
     @Override
@@ -240,28 +259,10 @@ public class Game1 implements Screen, MireilleListener {
     private MireilleBasic prepareMireille() {
         final MireilleBasic mireille = new MireilleBasic(MIN_X, MIN_Y);
         mireille.updateCollision(MIN_X, MIN_Y);
-
-        stage.addListener(new ActorGestureListener() {
-            public void fling (InputEvent event, float velocityX, float velocityY, int button) {
-                if(!isFinish) {
-                    final float newX;
-                    if (velocityX > 0) {
-                        newX = Math.min(mireille.getX() + MOVE_VALUE_X, maxX);
-                        Gdx.app.log(TAG, "mireille : (" + mireille.getX() + "),(" + MOVE_VALUE_X + "),(" + maxX + ")");
-                    }else{
-                        newX = Math.max(mireille.getX() - MOVE_VALUE_X, MIN_X);
-                    }
-                    mireille.setX(newX);
-                    mireille.updateCollision(newX, MIN_Y);
-                    jump.play();
-                    Gdx.app.log(TAG, "swipe!! " + velocityX + ", " + velocityY);
-                }
-            }
-        });
         mireille.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("change");
+                Gdx.app.log(TAG, "Something changed lol");
             }
         });
         return mireille;
@@ -285,8 +286,53 @@ public class Game1 implements Screen, MireilleListener {
     private void setUpInputProcessor() {
         InputMultiplexer im = new InputMultiplexer();
         im.addProcessor(new StandardInputAdapter(this, game, true));
+        im.addProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
+            @Override
+            public void onLeft() {
+                if(!isPaused) {
+                    final float newX = Math.max(mireille.getX() - MOVE_VALUE_X, MIN_X);
+                    updateMireille(newX);
+                }
+            }
+
+            @Override
+            public void onRight() {
+                if(!isPaused) {
+                    final float newX = Math.min(mireille.getX() + MOVE_VALUE_X, maxX);
+                    Gdx.app.log(TAG, "Math.min( " + mireille.getX() + MOVE_VALUE_X + " , " + maxX + " )");
+                    updateMireille(newX);
+                }
+            }
+
+            @Override
+            public void onUp() {
+
+            }
+
+            @Override
+            public void onDown() {
+
+            }
+
+            private void updateMireille(float newX) {
+                if(!isFinish) {
+                    Gdx.app.log(TAG, "Mireille pos(x:" + newX + " | y:" + MIN_Y + " )");
+                    mireille.setX(newX);
+                    mireille.updateCollision(newX, MIN_Y);
+                    jump.play();
+                }
+            }
+        }));
         im.addProcessor(stage);
         Gdx.input.setInputProcessor(im);
+    }
+
+    @org.jetbrains.annotations.Contract(pure = true)
+    private int floorOfAMultipleOf250(int nbr) {
+        for (int i=2000; i > 0; i = i - 250) {
+            if(nbr > i) return i;
+        }
+        return 0;
     }
 
     /**
@@ -312,25 +358,7 @@ public class Game1 implements Screen, MireilleListener {
     }
 
     public void changeEnnemiLabel(String newName) {
-        String name = addBlankSpace(newName);
-        this.ennemiName.setText(name);
-    }
-
-    /**
-     * prepare ennemi label by adding blank space if needed
-     * @param str
-     * @return
-     */
-    private String addBlankSpace(String str) {
-        if(str.length() < PERFECTENNEMYLABELLENGTH) {
-            StringBuilder strBldr = new StringBuilder();
-            for (int i = PERFECTENNEMYLABELLENGTH - str.length(); i < str.length(); i++ ) {
-                strBldr.append(" ");
-            }
-            strBldr.append(str);
-            return strBldr.toString();
-        }
-        return str;
+        this.ennemiName.setText(newName);
     }
 
     /**
