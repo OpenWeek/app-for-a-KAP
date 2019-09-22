@@ -52,8 +52,6 @@ and the others.
 * Lucas Ody
 * Jean-François Sambon
 
-and the others.
-
 ###### Our graphist and musician
 * Guillaume Reginster
 * Simon Desorbay
