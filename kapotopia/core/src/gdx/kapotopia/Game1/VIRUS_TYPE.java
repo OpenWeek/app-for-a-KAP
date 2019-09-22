@@ -4,8 +4,7 @@ import java.util.Random;
 
 public enum VIRUS_TYPE {
     IST,
-    FAKEIST,
-    BOSS;
+    FAKEIST;
 
     private static final Random RANDOM = new Random();
 

@@ -7,16 +7,19 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
@@ -54,6 +57,7 @@ public class Game1 implements Screen, MireilleListener {
     private Sound fail;
     private Sound jump;
     private Sound pauseSound;
+    private Sound istTouchedSound;
     private Music music;
     // Variables utiles
     private boolean isFinish;
@@ -66,6 +70,7 @@ public class Game1 implements Screen, MireilleListener {
     private Label scoreLabel;
     private Label ennemiName;
     private Label pauseLabel;
+    private ImageButton pauseIcon;
 
     private final static String LIFE_TXT = "Vies: ";
     private final static String SCORE_TXT = "Score: ";
@@ -82,13 +87,13 @@ public class Game1 implements Screen, MireilleListener {
             "sound/bruitage/thefsoundman_punch-02.wav",
             "sound/bruitage/jivatma07_j1game-over-mono.wav",
             "sound/bruitage/lloydevans09_jump1.wav",
-            "sound/bruitage/crisstanza_pause.mp3"
+            "sound/bruitage/crisstanza_pause.mp3",
+            "sound/bruitage/leszek-szary_coin-object.wav"
     };
     private final static String MUSICPATH = "sound/Musique_fast_chiptune.ogg";
 
     private List<VirusContainer> ist;  // <Nom, VIRUS_TYPE>
     private List<VirusContainer> fake; // <Nom, VIRUS_TYPE>
-    private List<VirusContainer> boss; // <Nom, VIRUS_TYPE>
 
     private HashSet<String> missedIsts;
 
@@ -121,29 +126,46 @@ public class Game1 implements Screen, MireilleListener {
         initVirusTextures();
         this.missedIsts = new HashSet<String>();
 
-        // Mise en place du décor
-        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        //// Setting up the stage
+        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("World1/Game1/JungleEtFeuilles.png"));
         stage.addActor(imgFond);
 
+        // Labels and buttons
         lifeLabel = new Label(LIFE_TXT + mireilleLife,new Label.LabelStyle(style.font, Color.BLACK));
         lifeLabel.setPosition(bounds.width - 240, bounds.height - 100);
+
         stage.addActor(lifeLabel);
+        pauseIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(
+                AssetsManager.getInstance().getTextureByPath("pause_logo.png"))));
+        pauseIcon.setBounds(bounds.width - 240, bounds.height - 170, 140, 80);
+        pauseIcon.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(isPaused) {
+                    resumeFromPause();
+                }else{
+                    pause();
+                }
+            }
+        });
+        stage.addActor(pauseIcon);
         scoreLabel = new Label(SCORE_TXT  + totalScore, new Label.LabelStyle(style.font, Color.BLACK));
         scoreLabel.setPosition(25, bounds.height - 100);
         stage.addActor(scoreLabel);
         pauseLabel = new Label("Pause", new Label.LabelStyle(style.font, Color.BLACK));
-        pauseLabel.setPosition((bounds.width / 2) - 10, bounds.height / 2);
+        pauseLabel.setPosition((bounds.width / 5) * 2, bounds.height / 2);
         pauseLabel.setVisible(false);
         stage.addActor(pauseLabel);
 
-        // Musique
+        // Music and Sounds
         this.music = prepareMusic();
         this.touched = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[0]);
         this.fail = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[1]);
         this.jump = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[2]);
         this.pauseSound = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[3]);
+        this.istTouchedSound = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[4]);
 
-        // Les acteurs principaux
+        // Major actors
         this.mireille = prepareMireille();
         this.mireille.addListener(this);
         this.mireilleLife = mireille.getLifes();
@@ -231,11 +253,15 @@ public class Game1 implements Screen, MireilleListener {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                pauseLabel.setVisible(false);
-                music.play();
-                isPaused = false;
+                resumeFromPause();
             }
         }, 3f);
+    }
+
+    private void resumeFromPause() {
+        pauseLabel.setVisible(false);
+        music.play();
+        isPaused = false;
     }
 
     @Override
@@ -350,6 +376,10 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void scoreChanged(int score) {
+        if(score >= this.totalScore) {
+            // In this case, Mireille has touched an true IST
+            istTouchedSound.play();
+        }
         this.totalScore = score;
     }
 
@@ -384,13 +414,8 @@ public class Game1 implements Screen, MireilleListener {
             fake.add(new VirusContainer(el.get("texture"),el.get("name"), false));
         }
 
-        for (Element el : boss_xml.getChildrenByName("boss")) {
-            boss.add(new VirusContainer(el.get("texture"),el.get("name"), false));
-        }
-
         this.ist = ist;
         this.fake = fake;
-        this.boss = boss;
     }
 
     public VirusContainer getRdmVirusTexture(VIRUS_TYPE type) {
@@ -402,9 +427,6 @@ public class Game1 implements Screen, MireilleListener {
             case FAKEIST:
                 r = Math.abs(random.nextInt() % fake.size());
                 return fake.get(r);
-            case BOSS:
-                r = Math.abs(random.nextInt() % boss.size());
-                return boss.get(r);
         }
         return null;
     }

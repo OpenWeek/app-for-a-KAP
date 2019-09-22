@@ -15,13 +15,13 @@
         <fakeist texture="IST/FroidePisse.png" name="  Froide pisse"/>
         <fakeist texture="IST/Lycanthropie.png" name="Lycanthropie"/>
         <fakeist texture="IST/Mononucleose.png" name="Mononucléose"/>
-	<fakeist texture="IST/Mycose.png" name=" Mycose"/>
-	<fakeist texture="IST/Depression.png" name=" Dépression"/>
-	<fakeist texture="IST/ChevalDeTroie.png" name=" Cheval de Troie"/>
-	<fakeist texture="IST/Cancer.png" name=" Cancer"/>
-	<fakeist texture="IST/Gale.png" name=" Gale"/>
-	<fakeist texture="IST/Morpion.png" name=" Morpion"/>
-	<fakeist texture="IST/PesteBubonique.png" name=" Peste bubonique"/>
-	<fakeist texture="IST/Variole.png" name=" Variole"/>
+        <fakeist texture="IST/Mycose.png" name=" Mycose"/>
+        <fakeist texture="IST/Depression.png" name=" Dépression"/>
+        <fakeist texture="IST/ChevalDeTroie.png" name=" Cheval de Troie"/>
+        <fakeist texture="IST/Cancer.png" name=" Cancer"/>
+        <fakeist texture="IST/Gale.png" name=" Gale"/>
+        <fakeist texture="IST/Morpion.png" name=" Morpion"/>
+        <fakeist texture="IST/PesteBubonique.png" name=" Peste bubonique"/>
+        <fakeist texture="IST/Variole.png" name=" Variole"/>
     </fakeist-l>
 </sprites>

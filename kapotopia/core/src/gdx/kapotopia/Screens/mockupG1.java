@@ -24,9 +24,9 @@ public class mockupG1 extends CinematicScreen {
 
     public mockupG1(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG1", ScreenType.GAME1,
-                new String[]{"World1/Game1/w1_board_1.jpg", "World1/Game1/w1_board_2.jpg",
-                "World1/Game1/w1_board_3.jpg", "World1/Game1/w1_board_4.jpg", "World1/Game1/w11_board_0.jpg",
-                "World1/Game1/w12_board_0.jpg"});
+                new String[]{"World1/Game1/World1Ecran1.png", "World1/Game1/World1Ecran2.png",
+                "World1/Game1/World1Ecran3.png", "World1/Game1/World1Ecran4.png",
+                        "World1/Game1/World1Ecran5.png"});
     }
 
     @Override
