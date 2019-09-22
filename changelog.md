@@ -1,4 +1,19 @@
 # Kapotopia - Changelog
+## Alpha-0.2.6 - code: 9
+- Game1
+  - Small timebreak before starting game1 again after the game has been resumed
+  - Change fakeist name from *flemme* to *Mononucléose*
+  - Scalling bug fix #20
+  - Simplified virus labels
+- General
+  - Added a swipe gesture helping class
+  - Added an helping class to easily makes cinematics (and mockups)
+  - Refractor of mockupG1 using the new framework
+- Documentation
+  - Added **CONTRIBUTING.md**
+  - Added changelog file *this one*
+
+
 ## Alpha-0.2.5 - code: 8
 - Proposition fix for Issue #21 *Live problem*
   - Fixed Mireille sometimes not losing a life after she just has lost a life.
