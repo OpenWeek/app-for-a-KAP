@@ -37,7 +37,7 @@ public class World2 implements Screen {
         String instr_string = languageStrings.get("game3_instr");
 
         Label instr = new Label(instr_string, new Label.LabelStyle(style.font, Color.BLACK));
-        float x = game.viewport.getWorldWidth()-instr.getMaxWidth() / 2.5f;
+        float x = game.viewport.getWorldWidth() / 12f;
         float y = game.viewport.getWorldHeight()*3 / 4;
         instr.setPosition(x,y);
 

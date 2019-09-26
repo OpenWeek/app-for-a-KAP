@@ -59,6 +59,7 @@ public class Game3 implements Screen {
         stage = new Stage(game.viewport);
 
         stage.addActor(imgFond);
+        stage.addActor(res);
     }
 
     public void back(){
@@ -78,7 +79,7 @@ public class Game3 implements Screen {
         }
 
         res.setText(result);
-        float x = game.viewport.getWorldWidth() / 2.5f;
+        float x = game.viewport.getWorldWidth() / 12f;
         float y = game.viewport.getWorldHeight() / 2;
         res.setPosition(x,y);
     }
