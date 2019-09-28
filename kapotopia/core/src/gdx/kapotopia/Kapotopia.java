@@ -24,7 +24,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	public final static float SCALLING_FACTOR_ENTITY = 5.3f;
 
-	private static final String TAG = "Class Kapotopia";
+	private static final String TAG = "Kapotopia_class";
 
 	// TODO changer VERSION_NAME ET VERSION_CODE à chaque fois que l'on update le jeu, pas trouvé de moyen pour les liés automatiquement au gradle build d'android
 	public static final String VERSION_NAME = "Alpha-0.2.6";

@@ -111,11 +111,11 @@ public class Game1 implements Screen, MireilleListener {
         this.stage = new Stage(game.viewport);
         this.random = new Random();
 
-        this.style = Utils.getStyleFont("SEASRN__.ttf");
-        this.styleSmall = Utils.getStyleFont("SEASRN__.ttf", 38);
+        this.style = Utils.getStyleFont("SEASRN__.ttf", 60, Color.WHITE);
+        this.styleSmall = Utils.getStyleFont("SEASRN__.ttf", 38, Color.WHITE);
 
-        this.bounds = new Rectangle(0,0,game.viewport.getWorldWidth(),game.viewport.getWorldHeight());
-        this.maxX = floorOfAMultipleOf250((game.viewport.getScreenWidth() / 2) + 250);
+        this.bounds = new Rectangle(0,0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+        this.maxX = floorOfAMultipleOf250( ( ((int) game.viewport.getWorldWidth()) / 2) + 250);
         this.MOVE_VALUE_X = 250;
 
         this.isFinish = false;
@@ -131,7 +131,7 @@ public class Game1 implements Screen, MireilleListener {
         stage.addActor(imgFond);
 
         // Labels and buttons
-        lifeLabel = new Label(LIFE_TXT + mireilleLife,new Label.LabelStyle(style.font, Color.BLACK));
+        lifeLabel = new Label(LIFE_TXT + mireilleLife,new Label.LabelStyle(style.font, style.fontColor));
         lifeLabel.setPosition(bounds.width - 240, bounds.height - 100);
 
         stage.addActor(lifeLabel);
@@ -149,10 +149,10 @@ public class Game1 implements Screen, MireilleListener {
             }
         });
         stage.addActor(pauseIcon);
-        scoreLabel = new Label(SCORE_TXT  + totalScore, new Label.LabelStyle(style.font, Color.BLACK));
+        scoreLabel = new Label(SCORE_TXT  + totalScore, new Label.LabelStyle(style.font, style.fontColor));
         scoreLabel.setPosition(25, bounds.height - 100);
         stage.addActor(scoreLabel);
-        pauseLabel = new Label("Pause", new Label.LabelStyle(style.font, Color.BLACK));
+        pauseLabel = new Label("Pause", new Label.LabelStyle(style.font, style.fontColor));
         pauseLabel.setPosition((bounds.width / 5) * 2, bounds.height / 2);
         pauseLabel.setVisible(false);
         stage.addActor(pauseLabel);
@@ -171,7 +171,7 @@ public class Game1 implements Screen, MireilleListener {
         this.mireilleLife = mireille.getLifes();
         this.ennemi = new Virus(this.bounds, this);
 
-        this.ennemiName = new Label(ennemi.getName(), new Label.LabelStyle(styleSmall.font, Color.BLACK));
+        this.ennemiName = new Label(ennemi.getName(), new Label.LabelStyle(styleSmall.font, styleSmall.fontColor));
         this.ennemiName.setPosition(ennemi.getX(),ennemi.getY() - 15);
         stage.addActor(ennemiName);
 
@@ -218,7 +218,7 @@ public class Game1 implements Screen, MireilleListener {
                     }
                 });
                 stage.addActor(title);
-                Label endScoreLabel = new Label(SCORE_TXT + totalScore, new Label.LabelStyle(style.font, Color.BLACK));
+                Label endScoreLabel = new Label(SCORE_TXT + totalScore, new Label.LabelStyle(style.font, style.fontColor));
                 endScoreLabel.setPosition((bounds.width / 2) - 150, (bounds.height / 2) - 60);
                 stage.addActor(endScoreLabel);
                 didGameOverScreenAppeared = true;
@@ -324,8 +324,9 @@ public class Game1 implements Screen, MireilleListener {
             @Override
             public void onRight() {
                 if(!isPaused) {
-                    final float newX = Math.min(mireille.getX() + MOVE_VALUE_X, maxX);
-                    Gdx.app.log(TAG, "Math.min( " + mireille.getX() + MOVE_VALUE_X + " , " + maxX + " )");
+                    final float xAndMoveValue = mireille.getX() + MOVE_VALUE_X;
+                    final float newX = Math.min(xAndMoveValue, maxX);
+                    Gdx.app.log(TAG, "Math.min( " + xAndMoveValue + " , " + maxX + " )");
                     updateMireille(newX);
                 }
             }
@@ -400,11 +401,9 @@ public class Game1 implements Screen, MireilleListener {
         Element root = xml.parse(Gdx.files.internal("sprite.xml"));
         Element ist_xml = root.getChildByName("ist-l");
         Element fake_xml = root.getChildByName("fakeist-l");
-        Element boss_xml = root.getChildByName("boss-l");
 
         List<VirusContainer> ist = new ArrayList<VirusContainer>();
         List<VirusContainer> fake = new ArrayList<VirusContainer>();
-        List<VirusContainer> boss = new ArrayList<VirusContainer>();
 
         for (Element el : ist_xml.getChildrenByName("ist")) {
             ist.add(new VirusContainer(el.get("texture"),el.get("name"), true));
