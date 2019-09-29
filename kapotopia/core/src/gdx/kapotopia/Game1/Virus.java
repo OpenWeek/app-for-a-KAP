@@ -3,6 +3,7 @@ package gdx.kapotopia.Game1;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
 import java.util.Random;
 
@@ -34,6 +35,10 @@ public class Virus extends VirusAbstract {
     // Méthode draw se trouve dans VirusAbstract
 
     public void act(float delta) {
+        for (Action action : this.getActions()) {
+            action.act(delta);
+        }
+
         final float newY = this.getY() - (this.getSpeed() * delta * acceleration) ;
         this.setY(newY);
         this.updateCollision(this.getX(),newY);
