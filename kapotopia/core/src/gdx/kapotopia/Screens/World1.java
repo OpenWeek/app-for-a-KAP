@@ -55,7 +55,8 @@ public class World1 implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 clic.play();
-                game.changeScreen(ScreenType.GAME2);
+                //game.changeScreen(ScreenType.GAME2);
+                game.changeScreen(ScreenType.MOCKUPG2);
             }
         });
 

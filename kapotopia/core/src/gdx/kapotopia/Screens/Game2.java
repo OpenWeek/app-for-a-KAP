@@ -52,13 +52,14 @@ public class Game2 implements Screen {
         this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
 
         //Creation the screen images
-        final Image intro0 = new Image(new Texture(GAME_PATH + "20_board_0.png"));
+        /*final Image intro0 = new Image(new Texture(GAME_PATH + "20_board_0.png"));
         prepareMockup(intro0);
         intro0.setVisible(true);
         final Image intro1 = new Image(new Texture(GAME_PATH + "20_board_1.png"));
-        prepareMockup(intro1);
+        prepareMockup(intro1);*/
         final Image game0 = new Image(new Texture(GAME_PATH + "21_board_0.jpg"));
         prepareMockup(game0);
+        game0.setVisible(true);
         final Image outro0 = new Image(new Texture(GAME_PATH + "22_board_0.jpg"));
         prepareMockup(outro0);
 
@@ -95,7 +96,7 @@ public class Game2 implements Screen {
         btnBack.setVisible(false);
 
         //Creation of button next
-        final Button btnNext = new TextButton("Next", style);
+        /*final Button btnNext = new TextButton("Next", style);
         btnNext.setPosition(x, y);
         btnNext.addListener(new ChangeListener(){
             @Override
@@ -114,15 +115,15 @@ public class Game2 implements Screen {
                 }
             }
         });
-        btnNext.setVisible(true);
+        btnNext.setVisible(true);*/
 
         stage.addActor(imgBckground);
 
-        stage.addActor(intro0);
-        stage.addActor(intro1);
+        //stage.addActor(intro0);
+        //stage.addActor(intro1);
         stage.addActor(game0);
 
-        stage.addActor(btnNext);
+        //stage.addActor(btnNext);
         stage.addActor(btnPlay);
         stage.addActor(btnBack);
 
