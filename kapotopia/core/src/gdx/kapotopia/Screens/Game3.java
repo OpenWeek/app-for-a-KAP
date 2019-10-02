@@ -29,7 +29,7 @@ public class Game3 implements Screen {
         this.game = game;
         inGame = true;
 
-        core = new Core(this, 8,10, 3);
+        core = new Core(this, 8,10, 2);
 
         EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
         Gdx.input.setCatchBackKey(true);

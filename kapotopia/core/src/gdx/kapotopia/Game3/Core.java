@@ -46,7 +46,7 @@ public class Core {
         Pair.tile_size = 96;
 
         if (sizex*Pair.tile_size > Gdx.graphics.getWidth() || sizey*Pair.tile_size > Gdx.graphics.getHeight()){
-            Pair.tile_size = Math.min(Gdx.graphics.getWidth()/sizex,Gdx.graphics.getHeight()/sizey );
+            Pair.tile_size = Math.min(Gdx.graphics.getWidth()/sizex,Gdx.graphics.getHeight()/sizey ) - 5;
         }
 
         random = new Random();
@@ -413,7 +413,8 @@ class Pair{
         p.line = true;
         p.sprite = new Sprite(lineT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
-        p.sprite.scale((float)Pair.tile_size/p.sprite.getWidth());
+        p.sprite.setSize(Pair.tile_size, Pair.tile_size);
+        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
         return p;
     }
     public static Pair dline(int x, int y){
@@ -423,7 +424,8 @@ class Pair{
         p.line = true;
         p.sprite = new Sprite(dlineT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
-        p.sprite.scale((float)Pair.tile_size/p.sprite.getWidth());
+        p.sprite.setSize(Pair.tile_size, Pair.tile_size);
+        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
         return p;
     }
     public static Pair cross(int x, int y){
@@ -433,7 +435,7 @@ class Pair{
         p.turn = true;
         p.sprite = new Sprite(crossT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
-        p.sprite.scale((float)Pair.tile_size/p.sprite.getWidth());
+        p.sprite.setSize(Pair.tile_size, Pair.tile_size);
         return p;
     }
     public static Pair tcross(int x, int y){
@@ -443,7 +445,7 @@ class Pair{
         p.turn = true;
         p.sprite = new Sprite(tcrossT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
-        p.sprite.scale((float)Pair.tile_size/p.sprite.getWidth());
+        p.sprite.setSize(Pair.tile_size, Pair.tile_size);
         return p;
     }
     public static Pair turn(int x, int y){
@@ -452,7 +454,7 @@ class Pair{
         p.turn = true;
         p.sprite = new Sprite(turnT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
-        p.sprite.scale((float)Pair.tile_size/p.sprite.getWidth());
+        p.sprite.setSize(Pair.tile_size, Pair.tile_size);
         return p;
     }
     public static Pair dturn(int x, int y){
@@ -462,7 +464,7 @@ class Pair{
         p.turn = true;
         p.sprite = new Sprite(dturnT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
-        p.sprite.scale((float)Pair.tile_size/p.sprite.getWidth());
+        p.sprite.setSize(Pair.tile_size, Pair.tile_size);
         return p;
     }
 
