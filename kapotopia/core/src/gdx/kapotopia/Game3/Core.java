@@ -448,6 +448,7 @@ class Pair{
         p.sprite = new Sprite(crossT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
         p.sprite.setSize(Pair.tile_size, Pair.tile_size);
+        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
         return p;
     }
     public static Pair tcross(int x, int y){
@@ -458,6 +459,7 @@ class Pair{
         p.sprite = new Sprite(tcrossT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
         p.sprite.setSize(Pair.tile_size, Pair.tile_size);
+        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
         return p;
     }
     public static Pair turn(int x, int y){
@@ -467,6 +469,7 @@ class Pair{
         p.sprite = new Sprite(turnT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
         p.sprite.setSize(Pair.tile_size, Pair.tile_size);
+        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
         return p;
     }
     public static Pair dturn(int x, int y){
@@ -477,6 +480,7 @@ class Pair{
         p.sprite = new Sprite(dturnT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
         p.sprite.setSize(Pair.tile_size, Pair.tile_size);
+        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
         return p;
     }
 
