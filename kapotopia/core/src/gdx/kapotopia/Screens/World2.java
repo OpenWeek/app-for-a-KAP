@@ -1,9 +1,13 @@
 package gdx.kapotopia.Screens;
 
-import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -12,24 +16,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.utils.Timer;
+
+import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
 public class World2 implements Screen {
 
     private Kapotopia game;
-    private Texture fond;
     private Stage stage;
+
+    private Sound gameStart;
 
     public World2(final Kapotopia game) {
 
         this.game = game;
-        fond = new Texture("FondNiveauBlanc2.png");
-        Image imgFond = new Image(fond);
+        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         stage = new Stage(game.viewport);
 
         stage.addActor(imgFond);
 
+        this.gameStart = AssetsManager.getInstance().getSoundByPath("sound/bruitage/plasterbrain_game-start.ogg");
 
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
 
@@ -48,8 +57,13 @@ public class World2 implements Screen {
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new Game3(game));
-                dispose();
+                gameStart.play();
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        game.changeScreen(ScreenType.GAME3);
+                    }
+                },2f);
             }
         });
 
@@ -61,8 +75,7 @@ public class World2 implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.BACK) {
-                    dispose();
-                    game.setScreen(new MainMenu(game));
+                    game.changeScreen(ScreenType.MAINMENU);
                     return true;
                 }
                 return false;
@@ -72,11 +85,12 @@ public class World2 implements Screen {
 
         Gdx.input.setInputProcessor(iM);
 
+        AssetsManager.getInstance().addStage(stage, "world2");
     }
 
     @Override
     public void show() {
-
+        //In case there are problems to restart the game where it was left after going to another screen and returning, it could maybe be solved by setting the Input Processor (Gdx.input.setInputProcessor(iM);) here and not when the game is first created
     }
 
     @Override
@@ -88,7 +102,6 @@ public class World2 implements Screen {
     @Override
     public void resize(int width, int height) {
         game.viewport.update(width, height, true);
-
     }
 
     @Override
@@ -108,7 +121,6 @@ public class World2 implements Screen {
 
     @Override
     public void dispose() {
-        fond.dispose();
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("world2");
     }
 }

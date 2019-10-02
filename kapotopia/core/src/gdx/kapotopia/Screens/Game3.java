@@ -1,9 +1,13 @@
 package gdx.kapotopia.Screens;
 
-import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -13,14 +17,17 @@ import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Utils;
+import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.ScreenType;
 
 public class Game3 implements Screen {
 
     private Kapotopia game;
-    private Texture fond;
     private Stage stage;
     private boolean inGame;
     private Label res;
+
+    private Sound successSound;
 
     private Core core;
 
@@ -54,39 +61,31 @@ public class Game3 implements Screen {
 
         Gdx.input.setInputProcessor(iM);
 
-        fond = new Texture("FondNiveauBlanc2.png");
-        Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
 
-        stage.addActor(imgFond);
         stage.addActor(res);
+        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        stage = new Stage(game.viewport);
+
+        this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
+
+        core = new Core(this, 8,10, 3);
+
+        stage.addActor(imgFond);
+        AssetsManager.getInstance().addStage(stage, "game3");
     }
 
     public void back(){
-        dispose();
-        game.setScreen(new World2(game));
-    }
-
-    public void result(boolean won){
-        I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
-        String result;
-        inGame = false;
-        if(won){
-            result = languageStrings.get("game3_win");
+        if(core.playerSucceeded()) {
+            this.successSound.play();
         }
-        else {
-            result = languageStrings.get("game3_loose");
-        }
-
-        res.setText(result);
-        float x = game.viewport.getWorldWidth() / 12f;
-        float y = game.viewport.getWorldHeight() / 2;
-        res.setPosition(x,y);
+        game.changeScreen(ScreenType.WORLD2);
     }
 
     @Override
     public void show() {
-
+        //TODO Maybe Gdx.input.setInputProcessor(iM); needs to be here -> To check
+        setUpInputProcessor();
     }
 
     @Override
@@ -101,7 +100,6 @@ public class Game3 implements Screen {
     @Override
     public void resize(int width, int height) {
         game.viewport.update(width, height, true);
-
     }
 
     @Override
@@ -121,7 +119,24 @@ public class Game3 implements Screen {
 
     @Override
     public void dispose() {
-        fond.dispose();
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("game3");
+    }
+
+    private void setUpInputProcessor() {
+        EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
+        Gdx.input.setCatchBackKey(true);
+        InputMultiplexer iM = new InputMultiplexer();
+        iM.addProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.BACK) {
+                    game.changeScreen(ScreenType.WORLD2);
+                    return true;
+                }
+                return false;
+            }
+        });
+        iM.addProcessor(eventHandlerGame3);
+        Gdx.input.setInputProcessor(iM);
     }
 }

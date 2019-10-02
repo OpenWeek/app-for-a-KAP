@@ -17,6 +17,7 @@ public class Core {
     static int yOffSet = 0;
 
     private Game3 parent;
+    private boolean succeeded;
 
     private Pair [][] tiles;
     private int sizex;
@@ -40,6 +41,7 @@ public class Core {
 
     public Core(Game3 parent, int sizex, int sizey, int nbGoals){
         this.parent = parent;
+        this.succeeded = false;
         this.sizex = sizex;
         this.sizey = sizey;
 
@@ -350,7 +352,9 @@ public class Core {
 
             //updatePath(tiles[X][Y]);
             if(checkGoal()){
-                parent.result(true);
+                // Game Over
+                this.succeeded = true;
+                parent.back();
             }
         }
     }
@@ -372,6 +376,14 @@ public class Core {
             shapeRenderer.rect(xOffSet+goals[i]*Pair.tile_size, yOffSet+ sizey*Pair.tile_size, Pair.tile_size, Pair.tile_size);
         }
         shapeRenderer.end();
+    }
+
+    /**
+     * check if the player succeeded or not
+     * @return true if the player succeeded, otherwise false
+     */
+    public boolean playerSucceeded() {
+        return this.succeeded;
     }
 }
 

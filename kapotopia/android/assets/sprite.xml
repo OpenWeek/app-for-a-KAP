@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sprites>
+    <ist-l>
+        <ist texture="IST/Gonorrhee.png" name=" Gonorrhée"/>
+        <ist texture="IST/Chlamydia.png" name="   Chlamydia"/>
+        <ist texture="IST/HepatiteB.png" name="   Hepatite B"/>
+        <ist texture="IST/Herpes.png" name=" Herpes"/>
+        <ist texture="IST/VIH.png" name="   VIH"/>
+        <ist texture="IST/Papillomavirus.png" name="Papillomavirus"/>
+        <ist texture="IST/Syphillis.png" name="   Syphillis"/>
+        <ist texture="IST/Trichomonas.png" name=" Trichomonas"/>
+    </ist-l>
+    <fakeist-l>
+        <fakeist texture="IST/Alternariose.png" name=" Alternariose"/>
+        <fakeist texture="IST/FroidePisse.png" name="  Froide pisse"/>
+        <fakeist texture="IST/Lycanthropie.png" name="Lycanthropie"/>
+        <fakeist texture="IST/Mononucleose.png" name="Mononucléose"/>
+        <fakeist texture="IST/Mycose.png" name=" Mycose"/>
+        <fakeist texture="IST/Depression.png" name=" Dépression"/>
+        <fakeist texture="IST/ChevalDeTroie.png" name=" Cheval de Troie"/>
+        <fakeist texture="IST/Cancer.png" name=" Cancer"/>
+        <fakeist texture="IST/Gale.png" name=" Gale"/>
+        <fakeist texture="IST/Morpion.png" name=" Morpion"/>
+        <fakeist texture="IST/PesteBubonique.png" name=" Peste bubonique"/>
+        <fakeist texture="IST/Variole.png" name=" Variole"/>
+    </fakeist-l>
+</sprites>

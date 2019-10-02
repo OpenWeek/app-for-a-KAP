@@ -1,20 +1,24 @@
 package gdx.kapotopia.Screens;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import gdx.kapotopia.Game4.Choice;
+import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.Game4.Mireille;
 import gdx.kapotopia.Game4.Question;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
 public class World4 implements Screen {
@@ -22,6 +26,7 @@ public class World4 implements Screen {
     private Kapotopia game;
     private Texture fond;
     private Stage stage;
+    private Mireille mireille;
     private Question[] questions;
     private TextButton choice1;
     private TextButton choice2;
@@ -36,11 +41,18 @@ public class World4 implements Screen {
     private int goodAnswer;
     private float time;
     private float totalTime;
-
+    private TextureRegion frame1;
+    private TextureRegion frame2;
+    private TextureRegion frame3;
+    private TextureRegion[] allFrame;
+    Animation<TextureRegion> mireilleAnimation;
 
     public World4(final Kapotopia game) {
-
-
+        frame1 = new TextureRegion(new Texture(Gdx.files.internal("Mireille2b.png")));
+        frame2 = new TextureRegion(new Texture(Gdx.files.internal("Mireille1b.png")));
+        frame3 = new TextureRegion(new Texture(Gdx.files.internal("Mireille3b.png")));
+        allFrame = new TextureRegion[] {frame1, frame2, frame3};
+        mireilleAnimation = new Animation<TextureRegion>(0.1f, allFrame);
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
         choice1 = new TextButton("Choix1", style);
         choice2= new TextButton("Choix2", style);
@@ -66,6 +78,7 @@ public class World4 implements Screen {
         this.game = game;
         fond = new Texture("FondNiveauBlanc2.png");
         Image imgFond = new Image(fond);
+        mireille = new Mireille();
         stage = new Stage(game.viewport);
         time = 0;
         questions = new Question[2];
@@ -78,6 +91,7 @@ public class World4 implements Screen {
         stage.addActor(choice3);
         stage.addActor(choice4);
         stage.addActor(score2);
+        stage.addActor(mireille);
         stage.addActor(question);
         stage.addActor(retour);
         choice1.addListener(new ChangeListener() {
@@ -97,7 +111,7 @@ public class World4 implements Screen {
         retour.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenu(game));
+                game.changeScreen(ScreenType.MAINMENU);
             }
         });
         choice2.addListener(new ChangeListener() {
@@ -143,14 +157,12 @@ public class World4 implements Screen {
             }
         });
 
-
-        Gdx.input.setInputProcessor(stage);
-
+        AssetsManager.getInstance().addStage(stage, "world4");
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -222,6 +234,6 @@ public class World4 implements Screen {
     @Override
     public void dispose() {
         fond.dispose();
-        stage.dispose();
+        AssetsManager.getInstance().disposeStage("world4");
     }
 }
