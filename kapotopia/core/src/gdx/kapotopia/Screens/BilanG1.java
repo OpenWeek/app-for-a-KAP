@@ -27,7 +27,6 @@ import gdx.kapotopia.Utils;
 public class BilanG1 implements Screen {
     // Basic variables
     private Kapotopia game;
-    private Texture fond;
     private Stage stage;
     TextButton.TextButtonStyle style;
 
@@ -53,11 +52,10 @@ public class BilanG1 implements Screen {
 
     public BilanG1(final Kapotopia game) {
         this.game = game;
-        this.fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
         this.stage = new Stage(game.viewport);
         this.style = Utils.getStyleFont("SEASRN__.ttf");
 
-        this.imgFond = new Image(fond);
+        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         imgFond.setVisible(true);
         stage.addActor(imgFond);
 

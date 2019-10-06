@@ -220,6 +220,24 @@ public abstract class CinematicScreen implements Screen {
      * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
      * @param imagesTexturePaths the paths of the images shown, shown by increasing order
      * @param textColor the text color given by a constant in Color class of libgdx
+     * @param timerScheduleTime the time between the player pressed the "finish" button and when it change screen
+     */
+    public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
+                           String[] imagesTexturePaths, Color textColor, final float timerScheduleTime) {
+        builder(game, stage, screenName, nextScreen, imagesTexturePaths, "FondNiveauBlanc2.png",
+                "sound/bruitage/cmdrobot_videogame-jump.ogg",
+                "sound/bruitage/plasterbrain_game-start.ogg",
+                "sound/bruitage/crisstanza_pause.mp3", "Next",
+                "Play", "SEASRN__.ttf", textColor, timerScheduleTime, 200);
+    }
+
+    /**
+     * @param game the Kapotopia game
+     * @param stage a stage that has been instancied beforehand
+     * @param screenName the name of the screen, e.g. "mockupG1"
+     * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
+     * @param imagesTexturePaths the paths of the images shown, shown by increasing order
+     * @param textColor the text color given by a constant in Color class of libgdx
      */
     public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
                            String[] imagesTexturePaths, Color textColor) {

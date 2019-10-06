@@ -181,7 +181,6 @@ public class Game1 implements Screen, MireilleListener {
         // Major actors
         this.mireille = prepareMireille();
         this.mireille.addListener(this);
-        this.mireilleLife = mireille.getLifes();
         this.ennemi = new Virus(this.bounds, this);
 
         this.ennemiName = new Label(ennemi.getName(), new Label.LabelStyle(styleSmall.font, styleSmall.fontColor));
@@ -191,7 +190,10 @@ public class Game1 implements Screen, MireilleListener {
         stage.addActor(mireille);
         stage.addActor(ennemi);
 
-        configureGame(GameDifficulty.MEDIUM);
+        GameDifficulty difficulty = (GameDifficulty) game.getTheValueGateway().removeFromTheStore("difficulty");
+        if(difficulty == null)
+            difficulty = GameDifficulty.MEDIUM;
+        configureGame(difficulty);
         AssetsManager.getInstance().addStage(stage, TAG);
     }
 
@@ -199,23 +201,27 @@ public class Game1 implements Screen, MireilleListener {
         switch (dif) {
             case EASY:
                 mireille.setLifes((byte) 3);
+                this.mireilleLife = mireille.getLifes();
                 istsToCatch = 5;
                 upperLimitScore = -1;
                 break;
             case MEDIUM:
                 mireille.setLifes((byte) 3);
+                this.mireilleLife = mireille.getLifes();
                 istsToCatch = 15;
                 upperLimitScore = 200;
                 break;
             case HARD:
                 mireille.setLifes((byte) 1);
+                this.mireilleLife = mireille.getLifes();
                 istsToCatch = 20;
                 upperLimitScore = 300;
                 break;
             case INFINITE:
                 mireille.setLifes((byte) 3);
-                istsToCatch = -1;
-                upperLimitScore = -1;
+                this.mireilleLife = mireille.getLifes();
+                istsToCatch = Integer.MAX_VALUE;
+                upperLimitScore = Integer.MAX_VALUE;
                 break;
         }
     }
@@ -256,6 +262,7 @@ public class Game1 implements Screen, MireilleListener {
                     public void changed(ChangeEvent event, Actor actor) {
                         title.setVisible(false);
                         if(missedIsts.isEmpty()) {
+                            game.destroyScreen(ScreenType.GAME1);
                             game.destroyScreen(ScreenType.MAINMENU);
                             game.changeScreen(ScreenType.MAINMENU);
                         }else{

@@ -24,10 +24,11 @@ import gdx.kapotopia.Utils;
 public class mockupG1 extends CinematicScreen {
 
     public mockupG1(final Kapotopia game) {
-        super(game, new Stage(game.viewport), "mockupG1", ScreenType.GAME1,
+        super(game, new Stage(game.viewport), "mockupG1", ScreenType.DIF,
                 new String[]{"World1/Game1/World1Ecran1.png", "World1/Game1/World1Ecran2.png",
                 "World1/Game1/World1Ecran3.png", "World1/Game1/World1Ecran4.png",
-                        "World1/Game1/World1Ecran5.png"}, Color.WHITE);
+                        "World1/Game1/World1Ecran5.png"}, Color.WHITE, 0);
+        game.getTheValueGateway().addToTheStore("nextscreen", ScreenType.GAME1);
     }
 
     @Override
