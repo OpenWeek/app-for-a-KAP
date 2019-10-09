@@ -82,13 +82,6 @@ public class Core {
 
         tiles[0][0].t1.lit = true;
 
-       /* for(Pair[] a : tiles){
-            for(Pair til : a){
-                til.t1.rotate(random.nextInt(3));
-                til.t2.rotate(random.nextInt(3));
-            }
-        }*/
-
         //updatePath(tiles[0][0]);
 
     }
@@ -211,62 +204,67 @@ public class Core {
 
     }
     private boolean checkGoal(){
-        return  tiles[correctGoal][sizey-1].connection(0) && tiles[correctGoal][sizey-1].lit();
+        return  tiles[correctGoal][sizey-1].connection(0) != null && tiles[correctGoal][sizey-1].lit();
     }
 
-    /*private void updatePath(Pair moved){
+    private void updatePath(Pair moved){
 
-        Tile origin = tiles[0][0];
+        Pair origin = tiles[0][0];
 
         set.clear();
-        if (!origin.connection[2]){
-            downdatePath(set, origin);
+        Tile t = origin.connection(2);
+        if (t != null){
+            //downdatePath(set, origin);
             return;
         }
 
-        origin.lit = true;
+        t.lit = true;
         stack.add(origin);
         set.add(origin);
 
         while (!stack.isEmpty()){
-            Tile t = stack.pop();
+            Pair p = stack.pop();
             boolean[] dir = t.connection;
-            if(dir[0] && t.y < sizey-1){
-                Tile t2 =  tiles[t.x][t.y+1];
-                if(t2.connection[2] && ! set.contains(t2)){
-                    stack.add(t2);
-                    set.add(t2);
+            if(p.connection(0) != null && p.y < sizey-1){
+                Pair p2 =  tiles[p.x][p.y+1];
+                Tile t2 = p2.connection(2);
+                if( t2 != null && ! set.contains(p2)){
+                    stack.add(p2);
+                    set.add(p2);
                     t2.lit = true;
                 }
             }
-            if(dir[1] && t.x > 0){
-                Tile t2 = tiles[t.x-1][t.y];
-                if(t2.connection[3] && !set.contains(t2)){
-                    stack.add(t2);
-                    set.add(t2);
+            if(p.connection(1) != null && p.x > 0){
+                Pair p2 = tiles[p.x-1][p.y];
+                Tile t2 = p2.connection(3);
+                if(t2 != null && !set.contains(p2)){
+                    stack.add(p2);
+                    set.add(p2);
                     t2.lit = true;
                 }
             }
-            if(dir[2] && t.y > 0){
-                Tile t2 = tiles[t.x][t.y-1];
-                if(t2.connection[0] && !set.contains(t2)){
-                    stack.add(t2);
-                    set.add(t2);
+            if(p.connection(2) != null && p.y > 0){
+                Pair p2 = tiles[p.x][p.y-1];
+                Tile t2 = p2.connection(0);
+                if(t2 != null && !set.contains(p2)){
+                    stack.add(p2);
+                    set.add(p2);
                     t2.lit = true;
                 }
             }
-            if(dir[3] && t.x < sizex-1){
-                Tile t2 = tiles[t.x+1][t.y];
-                if(t2.connection[1] && !set.contains(t2) ){
-                    stack.add(t2);
-                    set.add(t2);
+            if(p.connection(3) != null && p.x < sizex-1){
+                Pair p2 = tiles[p.x+1][p.y];
+                Tile t2 = p2.connection(1);
+                if(t2 != null && !set.contains(p2) ){
+                    stack.add(p2);
+                    set.add(p2);
                     t2.lit = true;
                 }
             }
         }
-        downdatePath(set, moved);
+        //downdatePath(set, moved);
     }
-    private void downdatePath(Set<Tile> set, Tile moved){
+    /*private void downdatePath(Set<Tile> set, Tile moved){
         if(!set.contains(moved)){
             set.add(moved);
             moved.lit = false;
@@ -341,8 +339,8 @@ public class Core {
                 }
             }
         }
-    }
-    */
+    }*/
+
     void touchHandler(int x, int y){
         //Click inside puzzle
         if(x >= xOffSet && y >= yOffSet && x <= xOffSet+width && y <= yOffSet+height){
@@ -350,7 +348,7 @@ public class Core {
             int Y = (y-yOffSet)/Pair.tile_size;
             tiles[X][Y].rotate(1);
 
-            //updatePath(tiles[X][Y]);
+            updatePath(tiles[X][Y]);
             if(checkGoal()){
                 // Game Over
                 this.succeeded = true;
@@ -426,7 +424,7 @@ class Pair{
         p.sprite = new Sprite(lineT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
         p.sprite.setSize(Pair.tile_size, Pair.tile_size);
-        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
+        p.sprite.setOriginCenter();
         return p;
     }
     public static Pair dline(int x, int y){
@@ -437,7 +435,7 @@ class Pair{
         p.sprite = new Sprite(dlineT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
         p.sprite.setSize(Pair.tile_size, Pair.tile_size);
-        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
+        p.sprite.setOriginCenter();
         return p;
     }
     public static Pair cross(int x, int y){
@@ -448,7 +446,7 @@ class Pair{
         p.sprite = new Sprite(crossT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
         p.sprite.setSize(Pair.tile_size, Pair.tile_size);
-        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
+        p.sprite.setOriginCenter();
         return p;
     }
     public static Pair tcross(int x, int y){
@@ -459,7 +457,7 @@ class Pair{
         p.sprite = new Sprite(tcrossT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
         p.sprite.setSize(Pair.tile_size, Pair.tile_size);
-        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
+        p.sprite.setOriginCenter();
         return p;
     }
     public static Pair turn(int x, int y){
@@ -469,7 +467,7 @@ class Pair{
         p.sprite = new Sprite(turnT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
         p.sprite.setSize(Pair.tile_size, Pair.tile_size);
-        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
+        p.sprite.setOriginCenter();
         return p;
     }
     public static Pair dturn(int x, int y){
@@ -480,7 +478,7 @@ class Pair{
         p.sprite = new Sprite(dturnT);
         p.sprite.setPosition(Core.xOffSet + tile_size * x , Core.yOffSet + tile_size * y );
         p.sprite.setSize(Pair.tile_size, Pair.tile_size);
-        p.sprite.setOrigin(Core.xOffSet + tile_size * x + Pair.tile_size/2,Core.yOffSet + tile_size * y + Pair.tile_size/2);
+        p.sprite.setOriginCenter();
         return p;
     }
 
@@ -518,11 +516,16 @@ class Pair{
         }
     }
 
-    boolean connection(int side){
+    Tile connection(int side){
         if (t2 != null) {
-            return t2.connection[side] || t1.connection[side];
+            if(t2.connection[side]){
+                return t2;
+            }
         }
-        return t1.connection[side];
+        if( t1.connection[side]){
+            return t1;
+        }
+        return null;
     }
 
     void rotate(int step) {
@@ -549,7 +552,13 @@ class Pair{
             if (connection(i))
                 shapeRenderer.rect(Core.xOffSet + tile_size * x + 3 * tile_size / 8, Core.yOffSet + tile_size * y + tile_size / 2, tile_size / 8, 0, tile_size / 4, tile_size / 2, 1, 1, 90 * i);
         }*/
+
         if(sprite != null) {
+            if(lit()){
+                sprite.setColor(Color.RED);
+            }else{
+                sprite.setColor(Color.WHITE);
+            }
             sprite.draw(batch);
         }
     }

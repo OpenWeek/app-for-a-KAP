@@ -13,12 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.I18NBundle;
+import gdx.kapotopia.*;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
-import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Utils;
-import gdx.kapotopia.AssetsManager;
-import gdx.kapotopia.ScreenType;
 
 public class Game3 implements Screen {
 
@@ -39,24 +36,13 @@ public class Game3 implements Screen {
         core = new Core(this, 8,10, 2);
 
         EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
-        Gdx.input.setCatchBackKey(true);
 
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
 
         res = new Label("", new Label.LabelStyle(style.font, Color.BLACK));
 
         InputMultiplexer iM = new InputMultiplexer();
-        iM.addProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.BACK) {
-                    dispose();
-                    game.setScreen(new World2(game));
-                    return true;
-                }
-                return false;
-            }
-        });
+        iM.addProcessor(new StandardInputAdapter(this,game));
         iM.addProcessor(eventHandlerGame3);
 
         Gdx.input.setInputProcessor(iM);
