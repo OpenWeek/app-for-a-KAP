@@ -69,12 +69,13 @@ public class Core {
         stack = new Stack<Pair>();
         set = new HashSet<Pair>(sizex*sizey);
 
-        //setGoal(nbGoals);
+        setGoal(nbGoals, sizey);
 
         batch = new SpriteBatch();
 
         //TODO : assign correct goal
         correctGoal = goals[nbGoals/2].pos;
+        goals[nbGoals/2].sprite.setTexture(goalT);
 
         for (Goal g: goals) {
             createPath(g.pos,sizey-1);
