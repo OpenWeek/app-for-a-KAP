@@ -20,9 +20,9 @@ public class Mireille extends Actor {
 
     public Mireille() {
 
-        frame1 = new TextureRegion(new Texture(Gdx.files.internal("Mireille2b.png")));
-        frame2 = new TextureRegion(new Texture(Gdx.files.internal("Mireille1b.png")));
-        frame3 = new TextureRegion(new Texture(Gdx.files.internal("Mireille3b.png")));
+        frame1 = new TextureRegion(new Texture(Gdx.files.internal("Mireille.png")));
+        frame2 = new TextureRegion(new Texture(Gdx.files.internal("Mireille.png")));
+        frame3 = new TextureRegion(new Texture(Gdx.files.internal("Mireille.png")));
         allFrame = new TextureRegion[] {frame1, frame2, frame3};
         mireilleAnimation = new Animation<TextureRegion>(0.2f, allFrame);
         stateTime=0;
