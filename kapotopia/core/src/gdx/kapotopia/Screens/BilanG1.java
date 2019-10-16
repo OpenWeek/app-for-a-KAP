@@ -27,7 +27,6 @@ import gdx.kapotopia.Utils;
 public class BilanG1 implements Screen {
     // Basic variables
     private Kapotopia game;
-    private Texture fond;
     private Stage stage;
     TextButton.TextButtonStyle style;
 
@@ -53,11 +52,10 @@ public class BilanG1 implements Screen {
 
     public BilanG1(final Kapotopia game) {
         this.game = game;
-        this.fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
         this.stage = new Stage(game.viewport);
-        this.style = Utils.getStyleFont("SEASRN__.ttf");
+        this.style = Utils.getStyleFont("COMMS.ttf");
 
-        this.imgFond = new Image(fond);
+        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         imgFond.setVisible(true);
         stage.addActor(imgFond);
 
@@ -138,6 +136,7 @@ public class BilanG1 implements Screen {
     @Override
     public void show() {
         fail.play();
+        Gdx.input.vibrate(new long[] { 0, 750, 400}, -1);
         setUpInputProcessor();
     }
 
@@ -152,7 +151,6 @@ public class BilanG1 implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
