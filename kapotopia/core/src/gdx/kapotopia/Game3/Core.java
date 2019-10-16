@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import gdx.kapotopia.Screens.Game3;
 
+import javax.xml.soap.Text;
 import java.util.*;
 
 public class Core {
@@ -25,15 +26,16 @@ public class Core {
     private int width;
     private int height;
 
-    private int[] goals;//All goals at y = sizey-1
+    private Goal[] goals;//All goals at y = sizey-1
     private int correctGoal;
     private Stack<Pair> stack;
     private HashSet<Pair> set;
     private Random random;
 
-    private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
 
+    private Texture goalT;
+    private Texture falseGoalT;
 
     public Core(Game3 parent, int sizex, int sizey){
         this(parent, sizex, sizey, 2);
@@ -55,6 +57,9 @@ public class Core {
             }
         }
 
+        goalT = new Texture("game3/Serrure.png");
+        falseGoalT = new Texture("game3/Serrure2.png");
+
         width = Pair.tile_size*sizex;
         height = Pair.tile_size*sizey;
 
@@ -64,16 +69,15 @@ public class Core {
         stack = new Stack<Pair>();
         set = new HashSet<Pair>(sizex*sizey);
 
-        setGoal(nbGoals);
+        //setGoal(nbGoals);
 
-        shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
 
         //TODO : assign correct goal
-        correctGoal = goals[nbGoals/2];
+        correctGoal = goals[nbGoals/2].pos;
 
-        for (int i: goals) {
-            createPath(i,sizey-1);
+        for (Goal g: goals) {
+            createPath(g.pos,sizey-1);
         }
 
         updatePath(tiles[0][0]);
@@ -213,11 +217,11 @@ public class Core {
         }
     }
 
-    private void setGoal(int nbGoals){
-        goals = new int[nbGoals];
+    private void setGoal(int nbGoals, int y){
+        goals = new Goal[nbGoals];
         int part = sizex/(nbGoals+1);
         for (int i = 1; i <= nbGoals; i++){
-            goals[i-1] = i*part;
+            goals[i-1] = new Goal(falseGoalT ,i*part, y);
         }
 
     }
@@ -312,18 +316,14 @@ public class Core {
         for (Pair[] t : tiles){
             for(Pair tile : t){
                 tile.draw(batch);
-                //TODO: DRAW TILE BACKGROUND
             }
+        }
+        for(Goal i : goals){
+            //shapeRenderer.rect(xOffSet+i*Pair.tile_size, yOffSet+ sizey*Pair.tile_size, Pair.tile_size, Pair.tile_size);
+            i.draw(batch);
         }
         batch.end();
 
-        shapeRenderer.begin(ShapeType.Filled);
-        //TODO: replace with true goal indication
-        shapeRenderer.setColor(Color.RED);
-        for(int i : goals){
-            shapeRenderer.rect(xOffSet+i*Pair.tile_size, yOffSet+ sizey*Pair.tile_size, Pair.tile_size, Pair.tile_size);
-        }
-        shapeRenderer.end();
     }
 
     /**
@@ -539,6 +539,24 @@ class Tile{
         //clock-wise
         if (sprite != null) {
             sprite.rotate(-step * 90);
+        }
+    }
+}
+
+class Goal{
+    int pos;
+    Sprite sprite;
+
+    Goal(Texture texture, int x, int y){
+        sprite = new Sprite(texture);
+        sprite.setPosition(Core.xOffSet + Pair.tile_size * x , Core.yOffSet + Pair.tile_size * y );
+        sprite.setSize(Pair.tile_size, Pair.tile_size);
+        sprite.setOriginCenter();
+    }
+
+    void draw(SpriteBatch batch){
+        if(sprite != null) {
+            sprite.draw(batch);
         }
     }
 }
