@@ -18,10 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Timer;
 
-import gdx.kapotopia.AssetsManager;
-import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.Utils;
+import gdx.kapotopia.*;
 
 public class World2 implements Screen {
 
@@ -50,7 +47,7 @@ public class World2 implements Screen {
         float y = game.viewport.getWorldHeight()*3 / 4;
         instr.setPosition(x,y);
 
-        Button play = new TextButton("Play", style);
+        final Button play = new TextButton("Play", style);
         x = game.viewport.getWorldWidth() / 2.5f;
         y = game.viewport.getWorldHeight() / 4;
         play.setPosition(x,y);
@@ -71,16 +68,7 @@ public class World2 implements Screen {
         stage.addActor(play);
 
         InputMultiplexer iM = new InputMultiplexer();
-        iM.addProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.BACK) {
-                    game.changeScreen(ScreenType.MAINMENU);
-                    return true;
-                }
-                return false;
-            }
-        });
+        iM.addProcessor(new StandardInputAdapter(this,game));
         iM.addProcessor(stage);
 
         Gdx.input.setInputProcessor(iM);

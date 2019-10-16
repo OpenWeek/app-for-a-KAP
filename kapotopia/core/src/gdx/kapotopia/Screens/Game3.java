@@ -37,25 +37,28 @@ public class Game3 implements Screen {
 
         EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
 
-        TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
-
-        res = new Label("", new Label.LabelStyle(style.font, Color.BLACK));
-
         InputMultiplexer iM = new InputMultiplexer();
-        iM.addProcessor(new StandardInputAdapter(this,game));
+        iM.addProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.BACK) {
+                    game.changeScreen(ScreenType.WORLD2);
+                    return true;
+                }
+                return false;
+            }
+        });
         iM.addProcessor(eventHandlerGame3);
 
         Gdx.input.setInputProcessor(iM);
 
         stage = new Stage(game.viewport);
 
-        stage.addActor(res);
+        //stage.addActor(res);
         Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         stage = new Stage(game.viewport);
 
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
-
-        core = new Core(this, 8,10, 3);
 
         stage.addActor(imgFond);
         AssetsManager.getInstance().addStage(stage, "game3");
@@ -71,7 +74,18 @@ public class Game3 implements Screen {
     @Override
     public void show() {
         //TODO Maybe Gdx.input.setInputProcessor(iM); needs to be here -> To check
-        setUpInputProcessor();
+        InputMultiplexer iM = new InputMultiplexer();
+        iM.addProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.BACK) {
+                    game.changeScreen(ScreenType.WORLD2);
+                    return true;
+                }
+                return false;
+            }
+        });
+        iM.addProcessor(new EventHandlerGame3(core));
     }
 
     @Override
@@ -108,7 +122,7 @@ public class Game3 implements Screen {
         AssetsManager.getInstance().disposeStage("game3");
     }
 
-    private void setUpInputProcessor() {
+    void setUpInputProcessor() {
         EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
         Gdx.input.setCatchBackKey(true);
         InputMultiplexer iM = new InputMultiplexer();
