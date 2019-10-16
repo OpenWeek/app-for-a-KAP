@@ -82,14 +82,79 @@ public class Core {
 
     private void createPath(int xDest, int yDest){
 
-        tiles[0][0] = Pair.randomTurn(0,0);
+        //tiles[0][0] = Pair.randomTurn(0,0);
         Pair t = tiles[0][0];
-        boolean vert = false;
+        boolean vert = true;
 
         int p = 25;
 
         while (! ((t.x == xDest) && (t.y == yDest))){
-            if(random.nextBoolean()){//horizontal
+            if(vert){
+                if(random.nextBoolean()) {//horizontal
+                    vert = false;
+                    boolean dx = (xDest - t.x) < 0;
+                    if (random.nextInt(100) < p) {
+                        dx = !dx;
+                        p -= 1;
+                    }
+                    if (dx && t.x > 0) {
+                        tiles[t.x][t.y] = Pair.randomTurn(t.x ,t.y);
+                        t = tiles[t.x - 1][t.y];
+                    }
+                    else if(t.x < sizex - 1){
+                        tiles[t.x][t.y] = Pair.randomTurn(t.x ,t.y);
+                        t = tiles[t.x + 1][t.y];
+                    }
+                }
+                else{
+                    boolean dy = (yDest - t.y) < 0;
+                    if (dy && t.y > 0) {
+                        tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
+                        t = tiles[t.x][t.y-1];
+                    }
+                    else if(t.y < sizey - 1){
+                        tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
+                        t = tiles[t.x][t.y + 1];
+                    }
+                }
+            }
+            else{
+                if(random.nextBoolean()) {//horizontal
+                    boolean dx = (xDest - t.x) < 0;
+                    if (dx && t.x > 0) {
+                        tiles[t.x][t.y] = Pair.randomTurn(t.x ,t.y);
+                        t = tiles[t.x - 1][t.y];
+                    }
+                    else if(t.x < sizex - 1){
+                        tiles[t.x][t.y] = Pair.randomTurn(t.x ,t.y);
+                        t = tiles[t.x + 1][t.y];
+                    }
+                }
+                else{
+                    vert = true;
+                    boolean dy = (yDest - t.y) < 0;
+                    if(random.nextInt(100) < p){
+                        dy = !dy;
+                        p-=1;
+                    }
+
+                    if (dy && t.y > 0) {
+                        tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
+                        t = tiles[t.x][t.y-1];
+                    }
+                    else if(t.y < sizey - 1){
+                        tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
+                        t = tiles[t.x][t.y + 1];
+                    }
+                }
+            }
+            if(vert){
+                tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
+            }
+            else{
+                tiles[t.x][t.y] = Pair.randomTurn(t.x,t.y);
+            }
+            /*if(random.nextBoolean()){//horizontal
                 boolean dx = (xDest - t.x) < 0;
                 if(random.nextInt(100) < p){
                     dx = !dx;
@@ -144,7 +209,7 @@ public class Core {
                 }
 
                 vert = true;
-            }
+            }*/
         }
     }
 
