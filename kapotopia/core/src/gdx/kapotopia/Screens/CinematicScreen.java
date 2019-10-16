@@ -191,7 +191,7 @@ public abstract class CinematicScreen implements Screen {
                            String endSoundPath, String pauseSoundPath, String nextBtnLabel,
                            String finishBtnLabel) {
         builder(game, stage, screenName, nextScreen, imagesTexturePaths, fondPath, changeOfImageSoundPath,
-                endSoundPath, pauseSoundPath, nextBtnLabel, finishBtnLabel, "SEASRN__.ttf",
+                endSoundPath, pauseSoundPath, nextBtnLabel, finishBtnLabel, "COMMS.ttf",
                 Color.BLACK,2f, 200);
     }
 
@@ -210,7 +210,7 @@ public abstract class CinematicScreen implements Screen {
                 "sound/bruitage/cmdrobot_videogame-jump.ogg",
                 "sound/bruitage/plasterbrain_game-start.ogg",
                 "sound/bruitage/crisstanza_pause.mp3", nextBtnLabel, finishBtnLabel,
-                "SEASRN__.ttf", Color.BLACK,2f, 200);
+                "COMMS.ttf", Color.BLACK,2f, 200);
     }
 
     /**
@@ -228,7 +228,7 @@ public abstract class CinematicScreen implements Screen {
                 "sound/bruitage/cmdrobot_videogame-jump.ogg",
                 "sound/bruitage/plasterbrain_game-start.ogg",
                 "sound/bruitage/crisstanza_pause.mp3", "Next",
-                "Play", "SEASRN__.ttf", textColor, timerScheduleTime, 200);
+                "Play", "COMMS.ttf", textColor, timerScheduleTime, 200);
     }
 
     /**
@@ -245,7 +245,7 @@ public abstract class CinematicScreen implements Screen {
                 "sound/bruitage/cmdrobot_videogame-jump.ogg",
                 "sound/bruitage/plasterbrain_game-start.ogg",
                 "sound/bruitage/crisstanza_pause.mp3", "Next",
-                "Play", "SEASRN__.ttf", textColor,2f, 200);
+                "Play", "COMMS.ttf", textColor,2f, 200);
     }
 
     /**
@@ -261,7 +261,7 @@ public abstract class CinematicScreen implements Screen {
                 "sound/bruitage/cmdrobot_videogame-jump.ogg",
                 "sound/bruitage/plasterbrain_game-start.ogg",
                 "sound/bruitage/crisstanza_pause.mp3", "Next",
-                "Play", "SEASRN__.ttf", Color.BLACK,2f, 200);
+                "Play", "COMMS.ttf", Color.BLACK,2f, 200);
     }
 
     /**
@@ -275,7 +275,7 @@ public abstract class CinematicScreen implements Screen {
                 "sound/bruitage/cmdrobot_videogame-jump.ogg",
                 "sound/bruitage/plasterbrain_game-start.ogg",
                 "sound/bruitage/crisstanza_pause.mp3", "Next",
-                "Play", "SEASRN__.ttf", Color.BLACK,2f, 200);
+                "Play", "COMMS.ttf", Color.BLACK,2f, 200);
     }
 
     // Regular functions

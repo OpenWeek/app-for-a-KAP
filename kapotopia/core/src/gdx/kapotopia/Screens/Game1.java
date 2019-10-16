@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
@@ -75,7 +76,8 @@ public class Game1 implements Screen, MireilleListener {
     // Labels
     private Label lifeLabel;
     private Label scoreLabel;
-    private Label ennemiName;
+    private Label istCatchedLabel;
+    private Label ennemiNameLabel;
     private Label pauseLabel;
     private Label missedLabel;
     private ImageButton pauseIcon;
@@ -83,6 +85,7 @@ public class Game1 implements Screen, MireilleListener {
     // Constantes
     private final static String LIFE_TXT = "Vies: ";
     private final static String SCORE_TXT = "Score: ";
+    private final static String IST_CATCHED_TXT = "Ists attrapées: ";
     private static final String TAG = "game1";
     private final static int MIN_X = 15;
     private final int maxX;
@@ -118,8 +121,8 @@ public class Game1 implements Screen, MireilleListener {
         this.stage = new Stage(game.viewport);
         this.random = new Random();
 
-        this.style = Utils.getStyleFont("SEASRN__.ttf", 60, Color.WHITE);
-        this.styleSmall = Utils.getStyleFont("SEASRN__.ttf", 38, Color.WHITE);
+        this.style = Utils.getStyleFont("COMMS.ttf", 60, Color.WHITE);
+        this.styleSmall = Utils.getStyleFont("COMMS.ttf", 38, Color.WHITE);
 
         this.bounds = new Rectangle(0,0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         this.maxX = floorOfAMultipleOf250( ( ((int) game.viewport.getWorldWidth()) / 2) + 250);
@@ -158,12 +161,20 @@ public class Game1 implements Screen, MireilleListener {
             }
         });
         stage.addActor(pauseIcon);
+
+        istCatchedLabel = new Label(IST_CATCHED_TXT  + istsCatched, new Label.LabelStyle(style.font, style.fontColor));
+        istCatchedLabel.setPosition(25, bounds.height - 100);
+        istCatchedLabel.setAlignment(Align.left);
+        istCatchedLabel.setVisible(true);
+        stage.addActor(istCatchedLabel);
         scoreLabel = new Label(SCORE_TXT  + totalScore, new Label.LabelStyle(style.font, style.fontColor));
-        scoreLabel.setPosition(25, bounds.height - 100);
+        scoreLabel.setPosition(25, bounds.height - 200);
+        scoreLabel.setAlignment(Align.center);
         stage.addActor(scoreLabel);
         pauseLabel = new Label("Pause", new Label.LabelStyle(style.font, style.fontColor));
         pauseLabel.setPosition((bounds.width / 5) * 2, bounds.height / 2);
         pauseLabel.setVisible(false);
+        pauseLabel.setAlignment(Align.center);
         stage.addActor(pauseLabel);
         missedLabel = new Label("Loupé", new Label.LabelStyle(styleSmall.font, styleSmall.fontColor));
         missedLabel.setVisible(false);
@@ -183,9 +194,10 @@ public class Game1 implements Screen, MireilleListener {
         this.mireille.addListener(this);
         this.ennemi = new Virus(this.bounds, this);
 
-        this.ennemiName = new Label(ennemi.getName(), new Label.LabelStyle(styleSmall.font, styleSmall.fontColor));
-        this.ennemiName.setPosition(ennemi.getX(),ennemi.getY() - 15);
-        stage.addActor(ennemiName);
+        this.ennemiNameLabel = new Label(ennemi.getName(), new Label.LabelStyle(styleSmall.font, styleSmall.fontColor));
+        this.ennemiNameLabel.setPosition(ennemi.getX() + ennemi.getWidth()/2 - ennemiNameLabel.getWidth()/2,ennemi.getY() - 15);
+        this.ennemiNameLabel.setAlignment(Align.center);
+        stage.addActor(ennemiNameLabel);
 
         stage.addActor(mireille);
         stage.addActor(ennemi);
@@ -202,20 +214,23 @@ public class Game1 implements Screen, MireilleListener {
             case EASY:
                 mireille.setLifes((byte) 3);
                 this.mireilleLife = mireille.getLifes();
-                istsToCatch = 5;
+                istsToCatch = 10;
                 upperLimitScore = -1;
                 break;
             case MEDIUM:
                 mireille.setLifes((byte) 3);
                 this.mireilleLife = mireille.getLifes();
-                istsToCatch = 15;
+                istsToCatch = 35;
                 upperLimitScore = 200;
+                //this.ennemi.setAccAddFactor(0.09f);
                 break;
             case HARD:
                 mireille.setLifes((byte) 1);
                 this.mireilleLife = mireille.getLifes();
-                istsToCatch = 20;
-                upperLimitScore = 300;
+                istsToCatch = 50;
+                upperLimitScore = 500;
+                //this.ennemi.setAccAddFactor(0.10f);
+                this.ennemi.setAcceleration(1.f);
                 break;
             case INFINITE:
                 mireille.setLifes((byte) 3);
@@ -238,11 +253,12 @@ public class Game1 implements Screen, MireilleListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         lifeLabel.setText(LIFE_TXT + mireilleLife);
         scoreLabel.setText(SCORE_TXT + totalScore);
+        istCatchedLabel.setText(IST_CATCHED_TXT + istsCatched);
         if(isFinish) {
             // GAME OVER
             if(!didGameOverScreenAppeared) {
                 this.music.setVolume(0.1f);
-                String titleText;
+                final String titleText;
                 if(victory) {
                     this.successSound.play();
                     titleText = "Bravo !";
@@ -445,11 +461,11 @@ public class Game1 implements Screen, MireilleListener {
     }
 
     public void setNewEnnemiLabelPosition(float x, float y){
-        this.ennemiName.setPosition(x, y);
+        this.ennemiNameLabel.setPosition(x, y);
     }
 
     public void changeEnnemiLabel(String newName) {
-        this.ennemiName.setText(newName);
+        this.ennemiNameLabel.setText(newName);
     }
 
     /**

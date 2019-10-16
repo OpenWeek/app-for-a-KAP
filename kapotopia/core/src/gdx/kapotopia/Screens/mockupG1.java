@@ -29,6 +29,7 @@ public class mockupG1 extends CinematicScreen {
                 "World1/Game1/World1Ecran3.png", "World1/Game1/World1Ecran4.png",
                         "World1/Game1/World1Ecran5.png"}, Color.WHITE, 0);
         game.getTheValueGateway().addToTheStore("nextscreen", ScreenType.GAME1);
+        AssetsManager.getInstance().getSoundByPath("sound/bruitage/littlerainyseasons_fail.mp3");
     }
 
     @Override

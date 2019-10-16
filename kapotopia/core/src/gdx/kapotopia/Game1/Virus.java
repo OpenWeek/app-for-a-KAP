@@ -17,6 +17,7 @@ public class Virus extends VirusAbstract {
     private Game1 game;
 
     private float acceleration;
+    private float accAddFactor;
 
     public Virus(Rectangle bounds, Game1 game) {
         this.screenBounds = bounds;
@@ -28,8 +29,9 @@ public class Virus extends VirusAbstract {
         }else{
             builderHelper(updateNewVirus(),50,bounds.getHeight());
         }
-        this.setSpeed(500);
+        this.speed = 500;
         this.acceleration = 1.00f;
+        this.accAddFactor = 0.08f;
     }
 
     // Méthode draw se trouve dans VirusAbstract
@@ -43,16 +45,20 @@ public class Virus extends VirusAbstract {
         this.setY(newY);
         this.updateCollision(this.getX(),newY);
         // If the virus has reached the end of the screen
+        boolean hasToChange = false;
         if (this.getY() < -200) {
             if(isIST()) {
                 game.addMissedIST(getName());
             }
             this.setY(screenBounds.getHeight());
             this.setX(50 + 275 * random.nextInt(3));
-            changeVirusType();
-            this.acceleration += 0.08f;
+            acceleration += accAddFactor;
+            hasToChange = true;
         }
         game.setNewEnnemiLabelPosition(this.getX(), this.getY() - 15);
+        if(hasToChange) {
+            changeVirusType();
+        }
     }
 
     /**
@@ -81,5 +87,21 @@ public class Virus extends VirusAbstract {
 
     public void setIST(boolean IST) {
         isIST = IST;
+    }
+
+    public float getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(float acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public float getAccAddFactor() {
+        return accAddFactor;
+    }
+
+    public void setAccAddFactor(float accAddFactor) {
+        this.accAddFactor = accAddFactor;
     }
 }

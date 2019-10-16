@@ -54,7 +54,7 @@ public class ChoosingDifficultyScreen implements Screen {
         final ScreenType finalNextScreen = nextScreen;
 
         // Buttons configuration
-        TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
+        TextButton.TextButtonStyle style = Utils.getStyleFont("COMMS.ttf");
         easyBtn = new TextButton("Facile", style);
         mediumBtn = new TextButton("Moyen", style);
         hardBtn = new TextButton("Difficile", style);
@@ -80,7 +80,7 @@ public class ChoosingDifficultyScreen implements Screen {
                     public void run() {
                         game.changeScreen(finalNextScreen);
                     }
-                },3f);
+                },2f);
             }
         });
         mediumBtn.addListener(new ChangeListener() {
@@ -93,7 +93,7 @@ public class ChoosingDifficultyScreen implements Screen {
                     public void run() {
                         game.changeScreen(finalNextScreen);
                     }
-                },3f);
+                },2f);
             }
         });
         hardBtn.addListener(new ChangeListener() {
@@ -106,7 +106,7 @@ public class ChoosingDifficultyScreen implements Screen {
                     public void run() {
                         game.changeScreen(finalNextScreen);
                     }
-                },3f);
+                },2f);
             }
         });
         infiniteBtn.addListener(new ChangeListener() {
@@ -119,7 +119,7 @@ public class ChoosingDifficultyScreen implements Screen {
                     public void run() {
                         game.changeScreen(finalNextScreen);
                     }
-                },3f);
+                },2f);
             }
         });
 
