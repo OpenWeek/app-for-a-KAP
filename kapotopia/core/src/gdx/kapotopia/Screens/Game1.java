@@ -195,7 +195,7 @@ public class Game1 implements Screen, MireilleListener {
         this.ennemi = new Virus(this.bounds, this);
 
         this.ennemiNameLabel = new Label(ennemi.getName(), new Label.LabelStyle(styleSmall.font, styleSmall.fontColor));
-        this.ennemiNameLabel.setPosition(ennemi.getX() + ennemi.getWidth()/2 - ennemiNameLabel.getWidth()/2,ennemi.getY() - 15);
+        this.ennemiNameLabel.setPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemiNameLabel.getWidth()) /2,ennemi.getY() - 20);
         this.ennemiNameLabel.setAlignment(Align.center);
         stage.addActor(ennemiNameLabel);
 
@@ -298,7 +298,7 @@ public class Game1 implements Screen, MireilleListener {
                 stage.act(delta);
 
                 if(CollisionManager.getInstance().checkCollision(mireille,ennemi)) {
-                    ennemi.setPosition(50 + 275 * random.nextInt(3), bounds.getHeight());
+                    // Collision
                 }
             }
         }

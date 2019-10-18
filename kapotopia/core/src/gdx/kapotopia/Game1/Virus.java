@@ -10,7 +10,11 @@ import java.util.Random;
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Screens.Game1;
 
+import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
+
 public class Virus extends VirusAbstract {
+
+    private final String TAG = "VIRUS";
 
     private Random random;
     private boolean isIST;
@@ -18,6 +22,7 @@ public class Virus extends VirusAbstract {
 
     private float acceleration;
     private float accAddFactor;
+    private float nameLabX;
 
     public Virus(Rectangle bounds, Game1 game) {
         this.screenBounds = bounds;
@@ -32,11 +37,17 @@ public class Virus extends VirusAbstract {
         this.speed = 500;
         this.acceleration = 1.00f;
         this.accAddFactor = 0.08f;
+        this.realWidth = ((float) texture.getRegionWidth()) / (SCALLING_FACTOR_ENTITY + LOCAL_SCALLING_FACTOR);
+        this.realHeight = ((float) texture.getRegionHeight()) / (SCALLING_FACTOR_ENTITY + LOCAL_SCALLING_FACTOR);
+
+        // We don't know yet the size of the label, so we take an arbitrary middle position
+        this.nameLabX = computeNameLabX();
     }
 
     // Méthode draw se trouve dans VirusAbstract
 
     public void act(float delta) {
+
         for (Action action : this.getActions()) {
             action.act(delta);
         }
@@ -50,15 +61,47 @@ public class Virus extends VirusAbstract {
             if(isIST()) {
                 game.addMissedIST(getName());
             }
-            this.setY(screenBounds.getHeight());
-            this.setX(50 + 275 * random.nextInt(3));
             acceleration += accAddFactor;
             hasToChange = true;
         }
-        game.setNewEnnemiLabelPosition(this.getX(), this.getY() - 15);
+
+        game.setNewEnnemiLabelPosition(this.nameLabX, this.getY() - 25);
         if(hasToChange) {
             changeVirusType();
         }
+    }
+
+    private void setNewRandPosition() {
+        this.setY(screenBounds.getHeight());
+        this.setX(50 + 250 * random.nextInt(4));
+    }
+
+    /**
+     * Compute the X value for the label that indicate the name
+     * @return the new Value of X
+     */
+    private float computeNameLabX() {
+        /* Note: I know this is very ugly code, but believe me, i spent already to much time trying
+         *       to find a better way to do this. I found the values by trials.
+         *       This works, don't break it.
+         */
+        final float factoredNameLength;
+        if (this.getName().length() > 11) {
+            factoredNameLength = this.getName().length() * this.getName().length();
+        } else if (this.getName().length() > 9) {
+            factoredNameLength = this.getName().length() * this.getName().length() * (this.getName().length() / 7.5f);
+        } else if (this.getName().length() > 7) {
+            factoredNameLength = this.getName().length() * this.getName().length() * (this.getName().length() / 6f);
+        } else if (this.getName().length() > 5) {
+            factoredNameLength = this.getName().length() * this.getName().length() * (this.getName().length() / 1.5f);
+        } else if (this.getName().length() > 3) {
+            factoredNameLength = this.getName().length() * this.getName().length() * this.getName().length() * (this.getName().length() / 2f);
+        } else {
+            factoredNameLength = this.getName().length() * this.getName().length() * this.getName().length() * this.getName().length() * (this.getName().length() / 2f);
+        }
+
+        final float a = this.getX() + (this.getRealWidth() - factoredNameLength) / 2f;
+        return Math.max(a,this.getX());
     }
 
     /**
@@ -67,7 +110,12 @@ public class Virus extends VirusAbstract {
     public void changeVirusType() {
         this.setTexture(new TextureRegion(updateNewVirus()));
         game.changeEnnemiLabel(this.getName());
-        System.out.println(this.getName());
+        setNewRandPosition();
+        // We update the X position of the name label to make it fit right
+        this.nameLabX = computeNameLabX();
+//        Gdx.app.log(TAG, "GetX() : " + getX() + " | Name.length : " +
+//                this.getName().length() + "\nRealWidth : " + getRealWidth() + " | Width : " +
+//                getWidth() + "\nnameLabX : " + this.nameLabX + " for " + this.getName());
     }
 
     /**

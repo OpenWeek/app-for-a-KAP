@@ -21,7 +21,7 @@ public class Utils {
     }
 
     private static TextButton.TextButtonStyle buildTextButtonStyle(final String path, final int size, final Color color) {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(path));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/" + path));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         parameter.color = color;

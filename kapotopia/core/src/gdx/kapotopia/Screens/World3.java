@@ -2,6 +2,7 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
@@ -16,45 +19,42 @@ import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Game1.MireilleBasic;
 import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
+import gdx.kapotopia.Utils;
 
 public class World3 implements Screen {
 
     private Kapotopia game;
-    private Texture fond;
     private Stage stage;
-    private MireilleBasic mireille;
-    private Virus ennemi;
 
     public World3(final Kapotopia game) {
 
         this.game = game;
-        fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
+        Texture fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
-        ennemi = new Virus(new Rectangle(0,0,game.viewport.getScreenWidth(),game.viewport.getScreenHeight()), null);
-        stage.addActor(ennemi);
-        mireille = new MireilleBasic();
-        mireille.addListener(new ActorGestureListener() {
-            public void fling (InputEvent event, float velocityX, float velocityY, int button) {
-                if (velocityX > 0)
-                {
-                    mireille.setX(Math.min((mireille.getX()+275),600));
-                }
-                else {
-                    mireille.setX(Math.max((mireille.getX()-275),50));
-                }
-                System.out.println("swipe!! " + velocityX + ", " + velocityY);
+
+        TextButton.TextButtonStyle style = Utils.getStyleFont("COMMS.ttf", 60);
+        Label soon = new Label("En construction, revenez plus tard !", new Label.LabelStyle(style.font, style.fontColor));
+        soon.setPosition(50, game.viewport.getWorldHeight() * 0.8f);
+        soon.setWrap(true);
+        soon.setWidth(game.viewport.getWorldWidth() - 200);
+        soon.setHeight(300);
+        soon.setVisible(true);
+        stage.addActor(soon);
+
+        TextButton back = new TextButton("Back", style);
+        back.setPosition(game.viewport.getWorldWidth()/2, 50);
+        back.setVisible(true);
+        back.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.destroyScreen(ScreenType.WORLD3);
+                game.changeScreen(ScreenType.MAINMENU);
             }
         });
-        mireille.addListener(new ChangeListener() {
-                                 @Override
-                                 public void changed(ChangeEvent event, Actor actor) {
-                                     System.out.println("change");
-
-                                 }
-                             });
-        stage.addActor(mireille);
+        stage.addActor(back);
 
         AssetsManager.getInstance().addStage(stage, "world3");
     }
