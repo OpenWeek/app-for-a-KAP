@@ -89,7 +89,7 @@ public class Virus extends VirusAbstract {
         if (this.getName().length() > 11) {
             factoredNameLength = this.getName().length() * this.getName().length();
         } else if (this.getName().length() > 9) {
-            factoredNameLength = this.getName().length() * this.getName().length() * (this.getName().length() / 7.5f);
+            factoredNameLength = this.getName().length() * this.getName().length() * (this.getName().length() / 8f);
         } else if (this.getName().length() > 7) {
             factoredNameLength = this.getName().length() * this.getName().length() * (this.getName().length() / 6f);
         } else if (this.getName().length() > 5) {

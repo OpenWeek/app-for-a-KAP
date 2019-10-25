@@ -16,8 +16,7 @@
         </ist>
         <ist texture="IST/Herpes.png" name=" Herpes">
             <explanation>
-                Le virus Herpes simplex touche près de 2 millions de belges.
-                Il faut faire attention de bien parler d'Herpès génitale !
+                Le virus Herpes simplex touche près de 2 millions de belges. Il faut faire attention de bien parler d'Herpès génitale !
             </explanation>
         </ist>
         <ist texture="IST/VIH.png" name="VIH">
@@ -33,14 +32,12 @@
         </ist>
         <ist texture="IST/Syphillis.png" name="Syphillis">
             <explanation>
-                Elle est due à la bactérie tréponème pâle.
-                La syphilis  est en troisième place sur le podium des IST les plus contractées par les belges.
+                Elle est due à la bactérie tréponème pâle. La syphilis  est en troisième place sur le podium des IST les plus contractées par les belges.
             </explanation>
         </ist>
         <ist texture="IST/Trichomonas.png" name="Trichomonas">
             <explanation>
-                La trichonomas est un petit parasite qui s'attrape via contact sexuel.
-                Son infection chez l'homme est plus difficile à détecter que chez la femme vu l'absence de symptôme la plupart du temps.
+                La trichonomas est un petit parasite qui s'attrape via contact sexuel. Son infection chez l'homme est plus difficile à détecter que chez la femme vu l'absence de symptôme la plupart du temps.
             </explanation>
         </ist>
     </ist-l>

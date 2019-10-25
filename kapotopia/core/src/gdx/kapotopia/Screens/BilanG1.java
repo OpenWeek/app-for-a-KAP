@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -14,11 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 
 import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.StandardInputAdapter;
@@ -30,12 +31,13 @@ public class BilanG1 implements Screen {
     private Stage stage;
     TextButton.TextButtonStyle style;
 
-    private HashSet<String> missedIsts;
+    private HashSet<VirusContainer> missedIsts;
 
     private Button next;
 
     // Labels
     private LinkedList<Label> istsToShow;
+    private LinkedList<Label> descrToShow;
     private Label intro;
     private int pointeur;
 
@@ -55,11 +57,14 @@ public class BilanG1 implements Screen {
         this.stage = new Stage(game.viewport);
         this.style = Utils.getStyleFont("COMMS.ttf");
 
+        final float wWidth = game.viewport.getWorldWidth();
+        final float wHeight = game.viewport.getWorldHeight();
+
         this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         imgFond.setVisible(true);
         stage.addActor(imgFond);
 
-        this.missedIsts = (HashSet) game.getTheValueGateway().removeFromTheStore("G1-missedIST");
+        this.missedIsts = (HashSet<VirusContainer>) game.getTheValueGateway().removeFromTheStore("G1-missedIST");
         if(missedIsts == null) {
             changeToMainMenu();
             return;
@@ -71,30 +76,47 @@ public class BilanG1 implements Screen {
 
         // ists to show
         this.istsToShow = new LinkedList<Label>();
-        for (String ist : missedIsts) {
-            final Label l = new Label(ist, new Label.LabelStyle(style.font, Color.BLACK));
-            istsToShow.add(l);
-            l.setVisible(false);
-            final float xNext = game.viewport.getWorldWidth() / 3f;
-            final float yNext = game.viewport.getWorldHeight() / 2f;
-            l.setPosition(xNext, yNext);
-            stage.addActor(l);
+        this.descrToShow = new LinkedList<Label>();
+        for (VirusContainer ist : missedIsts) {
+            // Name
+            final Label ln = new Label(ist.getName(), new Label.LabelStyle(style.font, Color.BLACK));
+            istsToShow.add(ln);
+            ln.setVisible(false);
+            final float xNext = wWidth / 3f;
+            final float yNext = wHeight / 1.5f;
+            ln.setPosition(xNext, yNext);
+            // Description
+            final Label ld = new Label(ist.getDescription(), new Label.LabelStyle(style.font, Color.BLACK));
+            descrToShow.add(ld);
+            ld.setVisible(false);
+            final float xDescr = wWidth / 30f;
+            final float yDescr = yNext - (wHeight / 3f);
+            final float wDescr = wWidth - 2 * (wWidth / 30f);
+            final float hDescr = wHeight / 3f;
+            ld.setPosition(xDescr, yDescr, Align.left);
+            ld.setWidth(wDescr);
+            ld.setHeight(hDescr);
+            ld.setWrap(true);
+            // General
+            stage.addActor(ln);
+            stage.addActor(ld);
         }
+
         pointeur = 0;
 
         // Intro text
         this.intro = new Label("Bien joué ! Mais vous avez oublié d'attraper les ists suivant",
                 new Label.LabelStyle(style.font, Color.BLACK));
-        intro.setPosition(game.viewport.getWorldWidth() / 9f,
-                game.viewport.getWorldHeight() / 1.2f);
-        intro.setWidth(game.viewport.getWorldWidth() / 1.3f);
+        intro.setPosition(wWidth / 9f,
+                wHeight / 1.2f);
+        intro.setWidth(wWidth / 1.3f);
         intro.setWrap(true);
         stage.addActor(intro);
 
         // Button
         next = new TextButton("Next", style);
-        final float xNext = game.viewport.getWorldWidth() / 2.5f;
-        final float yNext = game.viewport.getWorldHeight() / 8f;
+        final float xNext = wWidth / 2.5f;
+        final float yNext = wHeight / 8f;
         next.setPosition(xNext, yNext);
         next.addListener(new ChangeListener() {
             @Override
@@ -104,13 +126,18 @@ public class BilanG1 implements Screen {
                     changeToMainMenu();
                 }else{
                     if(pointeur == 0) {
-                        final Label l = istsToShow.getFirst();
-                        l.setVisible(true);
+                        final Label ln = istsToShow.getFirst();
+                        ln.setVisible(true);
+                        final Label ld = descrToShow.getFirst();
+                        ld.setVisible(true);
                         intro.setVisible(false);
                     } else {
                         istsToShow.get(pointeur-1).setVisible(false);
-                        final Label l = istsToShow.get(pointeur);
-                        l.setVisible(true);
+                        final Label ln = istsToShow.get(pointeur);
+                        ln.setVisible(true);
+                        descrToShow.get(pointeur-1).setVisible(false);
+                        final Label ld = descrToShow.get(pointeur);
+                        ld.setVisible(true);
                     }
                     openSound.play();
                     pointeur++;

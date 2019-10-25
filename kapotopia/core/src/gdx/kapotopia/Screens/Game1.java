@@ -47,15 +47,15 @@ import gdx.kapotopia.Utils;
 
 public class Game1 implements Screen, MireilleListener {
 
-    // Variables générales
+    // General Variables
     private Kapotopia game;
     private final Image imgFond;
     private Stage stage;
     private Random random;
-    // Style de texte
+    // Style of text
     private TextButton.TextButtonStyle style;
     private TextButton.TextButtonStyle styleSmall;
-    // Sons et musique
+    // Sons and musics
     private Sound touchedSound;
     private Sound failSound;
     private Sound successSound;
@@ -63,7 +63,7 @@ public class Game1 implements Screen, MireilleListener {
     private Sound pauseSound;
     private Sound istTouchedSound;
     private Music music;
-    // Variables utiles
+    // Useful Variables
     private boolean isFinish;
     private boolean didGameOverScreenAppeared;
     private boolean isPaused; // To check if the game is paused or not
@@ -82,16 +82,18 @@ public class Game1 implements Screen, MireilleListener {
     private Label missedLabel;
     private ImageButton pauseIcon;
 
-    // Constantes
-    private final static String LIFE_TXT = "Vies: ";
-    private final static String SCORE_TXT = "Score: ";
-    private final static String IST_CATCHED_TXT = "Ists attrapées: ";
-    private static final String TAG = "game1";
+    // Constants
+
     private final static int MIN_X = 15;
     private final int maxX;
     private final static int MIN_Y = 25;
     private final int MOVE_VALUE_X;
     private final Rectangle bounds;
+
+    private static final String TAG = "game1";
+    private final static String LIFE_TXT = "Vies: ";
+    private final static String SCORE_TXT = "Score: ";
+    private final static String IST_CATCHED_TXT = "Ists attrapées: ";
     private final static String[] SOUNDSPATHS = {
             "sound/bruitage/thefsoundman_punch-02.wav",
             "sound/bruitage/jivatma07_j1game-over-mono.wav",
@@ -109,7 +111,13 @@ public class Game1 implements Screen, MireilleListener {
     private List<VirusContainer> ist;  // <Nom, VIRUS_TYPE>
     private List<VirusContainer> fake; // <Nom, VIRUS_TYPE>
 
-    private HashSet<String> missedIsts;
+    private HashSet<VirusContainer> missedIsts;
+
+
+    /* *******************************************************
+     *                      M E T H O D S                   *
+     ******************************************************* */
+
 
     /**
      * Constructeur
@@ -125,7 +133,7 @@ public class Game1 implements Screen, MireilleListener {
         this.styleSmall = Utils.getStyleFont("COMMS.ttf", 38, Color.WHITE);
 
         this.bounds = new Rectangle(0,0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
-        this.maxX = floorOfAMultipleOf250( ( ((int) game.viewport.getWorldWidth()) / 2) + 250);
+        this.maxX = Utils.floorOfAMultipleOf250( ( ((int) game.viewport.getWorldWidth()) / 2) + 250);
         this.MOVE_VALUE_X = 250;
 
         this.isFinish = false;
@@ -136,7 +144,7 @@ public class Game1 implements Screen, MireilleListener {
         this.istsCatched = 0;
 
         initVirusTextures();
-        this.missedIsts = new HashSet<String>();
+        this.missedIsts = new HashSet<VirusContainer>();
 
         //// Setting up the stage
         this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("World1/Game1/JungleEtFeuilles.png"));
@@ -209,38 +217,6 @@ public class Game1 implements Screen, MireilleListener {
         AssetsManager.getInstance().addStage(stage, TAG);
     }
 
-    private void configureGame(GameDifficulty dif) {
-        switch (dif) {
-            case EASY:
-                mireille.setLifes((byte) 3);
-                this.mireilleLife = mireille.getLifes();
-                istsToCatch = 10;
-                upperLimitScore = -1;
-                break;
-            case MEDIUM:
-                mireille.setLifes((byte) 3);
-                this.mireilleLife = mireille.getLifes();
-                istsToCatch = 35;
-                upperLimitScore = 200;
-                //this.ennemi.setAccAddFactor(0.09f);
-                break;
-            case HARD:
-                mireille.setLifes((byte) 1);
-                this.mireilleLife = mireille.getLifes();
-                istsToCatch = 50;
-                upperLimitScore = 500;
-                //this.ennemi.setAccAddFactor(0.10f);
-                this.ennemi.setAcceleration(1.f);
-                break;
-            case INFINITE:
-                mireille.setLifes((byte) 3);
-                this.mireilleLife = mireille.getLifes();
-                istsToCatch = Integer.MAX_VALUE;
-                upperLimitScore = Integer.MAX_VALUE;
-                break;
-        }
-    }
-
     @Override
     public void show() {
         music.play();
@@ -257,40 +233,7 @@ public class Game1 implements Screen, MireilleListener {
         if(isFinish) {
             // GAME OVER
             if(!didGameOverScreenAppeared) {
-                this.music.setVolume(0.1f);
-                final String titleText;
-                if(victory) {
-                    this.successSound.play();
-                    titleText = "Bravo !";
-                }else{
-                    this.failSound.play(0.7f);
-                    titleText = "GAME OVER";
-                }
-                for(Actor actor : stage.getActors()) {
-                    if(!(actor.equals(this.imgFond) || actor.equals(lifeLabel))) {
-                        actor.setVisible(false);
-                    }
-                }
-                final Button title = new TextButton(titleText,style);
-                title.setPosition((bounds.getWidth() / 2) - 175, bounds.getHeight() / 2);
-                title.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        title.setVisible(false);
-                        if(missedIsts.isEmpty()) {
-                            game.destroyScreen(ScreenType.GAME1);
-                            game.destroyScreen(ScreenType.MAINMENU);
-                            game.changeScreen(ScreenType.MAINMENU);
-                        }else{
-                            game.getTheValueGateway().addToTheStore("G1-missedIST", missedIsts);
-                            game.changeScreen(ScreenType.BILANG1);
-                        }
-                    }
-                });
-                stage.addActor(title);
-                Label endScoreLabel = new Label(SCORE_TXT + totalScore, new Label.LabelStyle(style.font, style.fontColor));
-                endScoreLabel.setPosition((bounds.width / 2) - 150, (bounds.height / 2) - 60);
-                stage.addActor(endScoreLabel);
+                gameOver();
                 didGameOverScreenAppeared = true;
             }
         }else{
@@ -352,17 +295,47 @@ public class Game1 implements Screen, MireilleListener {
         AssetsManager.getInstance().disposeSound(SOUNDSPATHS);
     }
 
-    private MireilleBasic prepareMireille() {
-        final MireilleBasic mireille = new MireilleBasic(MIN_X, MIN_Y);
-        mireille.updateCollision(MIN_X, MIN_Y);
-        mireille.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log(TAG, "Something changed lol");
-            }
-        });
-        return mireille;
+    // Textures
+
+    /**
+     * Initialize virus textures (true and fake ones) selected by reading sprite.xml
+     * and by saving them into ArrayLists
+     */
+    private void initVirusTextures() {
+        XmlReader xml = new XmlReader();
+        Element root = xml.parse(Gdx.files.internal("sprite.xml"));
+        Element ist_xml = root.getChildByName("ist-l");
+        Element fake_xml = root.getChildByName("fakeist-l");
+
+        List<VirusContainer> ist = new ArrayList<VirusContainer>();
+        List<VirusContainer> fake = new ArrayList<VirusContainer>();
+
+        for (Element el : ist_xml.getChildrenByName("ist")) {
+            final String description = el.getChildByName("explanation").getText();
+            ist.add(new VirusContainer(el.get("texture"),el.get("name"), true, description));
+        }
+
+        for (Element el : fake_xml.getChildrenByName("fakeist")) {
+            fake.add(new VirusContainer(el.get("texture"),el.get("name"), false, ""));
+        }
+
+        this.ist = ist;
+        this.fake = fake;
     }
+    public VirusContainer getRdmVirusTexture(VIRUS_TYPE type) {
+        final int r;
+        switch (type) {
+            case IST:
+                r = Math.abs(random.nextInt() % ist.size());
+                return ist.get(r);
+            case FAKEIST:
+                r = Math.abs(random.nextInt() % fake.size());
+                return fake.get(r);
+        }
+        return null;
+    }
+
+    // Music
 
     private Music prepareMusic() {
         Music music = AssetsManager.getInstance().getMusicByPath(MUSICPATH);
@@ -378,6 +351,132 @@ public class Game1 implements Screen, MireilleListener {
         });
         return music;
     }
+
+    // Labels
+
+    public void setNewEnnemiLabelPosition(float x, float y){
+        this.ennemiNameLabel.setPosition(x, y);
+    }
+    public void changeEnnemiLabel(String newName) {
+        this.ennemiNameLabel.setText(newName);
+    }
+    private void playMissedLabelAnim() {
+        missedLabel.setVisible(true);
+        final float x = mireille.getX(), y = mireille.getY() + mireille.getHeight();
+        missedLabel.setPosition(x,y);
+        missedLabel.addAction(Actions.moveTo(x,y + 50f, 1f));
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                missedLabel.setVisible(false);
+            }
+        },1f);
+    }
+
+    // Game mechanics
+
+    private void configureGame(GameDifficulty dif) {
+        switch (dif) {
+            case EASY:
+                mireille.setLifes((byte) 3);
+                this.mireilleLife = mireille.getLifes();
+                istsToCatch = 10;
+                upperLimitScore = -1;
+                break;
+            case MEDIUM:
+                mireille.setLifes((byte) 3);
+                this.mireilleLife = mireille.getLifes();
+                istsToCatch = 35;
+                upperLimitScore = 200;
+                //this.ennemi.setAccAddFactor(0.09f);
+                break;
+            case HARD:
+                mireille.setLifes((byte) 1);
+                this.mireilleLife = mireille.getLifes();
+                istsToCatch = 50;
+                upperLimitScore = 500;
+                //this.ennemi.setAccAddFactor(0.10f);
+                this.ennemi.setAcceleration(1.f);
+                break;
+            case INFINITE:
+                mireille.setLifes((byte) 3);
+                this.mireilleLife = mireille.getLifes();
+                istsToCatch = Integer.MAX_VALUE;
+                upperLimitScore = Integer.MAX_VALUE;
+                break;
+        }
+    }
+    private MireilleBasic prepareMireille() {
+        final MireilleBasic mireille = new MireilleBasic(MIN_X, MIN_Y);
+        mireille.updateCollision(MIN_X, MIN_Y);
+        mireille.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.log(TAG, "Something changed lol");
+            }
+        });
+        return mireille;
+    }
+    public void addMissedIST(String virusName) {
+        VirusContainer vc = searchInIstList(this.ist, virusName);
+        missedIsts.add(vc);
+
+        playMissedLabelAnim();
+    }
+    public HashSet<VirusContainer> getMissedIST() {
+        return missedIsts;
+    }
+    /**
+     * Search in a list of VirusContainers
+     * @param l a list of VirusContainer
+     * @param name the key
+     * @return the corresponding VirusContaining or null if no Virus was found
+     */
+    private VirusContainer searchInIstList(List<VirusContainer> l, String name) {
+        for (VirusContainer v : l) {
+            if (v.getName().equals(name))
+                return v;
+        }
+        return null;
+    }
+    private void gameOver() {
+        this.music.setVolume(0.1f);
+        final String titleText;
+        if(victory) {
+            this.successSound.play();
+            titleText = "Bravo !";
+        }else{
+            this.failSound.play(0.7f);
+            titleText = "GAME OVER";
+        }
+        for(Actor actor : stage.getActors()) {
+            if(!(actor.equals(this.imgFond) || actor.equals(lifeLabel))) {
+                actor.setVisible(false);
+            }
+        }
+        final Button title = new TextButton(titleText,style);
+        title.setPosition((bounds.getWidth() / 2) - 175, bounds.getHeight() / 2);
+        title.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                title.setVisible(false);
+                if(missedIsts.isEmpty()) {
+                    game.destroyScreen(ScreenType.GAME1);
+                    game.destroyScreen(ScreenType.MAINMENU);
+                    game.changeScreen(ScreenType.MAINMENU);
+                }else{
+                    game.getTheValueGateway().addToTheStore("G1-missedIST", missedIsts);
+                    game.changeScreen(ScreenType.BILANG1);
+                }
+            }
+        });
+        stage.addActor(title);
+        Label endScoreLabel = new Label(SCORE_TXT + totalScore, new Label.LabelStyle(style.font, style.fontColor));
+        endScoreLabel.setPosition((bounds.width / 2) - 150, (bounds.height / 2) - 60);
+        stage.addActor(endScoreLabel);
+    }
+
+    // Controls
 
     private void setUpInputProcessor() {
         InputMultiplexer im = new InputMultiplexer();
@@ -423,15 +522,6 @@ public class Game1 implements Screen, MireilleListener {
         im.addProcessor(stage);
         Gdx.input.setInputProcessor(im);
     }
-
-    @org.jetbrains.annotations.Contract(pure = true)
-    private int floorOfAMultipleOf250(int nbr) {
-        for (int i=2000; i > 0; i = i - 250) {
-            if(nbr > i) return i;
-        }
-        return 0;
-    }
-
     /**
      * Method used by lifeListener
      * @param life the new life value given to MireilleLife
@@ -445,7 +535,6 @@ public class Game1 implements Screen, MireilleListener {
         }
         this.mireilleLife = life;
     }
-
     @Override
     public void scoreChanged(int score) {
         if(score >= this.totalScore) {
@@ -460,67 +549,4 @@ public class Game1 implements Screen, MireilleListener {
         }
     }
 
-    public void setNewEnnemiLabelPosition(float x, float y){
-        this.ennemiNameLabel.setPosition(x, y);
-    }
-
-    public void changeEnnemiLabel(String newName) {
-        this.ennemiNameLabel.setText(newName);
-    }
-
-    /**
-     * Initialize virus textures (true and fake ones) selected by reading sprite.xml
-     * and by saving them into ArrayLists
-     */
-    private void initVirusTextures() {
-        XmlReader xml = new XmlReader();
-        Element root = xml.parse(Gdx.files.internal("sprite.xml"));
-        Element ist_xml = root.getChildByName("ist-l");
-        Element fake_xml = root.getChildByName("fakeist-l");
-
-        List<VirusContainer> ist = new ArrayList<VirusContainer>();
-        List<VirusContainer> fake = new ArrayList<VirusContainer>();
-
-        for (Element el : ist_xml.getChildrenByName("ist")) {
-            ist.add(new VirusContainer(el.get("texture"),el.get("name"), true));
-        }
-
-        for (Element el : fake_xml.getChildrenByName("fakeist")) {
-            fake.add(new VirusContainer(el.get("texture"),el.get("name"), false));
-        }
-
-        this.ist = ist;
-        this.fake = fake;
-    }
-
-    public VirusContainer getRdmVirusTexture(VIRUS_TYPE type) {
-        final int r;
-        switch (type) {
-            case IST:
-                r = Math.abs(random.nextInt() % ist.size());
-                return ist.get(r);
-            case FAKEIST:
-                r = Math.abs(random.nextInt() % fake.size());
-                return fake.get(r);
-        }
-        return null;
-    }
-
-    public void addMissedIST(String virusName) {
-        missedLabel.setVisible(true);
-        final float x = mireille.getX(), y = mireille.getY() + mireille.getHeight();
-        missedLabel.setPosition(x,y);
-        missedLabel.addAction(Actions.moveTo(x,y + 50f, 1f));
-        missedIsts.add(virusName);
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                missedLabel.setVisible(false);
-            }
-        },1f);
-    }
-
-    public HashSet<String> getMissedIST() {
-        return missedIsts;
-    }
 }

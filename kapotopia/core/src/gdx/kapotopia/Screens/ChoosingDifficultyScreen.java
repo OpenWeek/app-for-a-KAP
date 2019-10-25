@@ -5,16 +5,12 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
-
-import javax.rmi.CORBA.Util;
 
 import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.GameDifficulty;
@@ -22,7 +18,6 @@ import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.StandardInputAdapter;
 import gdx.kapotopia.Utils;
-import gdx.kapotopia.ValueGateway;
 
 public class ChoosingDifficultyScreen implements Screen {
     // Basic variables
@@ -73,6 +68,7 @@ public class ChoosingDifficultyScreen implements Screen {
         easyBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Gdx.input.vibrate(50);
                 clic.play();
                 game.getTheValueGateway().addToTheStore("difficulty", GameDifficulty.EASY);
                 Timer.schedule(new Timer.Task() {
@@ -86,6 +82,7 @@ public class ChoosingDifficultyScreen implements Screen {
         mediumBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Gdx.input.vibrate(50);
                 clic.play();
                 game.getTheValueGateway().addToTheStore("difficulty", GameDifficulty.MEDIUM);
                 Timer.schedule(new Timer.Task() {
@@ -99,6 +96,7 @@ public class ChoosingDifficultyScreen implements Screen {
         hardBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Gdx.input.vibrate(50);
                 clic.play();
                 game.getTheValueGateway().addToTheStore("difficulty", GameDifficulty.HARD);
                 Timer.schedule(new Timer.Task() {
@@ -112,6 +110,7 @@ public class ChoosingDifficultyScreen implements Screen {
         infiniteBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Gdx.input.vibrate(50);
                 clic.play();
                 game.getTheValueGateway().addToTheStore("difficulty", GameDifficulty.INFINITE);
                 Timer.schedule(new Timer.Task() {
