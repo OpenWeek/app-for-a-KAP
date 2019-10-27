@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import java.util.ArrayList;
 import java.util.List;
 
-import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.AssetsManager.AssetsManager;
 
 import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
 

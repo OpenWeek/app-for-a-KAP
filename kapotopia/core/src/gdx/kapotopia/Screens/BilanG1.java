@@ -18,11 +18,12 @@ import com.badlogic.gdx.utils.Align;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.AssetsManager.AssetsManager;
 import gdx.kapotopia.Game1.VirusContainer;
+import gdx.kapotopia.Helpers.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.StandardInputAdapter;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Utils;
 
 public class BilanG1 implements Screen {
@@ -77,27 +78,25 @@ public class BilanG1 implements Screen {
         // ists to show
         this.istsToShow = new LinkedList<Label>();
         this.descrToShow = new LinkedList<Label>();
+
         for (VirusContainer ist : missedIsts) {
             // Name
-            final Label ln = new Label(ist.getName(), new Label.LabelStyle(style.font, Color.BLACK));
-            istsToShow.add(ln);
-            ln.setVisible(false);
             final float xNext = wWidth / 3f;
             final float yNext = wHeight / 1.5f;
-            ln.setPosition(xNext, yNext);
+            final Label ln = new LabelBuilder(ist.getName()).withStyle(style).isVisible(false).withPosition(xNext, yNext).build();
+
             // Description
-            final Label ld = new Label(ist.getDescription(), new Label.LabelStyle(style.font, Color.BLACK));
-            descrToShow.add(ld);
-            ld.setVisible(false);
             final float xDescr = wWidth / 30f;
             final float yDescr = yNext - (wHeight / 3f);
             final float wDescr = wWidth - 2 * (wWidth / 30f);
             final float hDescr = wHeight / 3f;
-            ld.setPosition(xDescr, yDescr, Align.left);
-            ld.setWidth(wDescr);
-            ld.setHeight(hDescr);
-            ld.setWrap(true);
+            final Label ld = new LabelBuilder(ist.getDescription()).withStyle(style).isVisible(false)
+                    .withPosition(xDescr, yDescr).withAlignement(Align.left).withWidth(wDescr)
+                    .withHeight(hDescr).isWrapped(true).build();
+
             // General
+            istsToShow.add(ln);
+            descrToShow.add(ld);
             stage.addActor(ln);
             stage.addActor(ld);
         }
@@ -105,12 +104,8 @@ public class BilanG1 implements Screen {
         pointeur = 0;
 
         // Intro text
-        this.intro = new Label("Bien joué ! Mais vous avez oublié d'attraper les ists suivant",
-                new Label.LabelStyle(style.font, Color.BLACK));
-        intro.setPosition(wWidth / 9f,
-                wHeight / 1.2f);
-        intro.setWidth(wWidth / 1.3f);
-        intro.setWrap(true);
+        intro = new LabelBuilder("Bien joué ! Mais vous avez oublié d'attraper les ists suivant")
+                .withStyle(style).withPosition(wWidth / 9f,wHeight / 1.2f).isWrapped(true).withWidth(wWidth / 1.3f).build();
         stage.addActor(intro);
 
         // Button

@@ -1,4 +1,4 @@
-package gdx.kapotopia;
+package gdx.kapotopia.AssetsManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import gdx.kapotopia.AssetsManager.AssetsManager;
 import gdx.kapotopia.Screens.BilanG1;
 import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
 import gdx.kapotopia.Screens.Game1;
@@ -93,7 +94,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 * @param sc The screen to destroy
 	 * @return true if the operation succeeded, false otherwise
 	 */
-	boolean destroyScreen(Screen sc) {
+	public boolean destroyScreen(Screen sc) {
 		if (sc == game1) {
 			return destroyScreen(ScreenType.GAME1);
 		} else if(sc == game2) {

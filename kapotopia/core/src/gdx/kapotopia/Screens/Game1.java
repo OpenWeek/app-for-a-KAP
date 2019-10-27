@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
@@ -31,7 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.AssetsManager.AssetsManager;
 import gdx.kapotopia.Game1.CollisionManager;
 import gdx.kapotopia.Game1.MireilleBasic;
 import gdx.kapotopia.Game1.MireilleListener;
@@ -40,9 +41,10 @@ import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.GameDifficulty;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Helpers.LabelBuilder;
 import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.SimpleDirectionGestureDetector;
-import gdx.kapotopia.StandardInputAdapter;
+import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Utils;
 
 public class Game1 implements Screen, MireilleListener {
@@ -124,7 +126,7 @@ public class Game1 implements Screen, MireilleListener {
      * @param game
      */
     public Game1(final Kapotopia game) {
-        // On initialize les attributs
+        // Initialize global variables
         this.game = game;
         this.stage = new Stage(game.viewport);
         this.random = new Random();
@@ -143,18 +145,25 @@ public class Game1 implements Screen, MireilleListener {
         this.totalScore = 0;
         this.istsCatched = 0;
 
-        initVirusTextures();
         this.missedIsts = new HashSet<VirusContainer>();
 
-        //// Setting up the stage
+        /* Setting up the stage */
+
+        // Textures and images
+        initVirusTextures();
         this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("World1/Game1/JungleEtFeuilles.png"));
+        this.imgFond.setScaling(Scaling.fit);
         stage.addActor(imgFond);
 
-        // Labels and buttons
-        lifeLabel = new Label(LIFE_TXT + mireilleLife,new Label.LabelStyle(style.font, style.fontColor));
-        lifeLabel.setPosition(bounds.width - 240, bounds.height - 100);
+        // Major actors
+        this.mireille = prepareMireille();
+        this.mireille.addListener(this);
+        this.ennemi = new Virus(this.bounds, this);
 
-        stage.addActor(lifeLabel);
+        stage.addActor(mireille);
+        stage.addActor(ennemi);
+
+        // Buttons
         pauseIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath("pause_logo_2.png"))));
         pauseIcon.setBounds(bounds.width - 240, bounds.height - 170, 140, 80);
@@ -170,23 +179,25 @@ public class Game1 implements Screen, MireilleListener {
         });
         stage.addActor(pauseIcon);
 
-        istCatchedLabel = new Label(IST_CATCHED_TXT  + istsCatched, new Label.LabelStyle(style.font, style.fontColor));
-        istCatchedLabel.setPosition(25, bounds.height - 100);
-        istCatchedLabel.setAlignment(Align.left);
-        istCatchedLabel.setVisible(true);
+        // Labels
+        lifeLabel = new LabelBuilder(LIFE_TXT + mireilleLife).withStyle(style)
+                .withPosition(bounds.width - 240, bounds.height - 100).build();
+        istCatchedLabel = new LabelBuilder(IST_CATCHED_TXT  + istsCatched).withStyle(style)
+                .withPosition(25, bounds.height - 100).build();
+        scoreLabel = new LabelBuilder(SCORE_TXT  + totalScore).withStyle(style)
+                .withPosition(25, bounds.height - 200).withAlignement(Align.center).build();
+        pauseLabel = new LabelBuilder("Pause").withStyle(style).withAlignement(Align.center)
+                .withPosition((bounds.width / 5) * 2, bounds.height / 2).isVisible(false).build();
+        missedLabel = new LabelBuilder("Loupé").withStyle(styleSmall).isVisible(false).build();
+        ennemiNameLabel = new LabelBuilder(ennemi.getName()).withStyle(styleSmall).withAlignement(Align.center)
+                .withPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemiNameLabel.getWidth()) /2,ennemi.getY() - 20).build();
+
+        stage.addActor(lifeLabel);
         stage.addActor(istCatchedLabel);
-        scoreLabel = new Label(SCORE_TXT  + totalScore, new Label.LabelStyle(style.font, style.fontColor));
-        scoreLabel.setPosition(25, bounds.height - 200);
-        scoreLabel.setAlignment(Align.center);
         stage.addActor(scoreLabel);
-        pauseLabel = new Label("Pause", new Label.LabelStyle(style.font, style.fontColor));
-        pauseLabel.setPosition((bounds.width / 5) * 2, bounds.height / 2);
-        pauseLabel.setVisible(false);
-        pauseLabel.setAlignment(Align.center);
         stage.addActor(pauseLabel);
-        missedLabel = new Label("Loupé", new Label.LabelStyle(styleSmall.font, styleSmall.fontColor));
-        missedLabel.setVisible(false);
         stage.addActor(missedLabel);
+        stage.addActor(ennemiNameLabel);
 
         // Music and Sounds
         this.music = prepareMusic();
@@ -197,18 +208,7 @@ public class Game1 implements Screen, MireilleListener {
         this.istTouchedSound = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[4]);
         this.successSound = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[5]);
 
-        // Major actors
-        this.mireille = prepareMireille();
-        this.mireille.addListener(this);
-        this.ennemi = new Virus(this.bounds, this);
-
-        this.ennemiNameLabel = new Label(ennemi.getName(), new Label.LabelStyle(styleSmall.font, styleSmall.fontColor));
-        this.ennemiNameLabel.setPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemiNameLabel.getWidth()) /2,ennemi.getY() - 20);
-        this.ennemiNameLabel.setAlignment(Align.center);
-        stage.addActor(ennemiNameLabel);
-
-        stage.addActor(mireille);
-        stage.addActor(ennemi);
+        // Last configurations
 
         GameDifficulty difficulty = (GameDifficulty) game.getTheValueGateway().removeFromTheStore("difficulty");
         if(difficulty == null)
@@ -471,9 +471,36 @@ public class Game1 implements Screen, MireilleListener {
             }
         });
         stage.addActor(title);
-        Label endScoreLabel = new Label(SCORE_TXT + totalScore, new Label.LabelStyle(style.font, style.fontColor));
-        endScoreLabel.setPosition((bounds.width / 2) - 150, (bounds.height / 2) - 60);
+        Label endScoreLabel = new LabelBuilder(SCORE_TXT + totalScore).withStyle(style)
+                .withPosition((bounds.width / 2) - 150, (bounds.height / 2) - 60).build();
         stage.addActor(endScoreLabel);
+    }
+
+    /**
+     * Method used by lifeListener
+     * @param life the new life value given to MireilleLife
+     */
+    @Override
+    public void lifeChanged(byte life) {
+        touchedSound.play();
+        if(life <= 0) {
+            this.isFinish = true;
+            this.victory = false;
+        }
+        this.mireilleLife = life;
+    }
+    @Override
+    public void scoreChanged(int score) {
+        if(score >= this.totalScore) {
+            // In this case, Mireille has touchedSound an true IST
+            istTouchedSound.play();
+            istsCatched++;
+        }
+        this.totalScore = score;
+        if(this.totalScore >= upperLimitScore && this.istsCatched >= istsToCatch) {
+            this.isFinish = true;
+            this.victory = true;
+        }
     }
 
     // Controls
@@ -522,31 +549,4 @@ public class Game1 implements Screen, MireilleListener {
         im.addProcessor(stage);
         Gdx.input.setInputProcessor(im);
     }
-    /**
-     * Method used by lifeListener
-     * @param life the new life value given to MireilleLife
-     */
-    @Override
-    public void lifeChanged(byte life) {
-        touchedSound.play();
-        if(life <= 0) {
-            this.isFinish = true;
-            this.victory = false;
-        }
-        this.mireilleLife = life;
-    }
-    @Override
-    public void scoreChanged(int score) {
-        if(score >= this.totalScore) {
-            // In this case, Mireille has touchedSound an true IST
-            istTouchedSound.play();
-            istsCatched++;
-        }
-        this.totalScore = score;
-        if(this.totalScore >= upperLimitScore && this.istsCatched >= istsToCatch) {
-            this.isFinish = true;
-            this.victory = true;
-        }
-    }
-
 }

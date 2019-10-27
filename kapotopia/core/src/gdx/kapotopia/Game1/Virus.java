@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import java.util.Random;
 
-import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.AssetsManager.AssetsManager;
 import gdx.kapotopia.Screens.Game1;
 
 import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
