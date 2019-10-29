@@ -14,6 +14,11 @@
                 1500 nouveaux cas de ce virus sont détectés chaque année en Belgique
             </explanation>
         </ist>
+        <ist texture="IST/HepatiteC.png" name="Hepatite C">
+            <explanation>
+                Explication à venir
+            </explanation>
+        </ist>
         <ist texture="IST/Herpes.png" name=" Herpes">
             <explanation>
                 Le virus Herpes simplex touche près de 2 millions de belges.
@@ -43,6 +48,16 @@
                 Son infection chez l'homme est plus difficile à détecter que chez la femme vu l'absence de symptôme la plupart du temps.
             </explanation>
         </ist>
+        <ist texture="IST/ChancreMou.png" name="Chancre Mou">
+            <explanation>
+                Explication à venir
+            </explanation>
+        </ist>
+        <ist texture="IST/MycoplasmaGenitalium.png" name="Mycoplasma Genitalium">
+            <explanation>
+                Explication à venir
+            </explanation>
+        </ist>
     </ist-l>
     <fakeist-l>
         <fakeist texture="IST/Alternariose.png" name="Alternariose"/>
@@ -57,5 +72,6 @@
         <fakeist texture="IST/Morpion.png" name="Morpion"/>
         <fakeist texture="IST/PesteBubonique.png" name="Peste bubonique"/>
         <fakeist texture="IST/Variole.png" name="Variole"/>
+        <fakeist texture="IST/HepatiteA.png" name="Hépatite A"/>
     </fakeist-l>
 </sprites>
