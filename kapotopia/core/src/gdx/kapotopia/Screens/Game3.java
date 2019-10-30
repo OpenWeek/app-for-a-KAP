@@ -11,8 +11,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.I18NBundle;
 import gdx.kapotopia.*;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
@@ -33,7 +31,7 @@ public class Game3 implements Screen {
         this.game = game;
         inGame = true;
 
-        core = new Core(this, 8,10, 2);
+        core = new Core(this, 7,10, 2);
 
         EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
 
