@@ -1,4 +1,4 @@
-package gdx.kapotopia;
+package gdx.kapotopia.AssetsManager;
 
 public enum AssetType {
     TEXTURE,

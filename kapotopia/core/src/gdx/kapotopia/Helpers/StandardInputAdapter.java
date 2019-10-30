@@ -1,8 +1,11 @@
-package gdx.kapotopia;
+package gdx.kapotopia.Helpers;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+
+import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 
 public class StandardInputAdapter extends InputAdapter {
 

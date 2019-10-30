@@ -2,7 +2,6 @@ package gdx.kapotopia;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -30,5 +29,13 @@ public class Utils {
         style.font = font;
         generator.dispose();
         return style;
+    }
+
+    @org.jetbrains.annotations.Contract(pure = true)
+    public static int floorOfAMultipleOf250(int nbr) {
+        for (int i=2000; i > 0; i = i - 250) {
+            if(nbr > i) return i;
+        }
+        return 0;
     }
 }

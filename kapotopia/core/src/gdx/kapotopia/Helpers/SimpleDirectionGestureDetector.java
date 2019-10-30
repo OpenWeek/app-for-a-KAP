@@ -1,4 +1,4 @@
-package gdx.kapotopia;
+package gdx.kapotopia.Helpers;
 
 import com.badlogic.gdx.input.GestureDetector;
 
