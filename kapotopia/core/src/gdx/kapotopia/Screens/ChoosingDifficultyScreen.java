@@ -22,22 +22,16 @@ import gdx.kapotopia.Utils;
 public class ChoosingDifficultyScreen implements Screen {
     // Basic variables
     private Kapotopia game;
-    private Image fond;
     private Stage stage;
 
     private Sound clic;
     private Sound pauseSound;
-    // Buttons
-    private TextButton easyBtn;
-    private TextButton mediumBtn;
-    private TextButton hardBtn;
-    private TextButton infiniteBtn;
 
     private static final String TAG = "difficultyScreen";
 
     public ChoosingDifficultyScreen(final Kapotopia game) {
         this.game = game;
-        this.fond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        Image fond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         this.stage = new Stage(game.viewport);
 
         this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat_open-button-2.wav");
@@ -50,10 +44,10 @@ public class ChoosingDifficultyScreen implements Screen {
 
         // Buttons configuration
         TextButton.TextButtonStyle style = Utils.getStyleFont("COMMS.ttf");
-        easyBtn = new TextButton("Facile", style);
-        mediumBtn = new TextButton("Moyen", style);
-        hardBtn = new TextButton("Difficile", style);
-        infiniteBtn = new TextButton("Infini", style);
+        TextButton easyBtn = new TextButton("Facile", style);
+        TextButton mediumBtn = new TextButton("Moyen", style);
+        TextButton hardBtn = new TextButton("Difficile", style);
+        TextButton infiniteBtn = new TextButton("Infini", style);
 
         final float x = game.viewport.getWorldWidth() / 2.6f;
         float y = game.viewport.getWorldHeight() * 0.2f;

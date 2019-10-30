@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
@@ -40,6 +39,7 @@ import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.GameDifficulty;
+import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Helpers.LabelBuilder;
 import gdx.kapotopia.ScreenType;
@@ -52,6 +52,7 @@ public class Game1 implements Screen, MireilleListener {
     // General Variables
     private Kapotopia game;
     private final Image imgFond;
+    private final Image leaves;
     private Stage stage;
     private Random random;
     // Style of text
@@ -86,9 +87,9 @@ public class Game1 implements Screen, MireilleListener {
 
     // Constants
 
-    private final static int MIN_X = 15;
-    private final int maxX;
-    private final static int MIN_Y = 25;
+    private final int MIN_X;
+    private final int MAX_X;
+    private final int MIN_Y;
     private final int MOVE_VALUE_X;
     private final Rectangle bounds;
 
@@ -135,7 +136,9 @@ public class Game1 implements Screen, MireilleListener {
         this.styleSmall = Utils.getStyleFont("COMMS.ttf", 38, Color.WHITE);
 
         this.bounds = new Rectangle(0,0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
-        this.maxX = Utils.floorOfAMultipleOf250( ( ((int) game.viewport.getWorldWidth()) / 2) + 250);
+        this.MIN_X = 15;
+        this.MAX_X = Utils.floorOfAMultipleOf250( ( ((int) game.viewport.getWorldWidth()) / 2) + 250);
+        this.MIN_Y = 25;
         this.MOVE_VALUE_X = 250;
 
         this.isFinish = false;
@@ -151,22 +154,24 @@ public class Game1 implements Screen, MireilleListener {
 
         // Textures and images
         initVirusTextures();
-        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("World1/Game1/JungleEtFeuilles.png"));
-        this.imgFond.setScaling(Scaling.fit);
-        stage.addActor(imgFond);
+        this.imgFond = ImageHelper.getBackground(game.viewport, "World1/Game1/Jungle.png");
+        this.leaves = ImageHelper.getBackground(game.viewport, "World1/Game1/Feuilles.png");
+
 
         // Major actors
         this.mireille = prepareMireille();
         this.mireille.addListener(this);
         this.ennemi = new Virus(this.bounds, this);
 
+        stage.addActor(imgFond);
         stage.addActor(mireille);
         stage.addActor(ennemi);
+        stage.addActor(leaves);
 
         // Buttons
         pauseIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath("pause_logo_2.png"))));
-        pauseIcon.setBounds(bounds.width - 240, bounds.height - 170, 140, 80);
+        pauseIcon.setBounds(bounds.width - 240, bounds.height - 200, 140, 80);
         pauseIcon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -190,7 +195,16 @@ public class Game1 implements Screen, MireilleListener {
                 .withPosition((bounds.width / 5) * 2, bounds.height / 2).isVisible(false).build();
         missedLabel = new LabelBuilder("Loupé").withStyle(styleSmall).isVisible(false).build();
         ennemiNameLabel = new LabelBuilder(ennemi.getName()).withStyle(styleSmall).withAlignement(Align.center)
-                .withPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemiNameLabel.getWidth()) /2,ennemi.getY() - 20).build();
+                .withPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemi.getName().length()) /2,ennemi.getY() - 20).build();
+
+        pauseLabel.addListener(new ClickListener() {
+           @Override
+           public void clicked(InputEvent event, float x, float y) {
+               if(isPaused) {
+                   resumeFromPause();
+               }
+           }
+        });
 
         stage.addActor(lifeLabel);
         stage.addActor(istCatchedLabel);
@@ -450,7 +464,7 @@ public class Game1 implements Screen, MireilleListener {
             titleText = "GAME OVER";
         }
         for(Actor actor : stage.getActors()) {
-            if(!(actor.equals(this.imgFond) || actor.equals(lifeLabel))) {
+            if(!(actor.equals(this.imgFond) || actor.equals(this.leaves) || actor.equals(lifeLabel))) {
                 actor.setVisible(false);
             }
         }
@@ -502,6 +516,12 @@ public class Game1 implements Screen, MireilleListener {
             this.victory = true;
         }
     }
+    public int getMOVE_VALUE_X() {
+        return MOVE_VALUE_X;
+    }
+    public int getMIN_X() {
+        return MIN_X;
+    }
 
     // Controls
 
@@ -521,8 +541,8 @@ public class Game1 implements Screen, MireilleListener {
             public void onRight() {
                 if(!isPaused) {
                     final float xAndMoveValue = mireille.getX() + MOVE_VALUE_X;
-                    final float newX = Math.min(xAndMoveValue, maxX);
-                    Gdx.app.log(TAG, "Math.min( " + xAndMoveValue + " , " + maxX + " )");
+                    final float newX = Math.min(xAndMoveValue, MAX_X);
+                    Gdx.app.log(TAG, "Math.min( " + xAndMoveValue + " , " + MAX_X + " )");
                     updateMireille(newX);
                 }
             }

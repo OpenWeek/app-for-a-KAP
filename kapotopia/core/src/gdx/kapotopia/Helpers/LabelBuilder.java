@@ -119,7 +119,7 @@ public class LabelBuilder {
             theStyle = style;
         }
         Label l = new Label(text, new Label.LabelStyle(theStyle.font, theStyle.fontColor));
-        l.setPosition(x, y, alignement);
+        l.setPosition(x, y);
         l.setAlignment(alignement);
         l.setVisible(visible);
         l.setWrap(wrap);
