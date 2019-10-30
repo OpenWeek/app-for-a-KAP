@@ -1,6 +1,5 @@
 package gdx.kapotopia.Screens;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import gdx.kapotopia.*;
+import gdx.kapotopia.AssetsManager.AssetsManager;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
 

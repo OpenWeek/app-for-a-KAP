@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.AssetsManager.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
@@ -49,13 +49,13 @@ public class MainMenu implements Screen {
         Button world4 = new TextButton("World 4", style);
 
         final float x = game.viewport.getWorldWidth() / 2.6f;
-        float y = game.viewport.getWorldHeight() *0.2f;
+        float y = game.viewport.getWorldHeight() * 0.2f;
         world4.setPosition(x, y);
-        y = game.viewport.getWorldHeight() *0.4f;
+        y = game.viewport.getWorldHeight() * 0.4f;
         world3.setPosition(x, y);
-        y = game.viewport.getWorldHeight()*0.6f;
+        y = game.viewport.getWorldHeight() * 0.6f;
         world2.setPosition(x, y);
-        y = game.viewport.getWorldHeight()*0.8f;
+        y = game.viewport.getWorldHeight() * 0.8f;
         world1.setPosition(x, y);
         world1.addListener(new ChangeListener() {
             @Override

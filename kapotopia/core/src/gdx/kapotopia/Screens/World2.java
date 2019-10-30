@@ -2,8 +2,6 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -19,6 +17,8 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.*;
+import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 
 public class World2 implements Screen {
 

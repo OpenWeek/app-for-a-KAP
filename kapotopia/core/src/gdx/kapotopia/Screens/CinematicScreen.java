@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -12,10 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
-import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.AssetsManager.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.StandardInputAdapter;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Utils;
 
 /**
@@ -59,13 +60,14 @@ public abstract class CinematicScreen implements Screen {
      * @param nextBtnLabel the text displayed by the "next" button
      * @param finishBtnLabel the text displayed by the "finish" button
      * @param stylePath the path to the style used for texts
+     * @param textColor the text color given by a constant in Color class of libgdx
      * @param timerScheduleTime the time between the player pressed the "finish" button and when it change screen
      * @param vibrationTime the amount of time that the phone vibrate when pressing "next" and "finish" buttons (the time for "next" button pressed is fourth time less than the time given)
      */
     private void builder(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
                          String[] imagesTexturePaths, String fondPath, String changeOfImageSoundPath,
                          String endSoundPath, String pauseSoundPath, String nextBtnLabel,
-                         String finishBtnLabel, String stylePath, final float timerScheduleTime, final int vibrationTime) {
+                         String finishBtnLabel, String stylePath, Color textColor, final float timerScheduleTime, final int vibrationTime) {
         this.game = game;
         this.stage = stage;
         // Graphics
@@ -96,10 +98,11 @@ public abstract class CinematicScreen implements Screen {
         this.endSound = AssetsManager.getInstance().getSoundByPath(endSoundPath);
         this.pauseSound = AssetsManager.getInstance().getSoundByPath(pauseSoundPath);
         // Buttons
-        TextButton.TextButtonStyle style = Utils.getStyleFont(stylePath);
+        TextButton.TextButtonStyle style = Utils.getStyleFont(stylePath, 60, textColor);
+        TextButton.TextButtonStyle style_black = Utils.getStyleFont(stylePath, 60, Color.BLACK);
 
         this.next = new TextButton(nextBtnLabel, style);
-        this.finish = new TextButton(finishBtnLabel, style);
+        this.finish = new TextButton(finishBtnLabel, style_black);
 
         final float xButton = game.viewport.getWorldWidth() / 2.5f;
         final float yNext = game.viewport.getWorldHeight() / 10f;
@@ -144,6 +147,33 @@ public abstract class CinematicScreen implements Screen {
     }
 
     /**
+     * Create A cinematicScreen with the given arguments
+     * @param game the Kapotopia game
+     * @param stage a stage that has been instancied beforehand
+     * @param screenName the name of the screen, e.g. "mockupG1"
+     * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
+     * @param imagesTexturePaths the paths of the images shown, shown by increasing order
+     * @param fondPath the path of the background shown when the finish button appear
+     * @param changeOfImageSoundPath the path of the sound file that plays when screen is changed
+     * @param endSoundPath the path of the sound file that plays before the screen is changed to @nextScreen
+     * @param pauseSoundPath the path of the sound file that plays when the game is paused
+     * @param nextBtnLabel the text displayed by the "next" button
+     * @param finishBtnLabel the text displayed by the "finish" button
+     * @param stylePath the path to the style used for texts
+     * @param textColor the text color given by a constant in Color class of libgdx
+     * @param timerScheduleTime the time between the player pressed the "finish" button and when it change screen
+     * @param vibrationTime the amount of time that the phone vibrate when pressing "next" and "finish" buttons (the time for "next" button pressed is fourth time less than the time given)
+     */
+    public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
+                           String[] imagesTexturePaths, String fondPath, String changeOfImageSoundPath,
+                           String endSoundPath, String pauseSoundPath, String nextBtnLabel,
+                           String finishBtnLabel, String stylePath, Color textColor, final float timerScheduleTime, final int vibrationTime) {
+        builder(game, stage, screenName, nextScreen, imagesTexturePaths, fondPath, changeOfImageSoundPath,
+                endSoundPath, pauseSoundPath, nextBtnLabel, finishBtnLabel, stylePath, textColor,
+                timerScheduleTime, vibrationTime);
+    }
+
+    /**
      * @param game the Kapotopia game
      * @param stage a stage that has been instancied beforehand
      * @param screenName the name of the screen, e.g. "mockupG1"
@@ -161,8 +191,8 @@ public abstract class CinematicScreen implements Screen {
                            String endSoundPath, String pauseSoundPath, String nextBtnLabel,
                            String finishBtnLabel) {
         builder(game, stage, screenName, nextScreen, imagesTexturePaths, fondPath, changeOfImageSoundPath,
-                endSoundPath, pauseSoundPath, nextBtnLabel, finishBtnLabel, "SEASRN__.ttf",
-                2f, 200);
+                endSoundPath, pauseSoundPath, nextBtnLabel, finishBtnLabel, "COMMS.ttf",
+                Color.BLACK,2f, 200);
     }
 
     /**
@@ -180,7 +210,42 @@ public abstract class CinematicScreen implements Screen {
                 "sound/bruitage/cmdrobot_videogame-jump.ogg",
                 "sound/bruitage/plasterbrain_game-start.ogg",
                 "sound/bruitage/crisstanza_pause.mp3", nextBtnLabel, finishBtnLabel,
-                "SEASRN__.ttf",2f, 200);
+                "COMMS.ttf", Color.BLACK,2f, 200);
+    }
+
+    /**
+     * @param game the Kapotopia game
+     * @param stage a stage that has been instancied beforehand
+     * @param screenName the name of the screen, e.g. "mockupG1"
+     * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
+     * @param imagesTexturePaths the paths of the images shown, shown by increasing order
+     * @param textColor the text color given by a constant in Color class of libgdx
+     * @param timerScheduleTime the time between the player pressed the "finish" button and when it change screen
+     */
+    public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
+                           String[] imagesTexturePaths, Color textColor, final float timerScheduleTime) {
+        builder(game, stage, screenName, nextScreen, imagesTexturePaths, "FondNiveauBlanc2.png",
+                "sound/bruitage/cmdrobot_videogame-jump.ogg",
+                "sound/bruitage/plasterbrain_game-start.ogg",
+                "sound/bruitage/crisstanza_pause.mp3", "Next",
+                "Play", "COMMS.ttf", textColor, timerScheduleTime, 200);
+    }
+
+    /**
+     * @param game the Kapotopia game
+     * @param stage a stage that has been instancied beforehand
+     * @param screenName the name of the screen, e.g. "mockupG1"
+     * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
+     * @param imagesTexturePaths the paths of the images shown, shown by increasing order
+     * @param textColor the text color given by a constant in Color class of libgdx
+     */
+    public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
+                           String[] imagesTexturePaths, Color textColor) {
+        builder(game, stage, screenName, nextScreen, imagesTexturePaths, "FondNiveauBlanc2.png",
+                "sound/bruitage/cmdrobot_videogame-jump.ogg",
+                "sound/bruitage/plasterbrain_game-start.ogg",
+                "sound/bruitage/crisstanza_pause.mp3", "Next",
+                "Play", "COMMS.ttf", textColor,2f, 200);
     }
 
     /**
@@ -196,7 +261,7 @@ public abstract class CinematicScreen implements Screen {
                 "sound/bruitage/cmdrobot_videogame-jump.ogg",
                 "sound/bruitage/plasterbrain_game-start.ogg",
                 "sound/bruitage/crisstanza_pause.mp3", "Next",
-                "Play", "SEASRN__.ttf",2f, 200);
+                "Play", "COMMS.ttf", Color.BLACK,2f, 200);
     }
 
     /**
@@ -210,7 +275,7 @@ public abstract class CinematicScreen implements Screen {
                 "sound/bruitage/cmdrobot_videogame-jump.ogg",
                 "sound/bruitage/plasterbrain_game-start.ogg",
                 "sound/bruitage/crisstanza_pause.mp3", "Next",
-                "Play", "SEASRN__.ttf",2f, 200);
+                "Play", "COMMS.ttf", Color.BLACK,2f, 200);
     }
 
     // Regular functions

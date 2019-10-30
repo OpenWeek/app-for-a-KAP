@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import gdx.kapotopia.AssetsManager.AssetsManager;
 import gdx.kapotopia.Screens.BilanG1;
+import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
 import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.Screens.Game2;
 import gdx.kapotopia.Screens.Game3;
@@ -25,7 +27,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	public final static float SCALLING_FACTOR_ENTITY = 5.3f;
 
-	private static final String TAG = "Class Kapotopia";
+	private static final String TAG = "Kapotopia_class";
 
 	// TODO changer VERSION_NAME ET VERSION_CODE à chaque fois que l'on update le jeu, pas trouvé de moyen pour les liés automatiquement au gradle build d'android
 	public static final String VERSION_NAME = "Alpha-0.2.6";
@@ -43,6 +45,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private World2 world2;
 	private World3 world3;
 	private World4 world4;
+	private ChoosingDifficultyScreen dif;
 
 	// The value Gateway
 	private ValueGateway gate;
@@ -91,7 +94,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 * @param sc The screen to destroy
 	 * @return true if the operation succeeded, false otherwise
 	 */
-	boolean destroyScreen(Screen sc) {
+	public boolean destroyScreen(Screen sc) {
 		if (sc == game1) {
 			return destroyScreen(ScreenType.GAME1);
 		} else if(sc == game2) {
@@ -114,6 +117,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 			return destroyScreen(ScreenType.WORLD3);
 		} else if(sc == world4) {
 			return destroyScreen(ScreenType.WORLD4);
+		} else if(sc == dif) {
+			return destroyScreen(ScreenType.DIF);
 		}
 
 		return false;
@@ -299,6 +304,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 						if (bilanG1 != null) {
 							bilanG1.dispose();
 							bilanG1 = null;
+							succeeded = true;
+						}
+						break;
+				}
+				break;
+			case DIF:
+				switch (ACTION) {
+					case CHANGE:
+						if (dif == null) dif = new ChoosingDifficultyScreen(this);
+						setScreen(dif);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (dif != null) {
+							dif.dispose();
+							dif = null;
 							succeeded = true;
 						}
 						break;
