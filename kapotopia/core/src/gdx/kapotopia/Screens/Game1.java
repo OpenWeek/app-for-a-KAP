@@ -190,7 +190,7 @@ public class Game1 implements Screen, MireilleListener {
         istCatchedLabel = new LabelBuilder(IST_CATCHED_TXT  + istsCatched).withStyle(style)
                 .withPosition(25, bounds.height - 100).build();
         scoreLabel = new LabelBuilder(SCORE_TXT  + totalScore).withStyle(style)
-                .withPosition(25, bounds.height - 200).withAlignement(Align.center).build();
+                .withPosition(25, bounds.height - 200).build();
         pauseLabel = new LabelBuilder("Pause").withStyle(style).withAlignement(Align.center)
                 .withPosition((bounds.width / 5) * 2, bounds.height / 2).isVisible(false).build();
         missedLabel = new LabelBuilder("Loupé").withStyle(styleSmall).isVisible(false).build();
