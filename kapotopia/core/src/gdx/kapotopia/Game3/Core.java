@@ -5,11 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import gdx.kapotopia.Screens.Game3;
 
-import javax.xml.soap.Text;
 import java.util.*;
 
 public class Core {
@@ -29,7 +26,7 @@ public class Core {
     private Goal[] goals;//All goals at y = sizey-1
     private int correctGoal;
     private Stack<Pair> stack;
-    private HashSet<Pair> set;
+    private HashSet<Tile> set;
     private Random random;
 
     private SpriteBatch batch;
@@ -53,7 +50,7 @@ public class Core {
         tiles = new Pair[sizex][sizey];
         for (int x = 0; x < sizex; x++){
             for(int y = 0; y < sizey; y++){
-                tiles[x][y] = new Pair(x, y);//new Tile(x,y);
+                tiles[x][y] = new Pair(x, y);
             }
         }
 
@@ -67,14 +64,15 @@ public class Core {
         yOffSet = (Gdx.graphics.getHeight()-height)/2;
 
         stack = new Stack<Pair>();
-        set = new HashSet<Pair>(sizex*sizey);
+        set = new HashSet<Tile>(sizex*sizey);
 
-        //setGoal(nbGoals);
+        setGoal(nbGoals, sizey);
 
         batch = new SpriteBatch();
 
         //TODO : assign correct goal
         correctGoal = goals[nbGoals/2].pos;
+        goals[nbGoals/2].sprite.setTexture(goalT);
 
         for (Goal g: goals) {
             createPath(g.pos,sizey-1);
@@ -101,23 +99,28 @@ public class Core {
                         dx = !dx;
                         p -= 1;
                     }
-                    if (dx && t.x > 0) {
+                    if (!tiles[t.x][t.y].turn)
+                    {
                         tiles[t.x][t.y] = Pair.randomTurn(t.x ,t.y);
+                    }
+
+                    if (dx && t.x > 0) {
                         t = tiles[t.x - 1][t.y];
                     }
                     else if(t.x < sizex - 1){
-                        tiles[t.x][t.y] = Pair.randomTurn(t.x ,t.y);
                         t = tiles[t.x + 1][t.y];
                     }
                 }
                 else{
                     boolean dy = (yDest - t.y) < 0;
-                    if (dy && t.y > 0) {
+                    if (!tiles[t.x][t.y].line)
+                    {
                         tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
+                    }
+                    if (dy && t.y > 0) {
                         t = tiles[t.x][t.y-1];
                     }
                     else if(t.y < sizey - 1){
-                        tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
                         t = tiles[t.x][t.y + 1];
                     }
                 }
@@ -125,12 +128,14 @@ public class Core {
             else{
                 if(random.nextBoolean()) {//horizontal
                     boolean dx = (xDest - t.x) < 0;
-                    if (dx && t.x > 0) {
+                    if (!tiles[t.x][t.y].turn)
+                    {
                         tiles[t.x][t.y] = Pair.randomTurn(t.x ,t.y);
+                    }
+                    if (dx && t.x > 0) {
                         t = tiles[t.x - 1][t.y];
                     }
                     else if(t.x < sizex - 1){
-                        tiles[t.x][t.y] = Pair.randomTurn(t.x ,t.y);
                         t = tiles[t.x + 1][t.y];
                     }
                 }
@@ -142,12 +147,14 @@ public class Core {
                         p-=1;
                     }
 
-                    if (dy && t.y > 0) {
+                    if (!tiles[t.x][t.y].line)
+                    {
                         tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
+                    }
+                    if (dy && t.y > 0) {
                         t = tiles[t.x][t.y-1];
                     }
                     else if(t.y < sizey - 1){
-                        tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
                         t = tiles[t.x][t.y + 1];
                     }
                 }
@@ -225,8 +232,10 @@ public class Core {
         }
 
     }
+
     private boolean checkGoal(){
-        return  tiles[correctGoal][sizey-1].connection(0) != null && tiles[correctGoal][sizey-1].isLit();
+        Tile t = tiles[correctGoal][sizey-1].connection(0);
+        return  t != null && t.isLit();
     }
 
     private void updatePath(Pair moved){
@@ -248,7 +257,7 @@ public class Core {
         t.lit();
 
         stack.add(origin);
-        set.add(origin);
+        set.add(t);
 
         //N,W,S,E
         while (!stack.isEmpty()){
@@ -259,36 +268,36 @@ public class Core {
             if(p.connection(0) != null && p.connection(0).isLit() && p.y < sizey-1){
                 Pair p2 =  tiles[p.x][p.y+1];
                 Tile t2 = p2.connection(2);
-                if( t2 != null && ! set.contains(p2)){
+                if( t2 != null && ! set.contains(t2)){
                     stack.add(p2);
-                    set.add(p2);
+                    set.add(t2);
                     t2.lit();
                 }
             }
             if(p.connection(1) != null && p.connection(1).isLit() && p.x > 0){
                 Pair p2 = tiles[p.x-1][p.y];
                 Tile t2 = p2.connection(3);
-                if(t2 != null && !set.contains(p2)){
+                if(t2 != null && !set.contains(t2)){
                     stack.add(p2);
-                    set.add(p2);
+                    set.add(t2);
                     t2.lit();
                 }
             }
             if(p.connection(2) != null && p.connection(2).isLit() && p.y > 0){
                 Pair p2 = tiles[p.x][p.y-1];
                 Tile t2 = p2.connection(0);
-                if(t2 != null && !set.contains(p2)){
+                if(t2 != null && !set.contains(t2)){
                     stack.add(p2);
-                    set.add(p2);
+                    set.add(t2);
                     t2.lit();
                 }
             }
             if(p.connection(3) != null  && p.connection(3).isLit() && p.x < sizex-1){
                 Pair p2 = tiles[p.x+1][p.y];
                 Tile t2 = p2.connection(1);
-                if(t2 != null && !set.contains(p2) ){
+                if(t2 != null && !set.contains(t2) ){
                     stack.add(p2);
-                    set.add(p2);
+                    set.add(t2);
                     t2.lit();
                 }
             }
@@ -481,7 +490,6 @@ class Pair{
 
 class Tile{
 
-
     //N,W,S,E
     boolean[] connection;
     Sprite sprite;
@@ -548,6 +556,7 @@ class Goal{
     Sprite sprite;
 
     Goal(Texture texture, int x, int y){
+        pos = x;
         sprite = new Sprite(texture);
         sprite.setPosition(Core.xOffSet + Pair.tile_size * x , Core.yOffSet + Pair.tile_size * y );
         sprite.setSize(Pair.tile_size, Pair.tile_size);
