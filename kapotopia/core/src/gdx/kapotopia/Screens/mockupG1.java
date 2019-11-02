@@ -16,14 +16,15 @@ public class mockupG1 extends CinematicScreen {
                 new String[]{"World1/Game1/World1Ecran1.png", "World1/Game1/World1Ecran2.png",
                 "World1/Game1/World1Ecran3.png", "World1/Game1/World1Ecran4.png",
                         "World1/Game1/World1Ecran5.png"}, Color.WHITE, 0);
-        game.getTheValueGateway().addToTheStore("nextscreen", ScreenType.GAME1);
-        game.getTheValueGateway().addToTheStore("unlockedLevel", UnlockedLevel.HARD_UNLOCKED);
         AssetsManager.getInstance().getSoundByPath("sound/bruitage/littlerainyseasons_fail.mp3");
     }
 
     @Override
     public void show() {
         setUpInputProcessor();
+        game.getTheValueGateway().addToTheStore("nextscreen", ScreenType.GAME1);
+        final UnlockedLevel level = game.getSettings().getG1UnlockedLvl();
+        game.getTheValueGateway().addToTheStore("unlockedLevel", level);
     }
 
     @Override

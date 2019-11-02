@@ -49,6 +49,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	// The value Gateway
 	private ValueGateway gate;
+	// Settings
+	private Settings settings;
 
 	@Override
 	public void create () {
@@ -56,6 +58,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
 		this.gate = new ValueGateway();
+		this.settings = new Settings();
 		changeScreen(ScreenType.MAINMENU);
 	}
 
@@ -67,6 +70,10 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	public ValueGateway getTheValueGateway() {
 		return this.gate;
+	}
+
+	public Settings getSettings() {
+		return this.settings;
 	}
 
 	/**

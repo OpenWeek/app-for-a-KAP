@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
@@ -69,7 +70,8 @@ public class Game1 implements Screen, MireilleListener {
     // Useful Variables
     private boolean isFinish;
     private boolean didGameOverScreenAppeared;
-    private boolean isPaused; // To check if the game is paused or not
+    private boolean isPaused;   // To check if the game is paused or not
+    private boolean musicOn;    // If this is true, the music will play
     private boolean victory;
     private byte mireilleLife;
     private int totalScore;
@@ -96,6 +98,7 @@ public class Game1 implements Screen, MireilleListener {
     private static final String TAG = "game1";
     private final static String LIFE_TXT = "Vies: ";
     private final static String SCORE_TXT = "Score: ";
+    private final static String HIGHSCORE_TXT = "Highscore: ";
     private final static String IST_CATCHED_TXT = "Ists attrapées: ";
     private final static String[] SOUNDSPATHS = {
             "sound/bruitage/thefsoundman_punch-02.wav",
@@ -106,6 +109,8 @@ public class Game1 implements Screen, MireilleListener {
             "sound/bruitage/leszek-szary_success-1.wav"
     };
     private final static String MUSICPATH = "sound/Musique_fast_chiptune.ogg";
+
+    private GameDifficulty difficulty;
 
     // Actors
     private final Virus ennemi;
@@ -144,6 +149,7 @@ public class Game1 implements Screen, MireilleListener {
         this.isFinish = false;
         this.didGameOverScreenAppeared = false;
         this.isPaused = false;
+        this.musicOn = game.getSettings().isMusicOn();
         this.victory = false;
         this.totalScore = 0;
         this.istsCatched = 0;
@@ -224,16 +230,21 @@ public class Game1 implements Screen, MireilleListener {
 
         // Last configurations
 
-        GameDifficulty difficulty = (GameDifficulty) game.getTheValueGateway().removeFromTheStore("difficulty");
-        if(difficulty == null)
-            difficulty = GameDifficulty.MEDIUM;
-        configureGame(difficulty);
+        this.difficulty = (GameDifficulty) game.getTheValueGateway().removeFromTheStore("difficulty");
+        if(this.difficulty == null)
+            this.difficulty = GameDifficulty.MEDIUM;
+        configureGame(this.difficulty);
         AssetsManager.getInstance().addStage(stage, TAG);
     }
 
     @Override
     public void show() {
-        music.play();
+        // in the case when the player come back after changed preferences by using back button
+        this.musicOn = game.getSettings().isMusicOn();
+        if(musicOn) {
+            music.play();
+        }
+
         setUpInputProcessor();
         //In case there are problems to restart the game where it was left after going to another screen and returning, it could maybe be solved by setting the Input Processor (Gdx.input.setInputProcessor(im);) here and not when the game is first created
     }
@@ -269,7 +280,9 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void pause() {
-        music.pause();
+        if(musicOn) {
+            music.pause();
+        }
         pauseSound.play();
         pauseLabel.setVisible(true);
         isPaused = true;
@@ -287,13 +300,18 @@ public class Game1 implements Screen, MireilleListener {
 
     private void resumeFromPause() {
         pauseLabel.setVisible(false);
-        music.play();
+        if(musicOn) {
+            music.play();
+        }
+
         isPaused = false;
     }
 
     @Override
     public void hide() {
-        music.pause();
+        if(musicOn) {
+            music.pause();
+        }
     }
 
     @Override
@@ -454,14 +472,32 @@ public class Game1 implements Screen, MireilleListener {
         return null;
     }
     private void gameOver() {
-        this.music.setVolume(0.1f);
+        if(musicOn) {
+            this.music.setVolume(0.1f);
+        }
+
         final String titleText;
+        int titleLabXFactor;
         if(victory) {
+            // We unlock the new difficulties for the player
+            switch (difficulty) {
+                case EASY:
+                    game.getSettings().setG1UnlockedLvl(UnlockedLevel.MEDI_UNLOCKED);
+                    break;
+                case MEDIUM:
+                    game.getSettings().setG1UnlockedLvl(UnlockedLevel.HARD_UNLOCKED);
+                    break;
+                case INFINITE:
+                    game.getSettings().setG1UnlockedLvl(UnlockedLevel.HARD_UNLOCKED);
+                    break;
+            }
             this.successSound.play();
             titleText = "Bravo !";
+            titleLabXFactor = 100;
         }else{
             this.failSound.play(0.7f);
             titleText = "GAME OVER";
+            titleLabXFactor = 175;
         }
         for(Actor actor : stage.getActors()) {
             if(!(actor.equals(this.imgFond) || actor.equals(this.leaves) || actor.equals(lifeLabel))) {
@@ -469,7 +505,7 @@ public class Game1 implements Screen, MireilleListener {
             }
         }
         final Button title = new TextButton(titleText,style);
-        title.setPosition((bounds.getWidth() / 2) - 175, bounds.getHeight() / 2);
+        title.setPosition((bounds.getWidth() / 2) - titleLabXFactor, bounds.getHeight() / 2);
         title.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -478,16 +514,37 @@ public class Game1 implements Screen, MireilleListener {
                     game.destroyScreen(ScreenType.GAME1);
                     game.destroyScreen(ScreenType.MAINMENU);
                     game.changeScreen(ScreenType.MAINMENU);
-                }else{
+                } else {
                     game.getTheValueGateway().addToTheStore("G1-missedIST", missedIsts);
                     game.changeScreen(ScreenType.BILANG1);
                 }
             }
         });
         stage.addActor(title);
-        Label endScoreLabel = new LabelBuilder(SCORE_TXT + totalScore).withStyle(style)
-                .withPosition((bounds.width / 2) - 150, (bounds.height / 2) - 60).build();
-        stage.addActor(endScoreLabel);
+
+        int highscore = game.getSettings().getG1Highscore();
+        int scoreLabYFactor;
+        final String highscoreLabHead, highscoreLabTail;
+        if (highscore <= totalScore) {
+            // We did a new highscore !
+            game.getSettings().setG1Highscore(totalScore);
+            highscore = totalScore;
+            scoreLabYFactor = 60;
+            highscoreLabHead = "New ";
+            highscoreLabTail = " !";
+        } else {
+            Label endScoreLabel = new LabelBuilder(SCORE_TXT + totalScore).withStyle(style)
+                    .withPosition((bounds.width / 2) - 135, (bounds.height / 2) - 60).build();
+            stage.addActor(endScoreLabel);
+            scoreLabYFactor = 120;
+            highscoreLabHead = "";
+            highscoreLabTail = "";
+        }
+
+        Label highscoreLabel = new LabelBuilder(highscoreLabHead + HIGHSCORE_TXT + highscore + highscoreLabTail)
+                .withPosition((bounds.width / 2) - 225, (bounds.height / 2) - scoreLabYFactor)
+                .withPersonalizedStyle("COMMS.ttf", Color.YELLOW, 60).build();
+        stage.addActor(highscoreLabel);
     }
 
     /**

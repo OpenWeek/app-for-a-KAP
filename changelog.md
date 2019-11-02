@@ -33,9 +33,9 @@
   - The design has been totally reworked with the new textures.
   - New types of pipes has been added, giving more gameplay possibilities
 - Game4 (W4)
-  A basic demo is available
+  - A basic demo is available
 - World3
-  Until now it was crashing (because it served as test base in the past and was never updated). I just added a WIP (Work In Progress) text and a back button. It doesnt crash anymore when are coming from main menu now
+  - Until now it was crashing (because it served as test base in the past and was never updated). I just added a WIP (Work In Progress) text and a back button. It doesnt crash anymore when are coming from main menu now
 - Graphisms
   - Textures
     - STI's texture widths and heights has been standardized (they had different size before)
@@ -51,7 +51,7 @@
     - Game 2 now has a basketball hoop
     - Game 3 has a new background
   - Font
-    A new font (with a free license) has been added, which is a clearer font than the classic one. It comes with different types, sansserif, bold, italic, ...
+    - A new font (with a free license) has been added, which is a clearer font than the classic one. It comes with different types, sansserif, bold, italic, ...
 
 
 ## Alpha-0.2.6 - code: 9 - 2019/09/13
