@@ -1,10 +1,12 @@
-package gdx.kapotopia.AssetsManager;
+package gdx.kapotopia.AssetsManaging;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public final class AssetsManager {
     private static List<RessourceHelper> soundList = new ArrayList<RessourceHelper>();
     private static List<RessourceHelper> stageList = new ArrayList<RessourceHelper>();
     private static List<RessourceHelper> musicList = new ArrayList<RessourceHelper>();
+    private static List<RessourceHelper> fontList = new ArrayList<RessourceHelper>();
 
     public static AssetsManager getInstance() {
         return instance;
@@ -94,8 +97,44 @@ public final class AssetsManager {
     }
 
     /**
+     * add a new font in the ressourceList. The name given rules as it's searching key.
+     * It is created given it's internalPath, it's size and color
+     *  NOTE:   if a new font with the same name of another one already stored, the add operation will fail,
+     *          it won't overwrite the existing font
+     * @param name the name of the font, it is used as a key and therefore has to be unique to avoid conflicts
+     * @param path
+     * @param size
+     * @param color
+     * @return the asked style
+     */
+    public TextButton.TextButtonStyle addStyleFont(final String name, final String path, final int size, final Color color) {
+        final RessourceHelper researchResult = searchRessource(name, AssetType.FONT);
+        if(researchResult != null) {
+            return (TextButton.TextButtonStyle) researchResult.getRessource();
+        }
+
+        final TextButton.TextButtonStyle style = FontHelper.buildTextButtonStyle(path, size, color);
+        final RessourceHelper newRessourceHelper = new RessourceHelper<TextButton.TextButtonStyle>(name, style);
+        fontList.add(newRessourceHelper);
+        return style;
+    }
+
+    /**
+     * Get the font associated with the given key/name.
+     * @param name the name attributed to the font
+     * @return the style given the name or null if no font associated to that name was found
+     */
+    public TextButton.TextButtonStyle getStyleFontByName(final String name) {
+        final RessourceHelper researchResult = searchRessource(name, AssetType.FONT);
+        if(researchResult != null) {
+            return (TextButton.TextButtonStyle) researchResult.getRessource();
+        }
+        return null;
+    }
+
+    /**
      * Dispose the ressources of a VIRUS_TYPE given its internalPath
-     * @param internalPath a String
+     * @param internalPath the texture file internalPath
      */
     public void disposeTexture(final String internalPath) {
         final RessourceHelper th = searchRessource(internalPath, AssetType.TEXTURE);
@@ -186,7 +225,30 @@ public final class AssetsManager {
     }
 
     /**
-     * Dispose all ressources taken by textures, sounds and stages
+     * Dispose the stylefont given it's name
+     * @param name the key representing the font
+     */
+    public void disposeFont(final String name) {
+        final RessourceHelper th = searchRessource(name, AssetType.FONT);
+        if(th != null) {
+            final TextButton.TextButtonStyle tbs = (TextButton.TextButtonStyle) th.getRessource();
+            tbs.font.dispose();
+            fontList.remove(th);
+        }
+    }
+
+    /**
+     * Dispose multiple stylefonts given their names
+     * @param names the keys representing the fonts
+     */
+    public void disposeFont(final String[] names) {
+        for ( final String name: names ) {
+            disposeFont(name);
+        }
+    }
+
+    /**
+     * Dispose all ressources taken by textures, sounds, musics, fonts and stages
      */
     public void disposeAllResources() {
         for (RessourceHelper th : textureList) {
@@ -211,6 +273,12 @@ public final class AssetsManager {
             final Music m = (Music) th.getRessource();
             m.dispose();
             musicList.remove(th);
+        }
+
+        for (RessourceHelper th : fontList) {
+            final TextButton.TextButtonStyle style = (TextButton.TextButtonStyle) th.getRessource();
+            style.font.dispose();
+            fontList.remove(th);
         }
     }
 

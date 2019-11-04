@@ -12,7 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.FontHelper;
+import gdx.kapotopia.AssetsManaging.UsualFonts;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
@@ -24,6 +26,7 @@ public class World1 implements Screen {
     private Stage stage;
 
     private Sound clic;
+    private Sound pauseSound;
 
     public World1(final Kapotopia game) {
         this.game = game;
@@ -31,9 +34,11 @@ public class World1 implements Screen {
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
 
+        // Import sounds
         this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat_open-button-2.wav");
+        this.pauseSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/crisstanza_pause.mp3");
 
-        TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
+        final TextButton.TextButtonStyle style = FontHelper.getStyleFont(UsualFonts.AESTHETIC_NORMAL_BLACK);
 
         Button game1 = new TextButton("Game 1", style);
         Button game2 = new TextButton("Game 2", style);
@@ -55,7 +60,6 @@ public class World1 implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 clic.play();
-                //game.changeScreen(ScreenType.GAME2);
                 game.changeScreen(ScreenType.MOCKUPG2);
             }
         });
@@ -88,7 +92,7 @@ public class World1 implements Screen {
 
     @Override
     public void pause() {
-
+        pauseSound.play();
     }
 
     @Override

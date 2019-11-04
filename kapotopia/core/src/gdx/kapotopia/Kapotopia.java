@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Screens.BilanG1;
 import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
 import gdx.kapotopia.Screens.Game1;

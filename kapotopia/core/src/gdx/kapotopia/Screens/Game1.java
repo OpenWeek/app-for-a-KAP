@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
@@ -32,7 +31,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.FontHelper;
+import gdx.kapotopia.AssetsManaging.UsualFonts;
 import gdx.kapotopia.Game1.CollisionManager;
 import gdx.kapotopia.Game1.MireilleBasic;
 import gdx.kapotopia.Game1.MireilleListener;
@@ -137,8 +138,8 @@ public class Game1 implements Screen, MireilleListener {
         this.stage = new Stage(game.viewport);
         this.random = new Random();
 
-        this.style = Utils.getStyleFont("COMMS.ttf", 60, Color.WHITE);
-        this.styleSmall = Utils.getStyleFont("COMMS.ttf", 38, Color.WHITE);
+        this.style = FontHelper.getStyleFont(UsualFonts.CLASSIC_SANS_NORMAL_WHITE);
+        this.styleSmall = FontHelper.getStyleFont(UsualFonts.CLASSIC_SANS_SMALL_WHITE);
 
         this.bounds = new Rectangle(0,0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         this.MIN_X = 15;
@@ -504,7 +505,7 @@ public class Game1 implements Screen, MireilleListener {
                 actor.setVisible(false);
             }
         }
-        final Button title = new TextButton(titleText,style);
+        final Button title = new TextButton(titleText, FontHelper.getStyleFont(UsualFonts.CLASSIC_REG_NORMAL_WHITE));
         title.setPosition((bounds.getWidth() / 2) - titleLabXFactor, bounds.getHeight() / 2);
         title.addListener(new ChangeListener() {
             @Override
@@ -542,8 +543,8 @@ public class Game1 implements Screen, MireilleListener {
         }
 
         Label highscoreLabel = new LabelBuilder(highscoreLabHead + HIGHSCORE_TXT + highscore + highscoreLabTail)
-                .withPosition((bounds.width / 2) - 225, (bounds.height / 2) - scoreLabYFactor)
-                .withPersonalizedStyle("COMMS.ttf", Color.YELLOW, 60).build();
+                .withPosition((bounds.width / 2) - 300, (bounds.height / 2) - scoreLabYFactor - 10)
+                .withStyle(UsualFonts.CLASSIC_BOLD_NORMAL_YELLOW).build();
         stage.addActor(highscoreLabel);
     }
 

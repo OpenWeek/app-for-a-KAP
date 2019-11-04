@@ -1,6 +1,5 @@
 package gdx.kapotopia.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -14,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.GameDifficulty;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;

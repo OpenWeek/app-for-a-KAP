@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game4.Mireille;
 import gdx.kapotopia.Game4.Question;
 import gdx.kapotopia.Kapotopia;

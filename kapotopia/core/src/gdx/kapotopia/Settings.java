@@ -3,8 +3,6 @@ package gdx.kapotopia;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 import java.util.Locale;
 
 import gdx.kapotopia.Screens.UnlockedLevel;
@@ -32,7 +30,7 @@ public class Settings {
     private static final String PREF_MUSIC_ON = "music_on";
     // Game 1
     private static final String PREF_UNLOCKED_LEVEL = "lvl-unlocked";
-    private static final String PREF_HIGHSCORE = "highscore";
+    private static final String PREF_HIGHSCORE = "highscore"; //TODO make an elaborate hiscore system that can save and load multiple highscores instead of a single one
 
     /*******************************
      *            METHODS          *

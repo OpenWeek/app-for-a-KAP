@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import gdx.kapotopia.*;
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
 

@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.*;
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 
 public class World2 implements Screen {

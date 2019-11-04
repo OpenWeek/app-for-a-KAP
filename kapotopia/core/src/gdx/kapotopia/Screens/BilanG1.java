@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,7 +17,9 @@ import com.badlogic.gdx.utils.Align;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.FontHelper;
+import gdx.kapotopia.AssetsManaging.UsualFonts;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Helpers.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
@@ -56,7 +57,7 @@ public class BilanG1 implements Screen {
     public BilanG1(final Kapotopia game) {
         this.game = game;
         this.stage = new Stage(game.viewport);
-        this.style = Utils.getStyleFont("COMMS.ttf");
+        this.style = FontHelper.getStyleFont(UsualFonts.CLASSIC_SANS_NORMAL_BLACK);
 
         final float wWidth = game.viewport.getWorldWidth();
         final float wHeight = game.viewport.getWorldHeight();
