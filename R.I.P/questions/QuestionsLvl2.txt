@@ -1,0 +1,24 @@
+<question>
+	<symptom>2 à 4 semaines après la contamination (pas systématiques) : fièvre, diarrhée, éruption cutanée (plaques de petits boutons), douleurs musculaires, apparitions de ganglions, fatigue.</symptom>
+	<sickness>VIH</sickness>
+</question>
+<question>
+	<symptom>2 à 8 semaines après la contamination (pas systématiques) : fièvre, jaunisse, fatigue.</symptom>
+	<sickness>Hépatites B et C</sickness>
+</question>
+<question>
+	<symptom>1 à 8 semaines après la contamination : petites verrues indolores sur les organes génitaux.</symptom>
+	<sickness>Papillomavirus</sickness>
+</question>
+<question>
+	<symptom>2 à 7 jours après la contamination : brulures quand on urine, écoulement jaunâtre/verdâtre par le vagin, la verge ou l’anus, douleur au vagin ou à l’extrémité du gland, fièvre.</symptom>
+	<sickness>Gonorrhée</sickness>
+</question>
+<question>
+	<symptom>Majoritairement asymptomatique, mais ceux-ci peuvent apparaitre de quelques jours à quelques mois après la contamination : perte vaginale anormale, écoulement clair par le vagin, l’anus ou le pénis, rougeur des muqueuses, brulure lorsqu’on urine.</symptom>
+	<sickness>Chlamydia</sickness>
+</question>
+<question>
+	<symptom>2 à 20 jours (mais parfois après quelques années) après la contamination : cloches sur les organes génitaux ou l’anus, douleur quand on urine.</symptom>
+	<sickness>Herpès génital</sickness>
+</question>
