@@ -18,6 +18,7 @@ import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UsualFonts;
 import gdx.kapotopia.Helpers.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
@@ -48,10 +49,10 @@ public class MainMenu implements Screen {
         TextButton.TextButtonStyle style = FontHelper.getStyleFont(UsualFonts.AESTHETIC_NORMAL_BLACK);
 
         //setup Button
-        Button world1 = new TextButton("World 1", style);
-        Button world2 = new TextButton("World 2", style);
-        Button world3 = new TextButton("World 3", style);
-        Button world4 = new TextButton("World 4", style);
+        Button world1 = new TextButton(Localization.getInstance().getString("text_world1"), style);
+        Button world2 = new TextButton(Localization.getInstance().getString("text_world2"), style);
+        Button world3 = new TextButton(Localization.getInstance().getString("text_world3"), style);
+        Button world4 = new TextButton(Localization.getInstance().getString("text_world4"), style);
 
         final float x = game.viewport.getWorldWidth() / 2.6f;
         float y = game.viewport.getWorldHeight() * 0.2f;

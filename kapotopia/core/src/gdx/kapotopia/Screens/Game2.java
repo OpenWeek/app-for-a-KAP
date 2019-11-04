@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
@@ -70,7 +71,7 @@ public class Game2 implements Screen {
         float xRight = game.viewport.getWorldWidth() / 1.5f;
 
         //Creation of button Play
-        final Button btnPlay = new TextButton("Play", style);
+        final Button btnPlay = new TextButton(Localization.getInstance().getString("play_button"), style);
         btnPlay.setPosition(x, y);
         btnPlay.addListener(new ChangeListener() {
             @Override
@@ -81,7 +82,7 @@ public class Game2 implements Screen {
         });
         btnPlay.setVisible(false);
 
-        final Button btnBack = new TextButton("Back to Menu",style);
+        final Button btnBack = new TextButton(Localization.getInstance().getString("back_menu_button"),style);
         //btnBack = new TextButton("Back to Menu",style); //Unsuccessfull test to use menu after using back button
         btnBack.setPosition(xRight ,y);
         btnBack.addListener(new ChangeListener(){
