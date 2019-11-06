@@ -7,11 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 
+//import static gdx.kapotopia.ScreenType.GAME2;
+
 public class mockupG2 extends CinematicScreen {
 
     public mockupG2(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG2", ScreenType.GAME2,
                 new String[]{"World1/Game2/20_board_0.png","World1/Game2/20_board_1.png"}); //,"World1/Game2/21_board_0.jpg","World1/Game2/22_board_0.jpg"});
+        game.getTheValueGateway().addToTheStore("nextscreen",ScreenType.GAME2);
     }
 
     @Override
