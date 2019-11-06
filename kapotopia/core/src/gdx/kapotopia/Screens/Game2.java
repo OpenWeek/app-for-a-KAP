@@ -13,13 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import gdx.kapotopia.AssetsManager;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.SimpleDirectionGestureDetector;
-import gdx.kapotopia.StandardInputAdapter;
+import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Utils;
 
 public class Game2 implements Screen {

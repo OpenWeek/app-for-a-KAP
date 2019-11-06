@@ -1,29 +1,28 @@
 package gdx.kapotopia;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+
+import gdx.kapotopia.AssetsManaging.FontHelper;
 
 public class Utils {
     public static TextButton.TextButtonStyle getStyleFont(final String path) {
-        return buildTextButtonStyle(path, 60);
+        return FontHelper.buildTextButtonStyle(path, 60, Color.BLACK);
     }
 
     public static TextButton.TextButtonStyle getStyleFont(final String path, final int size) {
-        return buildTextButtonStyle(path, size);
+        return FontHelper.buildTextButtonStyle(path, size, Color.BLACK);
     }
 
-    private static TextButton.TextButtonStyle buildTextButtonStyle(final String path, final int size) {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(path));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = size;
-        parameter.color = Color.BLACK;
-        BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = font12;
-        generator.dispose();
-        return style;
+    public static TextButton.TextButtonStyle getStyleFont(final String path, final int size, final Color color) {
+        return FontHelper.buildTextButtonStyle(path, size, color);
+    }
+
+    @org.jetbrains.annotations.Contract(pure = true)
+    public static int floorOfAMultipleOf250(int nbr) {
+        for (int i=2000; i > 0; i = i - 250) {
+            if(nbr > i) return i;
+        }
+        return 0;
     }
 }

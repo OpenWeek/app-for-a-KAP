@@ -1,12 +1,11 @@
 package gdx.kapotopia.Game1;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 
 import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
 

@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import gdx.kapotopia.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game4.Mireille;
 import gdx.kapotopia.Game4.Question;
 import gdx.kapotopia.Kapotopia;
@@ -48,9 +48,15 @@ public class World4 implements Screen {
     Animation<TextureRegion> mireilleAnimation;
 
     public World4(final Kapotopia game) {
-        frame1 = new TextureRegion(new Texture(Gdx.files.internal("Mireille2b.png")));
-        frame2 = new TextureRegion(new Texture(Gdx.files.internal("Mireille1b.png")));
-        frame3 = new TextureRegion(new Texture(Gdx.files.internal("Mireille3b.png")));
+        this.game = game;
+        init(game);
+
+    }
+
+    private void init (final Kapotopia game) {
+        frame1 = new TextureRegion(new Texture(Gdx.files.internal("Mireille.png")));
+        frame2 = new TextureRegion(new Texture(Gdx.files.internal("Mireille.png")));
+        frame3 = new TextureRegion(new Texture(Gdx.files.internal("Mireille.png")));
         allFrame = new TextureRegion[] {frame1, frame2, frame3};
         mireilleAnimation = new Animation<TextureRegion>(0.1f, allFrame);
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
@@ -91,7 +97,7 @@ public class World4 implements Screen {
         stage.addActor(choice3);
         stage.addActor(choice4);
         stage.addActor(score2);
-        stage.addActor(mireille);
+        //stage.addActor(mireille);
         stage.addActor(question);
         stage.addActor(retour);
         choice1.addListener(new ChangeListener() {
@@ -111,6 +117,7 @@ public class World4 implements Screen {
         retour.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                dispose();
                 game.changeScreen(ScreenType.MAINMENU);
             }
         });
@@ -219,10 +226,12 @@ public class World4 implements Screen {
     @Override
     public void pause() {
 
+        dispose();
     }
 
     @Override
     public void resume() {
+        init(game);
 
     }
 

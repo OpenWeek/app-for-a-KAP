@@ -14,6 +14,7 @@ public class Choice extends Actor {
     public Choice (String choiceName, int x, int y) {
 
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
+
         choix = new TextButton(choiceName, style);
         this.setPosition(x, y);
     }

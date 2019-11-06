@@ -1,8 +1,7 @@
 package gdx.kapotopia.Screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -11,14 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Timer;
 
-import gdx.kapotopia.AssetsManager;
-import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.Utils;
+import gdx.kapotopia.*;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 
 public class World2 implements Screen {
 
@@ -39,9 +39,17 @@ public class World2 implements Screen {
 
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
 
-        Button play = new TextButton("Play", style);
-        float x = game.viewport.getWorldWidth() / 2.5f;
-        float y = game.viewport.getWorldHeight() / 2;
+        I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
+        String instr_string = languageStrings.get("game3_instr");
+
+        Label instr = new Label(instr_string, new Label.LabelStyle(style.font, Color.BLACK));
+        float x = game.viewport.getWorldWidth() / 12f;
+        float y = game.viewport.getWorldHeight()*3 / 4;
+        instr.setPosition(x,y);
+
+        final Button play = new TextButton("Play", style);
+        x = game.viewport.getWorldWidth() / 2.5f;
+        y = game.viewport.getWorldHeight() / 4;
         play.setPosition(x,y);
         play.addListener(new ChangeListener() {
             @Override
@@ -56,18 +64,11 @@ public class World2 implements Screen {
             }
         });
 
+        stage.addActor(instr);
         stage.addActor(play);
+
         InputMultiplexer iM = new InputMultiplexer();
-        iM.addProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.BACK) {
-                    game.changeScreen(ScreenType.MAINMENU);
-                    return true;
-                }
-                return false;
-            }
-        });
+        iM.addProcessor(new StandardInputAdapter(this,game));
         iM.addProcessor(stage);
 
         Gdx.input.setInputProcessor(iM);
