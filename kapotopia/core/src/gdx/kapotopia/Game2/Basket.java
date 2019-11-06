@@ -1,9 +1,8 @@
 package gdx.kapotopia.Game2;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import gdx.kapotopia.Utils;
+import gdx.kapotopia.Helpers.LabelBuilder;
 
 public class Basket {
 
@@ -21,16 +20,15 @@ public class Basket {
     public Basket(int nbr, String txt){
         this.STDnbr = nbr;
         this.symptom = txt;
-        this.label = new Label(txt,new Label.LabelStyle(Utils.getStyleFont("SEASRN__.ttf").font, Color.BLACK));
+        this.label = new LabelBuilder(txt).isVisible(false).build();
         this.previous = null;
         this.next = null;
-        //this.label.setPosition(x,y);
     }
 
     public Basket(int nbr, String txt, Basket prevB){
         this.STDnbr = nbr;
         this.symptom = txt;
-        this.label = new Label(txt,new Label.LabelStyle(Utils.getStyleFont("SEASRN__.ttf").font, Color.BLACK));
+        this.label = new LabelBuilder(txt).isVisible(false).build();
         this.previous = prevB;
         this.next = null;
     }
@@ -38,7 +36,7 @@ public class Basket {
     public Basket(int nbr, String txt, Basket prevB, Basket nextB){
         this.STDnbr = nbr;
         this.symptom = txt;
-        this.label = new Label(txt,new Label.LabelStyle(Utils.getStyleFont("SEASRN__.ttf").font, Color.BLACK));
+        this.label = new LabelBuilder(txt).isVisible(false).build();
         this.previous = prevB;
         this.next = nextB;
     }

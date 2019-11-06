@@ -8,19 +8,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+
+import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
-import gdx.kapotopia.Utils;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 
 public class Game2 implements Screen {
 
@@ -32,8 +29,8 @@ public class Game2 implements Screen {
 
     private Basket currentBasket;
     private Ball currentBall;
-    private final float readyBalX = game.viewport.getWorldWidth()/2;
-    private final float readyBalY = game.viewport.getWorldHeight()/7;
+    private float readyBalX;
+    private float readyBalY;
 
     private final String GAME_PATH = "World1/Game2/";
 
@@ -70,79 +67,25 @@ public class Game2 implements Screen {
         prepareMockup(outro0);
         stage.addActor(game0);
 
-        //Creation of buttons
-        TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
-        float x = game.viewport.getWorldWidth() / 2.5f;
-        float y = game.viewport.getWorldHeight() / 10;
-        float xRight = game.viewport.getWorldWidth() / 1.5f;
-
-        //Creation of button Play
-        final Button btnPlay = new TextButton("Play", style);
-        btnPlay.setPosition(x, y);
-        btnPlay.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                successSound.play();
-                //TODO
-            }
-        });
-        //btnPlay.setVisible(true);
-        btnPlay.setVisible(false);
-        stage.addActor(btnPlay);
-
-        final Button btnBack = new TextButton("Back to Menu",style);
-        //btnBack = new TextButton("Back to Menu",style); //Unsuccessfull test to use menu after using back button
-        btnBack.setPosition(xRight ,y);
-        btnBack.addListener(new ChangeListener(){
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                nextSound.play();
-                Gdx.input.vibrate(200);
-                //dispose();
-                game.changeScreen(ScreenType.MAINMENU);
-            }
-        });
-        btnBack.setVisible(true);
-        stage.addActor(btnBack);
-
-        //Creation of button next
-        /*final Button btnNext = new TextButton("Next", style);
-        btnNext.setPosition(x, y);
-        btnNext.addListener(new ChangeListener(){
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                nextSound.play();
-                Gdx.input.vibrate(200);
-                if (intro0.isVisible()) {
-                    intro0.setVisible(false);
-                    intro1.setVisible(true);
-                } else if (intro1.isVisible()) {
-                    intro1.setVisible(false);
-                    game0.setVisible(true);
-                    btnNext.setVisible(false);
-                    btnPlay.setVisible(true);
-                    btnBack.setVisible(true);
-                }
-            }
-        });
-        btnNext.setVisible(true);*/
-
-
         /*Creation of instances for game*/
         final int STDnbr = 6;
-        final float labelX = game.viewport.getWorldWidth()/2.5f;
-        final float labelY = game.viewport.getWorldHeight()/1.2f;
+        final float symptX = game.viewport.getWorldWidth()/2.5f;
+        final float symptY = game.viewport.getWorldHeight()/1.2f;
+        final float sitBalX = game.viewport.getWorldWidth()/12;
+        final float sitBalY = game.viewport.getWorldHeight()/14;
+        final float sitDelta = game.viewport.getWorldWidth()/7;
+        readyBalX = game.viewport.getWorldWidth()/2.2f;
+        readyBalY = game.viewport.getWorldHeight()/5;
 
-
-        //Symptoms creation and set up
+        //Symptoms creation and set up (representation of symptoms)
         currentBasket = new Basket(0,"IST0");
-        currentBasket.setPosition(labelX,labelY);
+        currentBasket.setPosition(symptX,symptY);
         currentBasket.hideLabel();
         stage.addActor(currentBasket.getLabel());
         //current.showLabel();
         for(int i=1;i<STDnbr;i++){
             Basket newBasket = new Basket(i,"IST"+i);
-            newBasket.setPosition(labelX,labelY);
+            newBasket.setPosition(symptX,symptY);
             newBasket.hideLabel();
             stage.addActor(newBasket.getLabel());
             currentBasket.setNext(newBasket);
@@ -155,32 +98,22 @@ public class Game2 implements Screen {
             currentBasket = currentBasket.getPrevious();
         currentBasket.showLabel();
 
-        //Set up of balls representing STI's
+        //STI's creation and set up (representation of STI)
         final Ball[] sittingBalls = new Ball[STDnbr];
-        float sitBalX = game.viewport.getWorldWidth()/10;
-        float sitBalY = game.viewport.getWorldHeight()/10;
-        float sitDelta = game.viewport.getWorldWidth()/7;
         for(int i = 0; i < STDnbr; i++) {
             sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * sitDelta, sitBalY);
-            /*sittingBalls[i].addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    //TODO what the thing does
-                    changeBall(sittingBalls[i]);
-                }
-            });*/
-            stage.addActor(sittingBalls[i].getLabel());
-
+            stage.addActor(sittingBalls[i].getButton());
+            sittingBalls[i].getButton().addActor(sittingBalls[i].getLabel());
         }
-        /*for(int i = 0; i < STDnbr; i++){
+        for(int i = 0; i < STDnbr; i++){
             final Ball temp = sittingBalls[i];
-            sittingBalls[i].addListener(new ChangeListener() {
+            sittingBalls[i].getButton().addListener(new ChangeListener() {
                 @Override
-                public void changed(ChangeEvent event, Actor actor) {
+                public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                     changeBall(temp);
                 }
             });
-        }*/
+        }
 
         AssetsManager.getInstance().addStage(stage, "game2");
     }
@@ -224,8 +157,15 @@ public class Game2 implements Screen {
     public void dispose() {
         AssetsManager.getInstance().disposeStage("game2");
     }
-    /*
+
+    /**
+     * changeball: Change the clicked ball position
+     * @param ball: Ball that needs to be act upon
+     * Set ball as the current ball and change its position to be ready to be launched if it was in its initial position,
+     * set ball to its initial position and set currentBall to null if ball was the currentBall
+     */
     private void changeBall(Ball ball){
+        Gdx.app.log(TAG,"Entering changeBall");
         if(ball==currentBall){//ball is ready to be launched and needs to go back to initial state
             ball.setPosition(ball.getInitX(),ball.getInitY());
             currentBall=null;
@@ -237,8 +177,9 @@ public class Game2 implements Screen {
             ball.setPosition(readyBalX,readyBalY);
             currentBall = ball;
         }
-    }*/
+    }
 
+    /*Allows to detect sliding movements on the screen and decide which action needs to be executed*/
     private void setUpInputProcessor() {
         InputMultiplexer im = new InputMultiplexer();
         im.addProcessor(new StandardInputAdapter(this, game, true));
@@ -263,6 +204,13 @@ public class Game2 implements Screen {
 
             }
 
+            /**
+             * Change the symptom that is displayed and considered current
+             * @param left: boolean that indicates in what direction the change needs to be done
+             * the current basket is changed to the next one if there is one and if left is true,
+             * it is changed to the previous one if there is one and left is false.
+             * Nothing happens if there is no following or previous basket.
+             */
             private void updateBasket(boolean left){
                 currentBasket.hideLabel();
                 if(left){//get following basket on the right

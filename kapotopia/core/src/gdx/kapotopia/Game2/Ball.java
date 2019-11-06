@@ -1,10 +1,13 @@
 package gdx.kapotopia.Game2;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import gdx.kapotopia.Utils;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Helpers.LabelBuilder;
 
 public class Ball extends Button {
 
@@ -13,30 +16,42 @@ public class Ball extends Button {
     private String STDname;
 
     /*Variables related to the ball representation*/
-    private final String TEXTURE_PATH = "World1/Game2/ball1.png";
     private float initX, initY; //Position of ball when waiting to be picked
     private float posX, posY; //Current position of ball
+    final private float size = 150;
     private Label label;
+    private ImageButton button;
+    private final String TEXTURE_PATH = "World1/Game2/ball1.png";
+
 
     public Ball(int nbr, String name){
         this.STDnbr = nbr;
         this.STDname = name;
-        this.label = new Label(name,new Label.LabelStyle(Utils.getStyleFont("SEASRN__.ttf").font, Color.BLACK));
+        this.label = new LabelBuilder(name).build();
+        this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
+                AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
+        this.button.setSize(size,size);
     }
 
     public Ball(int nbr, String name, float x, float y){
         this.STDnbr = nbr;
         this.STDname = name;
-        this.label = new Label(name,new Label.LabelStyle(Utils.getStyleFont("SEASRN__.ttf").font, Color.BLACK));
-        this.label.setPosition(x,y);
         this.initX = x;
         this.initY = y;
         this.posX = x;
         this.posY = y;
+        this.label = new LabelBuilder(name).withPosition(15,40).build();
+        this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
+                AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
+        this.button.setBounds(x,y,size,size);
     }
 
     public Label getLabel(){
         return this.label;
+    }
+
+    public ImageButton getButton() {
+        return this.button;
     }
 
     public float getX(){
@@ -59,7 +74,7 @@ public class Ball extends Button {
     public void setPosition(float x,float y){
         this.posX = x;
         this.posY = y;
-        this.label.setPosition(x,y);
+        this.button.setPosition(x,y);
     }
 
     public void showLabel(){
