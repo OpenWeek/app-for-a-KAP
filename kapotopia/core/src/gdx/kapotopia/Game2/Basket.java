@@ -7,7 +7,7 @@ import gdx.kapotopia.Helpers.LabelBuilder;
 public class Basket {
 
     /* Characteristics of the STD represented by the basket*/
-    private int STDnbr; //Integer that is linked to an STD and permits connection with the correct STD ball
+    private int STInbr; //Integer that is linked to an STD and permits connection with the correct STD ball
     private String symptom;
     private Label label;
     private float x;
@@ -18,7 +18,7 @@ public class Basket {
     private Basket next;
 
     public Basket(int nbr, String txt){
-        this.STDnbr = nbr;
+        this.STInbr = nbr;
         this.symptom = txt;
         this.label = new LabelBuilder(txt).isVisible(false).build();
         this.previous = null;
@@ -26,7 +26,7 @@ public class Basket {
     }
 
     public Basket(int nbr, String txt, Basket prevB){
-        this.STDnbr = nbr;
+        this.STInbr = nbr;
         this.symptom = txt;
         this.label = new LabelBuilder(txt).isVisible(false).build();
         this.previous = prevB;
@@ -34,7 +34,7 @@ public class Basket {
     }
 
     public Basket(int nbr, String txt, Basket prevB, Basket nextB){
-        this.STDnbr = nbr;
+        this.STInbr = nbr;
         this.symptom = txt;
         this.label = new LabelBuilder(txt).isVisible(false).build();
         this.previous = prevB;
@@ -51,6 +51,10 @@ public class Basket {
 
     public Label getLabel(){
         return this.label;
+    }
+
+    public int getSTI(){
+        return this.STInbr;
     }
 
     public void setPrevious(Basket prev){

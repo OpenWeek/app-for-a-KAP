@@ -9,9 +9,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 
+import gdx.kapotopia.Helpers.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
@@ -31,11 +33,20 @@ public class Game2 implements Screen {
     private Ball currentBall;
     private float readyBalX;
     private float readyBalY;
+    private float finalBalX;
+    private float finalBalY;
+    private float ballDelta;
+    private float middleX;
+    private float middleY;
+
+    private final int STInbr = 6;
+    private int STIfound = 0;
 
     private final String GAME_PATH = "World1/Game2/";
 
     private static final String TAG = "Screens-Game2";
 
+    private ChangeListener ballClick;
     /**
      * Prepare images to fullScreen and hidden
      * @param img the image to prepare
@@ -54,6 +65,8 @@ public class Game2 implements Screen {
         Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
         this.stage = new Stage(game.viewport);
         this.stage.addActor(imgBckground);
+        middleX = game.viewport.getWorldWidth()/2.2f;
+        middleY = game.viewport.getWorldHeight()/2;
 
         // Sounds and Music
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
@@ -68,22 +81,22 @@ public class Game2 implements Screen {
         stage.addActor(game0);
 
         /*Creation of instances for game*/
-        final int STDnbr = 6;
         final float symptX = game.viewport.getWorldWidth()/2.5f;
         final float symptY = game.viewport.getWorldHeight()/1.2f;
         final float sitBalX = game.viewport.getWorldWidth()/12;
         final float sitBalY = game.viewport.getWorldHeight()/14;
-        final float sitDelta = game.viewport.getWorldWidth()/7;
         readyBalX = game.viewport.getWorldWidth()/2.2f;
         readyBalY = game.viewport.getWorldHeight()/5;
+        finalBalX = game.viewport.getWorldWidth()/1.2f; //TODO check if this value is ok
+        finalBalY = game.viewport.getScreenHeight()/1.5f; //TODO check if this value is ok
+        ballDelta = game.viewport.getWorldWidth()/7;
 
         //Symptoms creation and set up (representation of symptoms)
         currentBasket = new Basket(0,"IST0");
         currentBasket.setPosition(symptX,symptY);
         currentBasket.hideLabel();
         stage.addActor(currentBasket.getLabel());
-        //current.showLabel();
-        for(int i=1;i<STDnbr;i++){
+        for(int i = 1; i< STInbr; i++){
             Basket newBasket = new Basket(i,"IST"+i);
             newBasket.setPosition(symptX,symptY);
             newBasket.hideLabel();
@@ -99,20 +112,28 @@ public class Game2 implements Screen {
         currentBasket.showLabel();
 
         //STI's creation and set up (representation of STI)
-        final Ball[] sittingBalls = new Ball[STDnbr];
-        for(int i = 0; i < STDnbr; i++) {
-            sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * sitDelta, sitBalY);
+        final Ball[] sittingBalls = new Ball[STInbr];
+        for(int i = 0; i < STInbr; i++) {
+            sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * ballDelta, sitBalY);
             stage.addActor(sittingBalls[i].getButton());
             sittingBalls[i].getButton().addActor(sittingBalls[i].getLabel());
         }
-        for(int i = 0; i < STDnbr; i++){
+        for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
+            ballClick = new ChangeListener() {
+                @Override
+                public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                    changeBall(temp);
+                }
+            };
+            /*
             sittingBalls[i].getButton().addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                     changeBall(temp);
                 }
-            });
+            });*/
+            sittingBalls[i].getButton().addListener(ballClick);
         }
 
         AssetsManager.getInstance().addStage(stage, "game2");
@@ -196,7 +217,7 @@ public class Game2 implements Screen {
 
             @Override
             public void onUp() {
-
+                play();
             }
 
             @Override
@@ -222,6 +243,41 @@ public class Game2 implements Screen {
                         currentBasket = currentBasket.getPrevious();
                 }
                 currentBasket.showLabel();
+            }
+
+            private void play(){
+                if(currentBall.getSTI() != currentBasket.getSTI()){//wrong STI and symptom combination, ball is brought back to initial position
+                    changeBall(currentBall);
+                }
+                else{//right STI and symptom have been connected
+                    currentBall.setPosition(finalBalX,finalBalY-STIfound*ballDelta);
+                    currentBall.getButton().removeListener(ballClick);
+                    currentBall = null;
+                    STIfound++;
+                    if(STIfound < STInbr){//game is not won yet
+                        updateBasket(true);
+                        currentBasket.setPrevious(currentBasket.getPrevious().getPrevious());
+                        if(currentBasket.getPrevious() != null) {
+                            currentBasket.getPrevious().setNext(currentBasket);
+                        }
+                        currentBasket.showLabel();
+                        //TODO check if this doesn't lead to any memory leak because the old previous basket has not been explicitly deleted
+                        //IMPROVEMENT maybe add a success message (with a label) here
+                    }
+                    else if(STIfound == STInbr){//game has been won
+                        currentBall.setPosition(finalBalX,finalBalY-STIfound*ballDelta);
+                        currentBall.getButton().removeListener(ballClick);
+                        currentBall = null;
+                        currentBasket.hideLabel();
+                        Label gameWon = new LabelBuilder("Félicitation! Tu as associé tous les bons symptômes avec les bonnes IST!")
+                                .withPosition(middleX,middleY).build();
+                        //TODO check if there is no memory leak
+                    }
+                    else{//STIfound is greater than STInbr. This situation should never happen
+                        Gdx.app.log(TAG,"ERROR: Number of STI found is greater than number of total STI");
+                    }
+
+                }
             }
 
         }));

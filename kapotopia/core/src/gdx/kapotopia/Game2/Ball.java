@@ -12,8 +12,8 @@ import gdx.kapotopia.Helpers.LabelBuilder;
 public class Ball extends Button {
 
     /*Characteristics of the STD represented by the ball*/
-    private int STDnbr; //Integer that is linked to an STD and permits connection with the correct STD basket
-    private String STDname;
+    private int STInbr; //Integer that is linked to an STD and permits connection with the correct STD basket
+    private String STIname;
 
     /*Variables related to the ball representation*/
     private float initX, initY; //Position of ball when waiting to be picked
@@ -25,8 +25,8 @@ public class Ball extends Button {
 
 
     public Ball(int nbr, String name){
-        this.STDnbr = nbr;
-        this.STDname = name;
+        this.STInbr = nbr;
+        this.STIname = name;
         this.label = new LabelBuilder(name).build();
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
@@ -34,8 +34,8 @@ public class Ball extends Button {
     }
 
     public Ball(int nbr, String name, float x, float y){
-        this.STDnbr = nbr;
-        this.STDname = name;
+        this.STInbr = nbr;
+        this.STIname = name;
         this.initX = x;
         this.initY = y;
         this.posX = x;
@@ -68,6 +68,10 @@ public class Ball extends Button {
 
     public float getInitY(){
         return this.initY;
+    }
+
+    public int getSTI(){
+        return this.STInbr;
     }
 
 
