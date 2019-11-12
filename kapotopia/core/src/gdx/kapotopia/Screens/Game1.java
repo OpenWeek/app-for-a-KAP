@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -27,7 +26,6 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
