@@ -15,16 +15,16 @@ public class TextButtonBuilder {
     private boolean visible;
 
     public TextButtonBuilder(String text) {
-        this.text = text;
         this.style = null;
+        this.listener = null;
+        this.text = text;
         this.x = 0;
         this.y = 0;
-        this.visible = true;
-        this.listener = null;
         this.bx = -1;
         this.by = -1;
         this.bw = -1;
         this.bh = -1;
+        this.visible = true;
     }
 
     public TextButtonBuilder withStyle(TextButton.TextButtonStyle style) {
@@ -34,6 +34,11 @@ public class TextButtonBuilder {
 
     public TextButtonBuilder withStyle(UsualFonts type) {
         this.style = FontHelper.getStyleFont(type);
+        return this;
+    }
+
+    public TextButtonBuilder withListener(EventListener event) {
+        this.listener = event;
         return this;
     }
 
@@ -48,11 +53,6 @@ public class TextButtonBuilder {
         this.by = boundY;
         this.bw = boundWeight;
         this.bh = boundHeight;
-        return this;
-    }
-
-    public TextButtonBuilder withListener(EventListener event) {
-        this.listener = event;
         return this;
     }
 

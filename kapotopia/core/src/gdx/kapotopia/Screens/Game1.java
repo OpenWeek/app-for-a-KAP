@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -41,7 +42,9 @@ import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.GameDifficulty;
+import gdx.kapotopia.Helpers.ImageButtonBuilder;
 import gdx.kapotopia.Helpers.ImageHelper;
+import gdx.kapotopia.Helpers.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Helpers.LabelBuilder;
@@ -177,19 +180,18 @@ public class Game1 implements Screen, MireilleListener {
         stage.addActor(leaves);
 
         // Buttons
-        pauseIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(
-                AssetsManager.getInstance().getTextureByPath("pause_logo_2.png"))));
-        pauseIcon.setBounds(bounds.width - 240, bounds.height - 200, 140, 80);
-        pauseIcon.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(isPaused) {
-                    resumeFromPause();
-                }else{
-                    pause();
-                }
-            }
-        });
+        this.pauseIcon = new ImageButtonBuilder().withImageUp("pause_logo_2.png")
+                .withBounds(bounds.width - 240, bounds.height - 200, 140, 80)
+                .withListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        if(isPaused) {
+                            resumeFromPause();
+                        }else{
+                            pause();
+                        }
+                    }
+                }).build();
         stage.addActor(pauseIcon);
 
         // Labels
@@ -606,19 +608,21 @@ public class Game1 implements Screen, MireilleListener {
 
                 // Only if the player won we display the continue button
                 if (victory) {
-                    final Button continueBtn = new TextButtonBuilder("Continuer").withStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
+                    final ImageTextButton continueBtn = new ImageTextButtonBuilder("Continuer")
+                            .withFontStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
                             .withPosition((bounds.getWidth() / 2) - 130, (bounds.getHeight() / 2) + BTN_SPACING)
-                            .withListener(continueEvent).build();
+                            .withListener(continueEvent).withImageStyle("World1/Game1/Bouton.png").build();
 
                     stage.addActor(continueBtn);
                 }
-
-                final Button restartBtn = new TextButtonBuilder("Recommencer").withStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
+                final ImageTextButton restartBtn = new ImageTextButtonBuilder("Recommencer")
+                        .withFontStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
                         .withPosition((bounds.getWidth() / 2) - 200, (bounds.getHeight() / 2))
-                        .withListener(restartEvent).build();
-                final Button quitBtn = new TextButtonBuilder("Quitter").withStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
+                        .withListener(restartEvent).withImageStyle("World1/Game1/Bouton.png").build();
+                final ImageTextButton quitBtn = new ImageTextButtonBuilder("Quitter").withFontStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
                         .withPosition((bounds.getWidth() / 2) - 95, (bounds.getHeight() / 2) - BTN_SPACING)
-                        .withListener(quitEvent).build();
+                        .withListener(quitEvent).withImageStyle("World1/Game1/Bouton.png")
+                        .withScaleXY(10f).build();
 
                 stage.addActor(restartBtn);
                 stage.addActor(quitBtn);
