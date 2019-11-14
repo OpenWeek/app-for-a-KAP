@@ -26,7 +26,6 @@ import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
-import gdx.kapotopia.Utils;
 
 public class BilanG1 implements Screen {
     // Basic variables
@@ -69,11 +68,11 @@ public class BilanG1 implements Screen {
 
         this.missedIsts = (HashSet<VirusContainer>) game.getTheValueGateway().removeFromTheStore("G1-missedIST");
         if(missedIsts == null) {
-            changeToMainMenu();
+            comeBackToG1();
             return;
         }
         if(missedIsts.isEmpty()) {
-            changeToMainMenu();
+            comeBackToG1();
             return;
         }
 
@@ -120,7 +119,7 @@ public class BilanG1 implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.input.vibrate(50);
                 if(istsToShow.size() <= pointeur) {
-                    changeToMainMenu();
+                    comeBackToG1();
                 }else{
                     if(pointeur == 0) {
                         final Label ln = istsToShow.getFirst();
@@ -151,10 +150,9 @@ public class BilanG1 implements Screen {
         AssetsManager.getInstance().addStage(stage, TAG);
     }
 
-    private void changeToMainMenu() {
-        game.destroyScreen(ScreenType.GAME1);
+    private void comeBackToG1() {
         game.destroyScreen(ScreenType.BILANG1);
-        game.changeScreen(ScreenType.MAINMENU);
+        game.changeScreen(ScreenType.GAME1);
     }
 
     @Override
