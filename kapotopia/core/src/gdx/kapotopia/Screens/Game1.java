@@ -48,6 +48,7 @@ import gdx.kapotopia.Helpers.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Helpers.LabelBuilder;
+import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
@@ -502,7 +503,7 @@ public class Game1 implements Screen, MireilleListener {
             highscore = totalScore;
             scoreLabXFactor = 300;
             scoreLabYFactor = 60;
-            highscoreLabHead = "New ";
+            highscoreLabHead = Localization.getInstance().getString("high_score_lab_head");
             highscoreLabTail = " !";
         } else {
             endScoreLabel = new LabelBuilder(SCORE_TXT + totalScore).withStyle(style)
@@ -539,11 +540,11 @@ public class Game1 implements Screen, MireilleListener {
                     break;
             }
             this.successSound.play();
-            titleText = "Bravo !";
+            titleText = Localization.getInstance().getString("success");
             titleLabXFactor = 150;
         }else{
             this.failSound.play(0.7f);
-            titleText = "GAME OVER";
+            titleText = Localization.getInstance().getString("fail");
             titleLabXFactor = 250;
         }
         final Button title = new TextButtonBuilder(titleText).withStyle(UsualFonts.CLASSIC_REG_BIG_WHITE)

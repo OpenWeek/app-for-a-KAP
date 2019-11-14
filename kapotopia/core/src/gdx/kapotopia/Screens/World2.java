@@ -47,7 +47,7 @@ public class World2 implements Screen {
         float y = game.viewport.getWorldHeight()*3 / 4;
         instr.setPosition(x,y);
 
-        final Button play = new TextButton("Play", style);
+        final Button play = new TextButton(Localization.getInstance().getString("play_button"), style);
         x = game.viewport.getWorldWidth() / 2.5f;
         y = game.viewport.getWorldHeight() / 4;
         play.setPosition(x,y);
