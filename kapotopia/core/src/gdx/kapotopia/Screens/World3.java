@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
@@ -30,7 +31,7 @@ public class World3 implements Screen {
         stage.addActor(imgFond);
 
         TextButton.TextButtonStyle style = Utils.getStyleFont("COMMS.ttf", 60);
-        Label soon = new Label("En construction, revenez plus tard !", new Label.LabelStyle(style.font, style.fontColor));
+        Label soon = new Label(Localization.getInstance().getString("soon_label"), new Label.LabelStyle(style.font, style.fontColor));
         soon.setPosition(50, game.viewport.getWorldHeight() * 0.8f);
         soon.setWrap(true);
         soon.setWidth(game.viewport.getWorldWidth() - 200);
@@ -38,7 +39,7 @@ public class World3 implements Screen {
         soon.setVisible(true);
         stage.addActor(soon);
 
-        TextButton back = new TextButton("Back", style);
+        TextButton back = new TextButton(Localization.getInstance().getString("back_button"), style);
         back.setPosition(game.viewport.getWorldWidth()/2, 50);
         back.setVisible(true);
         back.addListener(new ChangeListener() {

@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -40,12 +42,16 @@ import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.GameDifficulty;
+import gdx.kapotopia.Helpers.ImageButtonBuilder;
 import gdx.kapotopia.Helpers.ImageHelper;
+import gdx.kapotopia.Helpers.ImageTextButtonBuilder;
+import gdx.kapotopia.Helpers.TextButtonBuilder;
+import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Helpers.LabelBuilder;
+import gdx.kapotopia.Localization;
+import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
-import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
 public class Game1 implements Screen, MireilleListener {
@@ -175,19 +181,18 @@ public class Game1 implements Screen, MireilleListener {
         stage.addActor(leaves);
 
         // Buttons
-        pauseIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(
-                AssetsManager.getInstance().getTextureByPath("pause_logo_2.png"))));
-        pauseIcon.setBounds(bounds.width - 240, bounds.height - 200, 140, 80);
-        pauseIcon.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(isPaused) {
-                    resumeFromPause();
-                }else{
-                    pause();
-                }
-            }
-        });
+        this.pauseIcon = new ImageButtonBuilder().withImageUp("pause_logo_2.png")
+                .withBounds(bounds.width - 240, bounds.height - 200, 140, 80)
+                .withListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        if(isPaused) {
+                            resumeFromPause();
+                        }else{
+                            pause();
+                        }
+                    }
+                }).build();
         stage.addActor(pauseIcon);
 
         // Labels
@@ -476,6 +481,49 @@ public class Game1 implements Screen, MireilleListener {
             this.music.setVolume(0.1f);
         }
 
+        // We hide every actor
+        for(Actor actor : stage.getActors()) {
+            if(!(actor.equals(this.imgFond) || actor.equals(this.leaves) || actor.equals(lifeLabel))) {
+                actor.setVisible(false);
+            }
+        }
+
+        /*  Here we make the highscore label
+         *  It can take two forms, whenever there is a highscore breaker or not
+         */
+        int highscore = game.getSettings().getG1Highscore();
+        final int scoreLabXFactor, scoreLabYFactor;
+        final String highscoreLabHead, highscoreLabTail;
+        final Label endScoreLabel;
+        if (highscore <= totalScore) {
+            // We dont need to display the endScoreLabel
+            endScoreLabel = null;
+            // We did a new highscore !
+            game.getSettings().setG1Highscore(totalScore);
+            highscore = totalScore;
+            scoreLabXFactor = 300;
+            scoreLabYFactor = 60;
+            highscoreLabHead = Localization.getInstance().getString("high_score_lab_head");
+            highscoreLabTail = " !";
+        } else {
+            endScoreLabel = new LabelBuilder(SCORE_TXT + totalScore).withStyle(style)
+                    .withPosition((bounds.width / 2) - 135, (bounds.height / 2) - 60).build();
+            stage.addActor(endScoreLabel);
+            scoreLabXFactor = 200;
+            scoreLabYFactor = 120;
+            highscoreLabHead = "";
+            highscoreLabTail = "";
+        }
+
+        final Label highscoreLabel = new LabelBuilder(highscoreLabHead + HIGHSCORE_TXT + highscore + highscoreLabTail)
+                .withPosition((bounds.width / 2) - scoreLabXFactor, (bounds.height / 2) - scoreLabYFactor - 10)
+                .withStyle(UsualFonts.CLASSIC_BOLD_NORMAL_YELLOW).build();
+        stage.addActor(highscoreLabel);
+
+        /*
+         * We set up the general title Which is either equal to "Bravo" or "Game over"
+         * and which on pressed, redirect the player on another screen
+         */
         final String titleText;
         int titleLabXFactor;
         if(victory) {
@@ -492,59 +540,96 @@ public class Game1 implements Screen, MireilleListener {
                     break;
             }
             this.successSound.play();
-            titleText = "Bravo !";
-            titleLabXFactor = 100;
+            titleText = Localization.getInstance().getString("success");
+            titleLabXFactor = 150;
         }else{
             this.failSound.play(0.7f);
-            titleText = "GAME OVER";
-            titleLabXFactor = 175;
+            titleText = Localization.getInstance().getString("fail");
+            titleLabXFactor = 250;
         }
-        for(Actor actor : stage.getActors()) {
-            if(!(actor.equals(this.imgFond) || actor.equals(this.leaves) || actor.equals(lifeLabel))) {
-                actor.setVisible(false);
-            }
-        }
-        final Button title = new TextButton(titleText, FontHelper.getStyleFont(UsualFonts.CLASSIC_REG_NORMAL_WHITE));
-        title.setPosition((bounds.getWidth() / 2) - titleLabXFactor, bounds.getHeight() / 2);
+        final Button title = new TextButtonBuilder(titleText).withStyle(UsualFonts.CLASSIC_REG_BIG_WHITE)
+                .withPosition((bounds.getWidth() / 2) - titleLabXFactor, (bounds.getHeight() / 2) + 40).build();
         title.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                final float BTN_SPACING = 90f;
+                // We hide what's left on the screen
+                lifeLabel.setVisible(false);
                 title.setVisible(false);
-                if(missedIsts.isEmpty()) {
-                    game.destroyScreen(ScreenType.GAME1);
-                    game.destroyScreen(ScreenType.MAINMENU);
-                    game.changeScreen(ScreenType.MAINMENU);
-                } else {
+                highscoreLabel.setVisible(false);
+                if(endScoreLabel != null)
+                    endScoreLabel.setVisible(false);
+
+                // If the player missed some STI's, the game will prompt it to the player and once the player
+                // come back here, we show the different options
+                if (!missedIsts.isEmpty()) {
                     game.getTheValueGateway().addToTheStore("G1-missedIST", missedIsts);
                     game.changeScreen(ScreenType.BILANG1);
                 }
+
+                EventListener continueEvent = new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        game.destroyScreen(ScreenType.GAME1);
+                        switch (difficulty) {
+                            case EASY:
+                                game.getTheValueGateway().addToTheStore("difficulty", GameDifficulty.MEDIUM);
+                                game.changeScreen(ScreenType.GAME1);
+                                break;
+                            case MEDIUM:
+                                game.getTheValueGateway().addToTheStore("difficulty", GameDifficulty.HARD);
+                                game.changeScreen(ScreenType.GAME1);
+                                break;
+                            case HARD:
+                                // We send the player to the next game, so GAME 2
+                                game.changeScreen(ScreenType.GAME2);
+                                break;
+                        }
+
+                    }
+                };
+
+                EventListener restartEvent = new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        game.getTheValueGateway().addToTheStore("difficulty", difficulty);
+                        game.destroyScreen(ScreenType.GAME1);
+                        game.changeScreen(ScreenType.GAME1);
+                    }
+                };
+
+                EventListener quitEvent = new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        game.destroyScreen(ScreenType.GAME1);
+                        game.destroyScreen(ScreenType.MAINMENU);
+                        game.changeScreen(ScreenType.MAINMENU);
+                    }
+                };
+
+                // Only if the player won we display the continue button
+                if (victory) {
+                    final ImageTextButton continueBtn = new ImageTextButtonBuilder("Continuer")
+                            .withFontStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
+                            .withPosition((bounds.getWidth() / 2) - 130, (bounds.getHeight() / 2) + BTN_SPACING)
+                            .withListener(continueEvent).withImageStyle("World1/Game1/Bouton.png").build();
+
+                    stage.addActor(continueBtn);
+                }
+                final ImageTextButton restartBtn = new ImageTextButtonBuilder("Recommencer")
+                        .withFontStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
+                        .withPosition((bounds.getWidth() / 2) - 200, (bounds.getHeight() / 2))
+                        .withListener(restartEvent).withImageStyle("World1/Game1/Bouton.png").build();
+                final ImageTextButton quitBtn = new ImageTextButtonBuilder("Quitter").withFontStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
+                        .withPosition((bounds.getWidth() / 2) - 95, (bounds.getHeight() / 2) - BTN_SPACING)
+                        .withListener(quitEvent).withImageStyle("World1/Game1/Bouton.png")
+                        .withScaleXY(10f).build();
+
+                stage.addActor(restartBtn);
+                stage.addActor(quitBtn);
             }
         });
         stage.addActor(title);
-
-        int highscore = game.getSettings().getG1Highscore();
-        int scoreLabYFactor;
-        final String highscoreLabHead, highscoreLabTail;
-        if (highscore <= totalScore) {
-            // We did a new highscore !
-            game.getSettings().setG1Highscore(totalScore);
-            highscore = totalScore;
-            scoreLabYFactor = 60;
-            highscoreLabHead = "New ";
-            highscoreLabTail = " !";
-        } else {
-            Label endScoreLabel = new LabelBuilder(SCORE_TXT + totalScore).withStyle(style)
-                    .withPosition((bounds.width / 2) - 135, (bounds.height / 2) - 60).build();
-            stage.addActor(endScoreLabel);
-            scoreLabYFactor = 120;
-            highscoreLabHead = "";
-            highscoreLabTail = "";
-        }
-
-        Label highscoreLabel = new LabelBuilder(highscoreLabHead + HIGHSCORE_TXT + highscore + highscoreLabTail)
-                .withPosition((bounds.width / 2) - 300, (bounds.height / 2) - scoreLabYFactor - 10)
-                .withStyle(UsualFonts.CLASSIC_BOLD_NORMAL_YELLOW).build();
-        stage.addActor(highscoreLabel);
     }
 
     /**

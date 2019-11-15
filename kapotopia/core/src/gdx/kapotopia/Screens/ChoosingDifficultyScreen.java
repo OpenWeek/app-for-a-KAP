@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Timer;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.GameDifficulty;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Utils;
@@ -57,30 +58,30 @@ public class ChoosingDifficultyScreen implements Screen {
         TextButton.TextButtonStyle styleNormal = Utils.getStyleFont("COMMS.ttf");
         TextButton.TextButtonStyle styleGrey = Utils.getStyleFont("COMMS.ttf", 60, Color.GRAY);
 
-        TextButton easyBtn = new TextButton("Facile", styleNormal);
+        TextButton easyBtn = new TextButton(Localization.getInstance().getString("easy_button"), styleNormal);
         TextButton mediumBtn;
         TextButton hardBtn;
         TextButton infiniteBtn;
         switch (unlockedLevel) {
             case EASY_UNLOCKED:
-                mediumBtn = new TextButton("Moyen", styleGrey);;
-                hardBtn = new TextButton("Difficile", styleGrey);;
-                infiniteBtn = new TextButton("Infini", styleGrey);;
+                mediumBtn = new TextButton(Localization.getInstance().getString("medium_button"), styleGrey);;
+                hardBtn = new TextButton(Localization.getInstance().getString("hard_button"), styleGrey);;
+                infiniteBtn = new TextButton(Localization.getInstance().getString("infinite_button"), styleGrey);;
                 break;
             case MEDI_UNLOCKED:
-                mediumBtn = new TextButton("Moyen", styleNormal);;
-                hardBtn = new TextButton("Difficile", styleGrey);;
-                infiniteBtn = new TextButton("Infini", styleNormal);;
+                mediumBtn = new TextButton(Localization.getInstance().getString("medium_button"), styleNormal);;
+                hardBtn = new TextButton(Localization.getInstance().getString("hard_button"), styleGrey);;
+                infiniteBtn = new TextButton(Localization.getInstance().getString("infinite_button"), styleNormal);;
                 break;
             case HARD_UNLOCKED:
-                mediumBtn = new TextButton("Moyen", styleNormal);;
-                hardBtn = new TextButton("Difficile", styleNormal);;
-                infiniteBtn = new TextButton("Infini", styleNormal);;
+                mediumBtn = new TextButton(Localization.getInstance().getString("medium_button"), styleNormal);;
+                hardBtn = new TextButton(Localization.getInstance().getString("hard_button"), styleNormal);;
+                infiniteBtn = new TextButton(Localization.getInstance().getString("infinite_button"), styleNormal);;
                 break;
             default:
-                mediumBtn = new TextButton("Moyen", styleNormal);;
-                hardBtn = new TextButton("Difficile", styleNormal);;
-                infiniteBtn = new TextButton("Infini", styleNormal);;
+                mediumBtn = new TextButton(Localization.getInstance().getString("medium_button"), styleNormal);;
+                hardBtn = new TextButton(Localization.getInstance().getString("hard_button"), styleNormal);;
+                infiniteBtn = new TextButton(Localization.getInstance().getString("infinite_button"), styleNormal);;
                 break;
         }
 

@@ -14,7 +14,7 @@ import gdx.kapotopia.Utils;
  * and thus asked in the constructor. The user then can add arguments with the
  * provided methods and build it's label following these values with the build() method
  */
-public class LabelBuilder {
+public class  LabelBuilder {
     // Font style
     private TextButton.TextButtonStyle style;
     private String path;
