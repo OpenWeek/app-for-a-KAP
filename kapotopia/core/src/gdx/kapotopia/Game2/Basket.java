@@ -53,7 +53,7 @@ public class Basket {
         return this.label;
     }
 
-    public int getSTI(){
+    public int getSTInbr(){
         return this.STInbr;
     }
 

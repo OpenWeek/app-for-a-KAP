@@ -70,7 +70,7 @@ public class Ball extends Button {
         return this.initY;
     }
 
-    public int getSTI(){
+    public int getSTInbr(){
         return this.STInbr;
     }
 
