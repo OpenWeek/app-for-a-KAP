@@ -10,13 +10,13 @@ While the project documentation and code is written in English, the app language
 
 A first version of this application was developped and released during the event organized at the INGI departement at UCLouvain, the *2018 Openweek edition*. This first version was developped by the original team with the **gideros** framework using *Lua* language.
 
-This first app was rebooted afterwards and only the base was kept. This second version was discontinued near February 2019 and no further update will be made. The whole gideros project is however still available in the ```R.I.P.``` folder on root.
+This first app was rebooted afterwards and only the base was kept. This second version was discontinued near February 2019 and no further update will be made. The whole gideros project is however still available in the ```R.I.P.``` folder on root in precedent commits.
 
 The third version developped now is led by a new team and built using *Java* with the **LibGDX** framework.
 
 ## Structure
 
-The folder ```kapotopia``` contains the new app coded in *Java* while the ```R.I.P.``` folder contains the old app coded in *Lua*.
+The folder ```kapotopia``` contains the new app coded in *Java*.
 
 The project is divided into three sections :
 * core
@@ -33,7 +33,7 @@ We will differentiate here the code part and the assets part.
 The code is licensed under the MIT license, both for the old version and the new version. You can find the ```LICENSE``` files in their respective folders.
 
 #### Assets
-Concerning the old version, all the images and sounds in folders ```R.I.P./images``` and ```R.I.P./audio``` are protected by *CC BY-SA 4.0* available at address https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt .
+Concerning the old version, all the images and sounds in folders ```R.I.P./images``` and ```R.I.P./audio``` are protected by *CC BY-SA 4.0* available at [this address](https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt).
 
 Concerning the new version, it is more specific. The images contained in the assets folder, ```kapotopia/android/assets```, are protected by *CC BY-SA 4.0* as well as the music, in ```kapotopia/android/assets/sound```. However, for the sounds contained in ```kapotopia/android/assets/sound/bruitage```, each of the musical files are licensed in a different mannier. Their license can be found in the ```LICENSE.md``` file contained in that folder. In that ```LICENSE.md``` file are also the links to the websites of the sounds where you can find more information about it, like their author. Most of them are in public domain but some have choosen other licensing, so be careful in using them if you want to do so and respect their licenses.
 

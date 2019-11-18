@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 
 public class Localization {
 
-    public I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
+    private I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
     private static Localization instance = new Localization();
     public Localization()
     {
