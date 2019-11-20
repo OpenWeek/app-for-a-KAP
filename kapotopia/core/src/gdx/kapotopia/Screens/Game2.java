@@ -9,18 +9,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-
-import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localization;
-import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.Utils;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
+import gdx.kapotopia.Helpers.LabelBuilder;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Kapotopia;
 
 public class Game2 implements Screen {
 
@@ -34,11 +32,20 @@ public class Game2 implements Screen {
     private Ball currentBall;
     private float readyBalX;
     private float readyBalY;
+    private float finalBalX;
+    private float finalBalY;
+    private float ballDelta;
+    private float middleX;
+    private float middleY;
+
+    private final int STInbr = 6;
+    private int STIfound = 0;
 
     private final String GAME_PATH = "World1/Game2/";
 
     private static final String TAG = "Screens-Game2";
 
+    private ChangeListener ballClick[] = new ChangeListener[STInbr];
     /**
      * Prepare images to fullScreen and hidden
      * @param img the image to prepare
@@ -54,39 +61,36 @@ public class Game2 implements Screen {
         Gdx.app.log(TAG,"Entering Game2 function");
 
         this.game = game;
-        Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"PlageAvecPanier.png"));
         this.stage = new Stage(game.viewport);
         this.stage.addActor(imgBckground);
+        middleX = game.viewport.getWorldWidth()/3;
+        middleY = game.viewport.getWorldHeight()/2;
 
         // Sounds and Music
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
         this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
 
-        //Creation the screen images
-        final Image game0 = new Image(new Texture(GAME_PATH + "21_board_0.jpg"));
-        prepareMockup(game0);
-        game0.setVisible(true);
         final Image outro0 = new Image(new Texture(GAME_PATH + "22_board_0.jpg"));
         prepareMockup(outro0);
-        stage.addActor(game0);
 
         /*Creation of instances for game*/
-        final int STDnbr = 6;
         final float symptX = game.viewport.getWorldWidth()/2.5f;
-        final float symptY = game.viewport.getWorldHeight()/1.2f;
+        final float symptY = game.viewport.getWorldHeight()/1.15f;
         final float sitBalX = game.viewport.getWorldWidth()/12;
         final float sitBalY = game.viewport.getWorldHeight()/14;
-        final float sitDelta = game.viewport.getWorldWidth()/7;
         readyBalX = game.viewport.getWorldWidth()/2.2f;
         readyBalY = game.viewport.getWorldHeight()/5;
+        finalBalX = game.viewport.getWorldWidth()/1.2f; //TODO check if this value is ok
+        finalBalY = game.viewport.getScreenHeight()/1.5f; //TODO check if this value is ok
+        ballDelta = game.viewport.getWorldWidth()/7;
 
         //Symptoms creation and set up (representation of symptoms)
         currentBasket = new Basket(0,"IST0");
         currentBasket.setPosition(symptX,symptY);
         currentBasket.hideLabel();
         stage.addActor(currentBasket.getLabel());
-        //current.showLabel();
-        for(int i=1;i<STDnbr;i++){
+        for(int i = 1; i< STInbr; i++){
             Basket newBasket = new Basket(i,"IST"+i);
             newBasket.setPosition(symptX,symptY);
             newBasket.hideLabel();
@@ -102,20 +106,21 @@ public class Game2 implements Screen {
         currentBasket.showLabel();
 
         //STI's creation and set up (representation of STI)
-        final Ball[] sittingBalls = new Ball[STDnbr];
-        for(int i = 0; i < STDnbr; i++) {
-            sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * sitDelta, sitBalY);
+        final Ball[] sittingBalls = new Ball[STInbr];
+        for(int i = 0; i < STInbr; i++) {
+            sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * ballDelta, sitBalY);
             stage.addActor(sittingBalls[i].getButton());
             sittingBalls[i].getButton().addActor(sittingBalls[i].getLabel());
         }
-        for(int i = 0; i < STDnbr; i++){
+        for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
-            sittingBalls[i].getButton().addListener(new ChangeListener() {
+            ballClick[i] = new ChangeListener() {
                 @Override
                 public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                     changeBall(temp);
                 }
-            });
+            };
+            sittingBalls[i].getButton().addListener(ballClick[i]);
         }
 
         AssetsManager.getInstance().addStage(stage, "game2");
@@ -199,7 +204,9 @@ public class Game2 implements Screen {
 
             @Override
             public void onUp() {
-
+                if(currentBall!=null) {
+                    play();
+                }
             }
 
             @Override
@@ -215,16 +222,68 @@ public class Game2 implements Screen {
              * Nothing happens if there is no following or previous basket.
              */
             private void updateBasket(boolean left){
+                Gdx.app.log("TAG","entering updateBasket function");
                 currentBasket.hideLabel();
                 if(left){//get following basket on the right
                     if(currentBasket.getNext()!=null)
                         currentBasket = currentBasket.getNext();
-                    }
+                }
                 else {//get following basket on the left
                     if(currentBasket.getPrevious()!=null)
                         currentBasket = currentBasket.getPrevious();
                 }
                 currentBasket.showLabel();
+            }
+
+            private void play(){
+                Gdx.app.log(TAG,"Entering play function");
+                if(currentBall.getSTInbr() != currentBasket.getSTInbr()){//wrong STI and symptom combination, ball is brought back to initial position
+                    changeBall(currentBall);
+                }
+                else{//right STI and symptom have been connected
+                    currentBasket.hideLabel();
+                    currentBall.setPosition(finalBalX,finalBalY-STIfound*ballDelta);
+                    currentBall.getButton().removeListener(ballClick[currentBall.getSTInbr()]);
+                    currentBall = null;
+                    STIfound++;
+                    if(STIfound < STInbr){//game is not won yet
+                        //updateBasket(true, true);
+                        if(currentBasket.getPrevious()!=null) {
+                            currentBasket.getPrevious().setNext(currentBasket.getNext());
+                        }
+                        if(currentBasket.getNext()!=null) {
+                            currentBasket.getNext().setPrevious(currentBasket.getPrevious());
+                            currentBasket=currentBasket.getNext();
+                        }
+                        else {
+                            currentBasket = currentBasket.getPrevious();
+                        }
+                        currentBasket.showLabel();
+                        //TODO check if this doesn't lead to any memory leak because the old previous basket has not been explicitly deleted
+                        //IMPROVEMENT maybe add a success message (with a label) here
+                    }
+                    else if(STIfound == STInbr){//game has been won
+                        currentBasket.hideLabel();
+                        Label gameWon0 = new LabelBuilder("Félicitation!")
+                                .withPosition(game.viewport.getWorldWidth()/3,middleY)
+                                .build();
+                        Label gameWon1 = new LabelBuilder("Tu as associé tous les bons")
+                                .withPosition(game.viewport.getWorldWidth()/8,middleY-60)
+                                .build();
+                        Label gameWon2 = new LabelBuilder("symptômes aux bonnes IST!")
+                                .withPosition(game.viewport.getWorldWidth()/8,middleY-120)
+                                .build();
+
+                        stage.addActor(gameWon0);
+                        stage.addActor(gameWon1);
+                        stage.addActor(gameWon2);
+                        //TODO check if there is no memory leak
+                    }
+                    else{//STIfound is greater than STInbr. This situation should never happen
+                        Gdx.app.log(TAG,"ERROR: Number of STI found is greater than number of total STI");
+                    }
+
+                }
             }
 
         }));
