@@ -61,7 +61,7 @@ public class Game2 implements Screen {
         Gdx.app.log(TAG,"Entering Game2 function");
 
         this.game = game;
-        Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"PlageAvecPanier.png"));
         this.stage = new Stage(game.viewport);
         this.stage.addActor(imgBckground);
         middleX = game.viewport.getWorldWidth()/3;
@@ -71,17 +71,12 @@ public class Game2 implements Screen {
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
         this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
 
-        //Creation the screen images
-        final Image game0 = new Image(new Texture(GAME_PATH + "21_board_0.jpg"));
-        prepareMockup(game0);
-        game0.setVisible(true);
         final Image outro0 = new Image(new Texture(GAME_PATH + "22_board_0.jpg"));
         prepareMockup(outro0);
-        stage.addActor(game0);
 
         /*Creation of instances for game*/
         final float symptX = game.viewport.getWorldWidth()/2.5f;
-        final float symptY = game.viewport.getWorldHeight()/1.2f;
+        final float symptY = game.viewport.getWorldHeight()/1.15f;
         final float sitBalX = game.viewport.getWorldWidth()/12;
         final float sitBalY = game.viewport.getWorldHeight()/14;
         readyBalX = game.viewport.getWorldWidth()/2.2f;
@@ -125,13 +120,6 @@ public class Game2 implements Screen {
                     changeBall(temp);
                 }
             };
-            /*
-            sittingBalls[i].getButton().addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-                    changeBall(temp);
-                }
-            });*/
             sittingBalls[i].getButton().addListener(ballClick[i]);
         }
 
