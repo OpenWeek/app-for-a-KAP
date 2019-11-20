@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UsualFonts;
+import gdx.kapotopia.AssetsManaging.UseFont;
 
 public class TextButtonBuilder {
     private TextButton.TextButtonStyle style;
@@ -32,7 +32,7 @@ public class TextButtonBuilder {
         return this;
     }
 
-    public TextButtonBuilder withStyle(UsualFonts type) {
+    public TextButtonBuilder withStyle(UseFont type) {
         this.style = FontHelper.getStyleFont(type);
         return this;
     }

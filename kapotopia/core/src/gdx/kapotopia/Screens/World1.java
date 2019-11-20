@@ -5,27 +5,26 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UsualFonts;
+import gdx.kapotopia.AssetsManaging.SoundHelper;
+import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.Helpers.ChangeScreenListener;
+import gdx.kapotopia.Helpers.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
-import gdx.kapotopia.Utils;
 
 public class World1 implements Screen {
 
     private Kapotopia game;
     private Stage stage;
 
-    private Sound clic;
     private Sound pauseSound;
 
     public World1(final Kapotopia game) {
@@ -35,34 +34,16 @@ public class World1 implements Screen {
         stage.addActor(imgFond);
 
         // Import sounds
-        this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat_open-button-2.wav");
-        this.pauseSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/crisstanza_pause.mp3");
+        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
 
-        final TextButton.TextButtonStyle style = FontHelper.getStyleFont(UsualFonts.AESTHETIC_NORMAL_BLACK);
+        final TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK);
 
-        Button game1 = new TextButton("Game 1", style);
-        Button game2 = new TextButton("Game 2", style);
         final float x = game.viewport.getWorldWidth() / 2.5f;
-        float y = game.viewport.getWorldHeight() * 0.6f;
-        game1.setPosition(x,y);
-        y = game.viewport.getWorldHeight() * 0.3f;
-        game2.setPosition(x,y);
-
-        game1.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                clic.play();
-                game.changeScreen(ScreenType.MOCKUPG1);
-            }
-        });
-
-        game2.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                clic.play();
-                game.changeScreen(ScreenType.MOCKUPG2);
-            }
-        });
+        final float y = game.viewport.getWorldHeight();
+        TextButton game1 = new TextButtonBuilder("Game 1").withStyle(style).withPosition(x,y * 0.6f)
+                .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG1)).build();
+        TextButton game2 = new TextButtonBuilder("Game 2").withStyle(style).withPosition(x, y * 0.3f)
+                .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG2)).build();
 
         stage.addActor(imgFond);
         stage.addActor(game1);

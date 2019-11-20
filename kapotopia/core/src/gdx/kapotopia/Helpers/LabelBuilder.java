@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 
 import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UsualFonts;
+import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Utils;
 
 /**
@@ -52,7 +52,7 @@ public class  LabelBuilder {
         return this;
     }
 
-    public LabelBuilder withStyle(UsualFonts type) {
+    public LabelBuilder withStyle(UseFont type) {
         this.style = FontHelper.getStyleFont(type);
         return this;
     }

@@ -5,8 +5,6 @@ import com.badlogic.gdx.Preferences;
 
 import java.util.Locale;
 
-import gdx.kapotopia.Screens.UnlockedLevel;
-
 public class Settings {
 
     /*******************************

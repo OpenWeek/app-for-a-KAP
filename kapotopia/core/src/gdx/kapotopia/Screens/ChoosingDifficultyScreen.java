@@ -19,6 +19,7 @@ import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
+import gdx.kapotopia.UnlockedLevel;
 import gdx.kapotopia.Utils;
 
 public class ChoosingDifficultyScreen implements Screen {

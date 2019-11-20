@@ -18,6 +18,10 @@ import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.*;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.FontHelper;
+import gdx.kapotopia.AssetsManaging.SoundHelper;
+import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 
 public class World2 implements Screen {
@@ -35,9 +39,9 @@ public class World2 implements Screen {
 
         stage.addActor(imgFond);
 
-        this.gameStart = AssetsManager.getInstance().getSoundByPath("sound/bruitage/plasterbrain_game-start.ogg");
+        this.gameStart = SoundHelper.getSound(UseSound.GAMESTART);
 
-        TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
+        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK);
 
         I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
         String instr_string = languageStrings.get("game3_instr");
@@ -67,18 +71,17 @@ public class World2 implements Screen {
         stage.addActor(instr);
         stage.addActor(play);
 
-        InputMultiplexer iM = new InputMultiplexer();
-        iM.addProcessor(new StandardInputAdapter(this,game));
-        iM.addProcessor(stage);
-
-        Gdx.input.setInputProcessor(iM);
-
         AssetsManager.getInstance().addStage(stage, "world2");
     }
 
     @Override
     public void show() {
         //In case there are problems to restart the game where it was left after going to another screen and returning, it could maybe be solved by setting the Input Processor (Gdx.input.setInputProcessor(iM);) here and not when the game is first created
+        InputMultiplexer iM = new InputMultiplexer();
+        iM.addProcessor(new StandardInputAdapter(this,game));
+        iM.addProcessor(stage);
+
+        Gdx.input.setInputProcessor(iM);
     }
 
     @Override

@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Helpers.ChangeScreenListener;
+import gdx.kapotopia.Helpers.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
@@ -39,16 +41,9 @@ public class World3 implements Screen {
         soon.setVisible(true);
         stage.addActor(soon);
 
-        TextButton back = new TextButton(Localization.getInstance().getString("back_button"), style);
-        back.setPosition(game.viewport.getWorldWidth()/2, 50);
-        back.setVisible(true);
-        back.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.destroyScreen(ScreenType.WORLD3);
-                game.changeScreen(ScreenType.MAINMENU);
-            }
-        });
+        TextButton back = new TextButtonBuilder(Localization.getInstance().getString("back_button")).withStyle(style)
+                .withPosition(game.viewport.getWorldWidth() / 2, 50).isVisible(true)
+                .withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.WORLD3)).build();
         stage.addActor(back);
 
         AssetsManager.getInstance().addStage(stage, "world3");

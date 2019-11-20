@@ -1,4 +1,4 @@
-package gdx.kapotopia.Screens;
+package gdx.kapotopia;
 
 /**
  * This enum is used to show or not to show certain parts of screens depending of the difficulty

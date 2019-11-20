@@ -19,7 +19,9 @@ import java.util.LinkedList;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UsualFonts;
+import gdx.kapotopia.AssetsManaging.SoundHelper;
+import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Helpers.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
@@ -57,7 +59,7 @@ public class BilanG1 implements Screen {
     public BilanG1(final Kapotopia game) {
         this.game = game;
         this.stage = new Stage(game.viewport);
-        this.style = FontHelper.getStyleFont(UsualFonts.CLASSIC_SANS_NORMAL_BLACK);
+        this.style = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_BLACK);
 
         final float wWidth = game.viewport.getWorldWidth();
         final float wHeight = game.viewport.getWorldHeight();
@@ -143,9 +145,9 @@ public class BilanG1 implements Screen {
         stage.addActor(next);
 
         // Sounds
-        this.fail = AssetsManager.getInstance().getSoundByPath("sound/bruitage/littlerainyseasons_fail.mp3");
-        this.pauseSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/crisstanza_pause.mp3");
-        this.openSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
+        this.fail = SoundHelper.getSound(UseSound.FAIL);
+        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
+        this.openSound = SoundHelper.getSound(UseSound.JUMP_V1);
 
         AssetsManager.getInstance().addStage(stage, TAG);
     }

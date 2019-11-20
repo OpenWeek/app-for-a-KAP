@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -21,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.XmlReader;
@@ -34,7 +32,9 @@ import java.util.Random;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UsualFonts;
+import gdx.kapotopia.AssetsManaging.SoundHelper;
+import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Game1.CollisionManager;
 import gdx.kapotopia.Game1.MireilleBasic;
 import gdx.kapotopia.Game1.MireilleListener;
@@ -52,6 +52,7 @@ import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
+import gdx.kapotopia.UnlockedLevel;
 import gdx.kapotopia.Utils;
 
 public class Game1 implements Screen, MireilleListener {
@@ -106,14 +107,6 @@ public class Game1 implements Screen, MireilleListener {
     private final static String SCORE_TXT = "Score: ";
     private final static String HIGHSCORE_TXT = "Highscore: ";
     private final static String IST_CATCHED_TXT = "Ists attrapées: ";
-    private final static String[] SOUNDSPATHS = {
-            "sound/bruitage/thefsoundman_punch-02.wav",
-            "sound/bruitage/jivatma07_j1game-over-mono.wav",
-            "sound/bruitage/lloydevans09_jump1.wav",
-            "sound/bruitage/crisstanza_pause.mp3",
-            "sound/bruitage/leszek-szary_coin-object.wav",
-            "sound/bruitage/leszek-szary_success-1.wav"
-    };
     private final static String MUSICPATH = "sound/Musique_fast_chiptune.ogg";
 
     private GameDifficulty difficulty;
@@ -143,8 +136,8 @@ public class Game1 implements Screen, MireilleListener {
         this.stage = new Stage(game.viewport);
         this.random = new Random();
 
-        this.style = FontHelper.getStyleFont(UsualFonts.CLASSIC_SANS_NORMAL_WHITE);
-        this.styleSmall = FontHelper.getStyleFont(UsualFonts.CLASSIC_SANS_SMALL_WHITE);
+        this.style = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_WHITE);
+        this.styleSmall = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_SMALL_WHITE);
 
         this.bounds = new Rectangle(0,0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         this.MIN_X = 15;
@@ -226,12 +219,12 @@ public class Game1 implements Screen, MireilleListener {
 
         // Music and Sounds
         this.music = prepareMusic();
-        this.touchedSound = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[0]);
-        this.failSound = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[1]);
-        this.jumpSound = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[2]);
-        this.pauseSound = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[3]);
-        this.istTouchedSound = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[4]);
-        this.successSound = AssetsManager.getInstance().getSoundByPath(SOUNDSPATHS[5]);
+        this.touchedSound = SoundHelper.getSound(UseSound.PUNCH);
+        this.failSound = SoundHelper.getSound(UseSound.FAIL);
+        this.jumpSound = SoundHelper.getSound(UseSound.JUMP_V2);
+        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
+        this.istTouchedSound = SoundHelper.getSound(UseSound.COIN);
+        this.successSound = SoundHelper.getSound(UseSound.SUCCESS);
 
         // Last configurations
 
@@ -329,7 +322,12 @@ public class Game1 implements Screen, MireilleListener {
         for (VirusContainer v : fake) {
             AssetsManager.getInstance().disposeTexture(v.getTexturePath());
         }
-        AssetsManager.getInstance().disposeSound(SOUNDSPATHS);
+        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.PUNCH));
+        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.FAIL));
+        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.JUMP_V2));
+        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.PAUSE));
+        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.COIN));
+        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.SUCCESS));
     }
 
     // Textures
@@ -517,7 +515,7 @@ public class Game1 implements Screen, MireilleListener {
 
         final Label highscoreLabel = new LabelBuilder(highscoreLabHead + HIGHSCORE_TXT + highscore + highscoreLabTail)
                 .withPosition((bounds.width / 2) - scoreLabXFactor, (bounds.height / 2) - scoreLabYFactor - 10)
-                .withStyle(UsualFonts.CLASSIC_BOLD_NORMAL_YELLOW).build();
+                .withStyle(UseFont.CLASSIC_BOLD_NORMAL_YELLOW).build();
         stage.addActor(highscoreLabel);
 
         /*
@@ -547,7 +545,7 @@ public class Game1 implements Screen, MireilleListener {
             titleText = Localization.getInstance().getString("fail");
             titleLabXFactor = 250;
         }
-        final Button title = new TextButtonBuilder(titleText).withStyle(UsualFonts.CLASSIC_REG_BIG_WHITE)
+        final Button title = new TextButtonBuilder(titleText).withStyle(UseFont.CLASSIC_REG_BIG_WHITE)
                 .withPosition((bounds.getWidth() / 2) - titleLabXFactor, (bounds.getHeight() / 2) + 40).build();
         title.addListener(new ChangeListener() {
             @Override
@@ -610,17 +608,17 @@ public class Game1 implements Screen, MireilleListener {
                 // Only if the player won we display the continue button
                 if (victory) {
                     final ImageTextButton continueBtn = new ImageTextButtonBuilder("Continuer")
-                            .withFontStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
+                            .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
                             .withPosition((bounds.getWidth() / 2) - 130, (bounds.getHeight() / 2) + BTN_SPACING)
                             .withListener(continueEvent).withImageStyle("World1/Game1/Bouton.png").build();
 
                     stage.addActor(continueBtn);
                 }
                 final ImageTextButton restartBtn = new ImageTextButtonBuilder("Recommencer")
-                        .withFontStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
+                        .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
                         .withPosition((bounds.getWidth() / 2) - 200, (bounds.getHeight() / 2))
                         .withListener(restartEvent).withImageStyle("World1/Game1/Bouton.png").build();
-                final ImageTextButton quitBtn = new ImageTextButtonBuilder("Quitter").withFontStyle(UsualFonts.CLASSIC_SANS_NORMAL_WHITE)
+                final ImageTextButton quitBtn = new ImageTextButtonBuilder("Quitter").withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
                         .withPosition((bounds.getWidth() / 2) - 95, (bounds.getHeight() / 2) - BTN_SPACING)
                         .withListener(quitEvent).withImageStyle("World1/Game1/Bouton.png")
                         .withScaleXY(10f).build();

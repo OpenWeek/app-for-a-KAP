@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UsualFonts;
+import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
@@ -70,7 +70,7 @@ public abstract class CinematicScreen implements Screen {
     private void builder(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
                          String[] imagesTexturePaths, String fondPath, String changeOfImageSoundPath,
                          String endSoundPath, String pauseSoundPath, String nextBtnLabel,
-                         String finishBtnLabel, String stylePath, Color textColor, UsualFonts usualFont, final float timerScheduleTime, final int vibrationTime) {
+                         String finishBtnLabel, String stylePath, Color textColor, UseFont usualFont, final float timerScheduleTime, final int vibrationTime) {
         this.game = game;
         this.stage = stage;
         // Graphics
@@ -105,7 +105,7 @@ public abstract class CinematicScreen implements Screen {
         TextButton.TextButtonStyle style_black;
         if(usualFont != null) {
             style = FontHelper.getStyleFont(usualFont);
-            style_black = FontHelper.getStyleFont(UsualFonts.AESTHETIC_NORMAL_BLACK);
+            style_black = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK);
         }else{
             style = Utils.getStyleFont(stylePath, 60, textColor);
             style_black = Utils.getStyleFont(stylePath, 60, Color.BLACK);
@@ -177,7 +177,7 @@ public abstract class CinematicScreen implements Screen {
     public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
                            String[] imagesTexturePaths, String fondPath, String changeOfImageSoundPath,
                            String endSoundPath, String pauseSoundPath, String nextBtnLabel,
-                           String finishBtnLabel, String stylePath, Color textColor, UsualFonts usualFont, final float timerScheduleTime, final int vibrationTime) {
+                           String finishBtnLabel, String stylePath, Color textColor, UseFont usualFont, final float timerScheduleTime, final int vibrationTime) {
         builder(game, stage, screenName, nextScreen, imagesTexturePaths, fondPath, changeOfImageSoundPath,
                 endSoundPath, pauseSoundPath, nextBtnLabel, finishBtnLabel, stylePath, textColor,
                 usualFont, timerScheduleTime, vibrationTime);
@@ -211,7 +211,7 @@ public abstract class CinematicScreen implements Screen {
      * @param timerScheduleTime the time between the player pressed the "finish" button and when it change screen
      */
     public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
-                           String[] imagesTexturePaths, UsualFonts usualFont, final float timerScheduleTime) {
+                           String[] imagesTexturePaths, UseFont usualFont, final float timerScheduleTime) {
         builder(game, stage, screenName, nextScreen, imagesTexturePaths, "FondNiveauBlanc2.png",
                 "sound/bruitage/cmdrobot_videogame-jump.ogg",
                 "sound/bruitage/plasterbrain_game-start.ogg",
@@ -228,7 +228,7 @@ public abstract class CinematicScreen implements Screen {
      * @param usualFont the font used
      */
     public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
-                           String[] imagesTexturePaths, UsualFonts usualFont) {
+                           String[] imagesTexturePaths, UseFont usualFont) {
         builder(game, stage, screenName, nextScreen, imagesTexturePaths, "FondNiveauBlanc2.png",
                 "sound/bruitage/cmdrobot_videogame-jump.ogg",
                 "sound/bruitage/plasterbrain_game-start.ogg",

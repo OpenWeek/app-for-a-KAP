@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UsualFonts;
+import gdx.kapotopia.AssetsManaging.UseFont;
 
 public class ImageTextButtonBuilder {
     private String text;
@@ -35,7 +35,7 @@ public class ImageTextButtonBuilder {
         this.bw = -1;
         this.bh = -1;
         this.scaleXY = 1;
-        this.fontStyle = new ImageTextButton.ImageTextButtonStyle(FontHelper.getStyleFont(UsualFonts.AESTHETIC_NORMAL_BLACK));
+        this.fontStyle = new ImageTextButton.ImageTextButtonStyle(FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK));
         this.imageStyle = null;
         this.listener = null;
     }
@@ -64,7 +64,7 @@ public class ImageTextButtonBuilder {
         return this;
     }
 
-    public ImageTextButtonBuilder withFontStyle(UsualFonts font) {
+    public ImageTextButtonBuilder withFontStyle(UseFont font) {
         this.fontStyle = new ImageTextButton.ImageTextButtonStyle(FontHelper.getStyleFont(font));
         return this;
     }

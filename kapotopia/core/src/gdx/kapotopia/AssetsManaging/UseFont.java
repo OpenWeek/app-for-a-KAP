@@ -1,6 +1,6 @@
 package gdx.kapotopia.AssetsManaging;
 
-public enum UsualFonts {
+public enum UseFont {
     /* CLASSIC */
     CLASSIC_BOLD_NORMAL_BLACK,
     CLASSIC_BOLD_NORMAL_WHITE,

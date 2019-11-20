@@ -23,7 +23,7 @@ public class FontHelper {
      * @param type the preconfigured font
      * @return the desired font or null if the type wasn't taken in charge
      */
-    public static TextButton.TextButtonStyle getStyleFont(UsualFonts type) {
+    public static TextButton.TextButtonStyle getStyleFont(UseFont type) {
         switch (type) {
             case CLASSIC_BOLD_NORMAL_BLACK:
                 return AssetsManager.getInstance().addStyleFont("CLASSIC_BOLD_NORMAL_BLACK", CLASSIC_BOLD_NAME, NORMAL_SIZE, Color.BLACK);
@@ -66,7 +66,7 @@ public class FontHelper {
             case AESTHETIC_TINY_BLACK:
                 return AssetsManager.getInstance().addStyleFont("AESTHETIC_TINY_BLACK", AESTHETIC_NAME, TINY_SIZE, Color.BLACK);
                 default:
-                    return  getStyleFont(UsualFonts.CLASSIC_SANS_NORMAL_BLACK);
+                    return  getStyleFont(UseFont.CLASSIC_SANS_NORMAL_BLACK);
         }
     }
 
