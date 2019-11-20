@@ -58,6 +58,7 @@ public class World2 implements Screen {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        game.destroyScreen(ScreenType.WORLD2);
                         game.changeScreen(ScreenType.GAME3);
                     }
                 },2f);
