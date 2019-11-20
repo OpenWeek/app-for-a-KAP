@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 
+import gdx.kapotopia.AssetsManaging.FontHelper;
+import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Utils;
 
 /**
@@ -12,7 +14,7 @@ import gdx.kapotopia.Utils;
  * and thus asked in the constructor. The user then can add arguments with the
  * provided methods and build it's label following these values with the build() method
  */
-public class LabelBuilder {
+public class  LabelBuilder {
     // Font style
     private TextButton.TextButtonStyle style;
     private String path;
@@ -47,6 +49,11 @@ public class LabelBuilder {
 
     public LabelBuilder withStyle(TextButton.TextButtonStyle style) {
         this.style = style;
+        return this;
+    }
+
+    public LabelBuilder withStyle(UseFont type) {
+        this.style = FontHelper.getStyleFont(type);
         return this;
     }
 

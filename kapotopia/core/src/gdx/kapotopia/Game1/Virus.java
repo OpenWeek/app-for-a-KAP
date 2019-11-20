@@ -1,6 +1,5 @@
 package gdx.kapotopia.Game1;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import java.util.Random;
 
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Screens.Game1;
 
 import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;

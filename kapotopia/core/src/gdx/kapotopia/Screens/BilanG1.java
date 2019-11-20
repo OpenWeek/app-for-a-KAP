@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,13 +17,17 @@ import com.badlogic.gdx.utils.Align;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.FontHelper;
+import gdx.kapotopia.AssetsManaging.SoundHelper;
+import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Helpers.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
-import gdx.kapotopia.Utils;
 
 public class BilanG1 implements Screen {
     // Basic variables
@@ -56,7 +59,7 @@ public class BilanG1 implements Screen {
     public BilanG1(final Kapotopia game) {
         this.game = game;
         this.stage = new Stage(game.viewport);
-        this.style = Utils.getStyleFont("COMMS.ttf");
+        this.style = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_BLACK);
 
         final float wWidth = game.viewport.getWorldWidth();
         final float wHeight = game.viewport.getWorldHeight();
@@ -67,11 +70,11 @@ public class BilanG1 implements Screen {
 
         this.missedIsts = (HashSet<VirusContainer>) game.getTheValueGateway().removeFromTheStore("G1-missedIST");
         if(missedIsts == null) {
-            changeToMainMenu();
+            comeBackToG1();
             return;
         }
         if(missedIsts.isEmpty()) {
-            changeToMainMenu();
+            comeBackToG1();
             return;
         }
 
@@ -104,12 +107,12 @@ public class BilanG1 implements Screen {
         pointeur = 0;
 
         // Intro text
-        intro = new LabelBuilder("Bien joué ! Mais vous avez oublié d'attraper les ists suivant")
+        intro = new LabelBuilder(Localization.getInstance().getString("intro_text"))
                 .withStyle(style).withPosition(wWidth / 9f,wHeight / 1.2f).isWrapped(true).withWidth(wWidth / 1.3f).build();
         stage.addActor(intro);
 
         // Button
-        next = new TextButton("Next", style);
+        next = new TextButton(Localization.getInstance().getString("next_button"), style);
         final float xNext = wWidth / 2.5f;
         final float yNext = wHeight / 8f;
         next.setPosition(xNext, yNext);
@@ -118,7 +121,7 @@ public class BilanG1 implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.input.vibrate(50);
                 if(istsToShow.size() <= pointeur) {
-                    changeToMainMenu();
+                    comeBackToG1();
                 }else{
                     if(pointeur == 0) {
                         final Label ln = istsToShow.getFirst();
@@ -142,17 +145,16 @@ public class BilanG1 implements Screen {
         stage.addActor(next);
 
         // Sounds
-        this.fail = AssetsManager.getInstance().getSoundByPath("sound/bruitage/littlerainyseasons_fail.mp3");
-        this.pauseSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/crisstanza_pause.mp3");
-        this.openSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
+        this.fail = SoundHelper.getSound(UseSound.FAIL);
+        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
+        this.openSound = SoundHelper.getSound(UseSound.JUMP_V1);
 
         AssetsManager.getInstance().addStage(stage, TAG);
     }
 
-    private void changeToMainMenu() {
-        game.destroyScreen(ScreenType.GAME1);
+    private void comeBackToG1() {
         game.destroyScreen(ScreenType.BILANG1);
-        game.changeScreen(ScreenType.MAINMENU);
+        game.changeScreen(ScreenType.GAME1);
     }
 
     @Override

@@ -14,10 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import gdx.kapotopia.AssetsManager.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game4.Mireille;
 import gdx.kapotopia.Game4.Question;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
@@ -60,12 +61,12 @@ public class World4 implements Screen {
         allFrame = new TextureRegion[] {frame1, frame2, frame3};
         mireilleAnimation = new Animation<TextureRegion>(0.1f, allFrame);
         TextButton.TextButtonStyle style = Utils.getStyleFont("SEASRN__.ttf");
-        choice1 = new TextButton("Choix1", style);
-        choice2= new TextButton("Choix2", style);
-        choice3= new TextButton("Choix3", style);
-        choice4= new TextButton("Choix4", style);
-        question = new TextButton("Question", style);
-        retour = new TextButton("Back to Menu", style);
+        choice1 = new TextButton(Localization.getInstance().getString("choice1_button"), style);
+        choice2= new TextButton(Localization.getInstance().getString("choice2_button"), style);
+        choice3= new TextButton(Localization.getInstance().getString("choice3_button"), style);
+        choice4= new TextButton(Localization.getInstance().getString("choice4_button"), style);
+        question = new TextButton(Localization.getInstance().getString("question_button"), style);
+        retour = new TextButton(Localization.getInstance().getString("back_menu_button"), style);
         retour.setPosition(game.viewport.getWorldWidth()/4 - retour.getWidth()/2, 200);
         retour.setVisible(false);
         choice1.setPosition(game.viewport.getWorldWidth()/4 - choice1.getWidth()/2, 300);
@@ -77,8 +78,8 @@ public class World4 implements Screen {
         score = 0;
         index = 0;
         totalTime = 0;
-        score2 = new Label("Score : "+score,new Label.LabelStyle(style.font, Color.WHITE));
-        timer = new Label("Timer : "+time,new Label.LabelStyle(style.font, Color.WHITE));
+        score2 = new Label(Localization.getInstance().getString("score2_label")+score,new Label.LabelStyle(style.font, Color.WHITE));
+        timer = new Label(Localization.getInstance().getString("timer_label")+time,new Label.LabelStyle(style.font, Color.WHITE));
         score2.setPosition (game.viewport.getWorldWidth()*3/4 - timer.getWidth()/2, 1700);
         timer.setPosition(game.viewport.getWorldWidth()/4 - timer.getWidth()/2, 1700);
         this.game = game;
@@ -88,8 +89,17 @@ public class World4 implements Screen {
         stage = new Stage(game.viewport);
         time = 0;
         questions = new Question[2];
-        questions[0] = new Question("blanc", "rouge", "vert", "bleu", "De quel couleur est le cheval blanc de napoléon?", 1);
-        questions[1] = new Question("bleu", "jaune", "vert", "blanc", "Mireille color ?", 2);
+        questions[0] = new Question(Localization.getInstance().getString("q0_choix1"),
+                                    Localization.getInstance().getString("q0_choix2"),
+                                    Localization.getInstance().getString("q0_choix3"),
+                                    Localization.getInstance().getString("q0_choix4"),
+                                    Localization.getInstance().getString("q0_question"), 1);
+
+        questions[1] = new Question(Localization.getInstance().getString("q1_choix1"),
+                                    Localization.getInstance().getString("q1_choix2"),
+                                    Localization.getInstance().getString("q1_choix3"),
+                                    Localization.getInstance().getString("q1_choix4"),
+                                    Localization.getInstance().getString("q1_question"), 2);
         stage.addActor(imgFond);
         stage.addActor(choice1);
         stage.addActor(timer);
@@ -184,12 +194,12 @@ public class World4 implements Screen {
                 time = 0f;
             }
             stage.draw();
-            score2.setText("Score : "+score);
-            timer.setText("Time left : "+(30-Math.round(totalTime)));
+            score2.setText(Localization.getInstance().getString("score2_label")+score);
+            timer.setText(Localization.getInstance().getString("time_left")+(30-Math.round(totalTime)));
             stage.act();
         }
         else {
-            question.setText("Your score is : " + score);
+            question.setText(Localization.getInstance().getString("your_score_is") + score);
             choice1.setVisible(false);
             score2.setVisible(false);
             choice2.setVisible(false);
