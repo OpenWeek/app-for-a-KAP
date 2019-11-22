@@ -70,5 +70,6 @@
         <fakeist texture="IST/PesteBubonique.png" name="Peste bubonique"/>
         <fakeist texture="IST/Variole.png" name="Variole"/>
         <fakeist texture="IST/HepatiteA.png" name="Hépatite A"/>
+        <fakeist texture="IST/Diabete.png" name="Diabète"/>
     </fakeist-l>
 </sprites>
