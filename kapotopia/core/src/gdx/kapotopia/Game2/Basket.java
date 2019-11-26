@@ -2,7 +2,7 @@ package gdx.kapotopia.Game2;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import gdx.kapotopia.Helpers.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
 public class Basket {
 

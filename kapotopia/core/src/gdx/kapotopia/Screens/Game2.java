@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
-import gdx.kapotopia.Helpers.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;

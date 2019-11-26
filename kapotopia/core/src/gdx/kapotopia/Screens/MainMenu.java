@@ -15,8 +15,8 @@ import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
-import gdx.kapotopia.Helpers.LabelBuilder;
-import gdx.kapotopia.Helpers.TextButtonBuilder;
+import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
@@ -51,7 +51,7 @@ public class MainMenu implements Screen {
                 .withStyle(UseFont.AESTHETIC_NORMAL_WHITE).withPosition(x, y * 0.8f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD1)).build();
         final TextButton world2 = new TextButtonBuilder(Localization.getInstance().getString("text_world2"))
-                .withStyle(style).withPosition(x, y * 0.6f)
+                .withStyle(UseFont.AESTHETIC_NORMAL_WHITE).withPosition(x, y * 0.6f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
         final TextButton world3 = new TextButtonBuilder(Localization.getInstance().getString("text_world3"))
                 .withStyle(style).withPosition(x, y * 0.4f)
