@@ -20,6 +20,8 @@ import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 
+import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
+
 public class Game2 implements Screen {
 
     private Kapotopia game;
@@ -40,6 +42,7 @@ public class Game2 implements Screen {
 
     private final int STInbr = 6;
     private int STIfound = 0;
+    private int lives = 5;
 
     private final String GAME_PATH = "World1/Game2/";
 
@@ -78,12 +81,12 @@ public class Game2 implements Screen {
         final float symptX = game.viewport.getWorldWidth()/2.5f;
         final float symptY = game.viewport.getWorldHeight()/1.15f;
         final float sitBalX = game.viewport.getWorldWidth()/12;
-        final float sitBalY = game.viewport.getWorldHeight()/14;
+        final float sitBalY = game.viewport.getWorldHeight()/24;
         readyBalX = game.viewport.getWorldWidth()/2.2f;
-        readyBalY = game.viewport.getWorldHeight()/5;
-        finalBalX = game.viewport.getWorldWidth()/1.2f; //TODO check if this value is ok
-        finalBalY = game.viewport.getScreenHeight()/1.5f; //TODO check if this value is ok
-        ballDelta = game.viewport.getWorldWidth()/7;
+        readyBalY = game.viewport.getWorldHeight()/7;
+        finalBalX = game.viewport.getWorldWidth()/1.2f;
+        finalBalY = game.viewport.getWorldHeight()/2.25f;
+        ballDelta = game.viewport.getWorldWidth()/7.3f;
 
         //Symptoms creation and set up (representation of symptoms)
         currentBasket = new Basket(0,"IST0");
@@ -239,6 +242,39 @@ public class Game2 implements Screen {
                 Gdx.app.log(TAG,"Entering play function");
                 if(currentBall.getSTInbr() != currentBasket.getSTInbr()){//wrong STI and symptom combination, ball is brought back to initial position
                     changeBall(currentBall);
+                    lives--;
+                    if(lives==0){
+                        if(STIfound>=(STInbr/2)){
+                            Label gameWon0 = new LabelBuilder("Pas mal!")
+                                    .withPosition(game.viewport.getWorldWidth()/2.5f,middleY)
+                                    .build();
+                            Label gameWon1 = new LabelBuilder("Tu as les bons symptômes pour "+STIfound+" IST.")
+                                    .withPosition(game.viewport.getWorldWidth()/10,middleY-60)
+                                    .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
+                                    .build();
+                            Label gameWon2 = new LabelBuilder("Tu y es presque!")
+                                    .withPosition(game.viewport.getWorldWidth()/4,middleY-120)
+                                    .build();
+                            stage.addActor(gameWon0);
+                            stage.addActor(gameWon1);
+                            stage.addActor(gameWon2);
+                        }
+                        else{
+                            Label gameWon0 = new LabelBuilder("Bien essayé!")
+                                    .withPosition(game.viewport.getWorldWidth()/2.5f,middleY)
+                                    .build();
+                            Label gameWon1 = new LabelBuilder("Tu as les bons symptômes pour "+STIfound+" IST.")
+                                    .withPosition(game.viewport.getWorldWidth()/10,middleY-60)
+                                    .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
+                                    .build();
+                            Label gameWon2 = new LabelBuilder("Persévère! Tu peux y arriver.")
+                                    .withPosition(game.viewport.getWorldWidth()/8,middleY-120)
+                                    .build();
+                            stage.addActor(gameWon0);
+                            stage.addActor(gameWon1);
+                            stage.addActor(gameWon2);
+                        }
+                    }
                 }
                 else{//right STI and symptom have been connected
                     currentBasket.hideLabel();
