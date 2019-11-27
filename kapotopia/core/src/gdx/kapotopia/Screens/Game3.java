@@ -21,8 +21,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import gdx.kapotopia.*;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.FontHelper;
+import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
+import gdx.kapotopia.Helpers.LabelBuilder;
+import gdx.kapotopia.Helpers.TextButtonBuilder;
 
 public class Game3 implements Screen {
 
@@ -75,7 +79,8 @@ public class Game3 implements Screen {
         if(core.playerSucceeded()) {
             this.successSound.play();
         }
-        game.changeScreen(ScreenType.WORLD2);
+        //game.changeScreen(ScreenType.WORLD2);
+        quitGameConfirm();
     }
 
     @Override
@@ -94,6 +99,8 @@ public class Game3 implements Screen {
             }
         });
         iM.addProcessor(new EventHandlerGame3(core));
+
+       // core = new Core(this, 9,10, 2);
     }
 
     @Override
@@ -132,34 +139,18 @@ public class Game3 implements Screen {
 
     public void quitGameConfirm() {
 
-        Label.LabelStyle style = new Label.LabelStyle(FontHelper, Color.WHITE);
-        Label label1 = new Label("Are you sure that you want to exit?", style);
+        Label label1 = new LabelBuilder("Are you sure that you want to exit?").withStyle(UseFont.CLASSIC_BOLD_NORMAL_WHITE).build();
         label1.setAlignment(Align.center);
         //style.font.setScale(1, -1);
-        style.fontColor = Color.WHITE;
+        //style.fontColor = Color.WHITE;
 
-        Skin tileSkin = new Skin();
-        Texture tex = new Texture(myButtontexture);
-        tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        tileSkin.add("white", tex);
-        tileSkin.add("default", new BitmapFont());
-
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = tileSkin.newDrawable("white");
-        textButtonStyle.down = tileSkin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.checked = tileSkin.newDrawable("white",
-                Color.LIGHT_GRAY);
-        textButtonStyle.over = tileSkin.newDrawable("white", Color.LIGHT_GRAY);
-        textButtonStyle.font = _myTextBitmapFont;
-        textButtonStyle.font.setScale(1, -1);
-        textButtonStyle.fontColor = Color.WHITE;
-        tileSkin.add("default", textButtonStyle);
-
-        TextButton btnYes = new TextButton("Exit", tileSkin);
-        TextButton btnNo = new TextButton("Cancel", tileSkin);
+        TextButton btnYes = new TextButtonBuilder("Exit").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
+        TextButton btnNo =  new TextButtonBuilder("Cancel").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
 
         // /////////////////
-        Skin skinDialog = new Skin(Gdx.files.internal("data/uiskin.json"));
+        Skin skinDialog = new Skin();
+        skinDialog.add("myFont", UseFont.AESTHETIC_NORMAL_BLACK, BitmapFont.class);
+        skinDialog.load(Gdx.files.internal("scratch.json"));
         final Dialog dialog = new Dialog("", skinDialog) {
             @Override
             public float getPrefWidth() {
@@ -189,6 +180,9 @@ public class Game3 implements Screen {
                 dialog.cancel();
                 dialog.remove();
 
+                game.changeScreen(ScreenType.WORLD2);
+                game.destroyScreen(ScreenType.GAME3);
+
                 return true;
             }
 
@@ -208,12 +202,6 @@ public class Game3 implements Screen {
             }
 
         });
-
-        /*TextureRegion myTex = new TextureRegion(_dialogBackgroundTextureRegion);
-        myTex.flip(false, true);
-        myTex.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        Drawable drawable = new TextureRegionDrawable(myTex);
-        dialog.setBackground(drawable);*/
 
         float btnSize = 80f;
         Table t = new Table();

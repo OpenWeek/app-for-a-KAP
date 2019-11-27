@@ -27,6 +27,8 @@ public class TextButtonBuilder {
         this.visible = true;
     }
 
+    //TODO add style config for up and down buttons (pressed and unpressed)
+
     public TextButtonBuilder withStyle(TextButton.TextButtonStyle style) {
         this.style = style;
         return this;
