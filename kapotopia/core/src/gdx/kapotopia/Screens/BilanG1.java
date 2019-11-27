@@ -23,7 +23,7 @@ import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Game1.VirusContainer;
-import gdx.kapotopia.Helpers.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;

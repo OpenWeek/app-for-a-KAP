@@ -15,7 +15,7 @@ import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
-import gdx.kapotopia.Helpers.TextButtonBuilder;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;

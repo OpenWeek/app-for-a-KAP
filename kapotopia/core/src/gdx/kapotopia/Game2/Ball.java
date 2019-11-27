@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Helpers.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
 public class Ball extends Button {
 
