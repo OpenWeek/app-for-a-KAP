@@ -24,7 +24,6 @@ public class ImageTextButtonBuilder {
     // Actor common attributes
     private ArrayList<EventListener> eventListeners;
     private ArrayList<EventListener> captureListeners;
-    private EventListener listener;
     private float x, y;
     private float bx, by, bw, bh;
     private float width, height;
@@ -211,10 +210,6 @@ public class ImageTextButtonBuilder {
         }
         if (height >= 0) {
             imgTxtBtn.setHeight(height);
-        }
-
-        if (listener != null) {
-            imgTxtBtn.addListener(listener);
         }
 
         imgTxtBtn.setVisible(visible);

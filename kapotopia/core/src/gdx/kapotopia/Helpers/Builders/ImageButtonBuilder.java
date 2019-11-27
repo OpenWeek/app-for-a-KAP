@@ -155,12 +155,6 @@ public class ImageButtonBuilder {
         return this;
     }
 
-
-
-
-
-
-
     public ImageButton build() {
         final ImageButton imgbtn;
         if (style == null) {

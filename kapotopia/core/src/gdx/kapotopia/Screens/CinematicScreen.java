@@ -9,13 +9,20 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.Iterator;
+
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.DialogsScreen.DialogueElement;
+import gdx.kapotopia.DialogsScreen.FixedDialogueSequence;
+import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
@@ -32,8 +39,9 @@ public abstract class CinematicScreen implements Screen {
     protected Kapotopia game;
     protected Stage stage;
     private String screenName;
+    private boolean initialized; // Indicate if the applyBundle function has been called or not
     // Graphics
-    private Image[] cinematicList;
+    private FixedDialogueSequence sequence;
     private Image fond;
     private int curImg;
     // Sounds
@@ -50,11 +58,9 @@ public abstract class CinematicScreen implements Screen {
 
     /**
      * Build helper function. Create A cinematicScreen with the given arguments
-     * @param game the Kapotopia game
-     * @param stage a stage that has been instancied beforehand
-     * @param screenName the name of the screen, e.g. "mockupG1"
      * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
      * @param imagesTexturePaths the paths of the images shown, shown by increasing order
+     * @param labels
      * @param fondPath the path of the background shown when the finish button appear
      * @param changeOfImageSoundPath the path of the sound file that plays when screen is changed
      * @param endSoundPath the path of the sound file that plays before the screen is changed to @nextScreen
@@ -67,29 +73,40 @@ public abstract class CinematicScreen implements Screen {
      * @param timerScheduleTime the time between the player pressed the "finish" button and when it change screen
      * @param vibrationTime the amount of time that the phone vibrate when pressing "next" and "finish" buttons (the time for "next" button pressed is fourth time less than the time given)
      */
-    private void builder(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
-                         String[] imagesTexturePaths, String fondPath, String changeOfImageSoundPath,
+    private void builder(final ScreenType nextScreen,
+                         String[] imagesTexturePaths, Label[] labels, String fondPath, String changeOfImageSoundPath,
                          String endSoundPath, String pauseSoundPath, String nextBtnLabel,
-                         String finishBtnLabel, String stylePath, Color textColor, UseFont usualFont, final float timerScheduleTime, final int vibrationTime) {
-        this.game = game;
-        this.stage = stage;
+                         String finishBtnLabel, String stylePath, Color textColor, UseFont usualFont,
+                         final float timerScheduleTime, final int vibrationTime) {
         // Graphics
         if(imagesTexturePaths == null) {
-            this.cinematicList = null;
-        }else{
-            this.cinematicList = new Image[imagesTexturePaths.length];
-            int i = 0;
-            for (String path : imagesTexturePaths) {
-                final Image img = new Image(AssetsManager.getInstance().getTextureByPath(path));
-                //img.setVisible(false);
-                img.setWidth(game.viewport.getWorldWidth());
-                img.setHeight(game.viewport.getWorldHeight());
-                img.setVisible(false);
-                this.stage.addActor(img);
-                this.cinematicList[i] = img;
-                i++;
+            this.sequence = null;
+        } else {
+            if(labels == null) {
+                // If there aren't any label specified, we'll build an empty list
+                final int size = imagesTexturePaths.length;
+                Label[] labelList = new Label[size];
+                for (int i=0; i<size; i++)
+                    labelList[i] = new LabelBuilder("").withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK).build();
+                this.sequence = new FixedDialogueSequence(imagesTexturePaths, labelList);
+            } else {
+                this.sequence = new FixedDialogueSequence(imagesTexturePaths, labels);
             }
-            this.cinematicList[0].setVisible(true);
+
+            Iterator<DialogueElement> iterator = this.sequence.iterator();
+            while (iterator.hasNext()) {
+                DialogueElement element = iterator.next();
+                Image img = element.getImage();
+                img.setWidth(this.game.viewport.getWorldWidth());
+                img.setHeight(this.game.viewport.getWorldHeight());
+                Label label = element.getLabel();
+                img.setVisible(false);
+                label.setVisible(false);
+                this.stage.addActor(img);
+                this.stage.addActor(label);
+            }
+            this.sequence.getFirstElement().getImage().setVisible(true);
+            this.sequence.getFirstElement().getLabel().setVisible(true);
         }
 
         this.curImg = 0;
@@ -102,7 +119,7 @@ public abstract class CinematicScreen implements Screen {
         this.pauseSound = AssetsManager.getInstance().getSoundByPath(pauseSoundPath);
         // Buttons
         TextButton.TextButtonStyle style;
-        TextButton.TextButtonStyle style_black;
+        TextButton.TextButtonStyle style_black; //TODO generify this
         if(usualFont != null) {
             style = FontHelper.getStyleFont(usualFont);
             style_black = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK);
@@ -111,159 +128,76 @@ public abstract class CinematicScreen implements Screen {
             style_black = Utils.getStyleFont(stylePath, 60, Color.BLACK);
         }
 
-        this.next = new TextButton(nextBtnLabel, style);
-        this.finish = new TextButton(finishBtnLabel, style_black);
-
-        final float xButton = game.viewport.getWorldWidth() / 2.5f;
-        final float yNext = game.viewport.getWorldHeight() / 10f;
-        final float yFinish = game.viewport.getWorldHeight() / 2f;
-        this.next.setPosition(xButton, yNext);
-        this.finish.setPosition(xButton, yFinish);
-        this.next.setVisible(true);
-        this.finish.setVisible(false);
-
-        this.next.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.input.vibrate(vibrationTime / 4);
-                if(!nextImage()) {
-                    // In the case when the image queue is empty (is == null or we saw every image)
-                    next.setVisible(false);
-                    finish.setVisible(true);
-                }
-            }
-        });
-
-        this.finish.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.input.vibrate(vibrationTime);
-                endSound.play();
-                Timer.schedule(new Timer.Task() {
+        final float xButton = this.game.viewport.getWorldWidth() / 2.5f;
+        this.next = new TextButtonBuilder(nextBtnLabel).withStyle(style).isVisible(true)
+                .withPosition(xButton, this.game.viewport.getWorldHeight() / 10f).withListener(new ChangeListener() {
                     @Override
-                    public void run() {
-                        resetScreen();
-                        game.changeScreen(nextScreen);
+                    public void changed(ChangeEvent event, Actor actor) {
+                        Gdx.input.vibrate(vibrationTime / 4);
+                        if(!nextImage()) {
+                            // In the case when the image queue is empty (is == null or we saw every image)
+                            next.setVisible(false);
+                            finish.setVisible(true);
+                        }
                     }
-                }, timerScheduleTime);
-            }
-        });
+                }).build();
+        this.finish = new TextButtonBuilder(finishBtnLabel).withStyle(style_black).isVisible(false)
+                .withPosition(xButton, this.game.viewport.getWorldHeight() / 2f).withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        Gdx.input.vibrate(vibrationTime);
+                        endSound.play();
+                        Timer.schedule(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                resetScreen();
+                                game.changeScreen(nextScreen);
+                            }
+                        }, timerScheduleTime);
+                    }
+                }).build();
 
         this.stage.addActor(this.next);
         this.stage.addActor(this.finish);
+    }
 
+    /**
+     * Initialize the basic variables using the game, the stage and the screenName.
+     * ATTENTION : the method *applyBundle* MUST come after this call ! Or nothing will appear on the screen
+     * @param game the Kapotopia game
+     * @param stage a stage that has been instancied beforehand
+     * @param screenName the name of the screen, e.g. "mockupG1"
+     */
+    public CinematicScreen(final Kapotopia game, Stage stage, String screenName) {
+        this.game = game;
+        this.stage = stage;
         this.screenName = screenName;
+        this.initialized = false;
+
+        //We set elements to null because they MUST be initialized beforehand
+        this.sequence = null;
+        this.fond = null;
+        this.curImg = -1;
+        this.changeOfImageSound = null;
+        this.endSound = null;
+        this.pauseSound = null;
+        this.next = null;
+        this.finish = null;
+
         AssetsManager.getInstance().addStage(stage, screenName);
     }
 
     /**
-     * Create A cinematicScreen with the given arguments
-     * @param game the Kapotopia game
-     * @param stage a stage that has been instancied beforehand
-     * @param screenName the name of the screen, e.g. "mockupG1"
-     * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
-     * @param imagesTexturePaths the paths of the images shown, shown by increasing order
-     * @param fondPath the path of the background shown when the finish button appear
-     * @param changeOfImageSoundPath the path of the sound file that plays when screen is changed
-     * @param endSoundPath the path of the sound file that plays before the screen is changed to @nextScreen
-     * @param pauseSoundPath the path of the sound file that plays when the game is paused
-     * @param nextBtnLabel the text displayed by the "next" button
-     * @param finishBtnLabel the text displayed by the "finish" button
-     * @param stylePath the path to the style used for texts
-     * @param textColor the text color given by a constant in Color class of libgdx
-     * @param timerScheduleTime the time between the player pressed the "finish" button and when it change screen
-     * @param vibrationTime the amount of time that the phone vibrate when pressing "next" and "finish" buttons (the time for "next" button pressed is fourth time less than the time given)
+     * MUST come after the constructor
+     * @param params the bundle of parameters that will define the screen, use the specified object API for more information
      */
-    public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
-                           String[] imagesTexturePaths, String fondPath, String changeOfImageSoundPath,
-                           String endSoundPath, String pauseSoundPath, String nextBtnLabel,
-                           String finishBtnLabel, String stylePath, Color textColor, UseFont usualFont, final float timerScheduleTime, final int vibrationTime) {
-        builder(game, stage, screenName, nextScreen, imagesTexturePaths, fondPath, changeOfImageSoundPath,
-                endSoundPath, pauseSoundPath, nextBtnLabel, finishBtnLabel, stylePath, textColor,
-                usualFont, timerScheduleTime, vibrationTime);
-    }
-
-    /**
-     * @param game the Kapotopia game
-     * @param stage a stage that has been instancied beforehand
-     * @param screenName the name of the screen, e.g. "mockupG1"
-     * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
-     * @param imagesTexturePaths the paths of the images shown, shown by increasing order
-     * @param nextBtnLabel the text displayed by the "next" button
-     * @param finishBtnLabel the text displayed by the "finish" button
-     */
-    public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
-                           String[] imagesTexturePaths, String nextBtnLabel, String finishBtnLabel) {
-        builder(game, stage, screenName, nextScreen, imagesTexturePaths, "FondNiveauBlanc2.png",
-                "sound/bruitage/cmdrobot_videogame-jump.ogg",
-                "sound/bruitage/plasterbrain_game-start.ogg",
-                "sound/bruitage/crisstanza_pause.mp3", nextBtnLabel, finishBtnLabel,
-                "COMMS.ttf", Color.BLACK, null, 2f, 200);
-    }
-
-    /**
-     * @param game the Kapotopia game
-     * @param stage a stage that has been instancied beforehand
-     * @param screenName the name of the screen, e.g. "mockupG1"
-     * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
-     * @param imagesTexturePaths the paths of the images shown, shown by increasing order
-     * @param usualFont the font used
-     * @param timerScheduleTime the time between the player pressed the "finish" button and when it change screen
-     */
-    public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
-                           String[] imagesTexturePaths, UseFont usualFont, final float timerScheduleTime) {
-        builder(game, stage, screenName, nextScreen, imagesTexturePaths, "FondNiveauBlanc2.png",
-                "sound/bruitage/cmdrobot_videogame-jump.ogg",
-                "sound/bruitage/plasterbrain_game-start.ogg",
-                "sound/bruitage/crisstanza_pause.mp3", "Next",
-                "Play", "COMMS.ttf", Color.BLACK, usualFont, timerScheduleTime, 200);
-    }
-
-    /**
-     * @param game the Kapotopia game
-     * @param stage a stage that has been instancied beforehand
-     * @param screenName the name of the screen, e.g. "mockupG1"
-     * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
-     * @param imagesTexturePaths the paths of the images shown, shown by increasing order
-     * @param usualFont the font used
-     */
-    public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
-                           String[] imagesTexturePaths, UseFont usualFont) {
-        builder(game, stage, screenName, nextScreen, imagesTexturePaths, "FondNiveauBlanc2.png",
-                "sound/bruitage/cmdrobot_videogame-jump.ogg",
-                "sound/bruitage/plasterbrain_game-start.ogg",
-                "sound/bruitage/crisstanza_pause.mp3", "Next",
-                "Play", "COMMS.ttf", Color.BLACK, usualFont, 2f, 200);
-    }
-
-    /**
-     * @param game the Kapotopia game
-     * @param stage a stage that has been instancied beforehand
-     * @param screenName the name of the screen, e.g. "mockupG1"
-     * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
-     * @param imagesTexturePaths the paths of the images shown, shown by increasing order
-     */
-    public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen,
-                           String[] imagesTexturePaths) {
-        builder(game, stage, screenName, nextScreen, imagesTexturePaths, "FondNiveauBlanc2.png",
-                "sound/bruitage/cmdrobot_videogame-jump.ogg",
-                "sound/bruitage/plasterbrain_game-start.ogg",
-                "sound/bruitage/crisstanza_pause.mp3", "Next",
-                "Play", "COMMS.ttf", Color.BLACK, null, 2f, 200);
-    }
-
-    /**
-     * @param game the Kapotopia game
-     * @param stage a stage that has been instancied beforehand
-     * @param screenName the name of the screen, e.g. "mockupG1"
-     * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
-     */
-    public CinematicScreen(final Kapotopia game, Stage stage, String screenName, final ScreenType nextScreen) {
-        builder(game, stage, screenName, nextScreen, null, "FondNiveauBlanc2.png",
-                "sound/bruitage/cmdrobot_videogame-jump.ogg",
-                "sound/bruitage/plasterbrain_game-start.ogg",
-                "sound/bruitage/crisstanza_pause.mp3", "Next",
-                "Play", "COMMS.ttf", Color.BLACK, null, 2f, 200);
+    protected void applyBundle(ParameterBundleBuilder params) {
+        builder(params.getNextScreen(), params.getImagesTexturePaths(),
+                params.getLabels(), params.getFondPath(), params.getChangeOfImageSoundPath(),
+                params.getEndSoundPath(), params.getPauseSoundPath(), params.getNextBtnLabel(),
+                params.getFinishBtnLabel(), params.getStylePath(), params.getTextColor(),
+                params.getUsualfont(), params.getTimerScheduleTime(), params.getVibrationTime());
+        initialized = true;
     }
 
     // Regular functions
@@ -273,15 +207,17 @@ public abstract class CinematicScreen implements Screen {
      * @return false if the queue is null, or if is empty. True otherwise
      */
     public boolean nextImage() {
-        if(cinematicList != null) {
-            cinematicList[curImg].setVisible(false);
-            if (curImg < cinematicList.length-1) {
-                final Image img = cinematicList[++curImg];
-                img.setVisible(true);
+        if(sequence != null) {
+            // We hide the current element
+            setElementVisibility(false, curImg);
+            if (curImg < sequence.getSize()-1) {
+                // We make the next element visible
+                setElementVisibility(true, ++curImg);
                 changeOfImageSound.play();
                 return true;
             } else {
-                cinematicList[curImg-1].setVisible(false);
+                // We hide the last elements
+                setElementVisibility(false, curImg-1);
                 fond.setVisible(true);
             }
         }
@@ -294,11 +230,14 @@ public abstract class CinematicScreen implements Screen {
     public void resetScreen() {
         curImg = 0;
 
-        for (Image pic : cinematicList)
-            pic.setVisible(false);
-
-        if (cinematicList != null) {
-            cinematicList[curImg].setVisible(true);
+        if(sequence != null) {
+            Iterator<DialogueElement> iterator = sequence.iterator();
+            while(iterator.hasNext()) {
+                DialogueElement element = iterator.next();
+                element.getImage().setVisible(false);
+                element.getLabel().setVisible(false);
+            }
+            setElementVisibility(true, curImg);
             finish.setVisible(false);
             next.setVisible(true);
             fond.setVisible(false);
@@ -307,6 +246,17 @@ public abstract class CinematicScreen implements Screen {
             next.setVisible(false);
             fond.setVisible(true);
         }
+    }
+
+    /**
+     * Set the element at the index in the sequence as visible or not
+     * @param isVisible
+     * @param index the index must be within 0 and sequence.size-1 or it will throw an AssertionError
+     */
+    private void setElementVisibility(boolean isVisible, int index) {
+        DialogueElement element = sequence.getDialogueElement(index);
+        element.getImage().setVisible(isVisible);
+        element.getLabel().setVisible(isVisible);
     }
 
     /**
@@ -323,7 +273,9 @@ public abstract class CinematicScreen implements Screen {
 
     @Override
     public void pause() {
-        this.pauseSound.play();
+        if(this.pauseSound != null) {
+            this.pauseSound.play();
+        }
     }
 
     @Override
@@ -333,7 +285,8 @@ public abstract class CinematicScreen implements Screen {
 
     @Override
     public void hide() {
-        resetScreen();
+        if(initialized)
+            resetScreen();
     }
 
     @Override
@@ -344,6 +297,161 @@ public abstract class CinematicScreen implements Screen {
     @Override
     public void dispose() {
         AssetsManager.getInstance().disposeStage(screenName);
+    }
+
+    public class ParameterBundleBuilder {
+        private ScreenType nextScreen;
+        private String[] imagesTexturePaths;
+        private Label[] labels;
+        private String fondPath;
+        private String changeOfImageSoundPath;
+        private String endSoundPath;
+        private String pauseSoundPath;
+        private String nextBtnLabel;
+        private String finishBtnLabel;
+        private String stylePath;
+        private Color textColor;
+        private UseFont usualfont;
+        private float timerScheduleTime;
+        private int vibrationTime;
+
+        public ParameterBundleBuilder(ScreenType nextScreen) {
+            this.nextScreen = nextScreen;
+            this.imagesTexturePaths = null;
+            this.labels = null;
+            this.fondPath = "FondNiveauBlanc2.png";
+            this.changeOfImageSoundPath = "sound/bruitage/cmdrobot_videogame-jump.ogg";
+            this.endSoundPath = "sound/bruitage/plasterbrain_game-start.ogg";
+            this.pauseSoundPath = "sound/bruitage/crisstanza_pause.mp3";
+            this.nextBtnLabel = "Next";
+            this.finishBtnLabel = "Play";
+            this.stylePath = "COMMS.ttf";
+            this.textColor = Color.BLACK;
+            this.usualfont = null;
+            this.timerScheduleTime = 2f;
+            this.vibrationTime = 200;
+        }
+
+        public ParameterBundleBuilder withTextures(String[] texturePaths) {
+            this.imagesTexturePaths = texturePaths;
+            return this;
+        }
+
+        public ParameterBundleBuilder withLabels(Label[] labels) {
+            this.labels = labels;
+            return this;
+        }
+
+        public ParameterBundleBuilder withFond(String fondPath) {
+            this.fondPath = fondPath;
+            return this;
+        }
+
+        public ParameterBundleBuilder withSoundToChangeImg(String changeOfImageSoundPath) {
+            this.changeOfImageSoundPath = changeOfImageSoundPath;
+            return this;
+        }
+
+        public ParameterBundleBuilder withSoundToEnd(String soundToEnd) {
+            this.endSoundPath = soundToEnd;
+            return this;
+        }
+
+        public ParameterBundleBuilder withSoundToPause(String pauseSoundPath) {
+            this.pauseSoundPath = pauseSoundPath;
+            return this;
+        }
+
+        public ParameterBundleBuilder withNextBtnTxt(String nextBtnTxt) {
+            this.nextBtnLabel = nextBtnTxt;
+            return this;
+        }
+
+        public ParameterBundleBuilder withFinishBtnTxt(String finishBtnTxt) {
+            this.finishBtnLabel = finishBtnTxt;
+            return this;
+        }
+
+        public ParameterBundleBuilder withStyle(String stylePath) {
+            this.stylePath = stylePath;
+            return this;
+        }
+
+        public ParameterBundleBuilder withTxtColor(Color txtColor) {
+            this.textColor = txtColor;
+            return this;
+        }
+
+        public ParameterBundleBuilder withStyle(UseFont useFont) {
+            this.usualfont = useFont;
+            return this;
+        }
+
+        public ParameterBundleBuilder withTimerScheduleTime(float timerScheduleTime) {
+            this.timerScheduleTime = timerScheduleTime;
+            return this;
+        }
+
+        public ParameterBundleBuilder withVibrationTime(int vibrationTime) {
+            this.vibrationTime = vibrationTime;
+            return this;
+        }
+
+        public ScreenType getNextScreen() {
+            return nextScreen;
+        }
+
+        public String[] getImagesTexturePaths() {
+            return imagesTexturePaths;
+        }
+
+        public Label[] getLabels() {
+            return labels;
+        }
+
+        public String getFondPath() {
+            return fondPath;
+        }
+
+        public String getChangeOfImageSoundPath() {
+            return changeOfImageSoundPath;
+        }
+
+        public String getEndSoundPath() {
+            return endSoundPath;
+        }
+
+        public String getPauseSoundPath() {
+            return pauseSoundPath;
+        }
+
+        public String getNextBtnLabel() {
+            return nextBtnLabel;
+        }
+
+        public String getFinishBtnLabel() {
+            return finishBtnLabel;
+        }
+
+        public String getStylePath() {
+            return stylePath;
+        }
+
+        public Color getTextColor() {
+            return textColor;
+        }
+
+        public UseFont getUsualfont() {
+            return usualfont;
+        }
+
+        public float getTimerScheduleTime() {
+            return timerScheduleTime;
+        }
+
+        public int getVibrationTime() {
+            return vibrationTime;
+        }
     }
 
 }
