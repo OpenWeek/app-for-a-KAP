@@ -4,11 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import gdx.kapotopia.Animations.LetsgoG1Animation;
+import gdx.kapotopia.Animations.MireilleBlinkingAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
@@ -21,6 +26,11 @@ public class World4 implements Screen {
 
     private Kapotopia game;
     private Stage stage;
+    // Test Animation
+    private Animation<TextureRegion> animTest;
+    private Animation<TextureRegion> animTest2;
+    private float stateTime;
+    private SpriteBatch spriteBatch;
 
     public World4(final Kapotopia game) {
 
@@ -41,8 +51,14 @@ public class World4 implements Screen {
 
         TextButton back = new TextButtonBuilder(Localization.getInstance().getString("back_button")).withStyle(style)
                 .withPosition(game.viewport.getWorldWidth() / 2, 50).isVisible(true)
-                .withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.WORLD3)).build();
+                .withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.WORLD4)).build();
         stage.addActor(back);
+
+        // Animation test
+        this.animTest = new LetsgoG1Animation(Animation.PlayMode.LOOP_PINGPONG).getAnimation();
+        this.animTest2 = new MireilleBlinkingAnimation(Animation.PlayMode.LOOP).getAnimation();
+        spriteBatch = new SpriteBatch();
+        stateTime = 0f;
 
         AssetsManager.getInstance().addStage(stage, "world3");
     }
@@ -55,8 +71,17 @@ public class World4 implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stateTime += delta;
         stage.act();
         stage.draw();
+
+        //Animation test
+        TextureRegion currentFrameTest1 = animTest.getKeyFrame(stateTime, true);
+        TextureRegion currentFrameTest2 = animTest2.getKeyFrame(stateTime, true);
+        spriteBatch.begin();
+        spriteBatch.draw(currentFrameTest1, 100, 100);
+        spriteBatch.draw(currentFrameTest2, -150, 100); // apparement qd x=0 on se trouve pas sur l'origine wtf
+        spriteBatch.end();
     }
 
     @Override
@@ -83,6 +108,7 @@ public class World4 implements Screen {
     @Override
     public void dispose() {
         AssetsManager.getInstance().disposeStage("world3");
+        spriteBatch.dispose();
     }
 
 }

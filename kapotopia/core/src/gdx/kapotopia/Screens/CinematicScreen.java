@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -26,7 +25,6 @@ import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
-import gdx.kapotopia.Utils;
 
 /**
  * This class define a common base for screens where only cinematics, shown with static pictures, are shown
@@ -60,24 +58,25 @@ public abstract class CinematicScreen implements Screen {
      * Build helper function. Create A cinematicScreen with the given arguments
      * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
      * @param imagesTexturePaths the paths of the images shown, shown by increasing order
-     * @param labels
+     * @param labels a list of labels to be displayed at the same time as the images
      * @param fondPath the path of the background shown when the finish button appear
      * @param changeOfImageSoundPath the path of the sound file that plays when screen is changed
      * @param endSoundPath the path of the sound file that plays before the screen is changed to @nextScreen
      * @param pauseSoundPath the path of the sound file that plays when the game is paused
      * @param nextBtnLabel the text displayed by the "next" button
      * @param finishBtnLabel the text displayed by the "finish" button
-     * @param stylePath the path to the style used for texts
-     * @param textColor the text color given by a constant in Color class of libgdx
-     * @param usualFont
+     * @param nextBtnFont the font used by the last button
+     * @param finishBtnFont the font used by the last button
      * @param timerScheduleTime the time between the player pressed the "finish" button and when it change screen
      * @param vibrationTime the amount of time that the phone vibrate when pressing "next" and "finish" buttons (the time for "next" button pressed is fourth time less than the time given)
+     * @param withFinishBtn define if there are a final button appearing (typically "play") or if after the last Image the game directly change to the next screen
      */
     private void builder(final ScreenType nextScreen,
                          String[] imagesTexturePaths, Label[] labels, String fondPath, String changeOfImageSoundPath,
                          String endSoundPath, String pauseSoundPath, String nextBtnLabel,
-                         String finishBtnLabel, String stylePath, Color textColor, UseFont usualFont,
-                         final float timerScheduleTime, final int vibrationTime) {
+                         String finishBtnLabel,
+                         UseFont nextBtnFont, UseFont finishBtnFont, final float timerScheduleTime,
+                         final int vibrationTime, final boolean withFinishBtn) {
         // Graphics
         if(imagesTexturePaths == null) {
             this.sequence = null;
@@ -118,30 +117,36 @@ public abstract class CinematicScreen implements Screen {
         this.endSound = AssetsManager.getInstance().getSoundByPath(endSoundPath);
         this.pauseSound = AssetsManager.getInstance().getSoundByPath(pauseSoundPath);
         // Buttons
-        TextButton.TextButtonStyle style;
-        TextButton.TextButtonStyle style_black; //TODO generify this
-        if(usualFont != null) {
-            style = FontHelper.getStyleFont(usualFont);
-            style_black = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK);
-        }else{
-            style = Utils.getStyleFont(stylePath, 60, textColor);
-            style_black = Utils.getStyleFont(stylePath, 60, Color.BLACK);
-        }
+        TextButton.TextButtonStyle styleNextBtn = FontHelper.getStyleFont(nextBtnFont);
+        TextButton.TextButtonStyle styleFinishBtn = FontHelper.getStyleFont(finishBtnFont);
 
         final float xButton = this.game.viewport.getWorldWidth() / 2.5f;
-        this.next = new TextButtonBuilder(nextBtnLabel).withStyle(style).isVisible(true)
+        this.next = new TextButtonBuilder(nextBtnLabel).withStyle(styleNextBtn).isVisible(true)
                 .withPosition(xButton, this.game.viewport.getWorldHeight() / 10f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        Gdx.input.vibrate(vibrationTime / 4);
+
                         if(!nextImage()) {
                             // In the case when the image queue is empty (is == null or we saw every image)
-                            next.setVisible(false);
-                            finish.setVisible(true);
+                            if (withFinishBtn) {
+                                next.setVisible(false);
+                                finish.setVisible(true);
+                            } else {
+                                Gdx.input.vibrate(vibrationTime);
+                                endSound.play();
+                                Timer.schedule(new Timer.Task() {
+                                    @Override
+                                    public void run() {
+                                        resetScreen();
+                                        game.changeScreen(nextScreen);
+                                    }
+                                }, timerScheduleTime);
+                            }
                         }
+                        Gdx.input.vibrate(vibrationTime / 4);
                     }
                 }).build();
-        this.finish = new TextButtonBuilder(finishBtnLabel).withStyle(style_black).isVisible(false)
+        this.finish = new TextButtonBuilder(finishBtnLabel).withStyle(styleFinishBtn).isVisible(false)
                 .withPosition(xButton, this.game.viewport.getWorldHeight() / 2f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -195,8 +200,9 @@ public abstract class CinematicScreen implements Screen {
         builder(params.getNextScreen(), params.getImagesTexturePaths(),
                 params.getLabels(), params.getFondPath(), params.getChangeOfImageSoundPath(),
                 params.getEndSoundPath(), params.getPauseSoundPath(), params.getNextBtnLabel(),
-                params.getFinishBtnLabel(), params.getStylePath(), params.getTextColor(),
-                params.getUsualfont(), params.getTimerScheduleTime(), params.getVibrationTime());
+                params.getFinishBtnLabel(),
+                params.getNextBtnFont(), UseFont.CLASSIC_SANS_NORMAL_BLACK, params.getTimerScheduleTime(), params.getVibrationTime(),
+                params.getWithFinishBtn());
         initialized = true;
     }
 
@@ -309,11 +315,11 @@ public abstract class CinematicScreen implements Screen {
         private String pauseSoundPath;
         private String nextBtnLabel;
         private String finishBtnLabel;
-        private String stylePath;
-        private Color textColor;
-        private UseFont usualfont;
+        private UseFont nextBtnFont;
+        private UseFont finishBtnFont;
         private float timerScheduleTime;
         private int vibrationTime;
+        private boolean withFinishBtn;
 
         public ParameterBundleBuilder(ScreenType nextScreen) {
             this.nextScreen = nextScreen;
@@ -325,11 +331,11 @@ public abstract class CinematicScreen implements Screen {
             this.pauseSoundPath = "sound/bruitage/crisstanza_pause.mp3";
             this.nextBtnLabel = "Next";
             this.finishBtnLabel = "Play";
-            this.stylePath = "COMMS.ttf";
-            this.textColor = Color.BLACK;
-            this.usualfont = null;
+            this.nextBtnFont = UseFont.CLASSIC_SANS_NORMAL_BLACK;
+            this.finishBtnFont = UseFont.CLASSIC_SANS_NORMAL_BLACK;
             this.timerScheduleTime = 2f;
             this.vibrationTime = 200;
+            this.withFinishBtn = true;
         }
 
         public ParameterBundleBuilder withTextures(String[] texturePaths) {
@@ -372,18 +378,13 @@ public abstract class CinematicScreen implements Screen {
             return this;
         }
 
-        public ParameterBundleBuilder withStyle(String stylePath) {
-            this.stylePath = stylePath;
+        public ParameterBundleBuilder withNextBtnStyle(UseFont nextBtnFont) {
+            this.nextBtnFont = nextBtnFont;
             return this;
         }
 
-        public ParameterBundleBuilder withTxtColor(Color txtColor) {
-            this.textColor = txtColor;
-            return this;
-        }
-
-        public ParameterBundleBuilder withStyle(UseFont useFont) {
-            this.usualfont = useFont;
+        public ParameterBundleBuilder withFinishBtnStyle(UseFont finishBtnFont) {
+            this.finishBtnFont = finishBtnFont;
             return this;
         }
 
@@ -394,6 +395,11 @@ public abstract class CinematicScreen implements Screen {
 
         public ParameterBundleBuilder withVibrationTime(int vibrationTime) {
             this.vibrationTime = vibrationTime;
+            return this;
+        }
+
+        public ParameterBundleBuilder withFinishBtn(boolean withFinishBtn) {
+            this.withFinishBtn = withFinishBtn;
             return this;
         }
 
@@ -433,16 +439,12 @@ public abstract class CinematicScreen implements Screen {
             return finishBtnLabel;
         }
 
-        public String getStylePath() {
-            return stylePath;
+        public UseFont getNextBtnFont() {
+            return nextBtnFont;
         }
 
-        public Color getTextColor() {
-            return textColor;
-        }
-
-        public UseFont getUsualfont() {
-            return usualfont;
+        public UseFont getFinishBtnFont() {
+            return finishBtnFont;
         }
 
         public float getTimerScheduleTime() {
@@ -451,6 +453,10 @@ public abstract class CinematicScreen implements Screen {
 
         public int getVibrationTime() {
             return vibrationTime;
+        }
+
+        public boolean getWithFinishBtn() {
+            return withFinishBtn;
         }
     }
 
