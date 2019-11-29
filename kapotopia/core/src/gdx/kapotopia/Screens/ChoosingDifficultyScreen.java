@@ -174,7 +174,7 @@ public class ChoosingDifficultyScreen implements Screen {
                 game.destroyScreen(ScreenType.DIF);
                 game.changeScreen(nextScreen);
             }
-        },2f);
+        },0.5f);
     }
 
     @Override
