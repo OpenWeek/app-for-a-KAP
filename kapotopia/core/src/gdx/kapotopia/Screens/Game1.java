@@ -279,7 +279,7 @@ public class Game1 implements Screen, MireilleListener {
         //In case there are problems to restart the game where it was left after going to another screen and returning, it could maybe be solved by setting the Input Processor (Gdx.input.setInputProcessor(im);) here and not when the game is first created
         // We ensure that after the animation has played, the game really start
         if(!letsGoAppeared) {
-            final float delay = this.letsGoAnimation.getFrameDuration() * 4;
+            final float delay = this.letsGoAnimation.getFrameDuration() * this.letsGoAnimation.getKeyFrames().length;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {

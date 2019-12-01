@@ -1,22 +1,31 @@
 package gdx.kapotopia.Animations;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
+
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.Builders.AnimationBuilder;
 
 public class LetsgoG1Animation {
 
+    private final String TAG = "LetsgoAnim";
     private Animation<TextureRegion> animation;
 
     public LetsgoG1Animation(Animation.PlayMode playMode) {
-        String FRAME_1 = "World1/Game1/actiontext_1.png";
-        String FRAME_2 = "World1/Game1/actiontext_2.png";
-        String FRAME_3 = "World1/Game1/actiontext_3.png";
-        String FRAME_4 = "World1/Game1/actiontext_4.png";
 
-        this.animation = new AnimationBuilder(0.75f).withPlayMode(playMode)
-                .addNewFrame(FRAME_1).addNewFrame(FRAME_2).addNewFrame(FRAME_3).addNewFrame(FRAME_4)
+        TextureAtlas atlas = AssetsManager.getInstance().getAtlasByPath("World1/Game1/actiontext.atlas");
+        Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("actiontext");
+        TextureAtlas.AtlasRegion[] array = r.toArray();
+
+        Gdx.app.log(TAG, "Texture size : " + array.length);
+
+        this.animation = new AnimationBuilder(0.05f).withPlayMode(playMode)
+                .addFrames(array)
                 .build();
     }
 

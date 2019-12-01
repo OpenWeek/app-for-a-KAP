@@ -55,7 +55,7 @@ public class World4 implements Screen {
         stage.addActor(back);
 
         // Animation test
-        this.animTest = new LetsgoG1Animation(Animation.PlayMode.LOOP_PINGPONG).getAnimation();
+        this.animTest = new LetsgoG1Animation(Animation.PlayMode.LOOP).getAnimation();
         this.animTest2 = new MireilleBlinkingAnimation(Animation.PlayMode.LOOP).getAnimation();
         spriteBatch = new SpriteBatch();
         stateTime = 0f;

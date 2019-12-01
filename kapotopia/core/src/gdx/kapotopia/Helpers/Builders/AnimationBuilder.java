@@ -1,9 +1,11 @@
 package gdx.kapotopia.Helpers.Builders;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 
@@ -26,6 +28,19 @@ public class AnimationBuilder {
 
     public AnimationBuilder addNewFrame(TextureRegion frame) {
         framesArrayList.add(frame);
+        return this;
+    }
+
+    public AnimationBuilder addFrames(String[] framePaths) {
+        AssetsManager man = AssetsManager.getInstance();
+        for (String path : framePaths) {
+            framesArrayList.add(new TextureRegion(man.getTextureByPath(path)));
+        }
+        return this;
+    }
+
+    public AnimationBuilder addFrames(TextureAtlas.AtlasRegion[] frames) {
+        framesArrayList.addAll(Arrays.asList(frames));
         return this;
     }
 
