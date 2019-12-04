@@ -47,7 +47,6 @@ public final class CollisionManager {
                     mireille.increaseScore();
                 }else{
                     mireille.decreaseLife();
-                    mireille.resetPosition();
                 }
                 virus.changeVirusType();
             }
