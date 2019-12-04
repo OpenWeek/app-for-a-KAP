@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import gdx.kapotopia.Screens.Game3;
 
 import java.util.*;
@@ -48,11 +49,6 @@ public class Core {
 
         random = new Random();
         tiles = new Pair[sizex][sizey];
-        for (int x = 0; x < sizex; x++){
-            for(int y = 0; y < sizey; y++){
-                tiles[x][y] = new Pair(x, y);
-            }
-        }
 
         goalT = new Texture("game3/Serrure.png");
         falseGoalT = new Texture("game3/Serrure2.png");
@@ -85,142 +81,119 @@ public class Core {
     private void createPath(int xDest, int yDest){
 
         //tiles[0][0] = Pair.randomTurn(0,0);
-        Pair t = tiles[0][0];
+        int x = 0;
+        int y = 0;
         boolean vert = true;
+        boolean dx = false;
+        boolean dy = false;
 
         int p = 25;
 
-        while (! ((t.x == xDest) && (t.y == yDest))){
+        while (! ((x == xDest) && (y == yDest))){
             if(vert){
                 if(random.nextBoolean()) {//horizontal
                     vert = false;
-                    boolean dx = (xDest - t.x) < 0;
+                    dx = (xDest - x) < 0;
                     if (random.nextInt(100) < p) {
                         dx = !dx;
                         p -= 1;
                     }
-                    if (!tiles[t.x][t.y].turn)
-                    {
-                        tiles[t.x][t.y] = Pair.randomTurn(t.x ,t.y);
+                    if(tiles[x][y] == null){
+                        tiles[x][y] = Pair.randomTurn(x, y);
+                    }
+                    else if (!tiles[x][y].turn){
+                        tiles[x][y] = Pair.randomBoth(x, y);
                     }
 
-                    if (dx && t.x > 0) {
-                        t = tiles[t.x - 1][t.y];
+                    if (dx && x > 0) {
+                        x--;
                     }
-                    else if(t.x < sizex - 1){
-                        t = tiles[t.x + 1][t.y];
+                    else if(x < sizex - 1){
+                        x++;
                     }
                 }
                 else{
-                    boolean dy = (yDest - t.y) < 0;
-                    if (!tiles[t.x][t.y].line)
-                    {
-                        tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
+
+                    dy = (yDest - y) < 0;
+                    if(random.nextInt(100) < p){
+                        dy = !dy;
+                        p-=1;
                     }
-                    if (dy && t.y > 0) {
-                        t = tiles[t.x][t.y-1];
+                    if(tiles[x][y] == null){
+                        tiles[x][y] = Pair.randomLine(x ,y);
                     }
-                    else if(t.y < sizey - 1){
-                        t = tiles[t.x][t.y + 1];
+                    else if (!tiles[x][y].line){
+                        tiles[x][y] = Pair.randomBoth(x,y);
+                    }
+                    if (dy && y > 0) {
+                        y--;
+                    }
+                    else if(y < sizey - 1){
+                        y++;
                     }
                 }
             }
             else{
                 if(random.nextBoolean()) {//horizontal
-                    boolean dx = (xDest - t.x) < 0;
-                    if (!tiles[t.x][t.y].turn)
+
+                    dx = (xDest - x) < 0;
+                    if (random.nextInt(100) < p) {
+                        dx = !dx;
+                        p -= 1;
+                    }
+                    if(tiles[x][y] == null){
+                        tiles[x][y] = Pair.randomLine(x, y);
+                    }
+                    else if (!tiles[x][y].turn)
                     {
-                        tiles[t.x][t.y] = Pair.randomTurn(t.x ,t.y);
+                        tiles[x][y] = Pair.randomBoth(x, y);
                     }
-                    if (dx && t.x > 0) {
-                        t = tiles[t.x - 1][t.y];
+                    if (dx && x > 0) {
+                        x--;
                     }
-                    else if(t.x < sizex - 1){
-                        t = tiles[t.x + 1][t.y];
+                    else if(x < sizex - 1){
+                        x++;
                     }
                 }
                 else{
                     vert = true;
-                    boolean dy = (yDest - t.y) < 0;
+                    dy = (yDest - y) < 0;
                     if(random.nextInt(100) < p){
                         dy = !dy;
                         p-=1;
                     }
 
-                    if (!tiles[t.x][t.y].line)
+                    if(tiles[x][y] == null){
+                        tiles[x][y] = Pair.randomTurn(x ,y);
+                    }
+                    else if (!tiles[x][y].line)
                     {
-                        tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
+                        tiles[x][y] = Pair.randomBoth(x,y);
                     }
-                    if (dy && t.y > 0) {
-                        t = tiles[t.x][t.y-1];
+                    if (dy && y > 0) {
+                        y--;
                     }
-                    else if(t.y < sizey - 1){
-                        t = tiles[t.x][t.y + 1];
+                    else if(y < sizey - 1){
+                        y++;
                     }
                 }
             }
-            if(vert){
-                tiles[t.x][t.y] = Pair.randomLine(t.x,t.y);
+        }
+        if(vert){
+            if(tiles[x][y] == null){
+                tiles[x][y] = Pair.randomLine(x ,y);
             }
-            else{
-                tiles[t.x][t.y] = Pair.randomTurn(t.x,t.y);
+            else if (!tiles[x][y].line){
+                tiles[x][y] = Pair.randomBoth(x,y);
             }
-            /*if(random.nextBoolean()){//horizontal
-                boolean dx = (xDest - t.x) < 0;
-                if(random.nextInt(100) < p){
-                    dx = !dx;
-                    p-=1;
-                }
-
-                if (dx && t.x > 0) {
-                    if (vert){
-                        tiles[t.x - 1][t.y] = Pair.randomTurn(t.x - 1,t.y);
-                    }
-                    else {
-                        tiles[t.x - 1][t.y] = Pair.randomLine(t.x - 1,t.y);
-                    }
-                    t = tiles[t.x - 1][t.y];
-                }
-                else if(t.x < sizex - 1){
-                    if (vert){
-                        tiles[t.x + 1][t.y] = Pair.randomTurn(t.x + 1,t.y);
-                    }
-                    else {
-                        tiles[t.x + 1][t.y] = Pair.randomLine(t.x + 1,t.y);
-                    }
-                    t = tiles[t.x + 1][t.y];
-                }
-
-                vert = false;
+        }
+        else {
+            if(tiles[x][y] == null){
+                tiles[x][y] = Pair.randomTurn(x ,y);
             }
-            else{
-                boolean dy = (yDest - t.y) < 0;
-                if(random.nextInt(100) < p){
-                    dy = !dy;
-                    p-=1;
-                }
-
-                if (dy && t.y > 0) {
-                    if (vert){
-                        tiles[t.x][t.y-1] = Pair.randomTurn(t.x,t.y-1);
-                    }
-                    else {
-                        tiles[t.x][t.y-1] = Pair.randomLine(t.x,t.y-1);
-                    }
-                    t = tiles[t.x][t.y-1];
-                }
-                else if(t.y < sizey - 1){
-                    if (vert){
-                        tiles[t.x][t.y+1] = Pair.randomTurn(t.x,t.y+1);
-                    }
-                    else {
-                        tiles[t.x][t.y+1] = Pair.randomLine(t.x,t.y+1);
-                    }
-                    t = tiles[t.x][t.y + 1];
-                }
-
-                vert = true;
-            }*/
+            else if (!tiles[x][y].line){
+                tiles[x][y] = Pair.randomBoth(x,y);
+            }
         }
     }
 
@@ -243,7 +216,9 @@ public class Core {
         for(Pair[] pa : tiles){
             for(Pair p : pa)
             {
-                p.unlit();
+                if(p != null){
+                    p.unlit();
+                }
             }
         }
         Pair origin = tiles[0][0];
@@ -267,38 +242,46 @@ public class Core {
             }
             if(p.connection(0) != null && p.connection(0).isLit() && p.y < sizey-1){
                 Pair p2 =  tiles[p.x][p.y+1];
-                Tile t2 = p2.connection(2);
-                if( t2 != null && ! set.contains(t2)){
-                    stack.add(p2);
-                    set.add(t2);
-                    t2.lit();
+                if(p2 != null){
+                    Tile t2 = p2.connection(2);
+                    if( t2 != null && ! set.contains(t2)){
+                        stack.add(p2);
+                        set.add(t2);
+                        t2.lit();
+                    }
                 }
             }
             if(p.connection(1) != null && p.connection(1).isLit() && p.x > 0){
                 Pair p2 = tiles[p.x-1][p.y];
-                Tile t2 = p2.connection(3);
-                if(t2 != null && !set.contains(t2)){
-                    stack.add(p2);
-                    set.add(t2);
-                    t2.lit();
+                if(p2 != null){
+                    Tile t2 = p2.connection(3);
+                    if(t2 != null && !set.contains(t2)){
+                        stack.add(p2);
+                        set.add(t2);
+                        t2.lit();
+                    }
                 }
             }
             if(p.connection(2) != null && p.connection(2).isLit() && p.y > 0){
                 Pair p2 = tiles[p.x][p.y-1];
-                Tile t2 = p2.connection(0);
-                if(t2 != null && !set.contains(t2)){
-                    stack.add(p2);
-                    set.add(t2);
-                    t2.lit();
+                if(p2 != null){
+                    Tile t2 = p2.connection(0);
+                    if(t2 != null && !set.contains(t2)){
+                        stack.add(p2);
+                        set.add(t2);
+                        t2.lit();
+                    }
                 }
             }
             if(p.connection(3) != null  && p.connection(3).isLit() && p.x < sizex-1){
                 Pair p2 = tiles[p.x+1][p.y];
-                Tile t2 = p2.connection(1);
-                if(t2 != null && !set.contains(t2) ){
-                    stack.add(p2);
-                    set.add(t2);
-                    t2.lit();
+                if(p2 != null){
+                    Tile t2 = p2.connection(1);
+                    if(t2 != null && !set.contains(t2) ){
+                        stack.add(p2);
+                        set.add(t2);
+                        t2.lit();
+                    }
                 }
             }
         }
@@ -309,14 +292,17 @@ public class Core {
         if(x >= xOffSet && y >= yOffSet && x <= xOffSet+width && y <= yOffSet+height){
             int X = (x-xOffSet)/Pair.tile_size;
             int Y = (y-yOffSet)/Pair.tile_size;
-            tiles[X][Y].rotate(1);
+            if(tiles[X][Y] != null){
+                tiles[X][Y].rotate(1);
 
-            updatePath(tiles[X][Y]);
-            if(checkGoal()){
-                // Game Over
-                this.succeeded = true;
-                parent.back();
+                updatePath(tiles[X][Y]);
+                if(checkGoal()){
+                    // Game Over
+                    this.succeeded = true;
+                    parent.back();
+                }
             }
+
         }
     }
 
@@ -324,7 +310,9 @@ public class Core {
         batch.begin();
         for (Pair[] t : tiles){
             for(Pair tile : t){
-                tile.draw(batch);
+                if(tile != null){
+                    tile.draw(batch);
+                }
             }
         }
         for(Goal i : goals){
@@ -433,7 +421,7 @@ class Pair{
             default: return randomBoth(x,y);
         }
     }
-    private static Pair randomBoth(int x, int y){
+    public static Pair randomBoth(int x, int y){
         int i = r.nextInt(2);
         if (i == 0){
             return cross(x,y);
