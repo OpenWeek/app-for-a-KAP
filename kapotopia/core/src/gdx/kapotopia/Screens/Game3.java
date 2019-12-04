@@ -6,21 +6,34 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import gdx.kapotopia.*;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.FontHelper;
+import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
+import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 
 public class Game3 implements Screen {
 
     private Kapotopia game;
     private Stage stage;
+    private Stage popStage;
     private boolean inGame;
-    private Label res;
 
     private Sound successSound;
 
@@ -30,8 +43,9 @@ public class Game3 implements Screen {
 
         this.game = game;
         inGame = true;
+        popStage = new Stage(game.viewport);
 
-        core = new Core(this, 7,10, 2);
+        core = new Core(this, 9,10, 2);
 
         EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
 
@@ -40,6 +54,7 @@ public class Game3 implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.BACK) {
+                    game.destroyScreen(ScreenType.GAME3);
                     game.changeScreen(ScreenType.WORLD2);
                     return true;
                 }
@@ -54,19 +69,20 @@ public class Game3 implements Screen {
 
         //stage.addActor(res);
         Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("game3/PorteNéonsBleus.png"));
-        stage = new Stage(game.viewport);
 
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
 
         stage.addActor(imgFond);
         AssetsManager.getInstance().addStage(stage, "game3");
+
     }
 
     public void back(){
         if(core.playerSucceeded()) {
             this.successSound.play();
         }
-        game.changeScreen(ScreenType.WORLD2);
+        //game.changeScreen(ScreenType.WORLD2);
+        quitGameConfirm();
     }
 
     @Override
@@ -77,6 +93,7 @@ public class Game3 implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.BACK) {
+                    game.destroyScreen(ScreenType.GAME3);
                     game.changeScreen(ScreenType.WORLD2);
                     return true;
                 }
@@ -93,6 +110,7 @@ public class Game3 implements Screen {
         if(inGame) {
             core.draw();
         }
+        popStage.draw();
     }
 
     @Override
@@ -120,21 +138,85 @@ public class Game3 implements Screen {
         AssetsManager.getInstance().disposeStage("game3");
     }
 
-    void setUpInputProcessor() {
-        EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
-        Gdx.input.setCatchBackKey(true);
-        InputMultiplexer iM = new InputMultiplexer();
-        iM.addProcessor(new InputAdapter() {
+    public void quitGameConfirm() {
+
+        Label label1 = new LabelBuilder("Are you sure that you want to exit?").withStyle(UseFont.CLASSIC_BOLD_NORMAL_WHITE).build();
+        label1.setAlignment(Align.center);
+        //style.font.setScale(1, -1);
+        //style.fontColor = Color.WHITE;
+
+        TextButton btnYes = new TextButtonBuilder("Exit").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
+        TextButton btnNo =  new TextButtonBuilder("Cancel").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
+
+        // /////////////////
+        Skin skinDialog = new Skin(Gdx.files.internal("defaultSkin/skin/u" +
+                "iskin.json"));
+        final Dialog dialog = new Dialog("", skinDialog) {
             @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.BACK) {
-                    game.changeScreen(ScreenType.WORLD2);
-                    return true;
-                }
-                return false;
+            public float getPrefWidth() {
+                // force dialog width
+                return game.viewport.getWorldWidth();
             }
+
+            @Override
+            public float getPrefHeight() {
+                // force dialog height
+                return game.viewport.getWorldHeight() / 2.0f;
+            }
+        };
+        dialog.setModal(true);
+        dialog.setMovable(false);
+        dialog.setResizable(false);
+
+        btnYes.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+
+                // Do whatever here for exit button
+                dialog.hide();
+                dialog.cancel();
+                dialog.remove();
+
+                game.changeScreen(ScreenType.WORLD2);
+                game.destroyScreen(ScreenType.GAME3);
+
+                return true;
+            }
+
         });
-        iM.addProcessor(eventHandlerGame3);
-        Gdx.input.setInputProcessor(iM);
+
+        btnNo.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+
+                //Do whatever here for cancel
+
+                dialog.cancel();
+                dialog.hide();
+                dialog.remove();
+
+                return true;
+            }
+
+        });
+
+        float btnSize = 30f;
+        Table t = new Table();
+        // t.debug();
+
+        dialog.getContentTable().add(label1).padTop(40f);
+
+        t.add(btnYes).width(btnSize).height(btnSize);
+        t.add(btnNo).height(btnSize);
+
+        dialog.getButtonTable().add(t).center().padBottom(80f);
+        dialog.show(popStage).setPosition(0,50);
+
+        dialog.setName("quitDialog");
+        popStage.addActor(dialog);
+
     }
+
 }

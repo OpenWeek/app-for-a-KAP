@@ -6,6 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -30,6 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import gdx.kapotopia.Animations.LetsgoG1Animation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.SoundHelper;
@@ -42,12 +46,12 @@ import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.GameDifficulty;
-import gdx.kapotopia.Helpers.ImageButtonBuilder;
+import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
 import gdx.kapotopia.Helpers.ImageHelper;
-import gdx.kapotopia.Helpers.ImageTextButtonBuilder;
-import gdx.kapotopia.Helpers.TextButtonBuilder;
+import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Helpers.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
@@ -59,14 +63,19 @@ public class Game1 implements Screen, MireilleListener {
 
     // General Variables
     private Kapotopia game;
-    private final Image imgFond;
-    private final Image leaves;
     private Stage stage;
     private Random random;
+    // Graphisms and animations
+    private final Image imgFond;
+    private final Image leaves;
+    private Animation<TextureRegion> letsGoAnimation;
+    private float stateTime;
+    private boolean letsGoAppeared;
+    private SpriteBatch animationSpriteBatch;
     // Style of text
     private TextButton.TextButtonStyle style;
     private TextButton.TextButtonStyle styleSmall;
-    // Sons and musics
+    // Sounds and musics
     private Sound touchedSound;
     private Sound failSound;
     private Sound successSound;
@@ -85,7 +94,7 @@ public class Game1 implements Screen, MireilleListener {
     private int istsCatched;
     private int istsToCatch;
     private int upperLimitScore;
-    // Labels
+    // Labels and Buttons
     private Label lifeLabel;
     private Label scoreLabel;
     private Label istCatchedLabel;
@@ -93,6 +102,8 @@ public class Game1 implements Screen, MireilleListener {
     private Label pauseLabel;
     private Label missedLabel;
     private ImageButton pauseIcon;
+    private ImageTextButton quitBtn;
+
 
     // Constants
 
@@ -101,6 +112,7 @@ public class Game1 implements Screen, MireilleListener {
     private final int MIN_Y;
     private final int MOVE_VALUE_X;
     private final Rectangle bounds;
+    private final float BTN_SPACING = 90f;
 
     private static final String TAG = "game1";
     private final static String LIFE_TXT = "Vies: ";
@@ -135,6 +147,7 @@ public class Game1 implements Screen, MireilleListener {
         this.game = game;
         this.stage = new Stage(game.viewport);
         this.random = new Random();
+        final Localization loc = Localization.getInstance();
 
         this.style = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_WHITE);
         this.styleSmall = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_SMALL_WHITE);
@@ -147,7 +160,7 @@ public class Game1 implements Screen, MireilleListener {
 
         this.isFinish = false;
         this.didGameOverScreenAppeared = false;
-        this.isPaused = false;
+        this.isPaused = true;
         this.musicOn = game.getSettings().isMusicOn();
         this.victory = false;
         this.totalScore = 0;
@@ -157,11 +170,15 @@ public class Game1 implements Screen, MireilleListener {
 
         /* Setting up the stage */
 
-        // Textures and images
+        // Graphisms and animations
         initVirusTextures();
         this.imgFond = ImageHelper.getBackground(game.viewport, "World1/Game1/Jungle.png");
         this.leaves = ImageHelper.getBackground(game.viewport, "World1/Game1/Feuilles.png");
 
+        this.letsGoAnimation = new LetsgoG1Animation(Animation.PlayMode.NORMAL).getAnimation();
+        this.animationSpriteBatch = new SpriteBatch();
+        stateTime = 0f;
+        letsGoAppeared = false;
 
         // Major actors
         this.mireille = prepareMireille();
@@ -175,7 +192,7 @@ public class Game1 implements Screen, MireilleListener {
 
         // Buttons
         this.pauseIcon = new ImageButtonBuilder().withImageUp("pause_logo_2.png")
-                .withBounds(bounds.width - 240, bounds.height - 200, 140, 80)
+                .withBounds(bounds.width - 230, bounds.height - 200, 140, 80)
                 .withListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -188,6 +205,21 @@ public class Game1 implements Screen, MireilleListener {
                 }).build();
         stage.addActor(pauseIcon);
 
+        EventListener quitEvent = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.destroyScreen(ScreenType.GAME1);
+                game.destroyScreen(ScreenType.MAINMENU);
+                game.changeScreen(ScreenType.MAINMENU);
+            }
+        };
+
+        quitBtn = new ImageTextButtonBuilder(loc.getString("quit_button_text")).withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
+                .withPosition((bounds.getWidth() / 2) - 95, (bounds.getHeight() / 2) - BTN_SPACING)
+                .withListener(quitEvent).withImageStyle("World1/Game1/Bouton.png").isVisible(false).build();
+
+        stage.addActor(quitBtn);
+
         // Labels
         lifeLabel = new LabelBuilder(LIFE_TXT + mireilleLife).withStyle(style)
                 .withPosition(bounds.width - 240, bounds.height - 100).build();
@@ -195,9 +227,9 @@ public class Game1 implements Screen, MireilleListener {
                 .withPosition(25, bounds.height - 100).build();
         scoreLabel = new LabelBuilder(SCORE_TXT  + totalScore).withStyle(style)
                 .withPosition(25, bounds.height - 200).build();
-        pauseLabel = new LabelBuilder("Pause").withStyle(style).withAlignement(Align.center)
-                .withPosition((bounds.width / 5) * 2, bounds.height / 2).isVisible(false).build();
-        missedLabel = new LabelBuilder("Loupé").withStyle(styleSmall).isVisible(false).build();
+        pauseLabel = new LabelBuilder(loc.getString("pause_label_text")).withStyle(style).withAlignement(Align.center)
+                .withPosition(((bounds.width / 5) * 2) + 20, bounds.height / 2).isVisible(false).build();
+        missedLabel = new LabelBuilder(loc.getString("missed_label_text")).withStyle(styleSmall).isVisible(false).build();
         ennemiNameLabel = new LabelBuilder(ennemi.getName()).withStyle(styleSmall).withAlignement(Align.center)
                 .withPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemi.getName().length()) /2,ennemi.getY() - 20).build();
 
@@ -245,6 +277,17 @@ public class Game1 implements Screen, MireilleListener {
 
         setUpInputProcessor();
         //In case there are problems to restart the game where it was left after going to another screen and returning, it could maybe be solved by setting the Input Processor (Gdx.input.setInputProcessor(im);) here and not when the game is first created
+        // We ensure that after the animation has played, the game really start
+        if(!letsGoAppeared) {
+            final float delay = this.letsGoAnimation.getFrameDuration() * this.letsGoAnimation.getKeyFrames().length;
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    letsGoAppeared = true;
+                    isPaused = false;
+                }
+            }, delay);
+        }
     }
 
     @Override
@@ -269,6 +312,14 @@ public class Game1 implements Screen, MireilleListener {
             }
         }
         stage.draw();
+
+        if(!letsGoAppeared) {
+            stateTime += delta;
+            TextureRegion currentFrame = letsGoAnimation.getKeyFrame(stateTime, false);
+            animationSpriteBatch.begin();
+            animationSpriteBatch.draw(currentFrame, (bounds.width / 5) * 2, bounds.height / 2);
+            animationSpriteBatch.end();
+        }
     }
 
     @Override
@@ -283,6 +334,7 @@ public class Game1 implements Screen, MireilleListener {
         }
         pauseSound.play();
         pauseLabel.setVisible(true);
+        quitBtn.setVisible(true);
         isPaused = true;
     }
 
@@ -298,6 +350,7 @@ public class Game1 implements Screen, MireilleListener {
 
     private void resumeFromPause() {
         pauseLabel.setVisible(false);
+        quitBtn.setVisible(false);
         if(musicOn) {
             music.play();
         }
@@ -324,10 +377,9 @@ public class Game1 implements Screen, MireilleListener {
         }
         AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.PUNCH));
         AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.FAIL));
-        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.JUMP_V2));
-        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.PAUSE));
         AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.COIN));
         AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.SUCCESS));
+        animationSpriteBatch.dispose();
     }
 
     // Textures
@@ -550,7 +602,6 @@ public class Game1 implements Screen, MireilleListener {
         title.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                final float BTN_SPACING = 90f;
                 // We hide what's left on the screen
                 lifeLabel.setVisible(false);
                 title.setVisible(false);
@@ -596,15 +647,6 @@ public class Game1 implements Screen, MireilleListener {
                     }
                 };
 
-                EventListener quitEvent = new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        game.destroyScreen(ScreenType.GAME1);
-                        game.destroyScreen(ScreenType.MAINMENU);
-                        game.changeScreen(ScreenType.MAINMENU);
-                    }
-                };
-
                 // Only if the player won we display the continue button
                 if (victory) {
                     final ImageTextButton continueBtn = new ImageTextButtonBuilder("Continuer")
@@ -618,13 +660,9 @@ public class Game1 implements Screen, MireilleListener {
                         .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
                         .withPosition((bounds.getWidth() / 2) - 200, (bounds.getHeight() / 2))
                         .withListener(restartEvent).withImageStyle("World1/Game1/Bouton.png").build();
-                final ImageTextButton quitBtn = new ImageTextButtonBuilder("Quitter").withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
-                        .withPosition((bounds.getWidth() / 2) - 95, (bounds.getHeight() / 2) - BTN_SPACING)
-                        .withListener(quitEvent).withImageStyle("World1/Game1/Bouton.png")
-                        .withScaleXY(10f).build();
 
                 stage.addActor(restartBtn);
-                stage.addActor(quitBtn);
+                quitBtn.setVisible(true);
             }
         });
         stage.addActor(title);

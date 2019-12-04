@@ -5,5 +5,6 @@ public enum AssetType {
     SOUND,
     STAGE,
     MUSIC,
-    FONT
+    FONT,
+    ATLAS
 }
