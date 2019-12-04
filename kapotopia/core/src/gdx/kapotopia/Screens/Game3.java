@@ -32,6 +32,7 @@ public class Game3 implements Screen {
 
     private Kapotopia game;
     private Stage stage;
+    private Stage popStage;
     private boolean inGame;
 
     private Sound successSound;
@@ -42,6 +43,7 @@ public class Game3 implements Screen {
 
         this.game = game;
         inGame = true;
+        popStage = new Stage(game.viewport);
 
         core = new Core(this, 9,10, 2);
 
@@ -99,8 +101,6 @@ public class Game3 implements Screen {
             }
         });
         iM.addProcessor(new EventHandlerGame3(core));
-
-       // core = new Core(this, 9,10, 2);
     }
 
     @Override
@@ -110,6 +110,7 @@ public class Game3 implements Screen {
         if(inGame) {
             core.draw();
         }
+        popStage.draw();
     }
 
     @Override
@@ -148,22 +149,19 @@ public class Game3 implements Screen {
         TextButton btnNo =  new TextButtonBuilder("Cancel").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
 
         // /////////////////
-        Skin skinDialog = new Skin();
-        skinDialog.add("myFont", UseFont.AESTHETIC_NORMAL_BLACK, BitmapFont.class);
-        skinDialog.load(Gdx.files.internal("scratch.json"));
+        Skin skinDialog = new Skin(Gdx.files.internal("defaultSkin/skin/u" +
+                "iskin.json"));
         final Dialog dialog = new Dialog("", skinDialog) {
             @Override
             public float getPrefWidth() {
                 // force dialog width
-                // return Gdx.graphics.getWidth() / 2;
-                return 700f;
+                return game.viewport.getWorldWidth();
             }
 
             @Override
             public float getPrefHeight() {
                 // force dialog height
-                // return Gdx.graphics.getWidth() / 2;
-                return 400f;
+                return game.viewport.getWorldHeight() / 2.0f;
             }
         };
         dialog.setModal(true);
@@ -197,28 +195,27 @@ public class Game3 implements Screen {
 
                 dialog.cancel();
                 dialog.hide();
+                dialog.remove();
 
                 return true;
             }
 
         });
 
-        float btnSize = 80f;
+        float btnSize = 30f;
         Table t = new Table();
         // t.debug();
 
         dialog.getContentTable().add(label1).padTop(40f);
 
         t.add(btnYes).width(btnSize).height(btnSize);
-        t.add(btnNo).width(btnSize).height(btnSize);
+        t.add(btnNo).height(btnSize);
 
         dialog.getButtonTable().add(t).center().padBottom(80f);
-        dialog.show(stage).setPosition(
-                (1720 / 2) - (720 / 2),
-                (1080) - (1080 - 40));
+        dialog.show(popStage).setPosition(0,50);
 
         dialog.setName("quitDialog");
-        stage.addActor(dialog);
+        popStage.addActor(dialog);
 
     }
 
