@@ -44,6 +44,8 @@ public class Game2 implements Screen {
     private int STIfound = 0;
     private int lives = 5;
 
+    final Ball[] sittingBalls = new Ball[STInbr];
+
     private final String GAME_PATH = "World1/Game2/";
 
     private static final String TAG = "Screens-Game2";
@@ -109,7 +111,7 @@ public class Game2 implements Screen {
         currentBasket.showLabel();
 
         //STI's creation and set up (representation of STI)
-        final Ball[] sittingBalls = new Ball[STInbr];
+
         for(int i = 0; i < STInbr; i++) {
             sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * ballDelta, sitBalY);
             stage.addActor(sittingBalls[i].getButton());
@@ -142,6 +144,9 @@ public class Game2 implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+        for(int i=0; i<STInbr;i++){
+            sittingBalls[i].update(delta);
+        }
     }
 
     @Override
@@ -175,19 +180,20 @@ public class Game2 implements Screen {
      * Set ball as the current ball and change its position to be ready to be launched if it was in its initial position,
      * set ball to its initial position and set currentBall to null if ball was the currentBall
      */
-    private void changeBall(Ball ball){
-        Gdx.app.log(TAG,"Entering changeBall");
-        if(ball==currentBall){//ball is ready to be launched and needs to go back to initial state
-            ball.setPosition(ball.getInitX(),ball.getInitY());
-            currentBall=null;
-        }
-        else{//ball is on initial state and needs to be set to current ball to be ready to be launched
-            if(currentBall!=null){
-                currentBall.setPosition(currentBall.getInitX(),currentBall.getInitY());
+    private void changeBall(Ball ball) {
+        //ball.getButton().moveBy(10,10);
+        Gdx.app.log(TAG, "Entering changeBall");
+        if (ball == currentBall) {//ball is ready to be launched and needs to go back to initial state
+            ball.setGoal(ball.getInitX(),ball.getInitY());
+            currentBall = null;
+        } else {//ball is on initial state and needs to be set to current ball to be ready to be launched
+            if (currentBall != null) {
+                currentBall.setGoal(currentBall.getInitX(), currentBall.getInitY());
             }
-            ball.setPosition(readyBalX,readyBalY);
+            ball.setGoal(readyBalX, readyBalY);
             currentBall = ball;
         }
+
     }
 
     /*Allows to detect sliding movements on the screen and decide which action needs to be executed*/
@@ -238,6 +244,16 @@ public class Game2 implements Screen {
                 currentBasket.showLabel();
             }
 
+            /**
+             * Function called when the player launch a ball
+             * Checks if @currentBall STI matches @currentBasket STI symptoms,
+             *      set @currentBall position to ball finish position and remove listener if match
+             *      set @currentBall position to ball start position if no match
+             *      set @currentBall to null
+             *      decreases @lives by one if no match
+             *      increase @STIfound by one if match
+             *      display end game message if game is finished
+             */
             private void play(){
                 Gdx.app.log(TAG,"Entering play function");
                 if(currentBall.getSTInbr() != currentBasket.getSTInbr()){//wrong STI and symptom combination, ball is brought back to initial position
@@ -253,7 +269,7 @@ public class Game2 implements Screen {
                                     .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
                                     .build();
                             Label gameWon2 = new LabelBuilder("Tu y es presque!")
-                                    .withPosition(game.viewport.getWorldWidth()/4,middleY-120)
+                                    .withPosition(game.viewport.getWorldWidth()/4,middleY-125)
                                     .build();
                             stage.addActor(gameWon0);
                             stage.addActor(gameWon1);
@@ -268,7 +284,7 @@ public class Game2 implements Screen {
                                     .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
                                     .build();
                             Label gameWon2 = new LabelBuilder("Persévère! Tu peux y arriver.")
-                                    .withPosition(game.viewport.getWorldWidth()/8,middleY-120)
+                                    .withPosition(game.viewport.getWorldWidth()/8,middleY-125)
                                     .build();
                             stage.addActor(gameWon0);
                             stage.addActor(gameWon1);
@@ -278,7 +294,8 @@ public class Game2 implements Screen {
                 }
                 else{//right STI and symptom have been connected
                     currentBasket.hideLabel();
-                    currentBall.setPosition(finalBalX,finalBalY-STIfound*ballDelta);
+                    currentBall.setGoal(finalBalX,finalBalY-STIfound*ballDelta);
+                    //currentBall.slide(finalBalX,finalBalY-STIfound*ballDelta);
                     currentBall.getButton().removeListener(ballClick[currentBall.getSTInbr()]);
                     currentBall = null;
                     STIfound++;
