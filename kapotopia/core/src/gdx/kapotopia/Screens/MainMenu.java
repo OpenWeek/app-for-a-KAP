@@ -15,8 +15,8 @@ import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
-import gdx.kapotopia.Helpers.LabelBuilder;
-import gdx.kapotopia.Helpers.TextButtonBuilder;
+import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
@@ -42,22 +42,22 @@ public class MainMenu implements Screen {
         this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
 
         //Import fonts
-        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK);
+        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
 
         //setup Button
         final float x = game.viewport.getWorldWidth() / 2.6f;
         final float y = game.viewport.getWorldHeight();
         final TextButton world1 = new TextButtonBuilder(Localization.getInstance().getString("text_world1"))
-                .withStyle(UseFont.AESTHETIC_NORMAL_WHITE).withPosition(x, y * 0.8f)
+                .withStyle(style).withPosition(x, y * 0.85f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD1)).build();
         final TextButton world2 = new TextButtonBuilder(Localization.getInstance().getString("text_world2"))
                 .withStyle(style).withPosition(x, y * 0.6f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
         final TextButton world3 = new TextButtonBuilder(Localization.getInstance().getString("text_world3"))
-                .withStyle(style).withPosition(x, y * 0.4f)
+                .withStyle(style).withPosition(x, y * 0.35f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD3)).build();
         final TextButton world4 = new TextButtonBuilder(Localization.getInstance().getString("text_world4"))
-                .withStyle(style).withPosition(x, y * 0.2f)
+                .withStyle(style).withPosition(x, y * 0.1f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD4)).build();
 
         Label version = new LabelBuilder("v:" + Kapotopia.VERSION_NAME + " | code:" + Kapotopia.VERSION_CODE)

@@ -15,7 +15,7 @@ import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
-import gdx.kapotopia.Helpers.TextButtonBuilder;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
@@ -29,20 +29,20 @@ public class World1 implements Screen {
 
     public World1(final Kapotopia game) {
         this.game = game;
-        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("World1EcranMenu.png"));
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
 
         // Import sounds
         this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
 
-        final TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK);
+        final TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
 
         final float x = game.viewport.getWorldWidth() / 2.5f;
         final float y = game.viewport.getWorldHeight();
-        TextButton game1 = new TextButtonBuilder("Game 1").withStyle(style).withPosition(x,y * 0.6f)
+        TextButton game1 = new TextButtonBuilder("Game 1").withStyle(style).withPosition(x,y * 0.8f)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG1)).build();
-        TextButton game2 = new TextButtonBuilder("Game 2").withStyle(style).withPosition(x, y * 0.3f)
+        TextButton game2 = new TextButtonBuilder("Game 2").withStyle(style).withPosition(x, y * 0.2f)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG2)).build();
 
         stage.addActor(imgFond);

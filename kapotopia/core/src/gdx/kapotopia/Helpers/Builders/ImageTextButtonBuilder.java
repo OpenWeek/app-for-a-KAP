@@ -1,4 +1,4 @@
-package gdx.kapotopia.Helpers;
+package gdx.kapotopia.Helpers.Builders;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,35 +9,70 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import java.util.ArrayList;
+
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 
+/**
+ * A class to help build ImageTextButtons. A mandatory argument is the text displayed in the imagetextButton
+ * and thus asked in the constructor. The user then can add arguments with the
+ * provided methods and build it's label following these values with the build() method
+ */
 public class ImageTextButtonBuilder {
+    // Actor common attributes
+    private ArrayList<EventListener> eventListeners;
+    private ArrayList<EventListener> captureListeners;
+    private float x, y;
+    private float bx, by, bw, bh;
+    private float width, height;
+    private float scaleXY;
+    // ImageTextButton attributes
     private String text;
     private boolean visible;
     private boolean checked;
-    private float x, y;
-    private float bx, by, bw, bh;
-    private float scaleXY;
+
     private ImageTextButton.ImageTextButtonStyle fontStyle;
     private Button.ButtonStyle imageStyle;
-    private EventListener listener;
+
 
     public ImageTextButtonBuilder(String text) {
-        this.text = text;
-        this.visible = true;
-        this.checked = false;
+        // Actor attributes
+        this.eventListeners = new ArrayList<EventListener>();
+        this.captureListeners = new ArrayList<EventListener>();
         this.x = 0;
         this.y = 0;
         this.bx = -1;
         this.by = -1;
         this.bw = -1;
         this.bh = -1;
+        this.width = -1;
+        this.height = -1;
         this.scaleXY = 1;
+        this.visible = true;
+        // ImageTextButton attributes
+        this.text = text;
+        this.checked = false;
         this.fontStyle = new ImageTextButton.ImageTextButtonStyle(FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK));
         this.imageStyle = null;
-        this.listener = null;
+    }
+
+    // Actor methods
+
+    /**
+     * Add a listener to this ImageTextButton
+     * @param listener the listener
+     * @return this builderObject
+     */
+    public ImageTextButtonBuilder withListener(EventListener listener) {
+        this.eventListeners.add(listener);
+        return this;
+    }
+
+    public ImageTextButtonBuilder withCaptureListener(EventListener event) {
+        this.captureListeners.add(event);
+        return this;
     }
 
     public ImageTextButtonBuilder isVisible(boolean visible) {
@@ -56,6 +91,14 @@ public class ImageTextButtonBuilder {
         return this;
     }
 
+    /**
+     * Configure the bounds
+     * @param boundX the boundary origin position x
+     * @param boundY the boundary position y
+     * @param boundWidth the width of the boundary, must be positive or 0
+     * @param boundHeight the height of the boundary, must be positive or 0
+     * @return this builderObject
+     */
     public ImageTextButtonBuilder withBounds(float boundX, float boundY, float boundWidth, float boundHeight) {
         this.bx = boundX;
         this.by = boundY;
@@ -63,6 +106,33 @@ public class ImageTextButtonBuilder {
         this.bh = boundHeight;
         return this;
     }
+
+    /**
+     * Configure the width
+     * @param width, must be positive or 0
+     * @return this builderObject
+     */
+    public ImageTextButtonBuilder withWidth(float width) {
+        this.width = width;
+        return this;
+    }
+
+    /**
+     * Configure the height
+     * @param height, must be positive or 0
+     * @return this builderObject
+     */
+    public ImageTextButtonBuilder withHeight(float height) {
+        this.height = height;
+        return this;
+    }
+
+    public ImageTextButtonBuilder withScaleXY(float scaleXY) {
+        this.scaleXY = scaleXY;
+        return this;
+    }
+
+    // ImageTextButton methods
 
     public ImageTextButtonBuilder withFontStyle(UseFont font) {
         this.fontStyle = new ImageTextButton.ImageTextButtonStyle(FontHelper.getStyleFont(font));
@@ -110,15 +180,7 @@ public class ImageTextButtonBuilder {
         return this;
     }
 
-    public ImageTextButtonBuilder withListener(EventListener listener) {
-        this.listener = listener;
-        return this;
-    }
 
-    public ImageTextButtonBuilder withScaleXY(float scaleXY) {
-        this.scaleXY = scaleXY;
-        return this;
-    }
 
     public ImageTextButton build() {
         final ImageTextButton imgTxtBtn = new ImageTextButton(text, fontStyle);
@@ -128,20 +190,34 @@ public class ImageTextButtonBuilder {
                             imageStyle.checked, fontStyle.font);
             imgTxtBtn.setStyle(style);
         }
+
+        // Actor attributes
+
+        for (EventListener listener : this.eventListeners) {
+            imgTxtBtn.addListener(listener);
+        }
+        for (EventListener listener : this.captureListeners) {
+            imgTxtBtn.addCaptureListener(listener);
+        }
+
         imgTxtBtn.setPosition(x, y);
         // It shouldn't be possible to have a negative height or weight
         if(bw >= 0 && bh >= 0) {
             imgTxtBtn.setBounds(bx, by, bw, bh);
         }
-
-        if (listener != null) {
-            imgTxtBtn.addListener(listener);
+        if (width >= 0) {
+            imgTxtBtn.setWidth(width);
+        }
+        if (height >= 0) {
+            imgTxtBtn.setHeight(height);
         }
 
         imgTxtBtn.setVisible(visible);
-        imgTxtBtn.setChecked(checked);
-
         imgTxtBtn.setScale(scaleXY);
+
+        // ImageTextButton specific attributes
+
+        imgTxtBtn.setChecked(checked);
 
         return imgTxtBtn;
     }

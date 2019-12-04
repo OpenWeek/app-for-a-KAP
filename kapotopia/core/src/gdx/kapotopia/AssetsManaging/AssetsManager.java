@@ -5,11 +5,16 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.soap.Text;
 
 public final class AssetsManager {
     private static AssetsManager instance = new AssetsManager();
@@ -19,12 +24,17 @@ public final class AssetsManager {
     private static List<RessourceHelper> stageList = new ArrayList<RessourceHelper>();
     private static List<RessourceHelper> musicList = new ArrayList<RessourceHelper>();
     private static List<RessourceHelper> fontList = new ArrayList<RessourceHelper>();
+    private static List<RessourceHelper> atlasList = new ArrayList<RessourceHelper>();
 
     public static AssetsManager getInstance() {
         return instance;
     }
 
     private AssetsManager() {}
+
+    /* ***************** *
+     *  ADD/GET METHODS
+     * ***************** */
 
     /**
      * Get The ressource by its path
@@ -37,9 +47,9 @@ public final class AssetsManager {
             return (Texture) researchResult.getRessource();
         }
         // Si il elle n'est pas dedans, on la crée, on l'ajoute à la liste et on la renvoie
-        final RessourceHelper newRessourceHelper = new RessourceHelper<Texture>(path, new Texture(Gdx.files.internal(path)));
+        final RessourceHelper<Texture> newRessourceHelper = new RessourceHelper<Texture>(path, new Texture(Gdx.files.internal(path)));
         textureList.add(newRessourceHelper);
-        return (Texture) newRessourceHelper.getRessource();
+        return newRessourceHelper.getRessource();
     }
 
     /**
@@ -53,9 +63,9 @@ public final class AssetsManager {
             return (Sound) researchResult.getRessource();
         }
 
-        final RessourceHelper newRessourceHelper = new RessourceHelper<Sound>(path, Gdx.audio.newSound(Gdx.files.internal(path)));
+        final RessourceHelper<Sound> newRessourceHelper = new RessourceHelper<Sound>(path, Gdx.audio.newSound(Gdx.files.internal(path)));
         soundList.add(newRessourceHelper);
-        return (Sound) newRessourceHelper.getRessource();
+        return newRessourceHelper.getRessource();
     }
 
     /**
@@ -80,7 +90,7 @@ public final class AssetsManager {
         final RessourceHelper researchResult = searchRessource(name, AssetType.STAGE);
         if(researchResult != null)
             return false;
-        final RessourceHelper newRessourceHelper = new RessourceHelper<Stage>(name, stage);
+        final RessourceHelper<Stage> newRessourceHelper = new RessourceHelper<Stage>(name, stage);
         stageList.add(newRessourceHelper);
         return true;
     }
@@ -91,9 +101,9 @@ public final class AssetsManager {
             return (Music) researchResult.getRessource();
         }
         // Si il elle n'est pas dedans, on la crée, on l'ajoute à la liste et on la renvoie
-        final RessourceHelper newRessourceHelper = new RessourceHelper<Music>(path, Gdx.audio.newMusic(Gdx.files.internal(path)));
+        final RessourceHelper<Music> newRessourceHelper = new RessourceHelper<Music>(path, Gdx.audio.newMusic(Gdx.files.internal(path)));
         musicList.add(newRessourceHelper);
-        return (Music) newRessourceHelper.getRessource();
+        return newRessourceHelper.getRessource();
     }
 
     /**
@@ -114,7 +124,7 @@ public final class AssetsManager {
         }
 
         final TextButton.TextButtonStyle style = FontHelper.buildTextButtonStyle(path, size, color);
-        final RessourceHelper newRessourceHelper = new RessourceHelper<TextButton.TextButtonStyle>(name, style);
+        final RessourceHelper<TextButton.TextButtonStyle> newRessourceHelper = new RessourceHelper<TextButton.TextButtonStyle>(name, style);
         fontList.add(newRessourceHelper);
         return style;
     }
@@ -131,6 +141,21 @@ public final class AssetsManager {
         }
         return null;
     }
+
+    public TextureAtlas getAtlasByPath(final String path) {
+        final RessourceHelper researchResult = searchRessource(path, AssetType.ATLAS);
+        if(researchResult != null) {
+            return (TextureAtlas) researchResult.getRessource();
+        }
+        // Si il elle n'est pas dedans, on la crée, on l'ajoute à la liste et on la renvoie
+        final RessourceHelper<TextureAtlas> newRessourceHelper = new RessourceHelper<TextureAtlas>(path, new TextureAtlas(path));
+        atlasList.add(newRessourceHelper);
+        return newRessourceHelper.getRessource();
+    }
+
+    /* ***************** *
+     *  DISPOSE METHODS
+     * ***************** */
 
     /**
      * Dispose the ressources of a VIRUS_TYPE given its internalPath
@@ -247,6 +272,21 @@ public final class AssetsManager {
         }
     }
 
+    public void disposeAtlas(final String path) {
+        final RessourceHelper th = searchRessource(path, AssetType.ATLAS);
+        if(th != null) {
+            final TextureAtlas atlas = (TextureAtlas) th.getRessource();
+            atlas.dispose();
+            atlasList.remove(th);
+        }
+    }
+
+    public void disposeAtlas(final String[] paths) {
+        for (final String path : paths) {
+            disposeAtlas(path);
+        }
+    }
+
     /**
      * Dispose all ressources taken by textures, sounds, musics, fonts and stages
      */
@@ -280,6 +320,12 @@ public final class AssetsManager {
             style.font.dispose();
             fontList.remove(th);
         }
+
+        for (RessourceHelper th : atlasList) {
+            final TextureAtlas atlas = (TextureAtlas) th.getRessource();
+            atlas.dispose();
+            atlasList.remove(th);
+        }
     }
 
     /**
@@ -303,6 +349,12 @@ public final class AssetsManager {
                 break;
             case MUSIC:
                 l = musicList;
+                break;
+            case FONT:
+                l = fontList;
+                break;
+            case ATLAS:
+                l = atlasList;
                 break;
             default:
                 l = textureList;
