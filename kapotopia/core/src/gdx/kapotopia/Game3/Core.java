@@ -5,7 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Helpers.Builders.PopUpBuilder;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
+import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Screens.Game3;
 
 import java.util.*;
@@ -201,7 +209,7 @@ public class Core {
         goals = new Goal[nbGoals];
         int part = sizex/(nbGoals+1);
         for (int i = 1; i <= nbGoals; i++){
-            goals[i-1] = new Goal(falseGoalT ,i*part, y);
+            goals[i-1] = new Goal(falseGoalT ,i*part, y, parent.getGame(), parent.getPopStage());
         }
 
     }
@@ -289,9 +297,9 @@ public class Core {
 
     void touchHandler(int x, int y){
         //Click inside puzzle
+        int X = (x-xOffSet)/Pair.tile_size;
+        int Y = (y-yOffSet)/Pair.tile_size;
         if(x >= xOffSet && y >= yOffSet && x <= xOffSet+width && y <= yOffSet+height){
-            int X = (x-xOffSet)/Pair.tile_size;
-            int Y = (y-yOffSet)/Pair.tile_size;
             if(tiles[X][Y] != null){
                 tiles[X][Y].rotate(1);
 
@@ -304,6 +312,13 @@ public class Core {
             }
 
         }
+
+        for (Goal g : goals){
+            if (X == g.pos && Y == sizey){
+                g.popup.show();
+            }
+        }
+
     }
 
     public void draw(){
@@ -542,13 +557,29 @@ class Tile{
 class Goal{
     int pos;
     Sprite sprite;
+    final PopUpBuilder popup;
 
-    Goal(Texture texture, int x, int y){
+    Goal(Texture texture, int x, int y, final Kapotopia game, Stage stage){
         pos = x;
         sprite = new Sprite(texture);
         sprite.setPosition(Core.xOffSet + Pair.tile_size * x , Core.yOffSet + Pair.tile_size * y );
         sprite.setSize(Pair.tile_size, Pair.tile_size);
         sprite.setOriginCenter();
+
+        popup = new PopUpBuilder(game, stage);
+        popup.setTitle("TEMPLATE");
+        TextButton btnYes = new TextButtonBuilder("CANCEL").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
+        btnYes.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                // Do whatever here for exit button
+                popup.close();
+                return true;
+            }
+
+        });
+        popup.addButton(btnYes);
+        popup.setPosition(0,500);
     }
 
     void draw(SpriteBatch batch){
@@ -556,4 +587,7 @@ class Goal{
             sprite.draw(batch);
         }
     }
+
+
+
 }
