@@ -15,6 +15,7 @@ public class FontHelper {
 
     private static final int TINY_SIZE = 20;
     private static final int SMALL_SIZE = 38;
+    private static final int MIDDLE_SIZE = 50;
     private static final int NORMAL_SIZE = 60;
     private static final int BIG_SIZE = 90;
 
@@ -43,6 +44,8 @@ public class FontHelper {
                 return AssetsManager.getInstance().addStyleFont("CLASSIC_REG_NORMAL_BLACK", CLASSIC_REG_NAME, NORMAL_SIZE, Color.BLACK);
             case CLASSIC_REG_NORMAL_WHITE:
                 return AssetsManager.getInstance().addStyleFont("CLASSIC_REG_NORMAL_WHITE", CLASSIC_REG_NAME, NORMAL_SIZE, Color.WHITE);
+            case CLASSIC_SANS_MIDDLE_BLACK:
+                return AssetsManager.getInstance().addStyleFont("CLASSIC_SANS_MIDDLE_BLACK", CLASSIC_SANS_NAME, MIDDLE_SIZE, Color.BLACK);
             case CLASSIC_SANS_SMALL_BLACK:
                 return AssetsManager.getInstance().addStyleFont("CLASSIC_SANS_SMALL_BLACK", CLASSIC_SANS_NAME, SMALL_SIZE, Color.BLACK);
             case CLASSIC_SANS_SMALL_WHITE:
