@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.Animations.LetsgoG1Animation;
 import gdx.kapotopia.Animations.MireilleBlinkingAnimation;
+import gdx.kapotopia.Animations.MireilleCoucouAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
@@ -56,7 +57,7 @@ public class World4 implements Screen {
 
         // Animation test
         this.animTest = new LetsgoG1Animation(Animation.PlayMode.LOOP).getAnimation();
-        this.animTest2 = new MireilleBlinkingAnimation(Animation.PlayMode.LOOP).getAnimation();
+        this.animTest2 = new MireilleBlinkingAnimation(Animation.PlayMode.LOOP_PINGPONG).getAnimation();
         spriteBatch = new SpriteBatch();
         stateTime = 0f;
 
@@ -80,7 +81,7 @@ public class World4 implements Screen {
         TextureRegion currentFrameTest2 = animTest2.getKeyFrame(stateTime, true);
         spriteBatch.begin();
         spriteBatch.draw(currentFrameTest1, 100, 100);
-        spriteBatch.draw(currentFrameTest2, -150, 100); // apparement qd x=0 on se trouve pas sur l'origine wtf
+        spriteBatch.draw(currentFrameTest2, 100, 100, 0,0,1772,1772,0.5f,0.5f,0); // apparement qd x=0 on se trouve pas sur l'origine wtf
         spriteBatch.end();
     }
 

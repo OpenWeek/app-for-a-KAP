@@ -1,0 +1,258 @@
+
+mireilleblinking.png
+size: 4096,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 1
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 2
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 25
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 31
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 9
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 35
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 18
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 34
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 5
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 21
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 28
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 36
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 26
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 22
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 16
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 27
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 4
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 19
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 15
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 8
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 32
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 17
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 20
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 24
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 33
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 6
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 23
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 7
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 30
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 14
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 3
+mireilleblink
+  rotate: false
+  xy: 2, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 29
+mireilleblink
+  rotate: false
+  xy: 1776, 2
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 10
+mireilleblink
+  rotate: false
+  xy: 2, 1776
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 11
+mireilleblink
+  rotate: false
+  xy: 2, 1776
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 13
+mireilleblink
+  rotate: false
+  xy: 1776, 1776
+  size: 1772, 1772
+  orig: 1772, 1772
+  offset: 0, 0
+  index: 12
