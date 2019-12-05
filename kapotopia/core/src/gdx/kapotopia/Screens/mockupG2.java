@@ -14,7 +14,8 @@ public class mockupG2 extends CinematicScreen {
     public mockupG2(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG2");
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME2)
-                .withTextures(new String[]{"World1/Game2/20_board_0.png", "World1/Game2/20_board_1.png"}));
+                .withTextures(new String[]{"World1/Game2/20_board_0.png", "World1/Game2/20_board_1.png"})
+        .withFinishBtn(false));
         game.getTheValueGateway().addToTheStore("nextscreen",ScreenType.GAME2);
     }
 

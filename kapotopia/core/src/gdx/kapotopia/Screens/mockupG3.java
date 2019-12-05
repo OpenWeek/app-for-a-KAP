@@ -12,8 +12,8 @@ public class mockupG3 extends CinematicScreen {
     public mockupG3(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG3");
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME3)
-        .withTextures(new String[]{"game3/Monde2Ecran1.png", "game3/Monde2Ecran2.png",
-        "game3/Monde2Ecran3.png"}));
+        .withTextures(new String[]{"game3/Monde2Ecran2.png",
+        "game3/Monde2Ecran3.png"}).withFinishBtn(false));
     }
 
     @Override
