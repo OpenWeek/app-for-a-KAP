@@ -24,9 +24,8 @@ public class LetsgoG1Animation {
 
         Gdx.app.log(TAG, "Texture size : " + array.length);
 
-        this.animation = new AnimationBuilder(0.05f).withPlayMode(playMode)
-                .addFrames(array)
-                .build();
+        this.animation = new AnimationBuilder(0.04f).withPlayMode(playMode)
+                .addFrames(array).build();
     }
 
     public Animation<TextureRegion> getAnimation() {

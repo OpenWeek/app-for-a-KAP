@@ -10,7 +10,7 @@ public abstract class VirusAbstract extends EntityAbstract {
 
     /* ENCAPSULED FIELDS */
 
-    protected final float LOCAL_SCALLING_FACTOR = 1.7f;
+    protected final float LOCAL_SCALLING_FACTOR = -2f;
     protected float speed;
     protected Rectangle screenBounds;
     /**

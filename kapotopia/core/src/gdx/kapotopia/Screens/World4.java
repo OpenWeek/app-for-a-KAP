@@ -36,7 +36,7 @@ public class World4 implements Screen {
     public World4(final Kapotopia game) {
 
         this.game = game;
-        Texture fond = AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png");
+        Texture fond = AssetsManager.getInstance().getTextureByPath("Pokedex.png");
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
@@ -81,7 +81,7 @@ public class World4 implements Screen {
         TextureRegion currentFrameTest2 = animTest2.getKeyFrame(stateTime, true);
         spriteBatch.begin();
         spriteBatch.draw(currentFrameTest1, 100, 100);
-        spriteBatch.draw(currentFrameTest2, 100, 100, 0,0,1772,1772,0.5f,0.5f,0); // apparement qd x=0 on se trouve pas sur l'origine wtf
+        spriteBatch.draw(currentFrameTest2, 200, 100, 0,0,1772,1772,0.5f,0.5f,0); // apparement qd x=0 on se trouve pas sur l'origine wtf
         spriteBatch.end();
     }
 

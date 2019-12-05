@@ -37,7 +37,7 @@ public class ChoosingDifficultyScreen implements Screen {
 
     public ChoosingDifficultyScreen(final Kapotopia game) {
         this.game = game;
-        Image fond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        Image fond = new Image(AssetsManager.getInstance().getTextureByPath("World1/Game1/EcranJeu1.png"));
         this.stage = new Stage(game.viewport);
 
         this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat_open-button-2.wav");

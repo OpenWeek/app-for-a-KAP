@@ -7,6 +7,7 @@ public enum ScreenType {
     GAME3,
     MOCKUPG1,
     MOCKUPG2,
+    MOCKUPG3,
     BILANG1,
     WORLD1,
     WORLD2,

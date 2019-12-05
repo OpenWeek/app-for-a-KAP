@@ -63,7 +63,7 @@ public class World2 implements Screen {
                     @Override
                     public void run() {
                         game.destroyScreen(ScreenType.WORLD2);
-                        game.changeScreen(ScreenType.GAME3);
+                        game.changeScreen(ScreenType.MOCKUPG3);
                     }
                 },2f);
             }

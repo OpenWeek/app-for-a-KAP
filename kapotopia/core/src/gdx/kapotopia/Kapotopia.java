@@ -17,6 +17,7 @@ import gdx.kapotopia.Screens.World4;
 import gdx.kapotopia.Screens.World3;
 import gdx.kapotopia.Screens.mockupG1;
 import gdx.kapotopia.Screens.mockupG2;
+import gdx.kapotopia.Screens.mockupG3;
 
 public class Kapotopia extends com.badlogic.gdx.Game {
 
@@ -40,6 +41,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private MainMenu mainMenu;
 	private mockupG1 mockupG1;
 	private mockupG2 mockupG2;
+	private mockupG3 mockupG3;
 	private BilanG1 bilanG1;
 	private World1 world1;
 	private World2 world2;
@@ -295,6 +297,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 						if (mockupG2 != null) {
 							mockupG2.dispose();
 							mockupG2 = null;
+							succeeded = true;
+						}
+						break;
+				}
+				break;
+			case MOCKUPG3:
+				switch (ACTION) {
+					case CHANGE:
+						if (mockupG3 == null) mockupG3 = new mockupG3(this);
+						setScreen(mockupG3);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (mockupG3 != null) {
+							mockupG3.dispose();
+							mockupG3 = null;
 							succeeded = true;
 						}
 						break;
