@@ -36,13 +36,13 @@ public class World1 implements Screen {
         // Import sounds
         this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
 
-        final TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
-
         final float x = game.viewport.getWorldWidth() / 2.5f;
         final float y = game.viewport.getWorldHeight();
-        TextButton game1 = new TextButtonBuilder("Game 1").withStyle(style).withPosition(x,y * 0.8f)
+        TextButton game1 = new TextButtonBuilder("Game 1").withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
+                .withPosition(x,y * 0.75f)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG1)).build();
-        TextButton game2 = new TextButtonBuilder("Game 2").withStyle(style).withPosition(x, y * 0.2f)
+        TextButton game2 = new TextButtonBuilder("Game 2").withStyle(UseFont.AESTHETIC_NORMAL_BLACK)
+                .withPosition(x, y * 0.25f)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG2)).build();
 
         stage.addActor(imgFond);

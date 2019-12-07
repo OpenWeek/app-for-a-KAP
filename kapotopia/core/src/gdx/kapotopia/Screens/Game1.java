@@ -393,16 +393,16 @@ public class Game1 implements Screen, MireilleListener {
 
         for (Element el : ist_xml.getChildrenByName("ist")) {
             final String description = el.getChildByName("explanation").getText();
-            ist.add(new VirusContainer(el.get("texture"),el.get("name"), true, description));
+            ist.add(new VirusContainer(el.get("texture"),el.get("name"), true, false, description));
         }
 
         for (Element el : fake_xml.getChildrenByName("fakeist")) {
-            fake.add(new VirusContainer(el.get("texture"),el.get("name"), false, ""));
+            fake.add(new VirusContainer(el.get("texture"),el.get("name"), false, false, ""));
         }
 
         for (Element el : maybe_xml.getChildrenByName("maybeist")) {
             final String description = el.getChildByName("explanation").getText();
-            maybe.add(new VirusContainer(el.get("texture"), el.get("name"), true, description));
+            maybe.add(new VirusContainer(el.get("texture"), el.get("name"),true, true, description));
         }
 
         this.ist = ist;
@@ -512,8 +512,13 @@ public class Game1 implements Screen, MireilleListener {
         });
         return mireille;
     }
-    public void addMissedIST(String virusName) {
-        VirusContainer vc = searchInIstList(this.ist, virusName);
+    public void addMissedIST(boolean isMaybeIST, String virusName) {
+        VirusContainer vc;
+        if(isMaybeIST) {
+            vc = searchInList(this.maybeIst, virusName);
+        } else {
+            vc = searchInList(this.ist, virusName);
+        }
         missedIsts.add(vc);
 
         playMissedLabelAnim();
@@ -527,7 +532,7 @@ public class Game1 implements Screen, MireilleListener {
      * @param name the key
      * @return the corresponding VirusContaining or null if no Virus was found
      */
-    private VirusContainer searchInIstList(List<VirusContainer> l, String name) {
+    private VirusContainer searchInList(List<VirusContainer> l, String name) {
         for (VirusContainer v : l) {
             if (v.getName().equals(name))
                 return v;

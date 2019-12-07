@@ -18,6 +18,7 @@ public class Virus extends VirusAbstract {
 
     private Random random;
     private boolean isIST;
+    private boolean isMaybeIST;
     private Game1 game;
 
     private float acceleration;
@@ -59,7 +60,7 @@ public class Virus extends VirusAbstract {
         boolean hasToChange = false;
         if (this.getY() < -200) {
             if(isIST()) {
-                game.addMissedIST(getName());
+                game.addMissedIST(isMaybeIST, getName());
             }
             acceleration += accAddFactor;
             hasToChange = true;
@@ -126,6 +127,7 @@ public class Virus extends VirusAbstract {
         final VirusContainer v = game.getRdmVirusTexture(VIRUS_TYPE.getRandomType());
         this.setName(v.getName());
         this.isIST = v.isIst();
+        this.isMaybeIST = v.isMaybeIst();
         return AssetsManager.getInstance().getTextureByPath(v.getTexturePath());
     }
 
@@ -135,6 +137,14 @@ public class Virus extends VirusAbstract {
 
     public void setIST(boolean IST) {
         isIST = IST;
+    }
+
+    public boolean isMaybeIST() {
+        return isMaybeIST;
+    }
+
+    public void setMaybeIST(boolean maybeIST) {
+        isMaybeIST = maybeIST;
     }
 
     public float getAcceleration() {
@@ -152,4 +162,5 @@ public class Virus extends VirusAbstract {
     public void setAccAddFactor(float accAddFactor) {
         this.accAddFactor = accAddFactor;
     }
+
 }

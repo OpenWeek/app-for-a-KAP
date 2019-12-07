@@ -5,12 +5,14 @@ public class VirusContainer {
     private String name;
     private String description;
     private boolean isIst;
+    private boolean isMaybeIst;
 
-    public VirusContainer(String texturePath, String name, boolean isIst, String description) {
+    public VirusContainer(String texturePath, String name, boolean isIst, boolean isMaybeIst, String description) {
         this.texturePath = texturePath;
         this.name = name;
         this.description = description;
         this.isIst = isIst;
+        this.isMaybeIst = isMaybeIst;
     }
 
     public String getTexturePath() {
@@ -37,6 +39,14 @@ public class VirusContainer {
         isIst = ist;
     }
 
+    public boolean isMaybeIst() {
+        return isMaybeIst;
+    }
+
+    public void setMaybeIst(boolean maybeIst) {
+        isMaybeIst = maybeIst;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -44,4 +54,5 @@ public class VirusContainer {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

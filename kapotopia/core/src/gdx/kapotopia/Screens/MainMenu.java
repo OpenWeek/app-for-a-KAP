@@ -48,16 +48,13 @@ public class MainMenu implements Screen {
         final float x = game.viewport.getWorldWidth() / 2.6f;
         final float y = game.viewport.getWorldHeight();
         final TextButton world1 = new TextButtonBuilder(Localization.getInstance().getString("text_world1"))
-                .withStyle(style).withPosition(x, y * 0.85f)
+                .withStyle(style).withPosition(x, y * 0.83f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD1)).build();
         final TextButton world2 = new TextButtonBuilder(Localization.getInstance().getString("text_world2"))
-                .withStyle(style).withPosition(x, y * 0.6f)
+                .withStyle(style).withPosition(x, y * 0.5f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
-        final TextButton world3 = new TextButtonBuilder(Localization.getInstance().getString("text_world3"))
-                .withStyle(style).withPosition(x, y * 0.35f)
-                .withListener(new ChangeScreenListener(game, ScreenType.WORLD3)).build();
         final TextButton world4 = new TextButtonBuilder(Localization.getInstance().getString("text_world4"))
-                .withStyle(style).withPosition(x, y * 0.1f)
+                .withStyle(style).withPosition(x, y * 0.2f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD4)).build();
 
         Label version = new LabelBuilder("v:" + Kapotopia.VERSION_NAME + " | code:" + Kapotopia.VERSION_CODE)
@@ -67,7 +64,6 @@ public class MainMenu implements Screen {
         //add button to the scene
         stage.addActor(world1);
         stage.addActor(world2);
-        stage.addActor(world3);
         stage.addActor(world4);
         stage.addActor(version);
 
