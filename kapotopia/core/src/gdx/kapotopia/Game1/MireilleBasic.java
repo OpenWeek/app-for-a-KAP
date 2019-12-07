@@ -26,7 +26,6 @@ public class MireilleBasic extends EntityAbstract {
     private final String HAPPY_TEXTURE_PATH = "MireilleImages/MireilleBoucheOuverte.png";
     private final byte MAX_LIFES = 3;
     private final int SCORE_UP = 10;
-    private final Timer.Task backToNormalTask;
 
     /*
      *  FIELDS
@@ -56,12 +55,6 @@ public class MireilleBasic extends EntityAbstract {
         this.lifes = MAX_LIFES;
         this.score = 0;
         this.random = new Random();
-        backToNormalTask = new Timer.Task() {
-            @Override
-            public void run() {
-                texture = normalTexture;
-            }
-        };
 
         // Differents textures
         normalTexture = new TextureRegion(man.getTextureByPath(NORMAL_TEXTURE_PATH));
@@ -102,7 +95,7 @@ public class MireilleBasic extends EntityAbstract {
         notifyScoreChanged(this.score);
         // We change temporally the texture
         this.texture = happyTexture;
-        Timer.schedule(backToNormalTask, 1.5f);
+        Timer.schedule(new BackToNormalTask(), 1.5f);
     }
 
     public void decreaseLife() {
@@ -130,7 +123,7 @@ public class MireilleBasic extends EntityAbstract {
         }else{
             this.texture = sadTexture;
         }
-        Timer.schedule(backToNormalTask, 1.5f);
+        Timer.schedule(new BackToNormalTask(), 1.5f);
     }
 
     private void notifyScoreChanged(final int score) {
@@ -149,6 +142,13 @@ public class MireilleBasic extends EntityAbstract {
 
     public void setLifes(byte lifes) {
         this.lifes = lifes;
+    }
+
+    private class BackToNormalTask extends Timer.Task {
+        @Override
+        public void run() {
+            texture = normalTexture;
+        }
     }
 }
 

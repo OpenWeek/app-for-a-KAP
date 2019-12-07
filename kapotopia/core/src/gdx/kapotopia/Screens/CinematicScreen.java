@@ -74,9 +74,8 @@ public abstract class CinematicScreen implements Screen {
     private void builder(final ScreenType nextScreen,
                          String[] imagesTexturePaths, Label[] labels, String fondPath, String changeOfImageSoundPath,
                          String endSoundPath, String pauseSoundPath, String nextBtnLabel,
-                         String finishBtnLabel,
-                         UseFont nextBtnFont, UseFont finishBtnFont, final float timerScheduleTime,
-                         final int vibrationTime, final boolean withFinishBtn) {
+                         String finishBtnLabel, UseFont nextBtnFont, UseFont finishBtnFont,
+                         final float timerScheduleTime, final int vibrationTime, final boolean withFinishBtn) {
         // Graphics
         if(imagesTexturePaths == null) {
             this.sequence = null;
@@ -125,7 +124,6 @@ public abstract class CinematicScreen implements Screen {
                 .withPosition(xButton, this.game.viewport.getWorldHeight() / 10f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-
                         if(!nextImage()) {
                             // In the case when the image queue is empty (is == null or we saw every image)
                             if (withFinishBtn) {
@@ -134,13 +132,8 @@ public abstract class CinematicScreen implements Screen {
                             } else {
                                 Gdx.input.vibrate(vibrationTime);
                                 endSound.play();
-                                Timer.schedule(new Timer.Task() {
-                                    @Override
-                                    public void run() {
-                                        resetScreen();
-                                        game.changeScreen(nextScreen);
-                                    }
-                                }, timerScheduleTime);
+                                resetScreen();
+                                game.changeScreen(nextScreen);
                             }
                         }
                         Gdx.input.vibrate(vibrationTime / 4);
@@ -200,9 +193,8 @@ public abstract class CinematicScreen implements Screen {
         builder(params.getNextScreen(), params.getImagesTexturePaths(),
                 params.getLabels(), params.getFondPath(), params.getChangeOfImageSoundPath(),
                 params.getEndSoundPath(), params.getPauseSoundPath(), params.getNextBtnLabel(),
-                params.getFinishBtnLabel(),
-                params.getNextBtnFont(), UseFont.CLASSIC_SANS_NORMAL_BLACK, params.getTimerScheduleTime(), params.getVibrationTime(),
-                params.getWithFinishBtn());
+                params.getFinishBtnLabel(), params.getNextBtnFont(), params.getFinishBtnFont(),
+                params.getTimerScheduleTime(), params.getVibrationTime(), params.getWithFinishBtn());
         initialized = true;
     }
 

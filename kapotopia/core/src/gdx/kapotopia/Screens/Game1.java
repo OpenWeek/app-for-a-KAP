@@ -129,6 +129,7 @@ public class Game1 implements Screen, MireilleListener {
 
     private List<VirusContainer> ist;  // <Nom, VIRUS_TYPE>
     private List<VirusContainer> fake; // <Nom, VIRUS_TYPE>
+    private List<VirusContainer> maybeIst;
 
     private HashSet<VirusContainer> missedIsts;
 
@@ -208,6 +209,8 @@ public class Game1 implements Screen, MireilleListener {
         EventListener quitEvent = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                music = prepareMusic();
+                music.pause();
                 game.destroyScreen(ScreenType.GAME1);
                 game.destroyScreen(ScreenType.MAINMENU);
                 game.changeScreen(ScreenType.MAINMENU);
@@ -231,7 +234,7 @@ public class Game1 implements Screen, MireilleListener {
                 .withPosition(((bounds.width / 5) * 2) + 20, bounds.height / 2).isVisible(false).build();
         missedLabel = new LabelBuilder(loc.getString("missed_label_text")).withStyle(styleSmall).isVisible(false).build();
         ennemiNameLabel = new LabelBuilder(ennemi.getName()).withStyle(styleSmall).withAlignement(Align.center)
-                .withPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemi.getName().length()) /2,ennemi.getY() - 20).build();
+                .withPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemi.getName().length()) /2,ennemi.getY() - 50).build();
 
         pauseLabel.addListener(new ClickListener() {
            @Override
@@ -368,17 +371,6 @@ public class Game1 implements Screen, MireilleListener {
     @Override
     public void dispose() {
         AssetsManager.getInstance().disposeStage(TAG);
-        AssetsManager.getInstance().disposeMusic(MUSICPATH);
-        for (VirusContainer v : ist) {
-            AssetsManager.getInstance().disposeTexture(v.getTexturePath());
-        }
-        for (VirusContainer v : fake) {
-            AssetsManager.getInstance().disposeTexture(v.getTexturePath());
-        }
-        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.PUNCH));
-        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.FAIL));
-        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.COIN));
-        AssetsManager.getInstance().disposeSound(SoundHelper.getSoundPath(UseSound.SUCCESS));
         animationSpriteBatch.dispose();
     }
 
@@ -393,9 +385,11 @@ public class Game1 implements Screen, MireilleListener {
         Element root = xml.parse(Gdx.files.internal("sprite.xml"));
         Element ist_xml = root.getChildByName("ist-l");
         Element fake_xml = root.getChildByName("fakeist-l");
+        Element maybe_xml = root.getChildByName("maybeist-l");
 
         List<VirusContainer> ist = new ArrayList<VirusContainer>();
         List<VirusContainer> fake = new ArrayList<VirusContainer>();
+        List<VirusContainer> maybe = new ArrayList<VirusContainer>();
 
         for (Element el : ist_xml.getChildrenByName("ist")) {
             final String description = el.getChildByName("explanation").getText();
@@ -406,8 +400,14 @@ public class Game1 implements Screen, MireilleListener {
             fake.add(new VirusContainer(el.get("texture"),el.get("name"), false, ""));
         }
 
+        for (Element el : maybe_xml.getChildrenByName("maybeist")) {
+            final String description = el.getChildByName("explanation").getText();
+            maybe.add(new VirusContainer(el.get("texture"), el.get("name"), true, description));
+        }
+
         this.ist = ist;
         this.fake = fake;
+        this.maybeIst = maybe;
     }
     public VirusContainer getRdmVirusTexture(VIRUS_TYPE type) {
         final int r;
@@ -418,6 +418,14 @@ public class Game1 implements Screen, MireilleListener {
             case FAKEIST:
                 r = Math.abs(random.nextInt() % fake.size());
                 return fake.get(r);
+            case MAYBEIST:
+                if (difficulty != GameDifficulty.HARD) {
+                    r = Math.abs(random.nextInt() % maybeIst.size());
+                    return maybeIst.get(r);
+                } else {
+                    r = Math.abs(random.nextInt() % ist.size());
+                    return ist.get(r);
+                }
         }
         return null;
     }
@@ -619,6 +627,8 @@ public class Game1 implements Screen, MireilleListener {
                 EventListener continueEvent = new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
+                        music = prepareMusic();
+                        music.pause();
                         game.destroyScreen(ScreenType.GAME1);
                         switch (difficulty) {
                             case EASY:
@@ -641,6 +651,8 @@ public class Game1 implements Screen, MireilleListener {
                 EventListener restartEvent = new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
+                        music = prepareMusic();
+                        music.pause();
                         game.getTheValueGateway().addToTheStore("difficulty", difficulty);
                         game.destroyScreen(ScreenType.GAME1);
                         game.changeScreen(ScreenType.GAME1);

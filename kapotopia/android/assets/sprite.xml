@@ -45,31 +45,53 @@
                 La trichonomas est un petit parasite qui s'attrape via contact sexuel. Son infection chez l'homme est plus difficile à détecter que chez la femme vu l'absence de symptôme la plupart du temps.
             </explanation>
         </ist>
-        <ist texture="IST/ChancreMou.png" name="Chancre Mou">
+        <ist texture="IST/HepatiteA.png" name="Hepatite A">
             <explanation>
-                Explication à venir
-            </explanation>
-        </ist>
-        <ist texture="IST/MycoplasmaGenitalium.png" name="Mycoplasma Genitalium">
-            <explanation>
-                Explication à venir
+                A venir
             </explanation>
         </ist>
     </ist-l>
+
+    <maybeist-l>
+        <maybeist texture="IST/ChancreMou.png" name="Chancre Mou">
+            <explanation>
+                Explication à venir
+            </explanation>
+        </maybeist>
+        <maybeist texture="IST/MycoplasmaGenitalium.png" name="Mycoplasma Genitalium">
+            <explanation>
+                Explication à venir
+            </explanation>
+        </maybeist>
+        <maybeist texture="IST/Gale.png" name="Gale">
+            <explanation>
+                Explication à venir
+            </explanation>
+        </maybeist>
+        <maybeist texture="IST/Mycose.png" name="Mycose">
+            <explanation>
+                Explication à venir
+            </explanation>
+        </maybeist>
+        <maybeist texture="IST/Morpion.png" name="Morpion">
+            <explanation>
+                Explication à venir
+            </explanation>
+        </maybeist>
+    </maybeist-l>
+
     <fakeist-l>
         <fakeist texture="IST/Alternariose.png" name="Alternariose"/>
         <fakeist texture="IST/FroidePisse.png" name="Froide pisse"/>
         <fakeist texture="IST/Lycanthropie.png" name="Lycanthropie"/>
         <fakeist texture="IST/Mononucleose.png" name="Mononucléose"/>
-        <fakeist texture="IST/Mycose.png" name="Mycose"/>
         <fakeist texture="IST/Depression.png" name=" Dépression"/>
         <fakeist texture="IST/Tetanos.png" name="Tétanos"/>
         <fakeist texture="IST/Cancer.png" name="Cancer"/>
-        <fakeist texture="IST/Gale.png" name="Gale"/>
-        <fakeist texture="IST/Morpion.png" name="Morpion"/>
         <fakeist texture="IST/PesteBubonique.png" name="Peste bubonique"/>
         <fakeist texture="IST/Variole.png" name="Variole"/>
-        <fakeist texture="IST/HepatiteA.png" name="Hépatite A"/>
         <fakeist texture="IST/Diabete.png" name="Diabète"/>
+        <fakeist texture="IST/Lyme.png" name="Lyme"/>
+        <fakeist texture="IST/Conjonctivite.png" name="Conjonctivite"/>
     </fakeist-l>
 </sprites>
