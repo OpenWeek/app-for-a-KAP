@@ -6,6 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -13,8 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
+import gdx.kapotopia.Animations.DifficultyScreenAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.FontHelper;
+import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.GameDifficulty;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
@@ -35,10 +42,21 @@ public class ChoosingDifficultyScreen implements Screen {
 
     private static final String TAG = "difficultyScreen";
 
+    // Animation
+    private Animation<TextureRegion> background;
+    private SpriteBatch spriteBatch;
+    private float stateTime;
+
     public ChoosingDifficultyScreen(final Kapotopia game) {
         this.game = game;
-        Image fond = new Image(AssetsManager.getInstance().getTextureByPath("World1/Game1/EcranJeu1.png"));
         this.stage = new Stage(game.viewport);
+
+        // Background animation
+        this.background = new DifficultyScreenAnimation(Animation.PlayMode.LOOP).getAnimation();
+        this.spriteBatch = new SpriteBatch();
+        stateTime = 0f;
+
+        // Sounds
 
         this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat_open-button-2.wav");
         this.clicBlockedSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/dland_hint.wav");
@@ -56,92 +74,83 @@ public class ChoosingDifficultyScreen implements Screen {
             unlockedLevel = ul_tmp;
 
         // Buttons configuration
-        TextButton.TextButtonStyle styleNormal = Utils.getStyleFont("COMMS.ttf");
-        TextButton.TextButtonStyle styleGrey = Utils.getStyleFont("COMMS.ttf", 60, Color.GRAY);
+        TextButton.TextButtonStyle styleNormal = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_WHITE);
+        TextButton.TextButtonStyle styleGrey = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_GRAY);
+        final TextButton.TextButtonStyle mediumBtnStyle;
+        final TextButton.TextButtonStyle hardBtnStyle;
+        final TextButton.TextButtonStyle infiniteBtnStyle;
 
-        TextButton easyBtn = new TextButton(Localization.getInstance().getString("easy_button"), styleNormal);
-        TextButton mediumBtn;
-        TextButton hardBtn;
-        TextButton infiniteBtn;
         switch (unlockedLevel) {
             case EASY_UNLOCKED:
-                mediumBtn = new TextButton(Localization.getInstance().getString("medium_button"), styleGrey);;
-                hardBtn = new TextButton(Localization.getInstance().getString("hard_button"), styleGrey);;
-                infiniteBtn = new TextButton(Localization.getInstance().getString("infinite_button"), styleGrey);;
+                mediumBtnStyle = styleGrey;
+                hardBtnStyle = styleGrey;
+                infiniteBtnStyle = styleGrey;
                 break;
             case MEDI_UNLOCKED:
-                mediumBtn = new TextButton(Localization.getInstance().getString("medium_button"), styleNormal);;
-                hardBtn = new TextButton(Localization.getInstance().getString("hard_button"), styleGrey);;
-                infiniteBtn = new TextButton(Localization.getInstance().getString("infinite_button"), styleNormal);;
+                mediumBtnStyle = styleNormal;
+                hardBtnStyle = styleGrey;
+                infiniteBtnStyle = styleNormal;
                 break;
             case HARD_UNLOCKED:
-                mediumBtn = new TextButton(Localization.getInstance().getString("medium_button"), styleNormal);;
-                hardBtn = new TextButton(Localization.getInstance().getString("hard_button"), styleNormal);;
-                infiniteBtn = new TextButton(Localization.getInstance().getString("infinite_button"), styleNormal);;
+                mediumBtnStyle = styleNormal;
+                hardBtnStyle = styleNormal;
+                infiniteBtnStyle = styleNormal;
                 break;
             default:
-                mediumBtn = new TextButton(Localization.getInstance().getString("medium_button"), styleNormal);;
-                hardBtn = new TextButton(Localization.getInstance().getString("hard_button"), styleNormal);;
-                infiniteBtn = new TextButton(Localization.getInstance().getString("infinite_button"), styleNormal);;
+                mediumBtnStyle = styleNormal;
+                hardBtnStyle = styleNormal;
+                infiniteBtnStyle = styleNormal;
                 break;
         }
 
-
         final float x = game.viewport.getWorldWidth() / 2.6f;
-        float y = game.viewport.getWorldHeight() * 0.2f;
-        infiniteBtn.setPosition(x,y);
-        y = game.viewport.getWorldHeight() * 0.4f;
-        hardBtn.setPosition(x,y);
-        y = game.viewport.getWorldHeight() * 0.6f;
-        mediumBtn.setPosition(x,y);
-        y = game.viewport.getWorldHeight() * 0.8f;
-        easyBtn.setPosition(x,y);
+        final float WH = game.viewport.getWorldHeight();
 
-        easyBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.input.vibrate(50);
-                goToNextScreen(GameDifficulty.EASY);
-            }
-        });
-        mediumBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.input.vibrate(50);
-                if(unlockedLevel == UnlockedLevel.EASY_UNLOCKED) {
-                    clicBlockedSound.play();
-                }else{
-                    goToNextScreen(GameDifficulty.MEDIUM);
-                }
+        TextButton infiniteBtn = new TextButtonBuilder(Localization.getInstance().getString("infinite_button"))
+                .withPosition(x + 10, WH * 0.1f).withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        Gdx.input.vibrate(50);
+                        if(unlockedLevel == UnlockedLevel.EASY_UNLOCKED) {
+                            clicBlockedSound.play();
+                        }else {
+                            goToNextScreen(GameDifficulty.INFINITE);
+                        }
+                    }
+                }).withStyle(infiniteBtnStyle).build();
+        TextButton hardBtn = new TextButtonBuilder(Localization.getInstance().getString("hard_button"))
+                .withPosition(x, WH * 0.3f).withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        Gdx.input.vibrate(50);
+                        if(unlockedLevel == UnlockedLevel.EASY_UNLOCKED || unlockedLevel == UnlockedLevel.MEDI_UNLOCKED) {
+                            clicBlockedSound.play();
+                        }else{
+                            goToNextScreen(GameDifficulty.HARD);
+                        }
+                    }
+                }).withStyle(hardBtnStyle).build();
+        TextButton mediumBtn = new TextButtonBuilder(Localization.getInstance().getString("medium_button"))
+                .withPosition(x, WH * 0.5f).withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        Gdx.input.vibrate(50);
+                        if(unlockedLevel == UnlockedLevel.EASY_UNLOCKED) {
+                            clicBlockedSound.play();
+                        }else{
+                            goToNextScreen(GameDifficulty.MEDIUM);
+                        }
+                    }
+                }).withStyle(mediumBtnStyle).build();
+        TextButton easyBtn = new TextButtonBuilder(Localization.getInstance().getString("easy_button"))
+                .withPosition(x, WH * 0.7f).withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        Gdx.input.vibrate(50);
+                        goToNextScreen(GameDifficulty.EASY);
+                    }
+                }).withStyle(styleNormal).build();
 
-            }
-        });
-        hardBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.input.vibrate(50);
-                if(unlockedLevel == UnlockedLevel.EASY_UNLOCKED || unlockedLevel == UnlockedLevel.MEDI_UNLOCKED) {
-                    clicBlockedSound.play();
-                }else{
-                    goToNextScreen(GameDifficulty.HARD);
-                }
-
-            }
-        });
-        infiniteBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.input.vibrate(50);
-                if(unlockedLevel == UnlockedLevel.EASY_UNLOCKED) {
-                    clicBlockedSound.play();
-                }else {
-                    goToNextScreen(GameDifficulty.INFINITE);
-                }
-
-            }
-        });
-
-        stage.addActor(fond);
         stage.addActor(easyBtn);
         stage.addActor(mediumBtn);
         stage.addActor(hardBtn);
@@ -182,6 +191,12 @@ public class ChoosingDifficultyScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        stateTime += delta;
+        spriteBatch.begin();
+        TextureRegion curFrame = background.getKeyFrame(stateTime, true);
+        spriteBatch.draw(curFrame, 0, 0);
+        spriteBatch.end();
+
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
@@ -208,6 +223,6 @@ public class ChoosingDifficultyScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        spriteBatch.dispose();
     }
 }

@@ -1,10 +1,13 @@
 package gdx.kapotopia.DataStructures;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayDeque;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-public class BST<Key extends Comparable<Key>, Value> {
+public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
     private Node root;
 
     private class Node {
@@ -159,7 +162,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     public Iterable<Key> keys(Key lo, Key hi) {
         Queue<Key> queue = new ArrayDeque<Key>();
         keys(root, queue, lo, hi);
-        return null;
+        return queue;
     }
 
     private void keys(Node x, Queue<Key> queue, Key lo, Key hi) {
@@ -169,5 +172,11 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (complo < 0) keys(x.left, queue, lo, hi);
         if (complo <= 0 && comphi >= 0) queue.add(x.key);
         if (comphi > 0) keys(x.right, queue, lo, hi);
+    }
+
+    @NotNull
+    @Override
+    public Iterator<Key> iterator() {
+        return keys().iterator();
     }
 }

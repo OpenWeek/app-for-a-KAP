@@ -9,22 +9,20 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.soap.Text;
+import gdx.kapotopia.DataStructures.BST;
 
 public final class AssetsManager {
     private static AssetsManager instance = new AssetsManager();
     // ArrayList suffisant car pas bcp d'éléments
-    private static List<RessourceHelper> textureList = new ArrayList<RessourceHelper>();
-    private static List<RessourceHelper> soundList = new ArrayList<RessourceHelper>();
-    private static List<RessourceHelper> stageList = new ArrayList<RessourceHelper>();
-    private static List<RessourceHelper> musicList = new ArrayList<RessourceHelper>();
-    private static List<RessourceHelper> fontList = new ArrayList<RessourceHelper>();
-    private static List<RessourceHelper> atlasList = new ArrayList<RessourceHelper>();
+    private static BST<String, RessourceHelper> textureL = new BST<String, RessourceHelper>();
+    private static BST<String, RessourceHelper> soundList = new BST<String, RessourceHelper>();
+    private static BST<String, RessourceHelper> stageList = new BST<String, RessourceHelper>();
+    private static BST<String, RessourceHelper> musicList = new BST<String, RessourceHelper>();
+    private static BST<String, RessourceHelper> fontList = new BST<String, RessourceHelper>();
+    private static BST<String, RessourceHelper> atlasList = new BST<String, RessourceHelper>();
 
     public static AssetsManager getInstance() {
         return instance;
@@ -42,14 +40,14 @@ public final class AssetsManager {
      * @return
      */
     public Texture getTextureByPath(final String path) {
-        final RessourceHelper researchResult = searchRessource(path, AssetType.TEXTURE);
-        if(researchResult != null) {
-            return (Texture) researchResult.getRessource();
+        final RessourceHelper res = textureL.get(path);
+        if (res != null) {
+            return (Texture) res.getRessource();
         }
-        // Si il elle n'est pas dedans, on la crée, on l'ajoute à la liste et on la renvoie
-        final RessourceHelper<Texture> newRessourceHelper = new RessourceHelper<Texture>(path, new Texture(Gdx.files.internal(path)));
-        textureList.add(newRessourceHelper);
-        return newRessourceHelper.getRessource();
+
+        final RessourceHelper<Texture> newResHelper = new RessourceHelper<Texture>(path, new Texture(Gdx.files.internal(path)));
+        textureL.put(path, newResHelper);
+        return newResHelper.getRessource();
     }
 
     /**
@@ -58,13 +56,13 @@ public final class AssetsManager {
      * @return
      */
     public Sound getSoundByPath(final String path) {
-        final RessourceHelper researchResult = searchRessource(path, AssetType.SOUND);
+        final RessourceHelper researchResult = soundList.get(path);
         if(researchResult != null) {
             return (Sound) researchResult.getRessource();
         }
 
         final RessourceHelper<Sound> newRessourceHelper = new RessourceHelper<Sound>(path, Gdx.audio.newSound(Gdx.files.internal(path)));
-        soundList.add(newRessourceHelper);
+        soundList.put(path, newRessourceHelper);
         return newRessourceHelper.getRessource();
     }
 
@@ -74,8 +72,8 @@ public final class AssetsManager {
      * @return
      */
     public Stage getStageByName(final String name) {
-        final RessourceHelper researchResult = searchRessource(name, AssetType.STAGE);
-        if(researchResult != null)
+        final RessourceHelper researchResult = stageList.get(name);
+        if (researchResult != null)
             return (Stage) researchResult.getRessource();
         return null;
     }
@@ -87,22 +85,22 @@ public final class AssetsManager {
      * @return
      */
     public boolean addStage(final Stage stage, final String name) {
-        final RessourceHelper researchResult = searchRessource(name, AssetType.STAGE);
+        final RessourceHelper researchResult = stageList.get(name);
         if(researchResult != null)
             return false;
         final RessourceHelper<Stage> newRessourceHelper = new RessourceHelper<Stage>(name, stage);
-        stageList.add(newRessourceHelper);
+        stageList.put(name, newRessourceHelper);
         return true;
     }
 
     public Music getMusicByPath(final String path) {
-        final RessourceHelper researchResult = searchRessource(path, AssetType.MUSIC);
+        final RessourceHelper researchResult = musicList.get(path);
         if(researchResult != null) {
             return (Music) researchResult.getRessource();
         }
         // Si il elle n'est pas dedans, on la crée, on l'ajoute à la liste et on la renvoie
         final RessourceHelper<Music> newRessourceHelper = new RessourceHelper<Music>(path, Gdx.audio.newMusic(Gdx.files.internal(path)));
-        musicList.add(newRessourceHelper);
+        musicList.put(path, newRessourceHelper);
         return newRessourceHelper.getRessource();
     }
 
@@ -118,14 +116,14 @@ public final class AssetsManager {
      * @return the asked style
      */
     public TextButton.TextButtonStyle addStyleFont(final String name, final String path, final int size, final Color color) {
-        final RessourceHelper researchResult = searchRessource(name, AssetType.FONT);
+        final RessourceHelper researchResult = fontList.get(name);
         if(researchResult != null) {
             return (TextButton.TextButtonStyle) researchResult.getRessource();
         }
 
         final TextButton.TextButtonStyle style = FontHelper.buildTextButtonStyle(path, size, color);
         final RessourceHelper<TextButton.TextButtonStyle> newRessourceHelper = new RessourceHelper<TextButton.TextButtonStyle>(name, style);
-        fontList.add(newRessourceHelper);
+        fontList.put(name, newRessourceHelper);
         return style;
     }
 
@@ -135,7 +133,7 @@ public final class AssetsManager {
      * @return the style given the name or null if no font associated to that name was found
      */
     public TextButton.TextButtonStyle getStyleFontByName(final String name) {
-        final RessourceHelper researchResult = searchRessource(name, AssetType.FONT);
+        final RessourceHelper researchResult = fontList.get(name);
         if(researchResult != null) {
             return (TextButton.TextButtonStyle) researchResult.getRessource();
         }
@@ -143,13 +141,13 @@ public final class AssetsManager {
     }
 
     public TextureAtlas getAtlasByPath(final String path) {
-        final RessourceHelper researchResult = searchRessource(path, AssetType.ATLAS);
+        final RessourceHelper researchResult = atlasList.get(path);
         if(researchResult != null) {
             return (TextureAtlas) researchResult.getRessource();
         }
         // Si il elle n'est pas dedans, on la crée, on l'ajoute à la liste et on la renvoie
         final RessourceHelper<TextureAtlas> newRessourceHelper = new RessourceHelper<TextureAtlas>(path, new TextureAtlas(path));
-        atlasList.add(newRessourceHelper);
+        atlasList.put(path, newRessourceHelper);
         return newRessourceHelper.getRessource();
     }
 
@@ -162,11 +160,11 @@ public final class AssetsManager {
      * @param internalPath the texture file internalPath
      */
     public void disposeTexture(final String internalPath) {
-        final RessourceHelper th = searchRessource(internalPath, AssetType.TEXTURE);
+        final RessourceHelper th = textureL.get(internalPath);
         if(th != null) {
             final Texture t = (Texture) th.getRessource();
             t.dispose();
-            textureList.remove(th);
+            textureL.delete(internalPath);
         }
     }
 
@@ -185,11 +183,11 @@ public final class AssetsManager {
      * @param internalPath a String
      */
     public void disposeSound(final String internalPath) {
-        final RessourceHelper th = searchRessource(internalPath, AssetType.SOUND);
+        final RessourceHelper th = soundList.get(internalPath);
         if(th != null) {
             final Sound s = (Sound) th.getRessource();
             s.dispose();
-            soundList.remove(th);
+            soundList.delete(internalPath);
         }
     }
 
@@ -208,11 +206,11 @@ public final class AssetsManager {
      * @param name a String
      */
     public void disposeStage(final String name) {
-        final RessourceHelper th = searchRessource(name, AssetType.STAGE);
+        final RessourceHelper th = stageList.get(name);
         if (th != null) {
             final Stage s = (Stage) th.getRessource();
             s.dispose();
-            stageList.remove(th);
+            stageList.delete(name);
         }
     }
 
@@ -231,11 +229,11 @@ public final class AssetsManager {
      * @param internalPath a String
      */
     public void disposeMusic(final String internalPath) {
-        final RessourceHelper th = searchRessource(internalPath, AssetType.MUSIC);
+        final RessourceHelper th = musicList.get(internalPath);
         if(th != null) {
             final Music s = (Music) th.getRessource();
             s.dispose();
-            musicList.remove(th);
+            musicList.delete(internalPath);
         }
     }
 
@@ -254,11 +252,11 @@ public final class AssetsManager {
      * @param name the key representing the font
      */
     public void disposeFont(final String name) {
-        final RessourceHelper th = searchRessource(name, AssetType.FONT);
+        final RessourceHelper th = fontList.get(name);
         if(th != null) {
             final TextButton.TextButtonStyle tbs = (TextButton.TextButtonStyle) th.getRessource();
             tbs.font.dispose();
-            fontList.remove(th);
+            fontList.delete(name);
         }
     }
 
@@ -273,11 +271,11 @@ public final class AssetsManager {
     }
 
     public void disposeAtlas(final String path) {
-        final RessourceHelper th = searchRessource(path, AssetType.ATLAS);
+        final RessourceHelper th = atlasList.get(path);
         if(th != null) {
             final TextureAtlas atlas = (TextureAtlas) th.getRessource();
             atlas.dispose();
-            atlasList.remove(th);
+            atlasList.delete(path);
         }
     }
 
@@ -291,79 +289,47 @@ public final class AssetsManager {
      * Dispose all ressources taken by textures, sounds, musics, fonts and stages
      */
     public void disposeAllResources() {
-        for (RessourceHelper th : textureList) {
-            final Texture t = (Texture) th.getRessource();
+        for (String key : textureL) {
+            RessourceHelper res = textureL.get(key);
+            final Texture t = (Texture) res.getRessource();
             t.dispose();
-            textureList.remove(th);
+            textureL.delete(key);
         }
 
-        for (RessourceHelper th : soundList) {
-            final Sound s = (Sound) th.getRessource();
+        for (String key : soundList) {
+            RessourceHelper res = soundList.get(key);
+            final Sound s = (Sound) res.getRessource();
             s.dispose();
-            soundList.remove(th);
+            soundList.delete(key);
         }
 
-        for (RessourceHelper th : stageList) {
-            final Stage s = (Stage) th.getRessource();
+        for (String key : stageList) {
+            RessourceHelper res = stageList.get(key);
+            final Stage s = (Stage) res.getRessource();
             s.dispose();
-            stageList.remove(th);
+            stageList.delete(key);
         }
 
-        for (RessourceHelper th : musicList) {
-            final Music m = (Music) th.getRessource();
+        for (String key : musicList) {
+            RessourceHelper res = musicList.get(key);
+            final Music m = (Music) res.getRessource();
             m.dispose();
-            musicList.remove(th);
+            musicList.delete(key);
         }
 
-        for (RessourceHelper th : fontList) {
-            final TextButton.TextButtonStyle style = (TextButton.TextButtonStyle) th.getRessource();
+        for (String key : fontList) {
+            RessourceHelper res = fontList.get(key);
+            final TextButton.TextButtonStyle style = (TextButton.TextButtonStyle) res.getRessource();
             style.font.dispose();
-            fontList.remove(th);
+            fontList.delete(key);
         }
 
-        for (RessourceHelper th : atlasList) {
-            final TextureAtlas atlas = (TextureAtlas) th.getRessource();
+        for (String key : atlasList) {
+            RessourceHelper res = atlasList.get(key);
+            final TextureAtlas atlas = (TextureAtlas) res.getRessource();
             atlas.dispose();
-            atlasList.remove(th);
+            atlasList.delete(key);
         }
-    }
-
-    /**
-     * determine if the internal ressource list already contains or not the ressource
-     * identified by the given path
-     * @param path a String representing a path in the root of assets/
-     * @param ressource a number, 0 for selecting textureList, 1 for soundList, default is textureList
-     * @return the RessourceHelper if its already in memory, null otherwise
-     */
-    private RessourceHelper searchRessource(final String path, AssetType ressource) {
-        List<RessourceHelper> l;
-        switch (ressource) {
-            case TEXTURE:
-                l = textureList;
-                break;
-            case SOUND:
-                l = soundList;
-                break;
-            case STAGE:
-                l = stageList;
-                break;
-            case MUSIC:
-                l = musicList;
-                break;
-            case FONT:
-                l = fontList;
-                break;
-            case ATLAS:
-                l = atlasList;
-                break;
-            default:
-                l = textureList;
-        }
-        for (RessourceHelper th : l) {
-            if (th.getInternalPath().equals(path))
-                return th;
-        }
-        return null;
     }
 
     private final class RessourceHelper<T> {
