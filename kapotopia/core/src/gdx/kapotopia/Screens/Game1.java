@@ -6,6 +6,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -33,6 +34,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import gdx.kapotopia.Animations.LeavesBackgroundAnimation;
 import gdx.kapotopia.Animations.LetsgoG1Animation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
@@ -47,7 +49,6 @@ import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.GameDifficulty;
 import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
-import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
@@ -64,14 +65,18 @@ public class Game1 implements Screen, MireilleListener {
     // General Variables
     private Kapotopia game;
     private Stage stage;
+    private OrthographicCamera camera;
     private Random random;
     // Graphisms and animations
-    private final Image imgFond;
-    private final Image leaves;
+    private final Texture sky;
+    private final Texture trees;
+    private final Texture eyes;
+    private final Animation<TextureRegion> leaves;
     private Animation<TextureRegion> letsGoAnimation;
     private float stateTime;
     private boolean letsGoAppeared;
     private SpriteBatch animationSpriteBatch;
+    private SpriteBatch backgroundBatch;
     // Style of text
     private TextButton.TextButtonStyle style;
     private TextButton.TextButtonStyle styleSmall;
@@ -103,7 +108,6 @@ public class Game1 implements Screen, MireilleListener {
     private Label missedLabel;
     private ImageButton pauseIcon;
     private ImageTextButton quitBtn;
-
 
     // Constants
 
@@ -147,6 +151,9 @@ public class Game1 implements Screen, MireilleListener {
         // Initialize global variables
         this.game = game;
         this.stage = new Stage(game.viewport);
+        this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+        this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f,0); // I dont understand why, but this works. If someone knows plz explain me. F.D.
+        this.camera.update();
         this.random = new Random();
         final Localization loc = Localization.getInstance();
 
@@ -173,11 +180,14 @@ public class Game1 implements Screen, MireilleListener {
 
         // Graphisms and animations
         initVirusTextures();
-        this.imgFond = ImageHelper.getBackground(game.viewport, "World1/Game1/Jungle.png");
-        this.leaves = ImageHelper.getBackground(game.viewport, "World1/Game1/Feuilles.png");
+        this.sky = AssetsManager.getInstance().getTextureByPath("World1/Game1/Ciel.png");
+        this.trees = AssetsManager.getInstance().getTextureByPath("World1/Game1/Jungle.png");
+        this.eyes = AssetsManager.getInstance().getTextureByPath("World1/Game1/Oeil.png");
+        this.leaves = new LeavesBackgroundAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
 
         this.letsGoAnimation = new LetsgoG1Animation(Animation.PlayMode.NORMAL).getAnimation();
         this.animationSpriteBatch = new SpriteBatch();
+        this.backgroundBatch = new SpriteBatch();
         stateTime = 0f;
         letsGoAppeared = false;
 
@@ -185,11 +195,6 @@ public class Game1 implements Screen, MireilleListener {
         this.mireille = prepareMireille();
         this.mireille.addListener(this);
         this.ennemi = new Virus(this.bounds, this);
-
-        stage.addActor(imgFond);
-        stage.addActor(mireille);
-        stage.addActor(ennemi);
-        stage.addActor(leaves);
 
         // Buttons
         this.pauseIcon = new ImageButtonBuilder().withImageUp("pause_logo_2.png")
@@ -235,6 +240,7 @@ public class Game1 implements Screen, MireilleListener {
         missedLabel = new LabelBuilder(loc.getString("missed_label_text")).withStyle(styleSmall).isVisible(false).build();
         ennemiNameLabel = new LabelBuilder(ennemi.getName()).withStyle(styleSmall).withAlignement(Align.center)
                 .withPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemi.getName().length()) /2,ennemi.getY() - 50).build();
+        //FIXME problem, it's starting to high on the screen, and go down the virus pretty quickly.
 
         pauseLabel.addListener(new ClickListener() {
            @Override
@@ -272,6 +278,7 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void show() {
+        stateTime = 0f; // to reset animations
         // in the case when the player come back after changed preferences by using back button
         this.musicOn = game.getSettings().isMusicOn();
         if(musicOn) {
@@ -293,9 +300,37 @@ public class Game1 implements Screen, MireilleListener {
         }
     }
 
+    private void renderBackground() {
+
+        backgroundBatch.begin();
+
+        backgroundBatch.draw(sky, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),
+                0, 0, 1080, 1920, false, false);
+        backgroundBatch.draw(trees, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),
+                0, 0,1080,1920, false, false);
+        backgroundBatch.draw(eyes, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),
+                0, 0, 1080, 1920, false, false);
+        if(!isFinish) // We hide mireille  when the game is finished
+            mireille.draw(backgroundBatch, 0);
+        ennemi.draw(backgroundBatch, 0);
+        backgroundBatch.draw(leaves.getKeyFrame(stateTime, true).getTexture(), 0, 0,
+                game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),
+                0, 0,1080,1920, false, false);
+
+        backgroundBatch.end();
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.update();
+        backgroundBatch.setProjectionMatrix(camera.combined);
+        animationSpriteBatch.setProjectionMatrix(camera.combined);
+
+        stateTime += delta;
+        renderBackground();
+
         lifeLabel.setText(LIFE_TXT + mireilleLife);
         scoreLabel.setText(SCORE_TXT + totalScore);
         istCatchedLabel.setText(IST_CATCHED_TXT + istsCatched);
@@ -307,7 +342,10 @@ public class Game1 implements Screen, MireilleListener {
             }
         }else{
             if(!isPaused) {
+
                 stage.act(delta);
+                mireille.act(delta);
+                ennemi.act(delta);
 
                 if(CollisionManager.getInstance().checkCollision(mireille,ennemi)) {
                     // Collision
@@ -317,7 +355,7 @@ public class Game1 implements Screen, MireilleListener {
         stage.draw();
 
         if(!letsGoAppeared) {
-            stateTime += delta;
+
             TextureRegion currentFrame = letsGoAnimation.getKeyFrame(stateTime, false);
             animationSpriteBatch.begin();
             animationSpriteBatch.draw(currentFrame, (bounds.width / 5) * 2, bounds.height / 2);
@@ -372,6 +410,7 @@ public class Game1 implements Screen, MireilleListener {
     public void dispose() {
         AssetsManager.getInstance().disposeStage(TAG);
         animationSpriteBatch.dispose();
+        backgroundBatch.dispose();
     }
 
     // Textures
@@ -546,7 +585,7 @@ public class Game1 implements Screen, MireilleListener {
 
         // We hide every actor
         for(Actor actor : stage.getActors()) {
-            if(!(actor.equals(this.imgFond) || actor.equals(this.leaves) || actor.equals(lifeLabel))) {
+            if(!(actor.equals(this.trees) || actor.equals(this.leaves) || actor.equals(lifeLabel))) {
                 actor.setVisible(false);
             }
         }

@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -28,6 +31,12 @@ public class MainMenu implements Screen {
 
     private Sound pauseSound;
 
+    // Background
+    private OrthographicCamera camera;
+    private SpriteBatch backgroundBatch;
+    private float stateTime;
+    private Texture part_1, part_2, part_3, part_4;
+
     private static final String TAG = "Screen-MainMenu";
 
     public MainMenu(final Kapotopia game) {
@@ -35,8 +44,20 @@ public class MainMenu implements Screen {
         Gdx.app.log(TAG,"Entering MainMenu function");
 
         this.game = game;
-        final Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("DessinMenuPrincipal.png")); //Test for backbutton
+        //final Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("EcranMenu/DessinMenuPrincipal.png")); //Test for backbutton
         stage = new Stage(game.viewport);
+
+        // Background
+        this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+        this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f,0); // I dont understand why, but this works. If someone knows plz explain me. F.D.
+        this.camera.update();
+        this.backgroundBatch = new SpriteBatch();
+        stateTime = 0f;
+
+        this.part_1 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre1.png");
+        this.part_2 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre2.png");
+        this.part_3 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre3.png");
+        this.part_4 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalBoutons.png");
 
         // Import sounds
         this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
@@ -60,7 +81,7 @@ public class MainMenu implements Screen {
         Label version = new LabelBuilder("v:" + Kapotopia.VERSION_NAME + " | code:" + Kapotopia.VERSION_CODE)
                 .withStyle(UseFont.AESTHETIC_TINY_BLACK).withPosition(15, 0).build();
 
-        stage.addActor(imgFond);
+        //stage.addActor(imgFond);
         //add button to the scene
         stage.addActor(world1);
         stage.addActor(world2);
@@ -69,6 +90,7 @@ public class MainMenu implements Screen {
 
         AssetsManager.getInstance().addStage(stage, "mainmenu");
     }
+
     @Override
     public void show() {
         Gdx.app.log(TAG,"Entering show function");
@@ -79,6 +101,18 @@ public class MainMenu implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.update();
+        backgroundBatch.setProjectionMatrix(camera.combined);
+
+        stateTime += delta;
+
+        backgroundBatch.begin();
+        backgroundBatch.draw(part_4, 0, 0);
+        backgroundBatch.draw(part_3, 0, 0);
+        backgroundBatch.draw(part_2, 0, 0);
+        backgroundBatch.draw(part_1, 0, 0);
+        backgroundBatch.end();
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();

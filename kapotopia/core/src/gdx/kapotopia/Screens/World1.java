@@ -29,7 +29,7 @@ public class World1 implements Screen {
 
     public World1(final Kapotopia game) {
         this.game = game;
-        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("World1EcranMenu.png"));
+        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("EcranMenu/World1EcranMenu.png"));
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
 

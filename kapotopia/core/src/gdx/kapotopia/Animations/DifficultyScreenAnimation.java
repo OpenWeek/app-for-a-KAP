@@ -10,8 +10,8 @@ public class DifficultyScreenAnimation {
     private Animation<TextureRegion> animation;
 
     public DifficultyScreenAnimation(Animation.PlayMode playMode) {
-        final String [] FRAMES = new String[]{"World1/Game1/EcranJeu1.png",
-                "World1/Game1/EcranJeu1V2.png", "World1/Game1/EcranJeu1V3.png"};
+        final String [] FRAMES = new String[]{"EcranMenu/EcranJeu1.png",
+                "EcranMenu/EcranJeu1V2.png", "EcranMenu/EcranJeu1V3.png"};
 
         this.animation = new AnimationBuilder(0.0625f).withPlayMode(playMode)
                 .addFrames(FRAMES).build();

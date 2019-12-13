@@ -6,12 +6,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
@@ -21,6 +23,7 @@ import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.GameDifficulty;
+import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
@@ -33,6 +36,7 @@ public class ChoosingDifficultyScreen implements Screen {
     // Basic variables
     private Kapotopia game;
     private Stage stage;
+    private OrthographicCamera camera;
 
     private Sound clic;
     private Sound clicBlockedSound;
@@ -50,6 +54,9 @@ public class ChoosingDifficultyScreen implements Screen {
     public ChoosingDifficultyScreen(final Kapotopia game) {
         this.game = game;
         this.stage = new Stage(game.viewport);
+        this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+        this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f,0); // I dont understand why, but this works. If someone knows plz explain me. F.D.
+        this.camera.update();
 
         // Background animation
         this.background = new DifficultyScreenAnimation(Animation.PlayMode.LOOP).getAnimation();
@@ -106,7 +113,7 @@ public class ChoosingDifficultyScreen implements Screen {
         final float x = game.viewport.getWorldWidth() / 2.6f;
         final float WH = game.viewport.getWorldHeight();
 
-        TextButton infiniteBtn = new TextButtonBuilder(Localization.getInstance().getString("infinite_button"))
+        ImageTextButton infiniteBtn = new ImageTextButtonBuilder(Localization.getInstance().getString("infinite_button"))
                 .withPosition(x + 10, WH * 0.1f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -117,8 +124,8 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.INFINITE);
                         }
                     }
-                }).withStyle(infiniteBtnStyle).build();
-        TextButton hardBtn = new TextButtonBuilder(Localization.getInstance().getString("hard_button"))
+                }).withFontStyle(infiniteBtnStyle).withImageStyle("World1/Game1/Bouton.png").build();
+        ImageTextButton hardBtn = new ImageTextButtonBuilder(Localization.getInstance().getString("hard_button"))
                 .withPosition(x, WH * 0.3f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -129,8 +136,8 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.HARD);
                         }
                     }
-                }).withStyle(hardBtnStyle).build();
-        TextButton mediumBtn = new TextButtonBuilder(Localization.getInstance().getString("medium_button"))
+                }).withFontStyle(hardBtnStyle).withImageStyle("World1/Game1/Bouton.png").build();
+        ImageTextButton mediumBtn = new ImageTextButtonBuilder(Localization.getInstance().getString("medium_button"))
                 .withPosition(x, WH * 0.5f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -141,15 +148,15 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.MEDIUM);
                         }
                     }
-                }).withStyle(mediumBtnStyle).build();
-        TextButton easyBtn = new TextButtonBuilder(Localization.getInstance().getString("easy_button"))
+                }).withFontStyle(mediumBtnStyle).withImageStyle("World1/Game1/Bouton.png").build();
+        ImageTextButton easyBtn = new ImageTextButtonBuilder(Localization.getInstance().getString("easy_button"))
                 .withPosition(x, WH * 0.7f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         Gdx.input.vibrate(50);
                         goToNextScreen(GameDifficulty.EASY);
                     }
-                }).withStyle(styleNormal).build();
+                }).withFontStyle(styleNormal).withImageStyle("World1/Game1/Bouton.png").build();
 
         stage.addActor(easyBtn);
         stage.addActor(mediumBtn);
@@ -190,6 +197,9 @@ public class ChoosingDifficultyScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.update();
+        spriteBatch.setProjectionMatrix(camera.combined);
 
         stateTime += delta;
         spriteBatch.begin();

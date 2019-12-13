@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -29,6 +30,8 @@ import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 
+import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
+
 public class BilanG1 implements Screen {
     // Basic variables
     private Kapotopia game;
@@ -47,6 +50,7 @@ public class BilanG1 implements Screen {
 
     // Images
     private Image imgFond;
+    private Image mireilleUni;
 
     // Sounds
     private Sound fail;
@@ -64,9 +68,19 @@ public class BilanG1 implements Screen {
         final float wWidth = game.viewport.getWorldWidth();
         final float wHeight = game.viewport.getWorldHeight();
 
-        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
+        /* IMAGES */
+        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("World1/Game1/World1Ecran3.png"));
         imgFond.setVisible(true);
+        final Texture mireille = AssetsManager.getInstance().getTextureByPath("MireilleImages/MireilleInstruit.png");
+        this.mireilleUni = new Image(mireille);
+        mireilleUni.setVisible(true);
+        mireilleUni.setPosition(-75, 0);
+        mireilleUni.setWidth(mireille.getWidth() / 2.5f);
+        mireilleUni.setHeight(mireille.getHeight() / 2.5f);
+
+
         stage.addActor(imgFond);
+        stage.addActor(mireilleUni);
 
         this.missedIsts = (HashSet<VirusContainer>) game.getTheValueGateway().removeFromTheStore("G1-missedIST");
         if(missedIsts == null) {
