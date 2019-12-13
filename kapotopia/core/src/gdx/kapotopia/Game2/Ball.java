@@ -24,7 +24,7 @@ public class Ball extends Button {
     final private float size = 150;
     private Label label;
     private ImageButton button;
-    private final String TEXTURE_PATH = "World1/Game2/ball1.png";
+    private final String TEXTURE_PATH = "World1/Game2/Ballon.png";
 
 
     public Ball(int nbr, String name){

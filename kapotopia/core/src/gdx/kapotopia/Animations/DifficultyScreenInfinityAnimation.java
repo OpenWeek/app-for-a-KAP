@@ -5,13 +5,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import gdx.kapotopia.Helpers.Builders.AnimationBuilder;
 
-public class DifficultyScreenAnimation {
+public class DifficultyScreenInfinityAnimation {
 
     private Animation<TextureRegion> animation;
 
-    public DifficultyScreenAnimation(Animation.PlayMode playMode) {
-        final String [] FRAMES = new String[]{"EcranMenu/EcranJeu1.png",
-                "EcranMenu/EcranJeu1V2.png", "EcranMenu/EcranJeu1V3.png"};
+    public DifficultyScreenInfinityAnimation(Animation.PlayMode playMode) {
+        final String [] FRAMES = new String[]{"EcranMenu/EcranJeu1Infini1.png",
+                "EcranMenu/EcranJeu1Infini2.png", "EcranMenu/EcranJeu1Infini3.png",
+                "EcranMenu/EcranJeu1Infini4.png"};
 
         this.animation = new AnimationBuilder(0.0625f).withPlayMode(playMode)
                 .addFrames(FRAMES).build();

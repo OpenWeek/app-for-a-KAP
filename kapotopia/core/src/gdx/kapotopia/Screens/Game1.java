@@ -240,7 +240,6 @@ public class Game1 implements Screen, MireilleListener {
         missedLabel = new LabelBuilder(loc.getString("missed_label_text")).withStyle(styleSmall).isVisible(false).build();
         ennemiNameLabel = new LabelBuilder(ennemi.getName()).withStyle(styleSmall).withAlignement(Align.center)
                 .withPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemi.getName().length()) /2,ennemi.getY() - 50).build();
-        //FIXME problem, it's starting to high on the screen, and go down the virus pretty quickly.
 
         pauseLabel.addListener(new ClickListener() {
            @Override
@@ -473,6 +472,7 @@ public class Game1 implements Screen, MireilleListener {
 
     private Music prepareMusic() {
         Music music = AssetsManager.getInstance().getMusicByPath(MUSICPATH);
+        music.setPosition(0f);
         music.setLooping(false);
         music.setVolume(0.66f);
         music.setOnCompletionListener(new Music.OnCompletionListener() {
@@ -484,6 +484,11 @@ public class Game1 implements Screen, MireilleListener {
             }
         });
         return music;
+    }
+
+    private void resetMusic(Music music) {
+        music.pause();
+        music.setPosition(0f);
     }
 
     // Labels
@@ -671,8 +676,7 @@ public class Game1 implements Screen, MireilleListener {
                 EventListener continueEvent = new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        music = prepareMusic();
-                        music.pause();
+                        resetMusic(music);
                         game.destroyScreen(ScreenType.GAME1);
                         switch (difficulty) {
                             case EASY:
@@ -695,8 +699,7 @@ public class Game1 implements Screen, MireilleListener {
                 EventListener restartEvent = new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        music = prepareMusic();
-                        music.pause();
+                        resetMusic(music);
                         game.getTheValueGateway().addToTheStore("difficulty", difficulty);
                         game.destroyScreen(ScreenType.GAME1);
                         game.changeScreen(ScreenType.GAME1);

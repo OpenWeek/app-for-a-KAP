@@ -41,7 +41,7 @@ public class World1 implements Screen {
         TextButton game1 = new TextButtonBuilder("Game 1").withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
                 .withPosition(x,y * 0.75f)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG1)).build();
-        TextButton game2 = new TextButtonBuilder("Game 2").withStyle(UseFont.AESTHETIC_NORMAL_BLACK)
+        TextButton game2 = new TextButtonBuilder("Game 2").withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
                 .withPosition(x, y * 0.25f)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG2)).build();
 

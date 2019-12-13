@@ -4,33 +4,31 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
-import gdx.kapotopia.Animations.DifficultyScreenAnimation;
+import gdx.kapotopia.Animations.DifficultyScreenHellAnimation;
+import gdx.kapotopia.Animations.DifficultyScreenInfinityAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.GameDifficulty;
 import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
-import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.UnlockedLevel;
-import gdx.kapotopia.Utils;
 
 public class ChoosingDifficultyScreen implements Screen {
     // Basic variables
@@ -47,7 +45,9 @@ public class ChoosingDifficultyScreen implements Screen {
     private static final String TAG = "difficultyScreen";
 
     // Animation
-    private Animation<TextureRegion> background;
+    private Texture top;
+    private Animation<TextureRegion> backgroundHell;
+    private Animation<TextureRegion> backgroundInfinity;
     private SpriteBatch spriteBatch;
     private float stateTime;
 
@@ -59,7 +59,9 @@ public class ChoosingDifficultyScreen implements Screen {
         this.camera.update();
 
         // Background animation
-        this.background = new DifficultyScreenAnimation(Animation.PlayMode.LOOP).getAnimation();
+        this.top = AssetsManager.getInstance().getTextureByPath("EcranMenu/EcranJeu1Haut.png");
+        this.backgroundHell = new DifficultyScreenHellAnimation(Animation.PlayMode.LOOP).getAnimation();
+        this.backgroundInfinity = new DifficultyScreenInfinityAnimation(Animation.PlayMode.LOOP).getAnimation();
         this.spriteBatch = new SpriteBatch();
         stateTime = 0f;
 
@@ -203,8 +205,9 @@ public class ChoosingDifficultyScreen implements Screen {
 
         stateTime += delta;
         spriteBatch.begin();
-        TextureRegion curFrame = background.getKeyFrame(stateTime, true);
-        spriteBatch.draw(curFrame, 0, 0);
+        spriteBatch.draw(backgroundInfinity.getKeyFrame(stateTime, true), 0, 0);
+        spriteBatch.draw(backgroundHell.getKeyFrame(stateTime, true), 0, 0);
+        spriteBatch.draw(top, 0, 0);
         spriteBatch.end();
 
         stage.act(Gdx.graphics.getDeltaTime());

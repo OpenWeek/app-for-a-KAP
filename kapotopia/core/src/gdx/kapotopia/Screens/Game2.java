@@ -76,7 +76,7 @@ public class Game2 implements Screen {
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
         this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
 
-        final Image outro0 = new Image(new Texture(GAME_PATH + "22_board_0.jpg"));
+        final Image outro0 = new Image(new Texture(GAME_PATH + "20_board_1.png"));
         prepareMockup(outro0);
 
         /*Creation of instances for game*/
