@@ -34,8 +34,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import gdx.kapotopia.Animations.EyesBackgroundAnimation;
 import gdx.kapotopia.Animations.LeavesBackgroundAnimation;
 import gdx.kapotopia.Animations.LetsgoG1Animation;
+import gdx.kapotopia.Animations.SkyBackgroundAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.SoundHelper;
@@ -68,11 +70,11 @@ public class Game1 implements Screen, MireilleListener {
     private OrthographicCamera camera;
     private Random random;
     // Graphisms and animations
-    private final Texture sky;
+    private final Animation<TextureRegion> sky;
     private final Texture trees;
-    private final Texture eyes;
+    private final Animation<TextureRegion> eyes;
     private final Animation<TextureRegion> leaves;
-    private Animation<TextureRegion> letsGoAnimation;
+    private final Animation<TextureRegion> letsGoAnimation;
     private float stateTime;
     private boolean letsGoAppeared;
     private SpriteBatch animationSpriteBatch;
@@ -180,9 +182,9 @@ public class Game1 implements Screen, MireilleListener {
 
         // Graphisms and animations
         initVirusTextures();
-        this.sky = AssetsManager.getInstance().getTextureByPath("World1/Game1/Ciel.png");
+        this.sky = new SkyBackgroundAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
         this.trees = AssetsManager.getInstance().getTextureByPath("World1/Game1/Jungle.png");
-        this.eyes = AssetsManager.getInstance().getTextureByPath("World1/Game1/Oeil.png");
+        this.eyes = new EyesBackgroundAnimation(Animation.PlayMode.LOOP).getAnimation();
         this.leaves = new LeavesBackgroundAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
 
         this.letsGoAnimation = new LetsgoG1Animation(Animation.PlayMode.NORMAL).getAnimation();
@@ -277,7 +279,6 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void show() {
-        stateTime = 0f; // to reset animations
         // in the case when the player come back after changed preferences by using back button
         this.musicOn = game.getSettings().isMusicOn();
         if(musicOn) {
@@ -303,18 +304,14 @@ public class Game1 implements Screen, MireilleListener {
 
         backgroundBatch.begin();
 
-        backgroundBatch.draw(sky, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),
-                0, 0, 1080, 1920, false, false);
+        backgroundBatch.draw(sky.getKeyFrame(stateTime, true),0, 0);
         backgroundBatch.draw(trees, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),
                 0, 0,1080,1920, false, false);
-        backgroundBatch.draw(eyes, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),
-                0, 0, 1080, 1920, false, false);
+        backgroundBatch.draw(eyes.getKeyFrame(stateTime, true),0, 0);
         if(!isFinish) // We hide mireille  when the game is finished
             mireille.draw(backgroundBatch, 0);
         ennemi.draw(backgroundBatch, 0);
-        backgroundBatch.draw(leaves.getKeyFrame(stateTime, true).getTexture(), 0, 0,
-                game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),
-                0, 0,1080,1920, false, false);
+        backgroundBatch.draw(leaves.getKeyFrame(stateTime, true), 0, 0);
 
         backgroundBatch.end();
     }

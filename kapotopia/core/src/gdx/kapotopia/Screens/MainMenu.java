@@ -6,12 +6,15 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import gdx.kapotopia.Animations.NeonDoorAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.SoundHelper;
@@ -35,7 +38,8 @@ public class MainMenu implements Screen {
     private OrthographicCamera camera;
     private SpriteBatch backgroundBatch;
     private float stateTime;
-    private Texture part_1, part_2, part_3, part_4;
+    private Texture part_1, part_3, part_4;
+    private Animation<TextureRegion> part_2;
 
     private static final String TAG = "Screen-MainMenu";
 
@@ -44,7 +48,6 @@ public class MainMenu implements Screen {
         Gdx.app.log(TAG,"Entering MainMenu function");
 
         this.game = game;
-        //final Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("EcranMenu/DessinMenuPrincipal.png")); //Test for backbutton
         stage = new Stage(game.viewport);
 
         // Background
@@ -55,7 +58,7 @@ public class MainMenu implements Screen {
         stateTime = 0f;
 
         this.part_1 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre1.png");
-        this.part_2 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre2.png");
+        this.part_2 = new NeonDoorAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
         this.part_3 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre3.png");
         this.part_4 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalBoutons.png");
 
@@ -110,7 +113,7 @@ public class MainMenu implements Screen {
         backgroundBatch.begin();
         backgroundBatch.draw(part_4, 0, 0);
         backgroundBatch.draw(part_3, 0, 0);
-        backgroundBatch.draw(part_2, 0, 0);
+        backgroundBatch.draw(part_2.getKeyFrame(stateTime, true), 0, 0);
         backgroundBatch.draw(part_1, 0, 0);
         backgroundBatch.end();
 

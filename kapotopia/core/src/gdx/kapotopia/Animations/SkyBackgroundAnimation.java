@@ -7,15 +7,15 @@ import com.badlogic.gdx.utils.Array;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.Builders.AnimationBuilder;
 
-public class LetsgoG1Animation extends AnimationAbstract {
+public class SkyBackgroundAnimation extends AnimationAbstract {
 
-    public LetsgoG1Animation(Animation.PlayMode playMode) {
+    public SkyBackgroundAnimation(Animation.PlayMode playMode) {
 
-        TextureAtlas atlas = AssetsManager.getInstance().getAtlasByPath("World1/Game1/actiontext.atlas");
-        Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("actiontext");
+        TextureAtlas atlas = AssetsManager.getInstance().getAtlasByPath("World1/Game1/sky.atlas");
+        Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("sky");
         TextureAtlas.AtlasRegion[] array = r.toArray();
 
-        setAnimation(new AnimationBuilder(0.04f).withPlayMode(playMode)
+        setAnimation(new AnimationBuilder(0.5f).withPlayMode(playMode)
                 .addFrames(array).build());
     }
 }
