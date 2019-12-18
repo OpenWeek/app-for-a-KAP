@@ -50,7 +50,7 @@ public class Game2 implements Screen {
 
     private static final String TAG = "Screens-Game2";
 
-    private ChangeListener ballClick[] = new ChangeListener[STInbr];
+    private ChangeListener[] ballClick = new ChangeListener[STInbr];
     /**
      * Prepare images to fullScreen and hidden
      * @param img the image to prepare

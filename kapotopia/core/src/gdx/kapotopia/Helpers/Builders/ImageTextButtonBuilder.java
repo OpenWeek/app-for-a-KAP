@@ -8,12 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
+
+import javax.swing.GroupLayout;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Kapotopia;
 
 /**
  * A class to help build ImageTextButtons. A mandatory argument is the text displayed in the imagetextButton
@@ -21,13 +25,16 @@ import gdx.kapotopia.AssetsManaging.UseFont;
  * provided methods and build it's label following these values with the build() method
  */
 public class ImageTextButtonBuilder {
+    private Kapotopia game;
     // Actor common attributes
     private ArrayList<EventListener> eventListeners;
     private ArrayList<EventListener> captureListeners;
     private float x, y;
+    private Alignement alignement;
     private float bx, by, bw, bh;
     private float width, height;
     private float scaleXY;
+    private Padding padding;
     // ImageTextButton attributes
     private String text;
     private boolean visible;
@@ -37,12 +44,14 @@ public class ImageTextButtonBuilder {
     private Button.ButtonStyle imageStyle;
 
 
-    public ImageTextButtonBuilder(String text) {
+    public ImageTextButtonBuilder(Kapotopia game, String text) {
+        this.game = game;
         // Actor attributes
         this.eventListeners = new ArrayList<EventListener>();
         this.captureListeners = new ArrayList<EventListener>();
         this.x = 0;
         this.y = 0;
+        this.alignement = Alignement.NONE;
         this.bx = -1;
         this.by = -1;
         this.bw = -1;
@@ -88,6 +97,21 @@ public class ImageTextButtonBuilder {
     public ImageTextButtonBuilder withPosition(float x, float y) {
         this.x = x;
         this.y = y;
+        return this;
+    }
+
+    public ImageTextButtonBuilder withY(float y) {
+        this.y = y;
+        return this;
+    }
+
+    public ImageTextButtonBuilder withAlignment(Alignement al) {
+        this.alignement = al;
+        return this;
+    }
+
+    public ImageTextButtonBuilder withPadding(Padding pa) {
+        this.padding = pa;
         return this;
     }
 
@@ -200,8 +224,33 @@ public class ImageTextButtonBuilder {
             imgTxtBtn.addCaptureListener(listener);
         }
 
+        if (alignement != Alignement.NONE) {
+            final float MIDDLE_SCREEN = game.viewport.getScreenWidth() / 2f;
+            switch (alignement) {
+                case LEFT:
+                    x = MIDDLE_SCREEN / 2f - ((text.length() * Kapotopia.ONE_CHARACTER_STD_WIDTH) / 2 );
+                    break;
+                case CENTER:
+                    x = ((MIDDLE_SCREEN / 3f) * 2f) - ((text.length() * Kapotopia.ONE_CHARACTER_STD_WIDTH) / 2 );
+                    break;
+                case RIGHT:
+                    x = MIDDLE_SCREEN - ((text.length() * Kapotopia.ONE_CHARACTER_STD_WIDTH) / 2 );
+                    break;
+            }
+        }
         imgTxtBtn.setPosition(x, y);
-        // It shouldn't be possible to have a negative height or weight
+
+        // If padding has been mentioned, we take it. Else, we take the width/height
+        if(padding != Padding.NONE) {
+            switch (padding) {
+                case STANDARD:
+                    this.width = (Kapotopia.ONE_CHARACTER_STD_WIDTH * text.length()) + (Kapotopia.ONE_CHARACTER_STD_WIDTH * 2);
+                    this.height = Kapotopia.ONE_CHARACTER_STD_HEIGHT + (Kapotopia.ONE_CHARACTER_STD_HEIGHT / 2);
+                    break;
+            }
+        }
+
+        // It shouldn't be possible to have a negative height or width
         if(bw >= 0 && bh >= 0) {
             imgTxtBtn.setBounds(bx, by, bw, bh);
         }

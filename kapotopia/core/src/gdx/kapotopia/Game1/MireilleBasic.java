@@ -18,16 +18,6 @@ import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
 public class MireilleBasic extends EntityAbstract {
 
     /*
-     *  CONSTANTES
-     */
-    private final String NORMAL_TEXTURE_PATH = "MireilleImages/Mireille.png";
-    private final String SAD_TEXTURE_PATH = "MireilleImages/MireillePleure.png";
-    private final String MAD_TEXTURRE_PATH = "MireilleImages/MireilleAChaud.png";
-    private final String HAPPY_TEXTURE_PATH = "MireilleImages/MireilleBoucheOuverte.png";
-    private final byte MAX_LIFES = 3;
-    private final int SCORE_UP = 10;
-
-    /*
      *  FIELDS
      */
     // Pour avertir les autres composants qu'elle a perdu une vie
@@ -50,9 +40,19 @@ public class MireilleBasic extends EntityAbstract {
 
     public MireilleBasic(float X, float Y) {
         super();
+        /*
+         *  CONSTANTES
+         */
+        String NORMAL_TEXTURE_PATH = "MireilleImages/Mireille.png";
+        String SAD_TEXTURE_PATH = "MireilleImages/MireillePleure.png";
+        String MAD_TEXTURRE_PATH = "MireilleImages/MireilleAChaud.png";
+        String HAPPY_TEXTURE_PATH = "MireilleImages/MireilleBoucheOuverte.png";
         final AssetsManager man = AssetsManager.getInstance();
+        /*
+         *  INITIALIZATION
+         */
         builderHelper(man.getTextureByPath(NORMAL_TEXTURE_PATH), X, Y);
-        this.lifes = MAX_LIFES;
+        this.lifes = (byte) 3;
         this.score = 0;
         this.random = new Random();
 
@@ -87,6 +87,7 @@ public class MireilleBasic extends EntityAbstract {
     }
 
     public void increaseScore() {
+        int SCORE_UP = 10;
         increaseScore(SCORE_UP);
     }
 

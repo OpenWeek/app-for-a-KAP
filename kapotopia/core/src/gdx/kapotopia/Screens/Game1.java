@@ -224,7 +224,7 @@ public class Game1 implements Screen, MireilleListener {
             }
         };
 
-        quitBtn = new ImageTextButtonBuilder(loc.getString("quit_button_text")).withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
+        quitBtn = new ImageTextButtonBuilder(game, loc.getString("quit_button_text")).withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
                 .withPosition((bounds.getWidth() / 2) - 95, (bounds.getHeight() / 2) - BTN_SPACING)
                 .withListener(quitEvent).withImageStyle("World1/Game1/Bouton.png").isVisible(false).build();
 
@@ -377,12 +377,7 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void resume() {
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                resumeFromPause();
-            }
-        }, 3f);
+
     }
 
     private void resumeFromPause() {
@@ -705,14 +700,14 @@ public class Game1 implements Screen, MireilleListener {
 
                 // Only if the player won we display the continue button
                 if (victory) {
-                    final ImageTextButton continueBtn = new ImageTextButtonBuilder("Continuer")
+                    final ImageTextButton continueBtn = new ImageTextButtonBuilder(game, "Continuer")
                             .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
                             .withPosition((bounds.getWidth() / 2) - 130, (bounds.getHeight() / 2) + BTN_SPACING)
                             .withListener(continueEvent).withImageStyle("World1/Game1/Bouton.png").build();
 
                     stage.addActor(continueBtn);
                 }
-                final ImageTextButton restartBtn = new ImageTextButtonBuilder("Recommencer")
+                final ImageTextButton restartBtn = new ImageTextButtonBuilder(game, "Recommencer")
                         .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
                         .withPosition((bounds.getWidth() / 2) - 200, (bounds.getHeight() / 2))
                         .withListener(restartEvent).withImageStyle("World1/Game1/Bouton.png").build();
