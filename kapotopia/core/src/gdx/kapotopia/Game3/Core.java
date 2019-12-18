@@ -58,8 +58,8 @@ public class Core {
         random = new Random();
         tiles = new Pair[sizex][sizey];
 
-        goalT = new Texture("game3/Serrure.png");
-        falseGoalT = new Texture("game3/Serrure2.png");
+        goalT = new Texture("game3/Serrure1Fermee.png");
+        falseGoalT = new Texture("game3/Serrure2Fermee.png");
 
         width = Pair.tile_size*sizex;
         height = Pair.tile_size*sizey;

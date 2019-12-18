@@ -70,11 +70,15 @@ public class Game3 implements Screen {
         stage = new Stage(game.viewport);
 
         //stage.addActor(res);
-        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("game3/PorteNeonsBleus.png"));
+        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("game3/Porte.png"));
+        Image imgFond2 = new Image(AssetsManager.getInstance().getTextureByPath("game3/VerrouFerme.png"));
+        Image imgFond3 = new Image(AssetsManager.getInstance().getTextureByPath("game3/NeonsRoses.png"));
 
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
 
         stage.addActor(imgFond);
+        stage.addActor(imgFond2);
+        stage.addActor(imgFond3);
         AssetsManager.getInstance().addStage(stage, "game3");
 
     }
