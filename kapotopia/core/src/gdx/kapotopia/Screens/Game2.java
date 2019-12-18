@@ -66,9 +66,13 @@ public class Game2 implements Screen {
         Gdx.app.log(TAG,"Entering Game2 function");
 
         this.game = game;
-        Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"PlageAvecPanier.png"));
+        Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Sable.png"));
+        Image imgBckground2 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Mer.png"));
+        Image imgBckground3 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"ciel.png"));
         this.stage = new Stage(game.viewport);
         this.stage.addActor(imgBckground);
+        this.stage.addActor(imgBckground2);
+        this.stage.addActor(imgBckground3);
         middleX = game.viewport.getWorldWidth()/3;
         middleY = game.viewport.getWorldHeight()/2;
 
