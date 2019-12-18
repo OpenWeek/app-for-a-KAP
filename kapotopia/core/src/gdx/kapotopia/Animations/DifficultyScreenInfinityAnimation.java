@@ -15,7 +15,7 @@ public class DifficultyScreenInfinityAnimation extends AnimationAbstract {
                 "EcranMenu/EcranJeu1Infini10.png", "EcranMenu/EcranJeu1Infini11.png",
                 "EcranMenu/EcranJeu1Infini12.png"};
 
-        setAnimation(new AnimationBuilder(0.0625f).withPlayMode(playMode)
+        setAnimation(new AnimationBuilder(0.05f).withPlayMode(playMode)
                 .addFrames(FRAMES).build());
     }
 }

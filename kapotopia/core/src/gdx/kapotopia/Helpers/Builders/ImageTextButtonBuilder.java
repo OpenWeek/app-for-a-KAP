@@ -52,6 +52,7 @@ public class ImageTextButtonBuilder {
         this.x = 0;
         this.y = 0;
         this.alignement = Alignement.NONE;
+        this.padding = Padding.NONE;
         this.bx = -1;
         this.by = -1;
         this.bw = -1;
@@ -226,7 +227,7 @@ public class ImageTextButtonBuilder {
 
         if (alignement != Alignement.NONE) {
             final float MIDDLE_SCREEN = game.viewport.getScreenWidth() / 2f;
-            switch (alignement) {
+            switch (alignement) { //FIXME the alignment is not correct for all screen
                 case LEFT:
                     x = MIDDLE_SCREEN / 2f - ((text.length() * Kapotopia.ONE_CHARACTER_STD_WIDTH) / 2 );
                     break;

@@ -77,7 +77,7 @@ public class MainMenu implements Screen {
         final TextButton world2 = new TextButtonBuilder(Localization.getInstance().getString("text_world2"))
                 .withStyle(style).withPosition(x, y * 0.5f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
-        final TextButton world4 = new TextButtonBuilder(Localization.getInstance().getString("text_world4"))
+        final TextButton world4 = new TextButtonBuilder(Localization.getInstance().getString("text_istdex"))
                 .withStyle(style).withPosition(x, y * 0.2f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD4)).build();
 
