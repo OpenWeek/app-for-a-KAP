@@ -50,8 +50,10 @@ import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.GameDifficulty;
+import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
+import gdx.kapotopia.Helpers.Padding;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
@@ -224,8 +226,9 @@ public class Game1 implements Screen, MireilleListener {
             }
         };
 
-        quitBtn = new ImageTextButtonBuilder(game, loc.getString("quit_button_text")).withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
-                .withPosition((bounds.getWidth() / 2) - 95, (bounds.getHeight() / 2) - BTN_SPACING)
+        quitBtn = new ImageTextButtonBuilder(game, loc.getString("quit_button_text"))
+                .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE).withAlignment(Alignement.CENTER)
+                .withY((bounds.getHeight() / 2) - BTN_SPACING).withPadding(Padding.STANDARD)
                 .withListener(quitEvent).withImageStyle("World1/Game1/Bouton.png").isVisible(false).build();
 
         stage.addActor(quitBtn);
@@ -237,10 +240,10 @@ public class Game1 implements Screen, MireilleListener {
                 .withPosition(25, bounds.height - 100).build();
         scoreLabel = new LabelBuilder(SCORE_TXT  + totalScore).withStyle(style)
                 .withPosition(25, bounds.height - 200).build();
-        pauseLabel = new LabelBuilder(loc.getString("pause_label_text")).withStyle(style).withAlignement(Align.center)
+        pauseLabel = new LabelBuilder(loc.getString("pause_label_text")).withStyle(style).withTextAlignement(Align.center)
                 .withPosition(((bounds.width / 5) * 2) + 20, bounds.height / 2).isVisible(false).build();
         missedLabel = new LabelBuilder(loc.getString("missed_label_text")).withStyle(styleSmall).isVisible(false).build();
-        ennemiNameLabel = new LabelBuilder(ennemi.getName()).withStyle(styleSmall).withAlignement(Align.center)
+        ennemiNameLabel = new LabelBuilder(ennemi.getName()).withStyle(styleSmall).withTextAlignement(Align.center)
                 .withPosition(ennemi.getX() + (ennemi.getRealWidth() - ennemi.getName().length()) /2,ennemi.getY() - 50).build();
 
         pauseLabel.addListener(new ClickListener() {

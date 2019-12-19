@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import java.util.ArrayList;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Helpers.Align;
+import gdx.kapotopia.Helpers.Alignement;
 
 /**
  * A class to help build ImageButton. A mandatory argument is the text displayed in the ImageButton
@@ -22,6 +24,7 @@ public class ImageButtonBuilder {
     private float x, y;
     private float bx, by, bw, bh;
     private float width, height;
+    private Alignement alignement;
     private boolean visible;
     // TextButton attributes
     private ImageButton.ImageButtonStyle style;
@@ -41,6 +44,7 @@ public class ImageButtonBuilder {
         this.bh = -1;
         this.width = -1;
         this.height = -1;
+        this.alignement = Alignement.NONE;
         this.visible = true;
 
         // ImageButton attributes
@@ -107,6 +111,11 @@ public class ImageButtonBuilder {
      */
     public ImageButtonBuilder withHeight(float height) {
         this.height = height;
+        return this;
+    }
+
+    public ImageButtonBuilder withAlignment(Alignement alignment) {
+        this.alignement = alignment;
         return this;
     }
 
@@ -181,6 +190,9 @@ public class ImageButtonBuilder {
             imgbtn.addCaptureListener(listener);
         }
 
+        if (alignement != Alignement.NONE) {
+            this.x = Align.getX(alignement, imageUp.getRegion().getRegionWidth());
+        }
         imgbtn.setPosition(x, y);
         // It shouldn't be possible to have a negative height or weight
         if(bw >= 0 && bh >= 0) {

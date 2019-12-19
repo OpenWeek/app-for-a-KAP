@@ -23,8 +23,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	public FitViewport viewport;
 
-	private static final float GAME_WIDTH = 1080;
-	private static final int GAME_HEIGHT = 1920;
+	public static final float GAME_WIDTH = 1080;
+	public static final int GAME_HEIGHT = 1920;
 
 	public final static float SCALLING_FACTOR_ENTITY = 5.3f;
 

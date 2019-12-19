@@ -8,15 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
-
-import javax.swing.GroupLayout;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Helpers.Align;
+import gdx.kapotopia.Helpers.Alignement;
+import gdx.kapotopia.Helpers.Pad;
+import gdx.kapotopia.Helpers.Padding;
 import gdx.kapotopia.Kapotopia;
 
 /**
@@ -226,29 +227,14 @@ public class ImageTextButtonBuilder {
         }
 
         if (alignement != Alignement.NONE) {
-            final float MIDDLE_SCREEN = game.viewport.getScreenWidth() / 2f;
-            switch (alignement) { //FIXME the alignment is not correct for all screen
-                case LEFT:
-                    x = MIDDLE_SCREEN / 2f - ((text.length() * Kapotopia.ONE_CHARACTER_STD_WIDTH) / 2 );
-                    break;
-                case CENTER:
-                    x = ((MIDDLE_SCREEN / 3f) * 2f) - ((text.length() * Kapotopia.ONE_CHARACTER_STD_WIDTH) / 2 );
-                    break;
-                case RIGHT:
-                    x = MIDDLE_SCREEN - ((text.length() * Kapotopia.ONE_CHARACTER_STD_WIDTH) / 2 );
-                    break;
-            }
+            this.x = Align.getX(alignement, text.length());
         }
         imgTxtBtn.setPosition(x, y);
 
         // If padding has been mentioned, we take it. Else, we take the width/height
         if(padding != Padding.NONE) {
-            switch (padding) {
-                case STANDARD:
-                    this.width = (Kapotopia.ONE_CHARACTER_STD_WIDTH * text.length()) + (Kapotopia.ONE_CHARACTER_STD_WIDTH * 2);
-                    this.height = Kapotopia.ONE_CHARACTER_STD_HEIGHT + (Kapotopia.ONE_CHARACTER_STD_HEIGHT / 2);
-                    break;
-            }
+            this.width = Pad.getWidth(padding, text.length());
+            this.height = Pad.getHeight(padding);
         }
 
         // It shouldn't be possible to have a negative height or width

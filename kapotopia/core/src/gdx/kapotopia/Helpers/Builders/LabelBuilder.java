@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Utils;
 
 /**
@@ -24,6 +25,7 @@ public class  LabelBuilder {
     private float x, y;
     private float bx, by, bw, bh;
     private float width, height;
+    private Alignement alignment;
     private boolean visible;
     // Font style
     private TextButton.TextButtonStyle style;
@@ -32,7 +34,7 @@ public class  LabelBuilder {
     private int size;
     // Label
     private String text;
-    private int alignement;
+    private int textAlignement;
     private boolean wrap;
 
     /**
@@ -51,6 +53,7 @@ public class  LabelBuilder {
         this.bh = -1;
         this.width = -1;
         this.height = -1;
+        this.alignment = Alignement.NONE;
         this.visible = true;
         // Label attributes
         this.style = null;
@@ -58,7 +61,7 @@ public class  LabelBuilder {
         this.color = Color.BLACK;
         this.size = 60;
         this.text = text;
-        this.alignement = Align.left;
+        this.textAlignement = Align.left;
         this.wrap = false;
     }
 
@@ -121,6 +124,11 @@ public class  LabelBuilder {
         return this;
     }
 
+    public LabelBuilder withAlignment(Alignement alignement) {
+        this.alignment = alignement;
+        return this;
+    }
+
     public LabelBuilder isVisible(boolean visible) {
         this.visible = visible;
         return this;
@@ -162,12 +170,12 @@ public class  LabelBuilder {
     // Label
 
     /**
-     * Set up an alignement for the label
-     * @param alignement please use Align for the attributes
+     * Set up an textAlignement for the label
+     * @param textAlignement please use Align for the attributes
      * @return this builder
      */
-    public LabelBuilder withAlignement(int alignement) {
-        this.alignement = alignement;
+    public LabelBuilder withTextAlignement(int textAlignement) {
+        this.textAlignement = textAlignement;
         return this;
     }
 
@@ -195,6 +203,9 @@ public class  LabelBuilder {
 
         // Actor Attributes
 
+        if (alignment != Alignement.NONE) {
+            this.x = gdx.kapotopia.Helpers.Align.getX(alignment, text.length());
+        }
         l.setPosition(x, y);
         // It shouldn't be possible to have a negative height or weight
         if (bw >= 0 && bh >= 0) {
@@ -217,7 +228,7 @@ public class  LabelBuilder {
 
         // Label Attributes
 
-        l.setAlignment(alignement);
+        l.setAlignment(textAlignement);
         l.setWrap(wrap);
 
         return l;
