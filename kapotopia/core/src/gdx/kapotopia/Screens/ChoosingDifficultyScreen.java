@@ -125,7 +125,7 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.INFINITE);
                         }
                     }
-                }).withFontStyle(infiniteBtnStyle).withImageStyle("World1/Game1/Bouton.png").build();
+                }).withFontStyle(infiniteBtnStyle).withImageStyle("ImagesGadgets/Bouton.png").build();
 
         ImageTextButton hardBtn = new ImageTextButtonBuilder(game, loc.getString("hard_button"))
                 .withY(WH * 0.3f).withAlignment(Alignement.RIGHT).withPadding(Padding.STANDARD)
@@ -139,7 +139,7 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.HARD);
                         }
                     }
-                }).withFontStyle(hardBtnStyle).withImageStyle("World1/Game1/Bouton.png").build();
+                }).withFontStyle(hardBtnStyle).withImageStyle("ImagesGadgets/Bouton.png").build();
 
         ImageTextButton mediumBtn = new ImageTextButtonBuilder(game, loc.getString("medium_button"))
                 .withY(WH * 0.5f).withAlignment(Alignement.RIGHT).withPadding(Padding.STANDARD)
@@ -153,7 +153,7 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.MEDIUM);
                         }
                     }
-                }).withFontStyle(mediumBtnStyle).withImageStyle("World1/Game1/Bouton.png").build();
+                }).withFontStyle(mediumBtnStyle).withImageStyle("ImagesGadgets/Bouton.png").build();
 
         ImageTextButton easyBtn = new ImageTextButtonBuilder(game, loc.getString("easy_button"))
                 .withY(WH * 0.7f).withAlignment(Alignement.RIGHT).withPadding(Padding.STANDARD)
@@ -163,7 +163,7 @@ public class ChoosingDifficultyScreen implements Screen {
                         Gdx.input.vibrate(50);
                         goToNextScreen(GameDifficulty.EASY);
                     }
-                }).withFontStyle(styleNormal).withImageStyle("World1/Game1/Bouton.png").build();
+                }).withFontStyle(styleNormal).withImageStyle("ImagesGadgets/Bouton.png").build();
 
         stage.addActor(easyBtn);
         stage.addActor(mediumBtn);
