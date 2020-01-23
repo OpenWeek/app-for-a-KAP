@@ -19,18 +19,28 @@ public class mockupG1 extends CinematicScreen {
         super(game, new Stage(game.viewport), "mockupG1");
         final Localization loc = Localization.getInstance();
         UseFont font = UseFont.CLASSIC_SANS_NORMAL_BLACK;
-        Label[] labels = new Label[] {
-                new LabelBuilder(loc.getString("dialogG1_1"))
-                        .withStyle(font).withBounds(125, 1000, 750 ,315)
-                        .isWrapped(true).build(),
-                new LabelBuilder(loc.getString("dialogG1_2"))
-                        .withStyle(font).withBounds(125,1050,800,315).isWrapped(true).build(),
-                new LabelBuilder(loc.getString("dialogG1_3"))
-                        .withStyle(font).withBounds(125,1050,800,315).isWrapped(true).build(),
-                new LabelBuilder(loc.getString("dialogG1_rules"))
-                        .withStyle(font).withBounds(100,800,900,1500).isWrapped(true).build(),
-                new LabelBuilder(loc.getString("dialogG1_4"))
-                        .withStyle(font).withBounds(150,1100,750,315).isWrapped(true).build()
+        Label[][] labels = new Label[][] {
+                {
+                        new LabelBuilder(loc.getString("dialogG1_1"))
+                                .withStyle(font).withBounds(125, 1000, 750 ,315)
+                                .isWrapped(true).build()
+                },
+                {
+                        new LabelBuilder(loc.getString("dialogG1_2"))
+                                .withStyle(font).withBounds(125,1050,800,315).isWrapped(true).build()
+                },
+                {
+                        new LabelBuilder(loc.getString("dialogG1_3"))
+                                .withStyle(font).withBounds(125,1050,800,315).isWrapped(true).build()
+                },
+                {
+                        new LabelBuilder(loc.getString("dialogG1_rules"))
+                                .withStyle(font).withBounds(100,800,900,1500).isWrapped(true).build()
+                },
+                {
+                        new LabelBuilder(loc.getString("dialogG1_4"))
+                                .withStyle(font).withBounds(150,1100,750,315).isWrapped(true).build()
+                }
         };
         applyBundle(new ParameterBundleBuilder(ScreenType.DIF)
                 .withTextures(new String[]{"World1/Game1/World1Ecran1.png", "World1/Game1/World1Ecran2.png",

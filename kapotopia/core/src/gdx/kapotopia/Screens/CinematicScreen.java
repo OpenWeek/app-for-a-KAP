@@ -20,11 +20,11 @@ import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.DialogsScreen.DialogueElement;
 import gdx.kapotopia.DialogsScreen.FixedDialogueSequence;
-import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.FixedDialogSeqBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.Helpers.StandardInputAdapter;
 
 /**
  * This class define a common base for screens where only cinematics, shown with static pictures, are shown
@@ -33,6 +33,7 @@ import gdx.kapotopia.Helpers.StandardInputAdapter;
  * Sounds can be played when Images are changed
  */
 public abstract class CinematicScreen implements Screen {
+    private static String TAG = "CinematicScreen";
     /* VARIABLES */
     protected Kapotopia game;
     protected Stage stage;
@@ -56,9 +57,20 @@ public abstract class CinematicScreen implements Screen {
 
     /**
      * Build helper function. Create A cinematicScreen with the given arguments
+     * There are three ways to show images, using the @param images, the @param imagesBigList or the @param imagesTexturePaths
+     * Only one of these parameters will be used if multiple parameters are provided, the priority
+     * is given by this : imagesBigList > images > imagesTexturePaths
+     * Which means that a double array of Image is prefered over an array of Image and over an array of Images Paths (as String)
+     *
+     * Each row is a new SequenceElement. If matrix of labels or Images are provided, each row is a new SequenceElement,
+     * every Image/Label in the columns are displayed at the same time
+     *
      * @param nextScreen of enum type ScreenType, is the screen that will be shown after the user touched the finish button
+     * @param images the images to show, in increasing order
+     * @param imagesBigList the images sequence, a matrix of Image to display multiple images per Sequence Element.
      * @param imagesTexturePaths the paths of the images shown, shown by increasing order
      * @param labels a list of labels to be displayed at the same time as the images
+     * @param labelsBigList a matrix of labels to display multiple labels per Sequence Element.
      * @param fondPath the path of the background shown when the finish button appear
      * @param changeOfImageSoundPath the path of the sound file that plays when screen is changed
      * @param endSoundPath the path of the sound file that plays before the screen is changed to @nextScreen
@@ -72,40 +84,13 @@ public abstract class CinematicScreen implements Screen {
      * @param withFinishBtn define if there are a final button appearing (typically "play") or if after the last Image the game directly change to the next screen
      */
     private void builder(final ScreenType nextScreen,
-                         String[] imagesTexturePaths, Label[] labels, String fondPath, String changeOfImageSoundPath,
+                         Image[] images, Image[][] imagesBigList, String[] imagesTexturePaths, Label[] labels, Label[][] labelsBigList, String fondPath, String changeOfImageSoundPath,
                          String endSoundPath, String pauseSoundPath, String nextBtnLabel,
                          String finishBtnLabel, UseFont nextBtnFont, UseFont finishBtnFont,
                          final float timerScheduleTime, final int vibrationTime, final boolean withFinishBtn) {
         // Graphics
-        if(imagesTexturePaths == null) {
-            this.sequence = null;
-        } else {
-            if(labels == null) {
-                // If there aren't any label specified, we'll build an empty list
-                final int size = imagesTexturePaths.length;
-                Label[] labelList = new Label[size];
-                for (int i=0; i<size; i++)
-                    labelList[i] = new LabelBuilder("").withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK).build();
-                this.sequence = new FixedDialogueSequence(imagesTexturePaths, labelList);
-            } else {
-                this.sequence = new FixedDialogueSequence(imagesTexturePaths, labels);
-            }
-
-            Iterator<DialogueElement> iterator = this.sequence.iterator();
-            while (iterator.hasNext()) {
-                DialogueElement element = iterator.next();
-                Image img = element.getImage();
-                img.setWidth(this.game.viewport.getWorldWidth());
-                img.setHeight(this.game.viewport.getWorldHeight());
-                Label label = element.getLabel();
-                img.setVisible(false);
-                label.setVisible(false);
-                this.stage.addActor(img);
-                this.stage.addActor(label);
-            }
-            this.sequence.getFirstElement().getImage().setVisible(true);
-            this.sequence.getFirstElement().getLabel().setVisible(true);
-        }
+        this.sequence = FixedDialogSeqBuilder.buildSequence(game.viewport, stage, imagesBigList, images, imagesTexturePaths,
+                labels, labelsBigList);
 
         this.curImg = 0;
         this.fond = new Image(AssetsManager.getInstance().getTextureByPath(fondPath));
@@ -190,8 +175,8 @@ public abstract class CinematicScreen implements Screen {
      * @param params the bundle of parameters that will define the screen, use the specified object API for more information
      */
     protected void applyBundle(ParameterBundleBuilder params) {
-        builder(params.getNextScreen(), params.getImagesTexturePaths(),
-                params.getLabels(), params.getFondPath(), params.getChangeOfImageSoundPath(),
+        builder(params.getNextScreen(), params.getImages(), params.getImagesBigList(), params.getImagesTexturePaths(),
+                params.getLabels(), params.getLabelsBigList(), params.getFondPath(), params.getChangeOfImageSoundPath(),
                 params.getEndSoundPath(), params.getPauseSoundPath(), params.getNextBtnLabel(),
                 params.getFinishBtnLabel(), params.getNextBtnFont(), params.getFinishBtnFont(),
                 params.getTimerScheduleTime(), params.getVibrationTime(), params.getWithFinishBtn());
@@ -248,13 +233,12 @@ public abstract class CinematicScreen implements Screen {
 
     /**
      * Set the element at the index in the sequence as visible or not
-     * @param isVisible
+     * @param isVisible value to set for the visibility of the images/labels at the given indexed sequenceElement
      * @param index the index must be within 0 and sequence.size-1 or it will throw an AssertionError
      */
     private void setElementVisibility(boolean isVisible, int index) {
         DialogueElement element = sequence.getDialogueElement(index);
-        element.getImage().setVisible(isVisible);
-        element.getLabel().setVisible(isVisible);
+        FixedDialogSeqBuilder.setVisibility(element, isVisible);
     }
 
     /**
@@ -299,8 +283,11 @@ public abstract class CinematicScreen implements Screen {
 
     public class ParameterBundleBuilder {
         private ScreenType nextScreen;
+        private Image[] images;
+        private Image[][] imagesBigList;
         private String[] imagesTexturePaths;
         private Label[] labels;
+        private Label[][] labelsBigList;
         private String fondPath;
         private String changeOfImageSoundPath;
         private String endSoundPath;
@@ -315,6 +302,8 @@ public abstract class CinematicScreen implements Screen {
 
         public ParameterBundleBuilder(ScreenType nextScreen) {
             this.nextScreen = nextScreen;
+            this.images = null;
+            this.imagesBigList = null;
             this.imagesTexturePaths = null;
             this.labels = null;
             this.fondPath = "FondNiveauBlanc2.png";
@@ -330,6 +319,16 @@ public abstract class CinematicScreen implements Screen {
             this.withFinishBtn = true;
         }
 
+        public ParameterBundleBuilder withImages(Image[] images) {
+            this.images = images;
+            return this;
+        }
+
+        public ParameterBundleBuilder withImages(Image[][] imagesBigList) {
+            this.imagesBigList = imagesBigList;
+            return this;
+        }
+
         public ParameterBundleBuilder withTextures(String[] texturePaths) {
             this.imagesTexturePaths = texturePaths;
             return this;
@@ -337,6 +336,11 @@ public abstract class CinematicScreen implements Screen {
 
         public ParameterBundleBuilder withLabels(Label[] labels) {
             this.labels = labels;
+            return this;
+        }
+
+        public ParameterBundleBuilder withLabels(Label[][] labelsBigList) {
+            this.labelsBigList = labelsBigList;
             return this;
         }
 
@@ -399,6 +403,14 @@ public abstract class CinematicScreen implements Screen {
             return nextScreen;
         }
 
+        public Image[] getImages() {
+            return images;
+        }
+
+        public Image[][] getImagesBigList() {
+            return imagesBigList;
+        }
+
         public String[] getImagesTexturePaths() {
             return imagesTexturePaths;
         }
@@ -449,6 +461,10 @@ public abstract class CinematicScreen implements Screen {
 
         public boolean getWithFinishBtn() {
             return withFinishBtn;
+        }
+
+        public Label[][] getLabelsBigList() {
+            return labelsBigList;
         }
     }
 

@@ -156,7 +156,6 @@ public class TextButtonBuilder {
      * @return the textButton given the TextButtonBuilder arguments
      * @throws IllegalArgumentException if no skin or no style are set
      */
-    @SuppressWarnings("JavadocReference")
     public TextButton build() throws IllegalArgumentException{
         final TextButton tb;
         if (style != null) {

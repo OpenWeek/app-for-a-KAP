@@ -33,7 +33,11 @@ public class FixedDialogueSequence implements Iterable {
         this.size = cinematicListImages.length;
         this.sequence = new DialogueElement[size];
         for (int i=0; i < size; i++) {
-            sequence[i] = new DialogueElement(i, cinematicListImages[i], labelList[i]);
+            Image[] imgSeq = new Image[1];
+            Label[] labSeq = new Label[1];
+            imgSeq[0] = cinematicListImages[i];
+            labSeq[0] = labelList[i];
+            sequence[i] = new DialogueElement(i, imgSeq, labSeq);
         }
     }
 
@@ -49,8 +53,29 @@ public class FixedDialogueSequence implements Iterable {
         this.size = cinematicListPaths.length;
         this.sequence = new DialogueElement[size];
         for (int i=0; i < size; i++) {
-            final Image img = new Image(AssetsManager.getInstance().getTextureByPath(cinematicListPaths[i]));
-            sequence[i] = new DialogueElement(i, img, labelList[i]);
+            Image[] imgSeq = new Image[1];
+            Label[] labSeq = new Label[1];
+            imgSeq[0] = new Image(AssetsManager.getInstance().getTextureByPath(cinematicListPaths[i]));
+            labSeq[0] = labelList[i];
+            sequence[i] = new DialogueElement(i, imgSeq, labSeq);
+        }
+    }
+
+    /**
+     * Constructor of a fixed sequence with a matrix of Image and a matrix of labels
+     * Note: cinnematicImagesMatrix and labelMatrix must have the same size,
+     * @param cinnematicImagesMatrix a matrix of Images
+     * @param labelMatrix a matrix of Labels
+     */
+    public FixedDialogueSequence(Image[][] cinnematicImagesMatrix, Label[][] labelMatrix) {
+        if (cinnematicImagesMatrix.length != labelMatrix.length) throw new AssertionError();
+        this.size = cinnematicImagesMatrix.length;
+        this.sequence = new DialogueElement[size];
+
+        for (int i=0; i < size; i++) {
+            final Image[] imgSeq = cinnematicImagesMatrix[i];
+            final Label[] labSeq = labelMatrix[i];
+            sequence[i] = new DialogueElement(i, imgSeq, labSeq);
         }
     }
 

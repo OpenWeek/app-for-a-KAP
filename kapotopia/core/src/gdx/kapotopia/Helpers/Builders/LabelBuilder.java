@@ -18,7 +18,7 @@ import gdx.kapotopia.Utils;
  * and thus asked in the constructor. The user then can add arguments with the
  * provided methods and build it's label following these values with the build() method
  */
-public class  LabelBuilder {
+public class LabelBuilder {
     // Actor common attributes
     private ArrayList<EventListener> eventListeners;
     private ArrayList<EventListener> captureListeners;
@@ -232,5 +232,35 @@ public class  LabelBuilder {
         l.setWrap(wrap);
 
         return l;
+    }
+
+    /* STATIC METHODS */
+
+    /**
+     * Convert a Label[] array into a Label[][] matrix
+     * @throws NullPointerException if the given parameter is null
+     * @param labs must be != null
+     * @return a new matrix of size Label[labs.length][1]
+     */
+    public static Label[][] convert(Label[] labs) {
+        if (labs == null) throw new NullPointerException("LabelBuilder - convert(Label[])\nimages is null");
+        Label[][] labelMatrix = new Label[labs.length][1];
+        for (int i=0; i<labs.length; i++)
+            labelMatrix[i][0] = labs[i];
+        return labelMatrix;
+    }
+
+    /**
+     * Create a new empty Label matrix with Labels whose texts are ""
+     * @throws IllegalArgumentException if the given size is equals or lower than 0
+     * @param size the size of the new matrix
+     * @return a new matrix of size Label[size][1]
+     */
+    public static Label[][] createEmptyMatrix(int size) {
+        if (size <= 0) throw new IllegalArgumentException("LabelBuilder - createEmptyMatrix(int)\nsize is equal or smaller than 0");
+        Label[][] labelMatrix = new Label[size][1];
+        for (int i=0; i<size; i++)
+            labelMatrix[i][0] = new LabelBuilder("").withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK).build();
+        return labelMatrix;
     }
 }
