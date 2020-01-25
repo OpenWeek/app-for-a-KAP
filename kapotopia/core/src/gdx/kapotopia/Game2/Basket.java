@@ -12,7 +12,6 @@ public class Basket {
     private Label label;
     private float x;
     private float y;
-
     /*Previous and next node to make a double-linked list*/
     private Basket previous;
     private Basket next;
@@ -41,6 +40,16 @@ public class Basket {
         this.next = nextB;
     }
 
+    public Basket(Basket prevB, Basket nextB){
+        this.previous = prevB;
+        this.next = nextB;
+    }
+
+    public Basket(){
+        this.previous = null;
+        this.next = null;
+    }
+
     public Basket getPrevious(){
         return this.previous;
     }
@@ -57,6 +66,14 @@ public class Basket {
         return this.STInbr;
     }
 
+    public String getname(){
+        return this.symptom;
+    }
+
+    public void setId(int id){
+        this.STInbr = id;
+    }
+
     public void setPrevious(Basket prev){
         this.previous = prev;
     }
@@ -68,6 +85,14 @@ public class Basket {
     public void setPosition(float x,float y){
         this.x = x;
         this.y = y;
+        if(label!=null) {
+            this.label.setPosition(x, y);
+        }
+    }
+
+    public void setName(String name){
+        this.symptom = name;
+        this.label = new LabelBuilder(name).isVisible(false).build();
         this.label.setPosition(x,y);
     }
 

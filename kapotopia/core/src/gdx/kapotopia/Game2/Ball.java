@@ -16,7 +16,6 @@ public class Ball extends Button {
     /*Characteristics of the STD represented by the ball*/
     private int STInbr; //Integer that is linked to an STD and permits connection with the correct STD basket
     private String STIname;
-
     /*Variables related to the ball representation*/
     private float initX, initY; //Position of ball when waiting to be picked
     private float posX, posY; //Current position of ball
@@ -46,6 +45,19 @@ public class Ball extends Button {
         this.finishX = x;
         this.finishY = y;
         this.label = new LabelBuilder(name).withPosition(15,40).build();
+        this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
+                AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
+        this.button.setBounds(x,y,size,size);
+    }
+
+    public Ball(int nbr, float x, float y){
+        this.STInbr = nbr;
+        this.initX = x;
+        this.initY = y;
+        this.posX = x;
+        this.posY = y;
+        this.finishX = x;
+        this.finishY = y;
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
@@ -87,6 +99,10 @@ public class Ball extends Button {
         return this.STInbr;
     }
 
+    public String getName() {
+        return this.STIname;
+    }
+
 
     public void setPosition(float x,float y){
         this.posX = x;
@@ -107,6 +123,11 @@ public class Ball extends Button {
     public void setGoal(float x, float y){
         this.finishX = x;
         this.finishY = y;
+    }
+
+    public void setName(String name){
+        this.STIname = name;
+        this.label = new LabelBuilder(name).build();
     }
 
 

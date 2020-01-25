@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import java.util.ArrayList;
+
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
@@ -21,6 +23,8 @@ import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
+import static java.util.Collections.shuffle;
+
 
 public class Game2 implements Screen {
 
@@ -97,15 +101,17 @@ public class Game2 implements Screen {
         ballDelta = game.viewport.getWorldWidth()/7.3f;
 
         //Symptoms creation and set up (representation of symptoms)
-        currentBasket = new Basket(0,"IST0");
+        //currentBasket = new Basket(0,"IST0");
+        currentBasket = new Basket();
         currentBasket.setPosition(symptX,symptY);
-        currentBasket.hideLabel();
-        stage.addActor(currentBasket.getLabel());
+        //currentBasket.hideLabel();
+        //stage.addActor(currentBasket.getLabel());
         for(int i = 1; i< STInbr; i++){
-            Basket newBasket = new Basket(i,"IST"+i);
+            //Basket newBasket = new Basket(i,"IST"+i);
+            Basket newBasket = new Basket();
             newBasket.setPosition(symptX,symptY);
-            newBasket.hideLabel();
-            stage.addActor(newBasket.getLabel());
+            //newBasket.hideLabel();
+            //stage.addActor(newBasket.getLabel());
             currentBasket.setNext(newBasket);
             Basket intermediate = currentBasket;
             currentBasket = currentBasket.getNext();
@@ -114,14 +120,14 @@ public class Game2 implements Screen {
         //Set currentBasket to the first STI symptom
         while(currentBasket.getPrevious()!=null)
             currentBasket = currentBasket.getPrevious();
-        currentBasket.showLabel();
+        //currentBasket.showLabel();
 
         //STI's creation and set up (representation of STI)
-
         for(int i = 0; i < STInbr; i++) {
-            sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * ballDelta, sitBalY);
+            //sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * ballDelta, sitBalY);
+            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY);
             stage.addActor(sittingBalls[i].getButton());
-            sittingBalls[i].getButton().addActor(sittingBalls[i].getLabel());
+            //sittingBalls[i].getButton().addActor(sittingBalls[i].getLabel());
         }
         for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
@@ -133,6 +139,9 @@ public class Game2 implements Screen {
             };
             sittingBalls[i].getButton().addListener(ballClick[i]);
         }
+
+        //Link between balls, baskets and the STI they represent
+        setUpSTI(currentBasket);
 
         AssetsManager.getInstance().addStage(stage, "game2");
     }
@@ -200,6 +209,32 @@ public class Game2 implements Screen {
             currentBall = ball;
         }
 
+    }
+
+    /**
+     *
+     */
+    private void setUpSTI(Basket firstbasket){
+        String[] stiNames = { "A", "B", "C", "D", "E", "F"};
+        String[] symptoms = { "A", "B", "C", "D", "E", "F"};
+        ArrayList<Integer>numbers = new ArrayList<Integer>();
+        ArrayList<Integer>ids = new ArrayList<Integer>();
+        for(int i = 0; i < STInbr; i++){
+            numbers.add(i);
+            ids.add(i);
+        }
+        shuffle(numbers);
+        shuffle(ids);
+        Basket inter = firstbasket;
+        for(int i = 0; i < STInbr; i++){
+            sittingBalls[ids.get(i)].setName(stiNames[numbers.get(i)]);
+            sittingBalls[ids.get(i)].getButton().addActor(sittingBalls[ids.get(i)].getLabel());
+            inter.setId(ids.get(i));
+            inter.setName(symptoms[numbers.get(i)]);
+            stage.addActor(inter.getLabel());
+            inter = inter.getNext();
+        }
+        firstbasket.showLabel();
     }
 
     /*Allows to detect sliding movements on the screen and decide which action needs to be executed*/
