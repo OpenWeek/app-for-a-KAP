@@ -72,6 +72,11 @@ public class ImageButtonBuilder {
         return this;
     }
 
+    public ImageButtonBuilder withY(float y) {
+        this.y = y;
+        return this;
+    }
+
     public ImageButtonBuilder withPosition(float x, float y) {
         this.x = x;
         this.y = y;

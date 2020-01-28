@@ -18,7 +18,7 @@ public class ChangeScreenListener extends ChangeListener {
     private Kapotopia game;
     private boolean destroyScreenOnChange;
     private ScreenType screenToDestroyOnChange;
-    private   ScreenType nextScreen;
+    private ScreenType nextScreen;
     private Sound changeScreenSound;
 
     public ChangeScreenListener(Kapotopia game, ScreenType nextScreen) {

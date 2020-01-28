@@ -2,6 +2,7 @@ package gdx.kapotopia;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.Locale;
 
@@ -19,6 +20,7 @@ public class Settings {
     private String language;
     private UnlockedLevel unlockedLevel;
     private int G1Highscore;
+    private Array<Languages> supportedLangs;
     /* CONSTANTES */
     private static final String TAG = "SETTINGS";
     private static final String GENERAL_SETTINGS_NAME = "general_settings";
@@ -28,7 +30,7 @@ public class Settings {
     private static final String PREF_MUSIC_ON = "music_on";
     // Game 1
     private static final String PREF_UNLOCKED_LEVEL = "lvl-unlocked";
-    private static final String PREF_HIGHSCORE = "highscore"; //TODO make an elaborate hiscore system that can save and load multiple highscores instead of a single one
+    private static final String PREF_HIGHSCORE = "highscore"; //TODO make an elaborate highscore system that can save and load multiple highscores instead of a single one
 
     /*******************************
      *            METHODS          *
@@ -54,7 +56,7 @@ public class Settings {
             prefs_gen.putString(PREF_LANGUAGE, language);
             this.language = language;
             needChange = true;
-        }else{
+        } else {
             this.language = prefs_gen.getString(PREF_LANGUAGE, "fr");
         }
 
@@ -64,6 +66,10 @@ public class Settings {
             needChange = true;
         } else {
             this.isMusicOn = prefs_gen.getBoolean(PREF_MUSIC_ON, true);
+        }
+
+        if(needChange) {
+            prefs_gen.flush();
         }
 
         // GAME 1
@@ -88,16 +94,26 @@ public class Settings {
         if(needChange) {
             prefs_game1.flush();
         }
+
+        // SUPPORTED LANGUAGES - SET THEM UP IN MEMORY NOT IN FILES
+
+        supportedLangs = resetSupportedLangs();
     }
 
     /* GENERAL SETTINGS */
 
     public void setLanguage(String lang) {
-        prefs_gen.putString(PREF_LANGUAGE, lang);
+        Locale locale = Languages.convertToLocale(Languages.convert(lang));
+        //TODO support region as well as languages
+        prefs_gen.putString(PREF_LANGUAGE, locale.getLanguage());
         prefs_gen.flush();
-        this.language = lang;
+        this.language = locale.getLanguage();
     }
 
+    /**
+     *
+     * @return the preferred language as stated with java.utils.Locale
+     */
     public String getLanguage() {
         return this.language;
     }
@@ -133,5 +149,39 @@ public class Settings {
 
     public int getG1Highscore() {
         return this.G1Highscore;
+    }
+
+    /* LANGUAGES SETTINGS */
+
+    /*
+     *  english : false,
+     *  french : true,
+     *  dutch : false
+     */
+
+    public Array<Languages> resetSupportedLangs() {
+        Array<Languages> languages = new Array<Languages>();
+        languages.add(Languages.FRENCH);
+        // If we translate the app in other languages, lines should be added down here
+        languages.add(Languages.ENGLISH);
+        languages.add(Languages.DUTCH);
+        return languages;
+    }
+
+    public Array<Languages> getSupportedLangs() {
+        return supportedLangs;
+    }
+
+    /**
+     *
+     * @return an array containing the strings of the supported languages. The strings doesnt support java.util.local
+     * but are wide names
+     */
+    public Array<String> getSupportedLangsText() {
+        Array<String> ans = new Array<String>();
+        for (Languages lang : supportedLangs) {
+            ans.add(Languages.convert(lang));
+        }
+        return ans;
     }
 }
