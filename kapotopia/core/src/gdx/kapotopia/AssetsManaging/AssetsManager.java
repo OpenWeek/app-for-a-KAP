@@ -9,20 +9,17 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import gdx.kapotopia.DataStructures.BST;
+import gdx.kapotopia.DataStructures.RedBlackBST;
+import gdx.kapotopia.DataStructures.Tree;
 
 public final class AssetsManager {
     private static AssetsManager instance = new AssetsManager();
-    // ArrayList suffisant car pas bcp d'éléments
-    private static BST<String, RessourceHelper> textureL = new BST<String, RessourceHelper>();
-    private static BST<String, RessourceHelper> soundList = new BST<String, RessourceHelper>();
-    private static BST<String, RessourceHelper> stageList = new BST<String, RessourceHelper>();
-    private static BST<String, RessourceHelper> musicList = new BST<String, RessourceHelper>();
-    private static BST<String, RessourceHelper> fontList = new BST<String, RessourceHelper>();
-    private static BST<String, RessourceHelper> atlasList = new BST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> textureL = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> soundList = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> stageList = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> musicList = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> fontList = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> atlasList = new RedBlackBST<String, RessourceHelper>();
 
     public static AssetsManager getInstance() {
         return instance;
