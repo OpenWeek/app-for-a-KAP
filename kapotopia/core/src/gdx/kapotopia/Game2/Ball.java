@@ -110,6 +110,9 @@ public class Ball extends Button {
         this.finishX = x;
         this.finishY = y;
         this.button.setPosition(x,y);
+        if(this.label!=null){
+            this.label.setPosition(50,50); //Relative position of label in ball
+        }
     }
 
     public void setGoalX(float x){
@@ -128,6 +131,7 @@ public class Ball extends Button {
     public void setName(String name){
         this.STIname = name;
         this.label = new LabelBuilder(name).build();
+        this.label.setPosition(50,50); //Relative position of label in ball
     }
 
 
