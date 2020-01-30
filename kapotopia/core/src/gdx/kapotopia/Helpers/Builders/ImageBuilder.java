@@ -1,10 +1,61 @@
 package gdx.kapotopia.Helpers.Builders;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 
 public class ImageBuilder {
+
+    private Texture texture;
+    private boolean isVisible;
+    private int x, y;
+    private Color color;
+
+    public ImageBuilder() {
+        texture = null;
+        isVisible = true;
+        x = 0; y = 0;
+        color = null;
+    }
+
+    public ImageBuilder isVisible(boolean isVisible) {
+        this.isVisible = isVisible;
+        return this;
+    }
+
+    public ImageBuilder withPosition(int x, int y) {
+        this.x = x; this.y = y;
+        return this;
+    }
+
+    public ImageBuilder withColor(Color color) {
+        this.color = color;
+        return this;
+    }
+
+    public ImageBuilder withTexture(String path) {
+        texture = AssetsManager.getInstance().getTextureByPath(path);
+        return this;
+    }
+
+    public ImageBuilder withTexture(Texture texture) {
+        this.texture = texture;
+        return this;
+    }
+
+    public Image build() {
+        final Image image;
+        if (texture != null)
+            image = new Image(texture);
+        else image = new Image();
+        image.setPosition(x,y);
+        image.setVisible(isVisible);
+        if(color != null) image.setColor(color);
+        return image;
+    }
+
     /* STATIC METHODS */
 
     /**

@@ -11,13 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Helpers.Alignement;
+import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
+import gdx.kapotopia.Helpers.Builders.SelectBoxBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
@@ -36,7 +36,8 @@ public class Options implements Screen {
     private Image fond;
 
     private SelectBox<String> languageSelect;
-    private ImageButton soundBtn;
+    private ImageButton soundOnBtn;
+    private ImageButton soundOffBtn;
     private TextButton backBtn;
 
     public Options(final Kapotopia game) {
@@ -44,40 +45,31 @@ public class Options implements Screen {
         this.stage = new Stage(game.viewport);
         settings = game.getSettings();
 
-        fond = new Image(AssetsManager.getInstance().getTextureByPath("FondNiveauBlanc2.png"));
-        fond.setVisible(true);
-        skin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
+        fond = new ImageBuilder().withTexture("FondNiveauBlanc2.png").isVisible(true).build();
+        skin = AssetsManager.getInstance().getSkinByPath("skins/comic/skin/comic-ui.json");
 
-        languageSelect = new SelectBox<String>(skin);
-        languageSelect.setPosition(game.viewport.getWorldWidth() / 4, 300);
-        languageSelect.setSize(game.viewport.getWorldWidth() / 2, 60);
-        languageSelect.setVisible(true);
-        languageSelect.setItems(settings.getSupportedLangsText());
-        languageSelect.getStyle().font = FontHelper.getStyleFont(UseFont.CLASSIC_BOLD_NORMAL_BLACK).font;
-        languageSelect.getStyle().listStyle.font = FontHelper.getStyleFont(UseFont.CLASSIC_BOLD_NORMAL_BLACK).font;
-        languageSelect.setSelected(Languages.convertFromLocale(settings.getLanguage()));
-        languageSelect.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                String selectedLang = languageSelect.getSelected();
-                settings.setLanguage(selectedLang);
-            }
-        });
-
-        String soundBtnInitTexture = getSoundBtnTexturePath();
-        soundBtn = new ImageButtonBuilder().withImageUp(soundBtnInitTexture)
-                .withListener(new ChangeListener() {
+        languageSelect = new SelectBoxBuilder<String>().withSkin(skin).withItems(settings.getSupportedLangsText())
+                .withPosition(game.viewport.getWorldWidth() / 4, 300)
+                .withSize(game.viewport.getWorldWidth() / 2, 60)
+                .withTitleFont(UseFont.CLASSIC_BOLD_NORMAL_BLACK).withElemsFont(UseFont.CLASSIC_BOLD_NORMAL_BLACK)
+                .withSelectedItem(Languages.convertFromLocale(settings.getLanguage()))
+                .addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        settings.toggleMusic();
-                        String soundBtnInitTexture = getSoundBtnTexturePath();
-
-                        TextureRegionDrawable newTexture = new TextureRegionDrawable(AssetsManager.getInstance().getTextureByPath(soundBtnInitTexture));
-                        soundBtn.setStyle(new ImageButton.ImageButtonStyle(newTexture,newTexture,newTexture,newTexture,newTexture,newTexture));
+                        String selectedLang = languageSelect.getSelected();
+                        settings.setLanguage(selectedLang);
                     }
-                })
+                }).build();
+
+        final float soundBtnWidth = game.viewport.getWorldWidth() / 4;
+        soundOnBtn = new ImageButtonBuilder().withImageUp("icons/speaker.png")
+                .withListener(new toggleMusicListener()).withWidth(soundBtnWidth)
                 .withPosition(game.viewport.getWorldWidth() / 3, game.viewport.getWorldHeight() / 2)
-                .isVisible(true).build();
+                .isVisible(settings.isMusicOn()).build();
+        soundOffBtn = new ImageButtonBuilder().withImageUp("icons/mute.png")
+                .withListener(new toggleMusicListener()).withWidth(soundBtnWidth)
+                .withPosition(game.viewport.getWorldWidth() / 3, game.viewport.getWorldHeight() / 2)
+                .isVisible(!settings.isMusicOn()).build();
 
         backBtn = new TextButtonBuilder(Localization.getInstance().getString("back_button"))
                 .withY(50).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU)).isVisible(true)
@@ -85,15 +77,9 @@ public class Options implements Screen {
 
         stage.addActor(fond);
         stage.addActor(languageSelect);
-        stage.addActor(soundBtn);
+        stage.addActor(soundOnBtn);
+        stage.addActor(soundOffBtn);
         stage.addActor(backBtn);
-    }
-
-    private String getSoundBtnTexturePath() {
-        if (settings.isMusicOn())
-            return "icons/speaker.png";
-        else
-            return "icons/mute.png";
     }
 
     @Override
@@ -133,6 +119,15 @@ public class Options implements Screen {
 
     @Override
     public void dispose() {
-        skin.dispose();
+
+    }
+
+    private class toggleMusicListener extends ChangeListener {
+        @Override
+        public void changed(ChangeEvent event, Actor actor) {
+            settings.toggleMusic();
+            soundOnBtn.setVisible(settings.isMusicOn());
+            soundOffBtn.setVisible(!settings.isMusicOn());
+        }
     }
 }
