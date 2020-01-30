@@ -21,6 +21,7 @@ import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localization;
 
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
 import static java.util.Collections.shuffle;
@@ -215,7 +216,14 @@ public class Game2 implements Screen {
      *
      */
     private void setUpSTI(Basket firstbasket){
-        String[] stiNames = { "A", "B", "C", "D", "E", "F"};
+        final Localization localisation = Localization.getInstance();
+        String[] stiNames = {
+                localisation.getStiName("hiv"),
+                localisation.getStiName("c_hepatitis"),
+                localisation.getStiName("hpv"),
+                localisation.getStiName("gonorrhea"),
+                localisation.getStiName("chlamydia"),
+                localisation.getStiName("herpes")};
         String[] symptoms = { "A", "B", "C", "D", "E", "F"};
         ArrayList<Integer>numbers = new ArrayList<Integer>();
         ArrayList<Integer>ids = new ArrayList<Integer>();

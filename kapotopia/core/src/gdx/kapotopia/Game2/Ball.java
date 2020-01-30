@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
+import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_WHITE;
+
 public class Ball extends Button {
 
     final private String TAG = "Ball class";
@@ -20,7 +22,7 @@ public class Ball extends Button {
     private float initX, initY; //Position of ball when waiting to be picked
     private float posX, posY; //Current position of ball
     private float finishX, finishY;
-    final private float size = 150;
+    final private float size = 200;
     private Label label;
     private ImageButton button;
     private final String TEXTURE_PATH = "World1/Game2/Ballon.png";
@@ -111,7 +113,7 @@ public class Ball extends Button {
         this.finishY = y;
         this.button.setPosition(x,y);
         if(this.label!=null){
-            this.label.setPosition(50,50); //Relative position of label in ball
+            this.label.setPosition(0,0); //Relative position of label in ball
         }
     }
 
@@ -130,8 +132,8 @@ public class Ball extends Button {
 
     public void setName(String name){
         this.STIname = name;
-        this.label = new LabelBuilder(name).build();
-        this.label.setPosition(50,50); //Relative position of label in ball
+        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).build();
+        this.label.setPosition(10,75); //Relative position of label in ball
     }
 
 
