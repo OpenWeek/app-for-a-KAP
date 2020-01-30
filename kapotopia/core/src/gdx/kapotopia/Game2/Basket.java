@@ -4,6 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
+import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_BLACK;
+
 public class Basket {
 
     /* Characteristics of the STD represented by the basket*/
@@ -92,7 +94,7 @@ public class Basket {
 
     public void setName(String name){
         this.symptom = name;
-        this.label = new LabelBuilder(name).isVisible(false).build();
+        this.label = new LabelBuilder(name).withStyle(CLASSIC_SANS_SMALL_BLACK).isVisible(false).build();
         this.label.setPosition(x,y);
     }
 

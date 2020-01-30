@@ -91,15 +91,15 @@ public class Game2 implements Screen {
         prepareMockup(outro0);
 
         /*Creation of instances for game*/
-        final float symptX = game.viewport.getWorldWidth()/2.5f;
-        final float symptY = game.viewport.getWorldHeight()/1.15f;
-        final float sitBalX = game.viewport.getWorldWidth()/12;
+        final float symptX = game.viewport.getWorldWidth()/3.5f;
+        final float symptY = game.viewport.getWorldHeight()/2.25f;
+        final float sitBalX = game.viewport.getWorldWidth()/50;
         final float sitBalY = game.viewport.getWorldHeight()/24;
         readyBalX = game.viewport.getWorldWidth()/2.2f;
         readyBalY = game.viewport.getWorldHeight()/7;
         finalBalX = game.viewport.getWorldWidth()/1.2f;
         finalBalY = game.viewport.getWorldHeight()/2.25f;
-        ballDelta = game.viewport.getWorldWidth()/7.3f;
+        ballDelta = game.viewport.getWorldWidth()/6.5f;
 
         //Symptoms creation and set up (representation of symptoms)
         //currentBasket = new Basket(0,"IST0");
@@ -224,7 +224,13 @@ public class Game2 implements Screen {
                 localisation.getStiName("gonorrhea"),
                 localisation.getStiName("chlamydia"),
                 localisation.getStiName("herpes")};
-        String[] symptoms = { "A", "B", "C", "D", "E", "F"};
+        String[] symptoms = {
+                localisation.getStiSymptom("hiv"),
+                localisation.getStiSymptom("c_hepatitis"),
+                localisation.getStiSymptom("hpv"),
+                localisation.getStiSymptom("gonorrhea"),
+                localisation.getStiSymptom("chlamydia"),
+                localisation.getStiSymptom("herpes")};
         ArrayList<Integer>numbers = new ArrayList<Integer>();
         ArrayList<Integer>ids = new ArrayList<Integer>();
         for(int i = 0; i < STInbr; i++){
