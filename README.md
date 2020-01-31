@@ -10,7 +10,7 @@ The opensource game "*Kapotopia*" consists of several minigames and a searchable
 - Minigame about identifying correct STI's
 - Minigame about linking the symptoms to the right STI's      (in progress)
 - Minigame about safe practices                               (in progress)
-- Summary Quiz for the precedent minigames                    (planned)
+- Quizz about diseases detection and self protection          (planned)
 - Minigame about mutual consent                               (planned)
 - STI's library containing diseases informations              (planned)
 
@@ -46,62 +46,7 @@ The project is divided into three sections :
 
 The **core** folder contains the main game logic, the **android** and **ios** folders contains the assets and files to make it work on both OS. Currently, only the android part is working, the ios porting will be done after the main game is finished.
 
-Here is a more detailled folders tree from the project root :
-
-- kapotopia/
-  - core
-    - src
-      - gdx/kapotopia$
-        - Animations
-        - AssetsManaging
-        - DataStructures
-        - DialogsScreen
-        - Game1
-        - Game2
-        - Game3
-        - Game4
-        - Helpers
-          - Builders
-          - ...
-        - Screens
-        - ... (various .java files)
-    - build.gradle
-  - android
-    - assets
-      - defaultSkin
-      - EcranMenu
-      - fonts
-      - game3
-      - icons
-      - ImagesGadgets
-      - IST
-      - MireilleImages
-      - skins
-        - comic
-      - sound
-        - bruitage
-      - strings
-      - Symbole du jeu
-      - World1
-        - Game1
-        - Game2
-    - res
-      - drawable
-      - mipmap-anydpi-v26
-      - mipmap-hdpi
-      - mipmap-mdpi
-      - mipmap-xhdpi
-      - mipmap-xxhdpi
-      - mipmap-xxxhdpi
-      - values
-    - build.gradle
-    - AndroidManifest.xml
-  - build.gradle
-- docs
-- raw-assets
-  - actiontext-G1
-  - IST
-  - MireilleImages
+Go see [the wiki](https://github.com/OpenWeek/app-for-a-KAP/wiki) for more information.
 
 ## Licenses
 
