@@ -44,10 +44,14 @@ public class Game2 implements Screen {
     private float ballDelta;
     private float middleX;
     private float middleY;
+    private final float livesX;
+    private final float livesY;
 
     private final int STInbr = 6;
     private int STIfound = 0;
     private int lives = 5;
+
+    private Label livesLabel;
 
     final Ball[] sittingBalls = new Ball[STInbr];
 
@@ -56,6 +60,9 @@ public class Game2 implements Screen {
     private static final String TAG = "Screens-Game2";
 
     private ChangeListener[] ballClick = new ChangeListener[STInbr];
+
+    final Localization loc = Localization.getInstance();
+
     /**
      * Prepare images to fullScreen and hidden
      * @param img the image to prepare
@@ -95,24 +102,23 @@ public class Game2 implements Screen {
         final float symptY = game.viewport.getWorldHeight()/2.25f;
         final float sitBalX = game.viewport.getWorldWidth()/50;
         final float sitBalY = game.viewport.getWorldHeight()/24;
+        livesX = game.viewport.getWorldWidth()/1.3f;
+        livesY = game.viewport.getWorldHeight()/1.225f;
         readyBalX = game.viewport.getWorldWidth()/2.2f;
         readyBalY = game.viewport.getWorldHeight()/7;
         finalBalX = game.viewport.getWorldWidth()/1.2f;
         finalBalY = game.viewport.getWorldHeight()/2.25f;
         ballDelta = game.viewport.getWorldWidth()/6.5f;
 
+        livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).isVisible(true).withPosition(livesX,livesY).build();
+        stage.addActor(livesLabel);
+
         //Symptoms creation and set up (representation of symptoms)
-        //currentBasket = new Basket(0,"IST0");
         currentBasket = new Basket();
         currentBasket.setPosition(symptX,symptY);
-        //currentBasket.hideLabel();
-        //stage.addActor(currentBasket.getLabel());
         for(int i = 1; i< STInbr; i++){
-            //Basket newBasket = new Basket(i,"IST"+i);
             Basket newBasket = new Basket();
             newBasket.setPosition(symptX,symptY);
-            //newBasket.hideLabel();
-            //stage.addActor(newBasket.getLabel());
             currentBasket.setNext(newBasket);
             Basket intermediate = currentBasket;
             currentBasket = currentBasket.getNext();
@@ -121,14 +127,11 @@ public class Game2 implements Screen {
         //Set currentBasket to the first STI symptom
         while(currentBasket.getPrevious()!=null)
             currentBasket = currentBasket.getPrevious();
-        //currentBasket.showLabel();
 
         //STI's creation and set up (representation of STI)
         for(int i = 0; i < STInbr; i++) {
-            //sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * ballDelta, sitBalY);
             sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY);
             stage.addActor(sittingBalls[i].getButton());
-            //sittingBalls[i].getButton().addActor(sittingBalls[i].getLabel());
         }
         for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
@@ -197,7 +200,6 @@ public class Game2 implements Screen {
      * set ball to its initial position and set currentBall to null if ball was the currentBall
      */
     private void changeBall(Ball ball) {
-        //ball.getButton().moveBy(10,10);
         Gdx.app.log(TAG, "Entering changeBall");
         if (ball == currentBall) {//ball is ready to be launched and needs to go back to initial state
             ball.setGoal(ball.getInitX(),ball.getInitY());
@@ -216,21 +218,20 @@ public class Game2 implements Screen {
      *
      */
     private void setUpSTI(Basket firstbasket){
-        final Localization localisation = Localization.getInstance();
         String[] stiNames = {
-                localisation.getStiName("hiv"),
-                localisation.getStiName("c_hepatitis"),
-                localisation.getStiName("hpv"),
-                localisation.getStiName("gonorrhea"),
-                localisation.getStiName("chlamydia"),
-                localisation.getStiName("herpes")};
+                loc.getStiName("hiv"),
+                loc.getStiName("c_hepatitis"),
+                loc.getStiName("hpv"),
+                loc.getStiName("gonorrhea"),
+                loc.getStiName("chlamydia"),
+                loc.getStiName("herpes")};
         String[] symptoms = {
-                localisation.getStiSymptom("hiv"),
-                localisation.getStiSymptom("c_hepatitis"),
-                localisation.getStiSymptom("hpv"),
-                localisation.getStiSymptom("gonorrhea"),
-                localisation.getStiSymptom("chlamydia"),
-                localisation.getStiSymptom("herpes")};
+                loc.getStiSymptom("hiv"),
+                loc.getStiSymptom("c_hepatitis"),
+                loc.getStiSymptom("hpv"),
+                loc.getStiSymptom("gonorrhea"),
+                loc.getStiSymptom("chlamydia"),
+                loc.getStiSymptom("herpes")};
         ArrayList<Integer>numbers = new ArrayList<Integer>();
         ArrayList<Integer>ids = new ArrayList<Integer>();
         for(int i = 0; i < STInbr; i++){
@@ -314,7 +315,11 @@ public class Game2 implements Screen {
                 if(currentBall.getSTInbr() != currentBasket.getSTInbr()){//wrong STI and symptom combination, ball is brought back to initial position
                     changeBall(currentBall);
                     lives--;
-                    if(lives==0){
+                    livesLabel.setVisible(false);
+                    livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).isVisible(true).withPosition(livesX,livesY).build();
+                    stage.addActor(livesLabel);
+                    if(lives==0){//Game is lost
+                        currentBasket.hideLabel();
                         if(STIfound>=(STInbr/2)){
                             Label gameWon0 = new LabelBuilder("Pas mal!")
                                     .withPosition(game.viewport.getWorldWidth()/2.5f,middleY)
