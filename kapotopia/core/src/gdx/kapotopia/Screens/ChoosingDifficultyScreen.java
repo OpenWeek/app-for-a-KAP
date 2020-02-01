@@ -44,7 +44,8 @@ public class ChoosingDifficultyScreen implements Screen {
 
     private final ScreenType nextScreen;
 
-    private static final String TAG = "difficultyScreen";
+    private final String TAG = "difficultyScreen";
+    private final String BTN_PATH = "ImagesGadgets/Bouton.png";
 
     // Animation
     private Texture top;
@@ -125,7 +126,7 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.INFINITE);
                         }
                     }
-                }).withFontStyle(infiniteBtnStyle).withImageStyle("ImagesGadgets/Bouton.png").build();
+                }).withFontStyle(infiniteBtnStyle).withImageStyle(BTN_PATH).build();
 
         ImageTextButton hardBtn = new ImageTextButtonBuilder(game, loc.getString("hard_button"))
                 .withY(WH * 0.3f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
@@ -139,7 +140,7 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.HARD);
                         }
                     }
-                }).withFontStyle(hardBtnStyle).withImageStyle("ImagesGadgets/Bouton.png").build();
+                }).withFontStyle(hardBtnStyle).withImageStyle(BTN_PATH).build();
 
         ImageTextButton mediumBtn = new ImageTextButtonBuilder(game, loc.getString("medium_button"))
                 .withY(WH * 0.5f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
@@ -153,7 +154,7 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.MEDIUM);
                         }
                     }
-                }).withFontStyle(mediumBtnStyle).withImageStyle("ImagesGadgets/Bouton.png").build();
+                }).withFontStyle(mediumBtnStyle).withImageStyle(BTN_PATH).build();
 
         ImageTextButton easyBtn = new ImageTextButtonBuilder(game, loc.getString("easy_button"))
                 .withY(WH * 0.7f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
@@ -163,7 +164,7 @@ public class ChoosingDifficultyScreen implements Screen {
                         Gdx.input.vibrate(50);
                         goToNextScreen(GameDifficulty.EASY);
                     }
-                }).withFontStyle(styleNormal).withImageStyle("ImagesGadgets/Bouton.png").build();
+                }).withFontStyle(styleNormal).withImageStyle(BTN_PATH).build();
 
         stage.addActor(easyBtn);
         stage.addActor(mediumBtn);

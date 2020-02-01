@@ -122,12 +122,13 @@ public class Game1 implements Screen, MireilleListener {
     private final Rectangle bounds;
     private final float BTN_SPACING = 90f;
 
-    private static final String TAG = "game1";
-    private final static String LIFE_TXT = "Vies: ";
-    private final static String SCORE_TXT = "Score: ";
-    private final static String HIGHSCORE_TXT = "Highscore: ";
-    private final static String IST_CATCHED_TXT = "Ists attrapées: ";
-    private final static String MUSICPATH = "sound/Musique_fast_chiptune.ogg";
+    private final String TAG = "game1";
+    private final String LIFE_TXT = "Vies: ";
+    private final String SCORE_TXT = "Score: ";
+    private final String HIGHSCORE_TXT = "Highscore: ";
+    private final String IST_CATCHED_TXT = "Ists attrapées: ";
+    private final String MUSICPATH = "sound/Musique_fast_chiptune.ogg";
+    private final String BTN_PATH = "ImagesGadgets/Bouton.png";
 
     private GameDifficulty difficulty;
 
@@ -229,7 +230,7 @@ public class Game1 implements Screen, MireilleListener {
         quitBtn = new ImageTextButtonBuilder(game, loc.getString("quit_button_text"))
                 .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE).withAlignment(Alignement.CENTER)
                 .withY((bounds.getHeight() / 2) - BTN_SPACING).withPadding(Padding.STANDARD)
-                .withListener(quitEvent).withImageStyle("World1/Game1/Bouton.png").isVisible(false).build();
+                .withListener(quitEvent).withImageStyle(BTN_PATH).isVisible(false).build();
 
         stage.addActor(quitBtn);
 
@@ -706,14 +707,14 @@ public class Game1 implements Screen, MireilleListener {
                     final ImageTextButton continueBtn = new ImageTextButtonBuilder(game, "Continuer")
                             .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
                             .withPosition((bounds.getWidth() / 2) - 130, (bounds.getHeight() / 2) + BTN_SPACING)
-                            .withListener(continueEvent).withImageStyle("World1/Game1/Bouton.png").build();
+                            .withListener(continueEvent).withImageStyle(BTN_PATH).build();
 
                     stage.addActor(continueBtn);
                 }
                 final ImageTextButton restartBtn = new ImageTextButtonBuilder(game, "Recommencer")
                         .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
                         .withPosition((bounds.getWidth() / 2) - 200, (bounds.getHeight() / 2))
-                        .withListener(restartEvent).withImageStyle("World1/Game1/Bouton.png").build();
+                        .withListener(restartEvent).withImageStyle(BTN_PATH).build();
 
                 stage.addActor(restartBtn);
                 quitBtn.setVisible(true);
