@@ -60,16 +60,6 @@ Before making a pull request, we ask you to do a few different things first :
 We appreciate any sort of collaboration. However, keep in mind we reserve ourself the right to have the final work if we accept or not your PR.
 Don't go mad if we refuse to accept it.
 
-## Code of conduct
+**Important note**
 
-The community is quite small, but we expect a few things for the members to behave. 
-Please if you see someone disrespect one of these rules, contact one of the contributors of the project
-
-1. Respect each other.
-2. No vulgarity and no insult. Stay courteous. 
-3. Don't spam. No out of context issues. These will be deleted immediatly.
-4. Be constructive in your messages.
-5. When writing an issue or a Pull request, respect the rules mentionned above.
-6. No racism, harassing, and so forth. As said, stay courteous.
-
-If you are contributing to the project, we will assume you have read this code of conduct and that accepted the terms. 
+If you start to contribute to the project, we will assume you have read this file and the code of conduct and accepted the terms. 

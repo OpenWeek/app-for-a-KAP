@@ -1,4 +1,4 @@
-package gdx.kapotopia.Helpers.Builders;
+package gdx.kapotopia.Helpers;
 
 /**
  * Indicate the alignment of the element. Used for Buttons Builders to indicate on which

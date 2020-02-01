@@ -1,4 +1,4 @@
-package gdx.kapotopia.Helpers.Builders;
+package gdx.kapotopia.Helpers;
 
 public enum Padding {
     STANDARD,

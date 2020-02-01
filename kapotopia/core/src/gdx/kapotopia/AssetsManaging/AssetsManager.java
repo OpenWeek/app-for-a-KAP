@@ -7,22 +7,21 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import gdx.kapotopia.DataStructures.BST;
+import gdx.kapotopia.DataStructures.RedBlackBST;
+import gdx.kapotopia.DataStructures.Tree;
 
 public final class AssetsManager {
     private static AssetsManager instance = new AssetsManager();
-    // ArrayList suffisant car pas bcp d'éléments
-    private static BST<String, RessourceHelper> textureL = new BST<String, RessourceHelper>();
-    private static BST<String, RessourceHelper> soundList = new BST<String, RessourceHelper>();
-    private static BST<String, RessourceHelper> stageList = new BST<String, RessourceHelper>();
-    private static BST<String, RessourceHelper> musicList = new BST<String, RessourceHelper>();
-    private static BST<String, RessourceHelper> fontList = new BST<String, RessourceHelper>();
-    private static BST<String, RessourceHelper> atlasList = new BST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> textureL = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> soundList = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> stageList = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> musicList = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> fontList = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> atlasList = new RedBlackBST<String, RessourceHelper>();
+    private static Tree<String, RessourceHelper> skinList = new RedBlackBST<String, RessourceHelper>();
 
     public static AssetsManager getInstance() {
         return instance;
@@ -148,6 +147,16 @@ public final class AssetsManager {
         // Si il elle n'est pas dedans, on la crée, on l'ajoute à la liste et on la renvoie
         final RessourceHelper<TextureAtlas> newRessourceHelper = new RessourceHelper<TextureAtlas>(path, new TextureAtlas(path));
         atlasList.put(path, newRessourceHelper);
+        return newRessourceHelper.getRessource();
+    }
+
+    public Skin getSkinByPath(final String path) {
+        final RessourceHelper researchResult = skinList.get(path);
+        if (researchResult != null) {
+            return (Skin) researchResult.getRessource();
+        }
+        final RessourceHelper<Skin> newRessourceHelper = new RessourceHelper<Skin>(path, new Skin(Gdx.files.internal(path)));
+        skinList.put(path, newRessourceHelper);
         return newRessourceHelper.getRessource();
     }
 
@@ -285,6 +294,21 @@ public final class AssetsManager {
         }
     }
 
+    public void disposeSkin(final String path) {
+        final RessourceHelper th = skinList.get(path);
+        if (th != null) {
+            final Skin skin = (Skin) th.getRessource();
+            skin.dispose();
+            skinList.delete(path);
+        }
+    }
+
+    public void disposekin(final String[] paths) {
+        for (final String path : paths) {
+            disposeSkin(path);
+        }
+    }
+
     /**
      * Dispose all ressources taken by textures, sounds, musics, fonts and stages
      */
@@ -329,6 +353,13 @@ public final class AssetsManager {
             final TextureAtlas atlas = (TextureAtlas) res.getRessource();
             atlas.dispose();
             atlasList.delete(key);
+        }
+
+        for (String key : skinList) {
+            RessourceHelper res = atlasList.get(key);
+            final Skin skin = (Skin) res.getRessource();
+            skin.dispose();
+            skinList.delete(key);
         }
     }
 

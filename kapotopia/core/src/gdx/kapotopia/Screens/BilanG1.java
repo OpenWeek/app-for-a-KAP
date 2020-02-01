@@ -30,8 +30,6 @@ import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 
-import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
-
 public class BilanG1 implements Screen {
     // Basic variables
     private Kapotopia game;
@@ -108,7 +106,7 @@ public class BilanG1 implements Screen {
             final float wDescr = wWidth - 2 * (wWidth / 30f);
             final float hDescr = wHeight / 3f;
             final Label ld = new LabelBuilder(ist.getDescription()).withStyle(style).isVisible(false)
-                    .withPosition(xDescr, yDescr).withAlignement(Align.left).withWidth(wDescr)
+                    .withPosition(xDescr, yDescr).withTextAlignement(Align.left).withWidth(wDescr)
                     .withHeight(hDescr).isWrapped(true).build();
 
             // General

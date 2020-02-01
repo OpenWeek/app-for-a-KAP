@@ -7,31 +7,43 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
+public class BST<Key extends Comparable<Key>, Value> implements Tree<Key, Value> {
     private Node root;
 
-    private class Node {
-        private Key key;
-        private Value value;
-        private Node left, right;
+    class Node {
+        Key key;
+        Value value;
+        Node left;
+        Node right;
         int n;
+        boolean color;
 
         public Node(Key key, Value value, int n) {
             this.key = key;
             this.value = value;
             this.n = n;
+            this.color = false;
+        }
+
+        Node (Key key, Value val, int n, boolean color) {
+            this.key = key;
+            this.value = val;
+            this.n = n;
+            this.color = color;
         }
     }
 
+    @Override
     public int size() {
         return size(root);
     }
 
-    private int size(Node x) {
+    int size(Node x) {
         if(x == null) return 0;
         return x.n;
     }
 
+    @Override
     public Value get(Key key) {
         return get(root, key);
     }
@@ -45,11 +57,12 @@ public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
         return x.value;
     }
 
+    @Override
     public void put(Key key, Value val) {
         root = put(root, key, val);
     }
 
-    private Node put(Node x, Key key, Value val) {
+    protected Node put(Node x, Key key, Value val) {
         if(x == null) return new Node(key, val, 1);
 
         int comp = key.compareTo(x.key);
@@ -60,6 +73,7 @@ public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
         return x;
     }
 
+    @Override
     public Key min() {
         if( size(root) == 0) throw new NoSuchElementException();
         return min(root).key;
@@ -70,6 +84,7 @@ public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
         return min(x.left);
     }
 
+    @Override
     public Key max() {
         if (size(root) == 0) throw new NoSuchElementException();
         return max(root).key;
@@ -80,6 +95,7 @@ public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
         return max(x.right);
     }
 
+    @Override
     public Key floor(Key key) {
         Node x = floor(root, key);
         if (x == null) throw new NoSuchElementException();
@@ -96,6 +112,7 @@ public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
         return x;
     }
 
+    @Override
     public Key select(int k) {
         if (k < 0 || k >= size()) throw new IllegalArgumentException();
         return select(root, k).key;
@@ -109,6 +126,7 @@ public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
         return x;
     }
 
+    @Override
     public int rank(Key key) {
         return rank(key, root);
     }
@@ -122,6 +140,7 @@ public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
         return size(x.left);
     }
 
+    @Override
     public void deleteMin() {
         if(size(root) == 0) throw new NoSuchElementException();
         root = deleteMin(root);
@@ -134,6 +153,20 @@ public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
         return x;
     }
 
+    @Override
+    public void deleteMax() {
+        if (size(root) == 0) throw new NoSuchElementException();
+        root = deleteMax(root);
+    }
+
+    private Node deleteMax(Node x) {
+        if (x.right == null) return x.left;
+        x.right = deleteMax(x.right);
+        x.n = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+    @Override
     public void delete(Key key) {
         root = delete(root, key);
     }
@@ -153,6 +186,18 @@ public class BST<Key extends Comparable<Key>, Value> implements Iterable<Key>{
         }
         x.n = size(x.left) + size(x.right) + 1;
         return x;
+    }
+
+    public boolean isBST() {
+        return isBST(root, null, null);
+    }
+
+    public boolean isBST(Node x, Key min, Key max) {
+        if (x == null) return true;
+        if (min != null && x.key.compareTo(min) <= 0) return false;
+        if (max != null && x.key.compareTo(max) >= 0) return false;
+        return isBST(x.left, min, x.key)
+                && isBST(x.right, x.key, max);
     }
 
     public Iterable<Key> keys() {

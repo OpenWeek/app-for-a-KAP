@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
@@ -20,9 +19,9 @@ import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
-import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
+import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
@@ -80,6 +79,8 @@ public class MainMenu implements Screen {
         final TextButton world4 = new TextButtonBuilder(Localization.getInstance().getString("text_istdex"))
                 .withStyle(style).withPosition(x, y * 0.2f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD4)).build();
+        final TextButton optionsBtn = new TextButtonBuilder("Options").withStyle(style).withPosition(x / 3, y * 0.01f)
+                .withListener(new ChangeScreenListener(game, ScreenType.OPTIONS)).build();
 
         Label version = new LabelBuilder("v:" + Kapotopia.VERSION_NAME + " | code:" + Kapotopia.VERSION_CODE)
                 .withStyle(UseFont.AESTHETIC_TINY_BLACK).withPosition(15, 0).build();
@@ -89,6 +90,7 @@ public class MainMenu implements Screen {
         stage.addActor(world1);
         stage.addActor(world2);
         stage.addActor(world4);
+        stage.addActor(optionsBtn);
         stage.addActor(version);
 
         AssetsManager.getInstance().addStage(stage, "mainmenu");
@@ -117,7 +119,7 @@ public class MainMenu implements Screen {
         backgroundBatch.draw(part_1, 0, 0);
         backgroundBatch.end();
 
-        stage.act(Gdx.graphics.getDeltaTime());
+        stage.act(delta);
         stage.draw();
     }
 

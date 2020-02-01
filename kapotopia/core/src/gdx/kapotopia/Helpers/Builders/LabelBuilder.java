@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Utils;
 
 /**
@@ -17,13 +18,14 @@ import gdx.kapotopia.Utils;
  * and thus asked in the constructor. The user then can add arguments with the
  * provided methods and build it's label following these values with the build() method
  */
-public class  LabelBuilder {
+public class LabelBuilder {
     // Actor common attributes
     private ArrayList<EventListener> eventListeners;
     private ArrayList<EventListener> captureListeners;
     private float x, y;
     private float bx, by, bw, bh;
     private float width, height;
+    private Alignement alignment;
     private boolean visible;
     // Font style
     private TextButton.TextButtonStyle style;
@@ -32,7 +34,7 @@ public class  LabelBuilder {
     private int size;
     // Label
     private String text;
-    private int alignement;
+    private int textAlignement;
     private boolean wrap;
 
     /**
@@ -51,6 +53,7 @@ public class  LabelBuilder {
         this.bh = -1;
         this.width = -1;
         this.height = -1;
+        this.alignment = Alignement.NONE;
         this.visible = true;
         // Label attributes
         this.style = null;
@@ -58,7 +61,7 @@ public class  LabelBuilder {
         this.color = Color.BLACK;
         this.size = 60;
         this.text = text;
-        this.alignement = Align.left;
+        this.textAlignement = Align.left;
         this.wrap = false;
     }
 
@@ -121,6 +124,11 @@ public class  LabelBuilder {
         return this;
     }
 
+    public LabelBuilder withAlignment(Alignement alignement) {
+        this.alignment = alignement;
+        return this;
+    }
+
     public LabelBuilder isVisible(boolean visible) {
         this.visible = visible;
         return this;
@@ -162,12 +170,12 @@ public class  LabelBuilder {
     // Label
 
     /**
-     * Set up an alignement for the label
-     * @param alignement please use Align for the attributes
+     * Set up an textAlignement for the label
+     * @param textAlignement please use Align for the attributes
      * @return this builder
      */
-    public LabelBuilder withAlignement(int alignement) {
-        this.alignement = alignement;
+    public LabelBuilder withTextAlignement(int textAlignement) {
+        this.textAlignement = textAlignement;
         return this;
     }
 
@@ -195,6 +203,9 @@ public class  LabelBuilder {
 
         // Actor Attributes
 
+        if (alignment != Alignement.NONE) {
+            this.x = gdx.kapotopia.Helpers.Align.getX(alignment, text.length());
+        }
         l.setPosition(x, y);
         // It shouldn't be possible to have a negative height or weight
         if (bw >= 0 && bh >= 0) {
@@ -217,9 +228,39 @@ public class  LabelBuilder {
 
         // Label Attributes
 
-        l.setAlignment(alignement);
+        l.setAlignment(textAlignement);
         l.setWrap(wrap);
 
         return l;
+    }
+
+    /* STATIC METHODS */
+
+    /**
+     * Convert a Label[] array into a Label[][] matrix
+     * @throws NullPointerException if the given parameter is null
+     * @param labs must be != null
+     * @return a new matrix of size Label[labs.length][1]
+     */
+    public static Label[][] convert(Label[] labs) {
+        if (labs == null) throw new NullPointerException("LabelBuilder - convert(Label[])\nimages is null");
+        Label[][] labelMatrix = new Label[labs.length][1];
+        for (int i=0; i<labs.length; i++)
+            labelMatrix[i][0] = labs[i];
+        return labelMatrix;
+    }
+
+    /**
+     * Create a new empty Label matrix with Labels whose texts are ""
+     * @throws IllegalArgumentException if the given size is equals or lower than 0
+     * @param size the size of the new matrix
+     * @return a new matrix of size Label[size][1]
+     */
+    public static Label[][] createEmptyMatrix(int size) {
+        if (size <= 0) throw new IllegalArgumentException("LabelBuilder - createEmptyMatrix(int)\nsize is equal or smaller than 0");
+        Label[][] labelMatrix = new Label[size][1];
+        for (int i=0; i<size; i++)
+            labelMatrix[i][0] = new LabelBuilder("").withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK).build();
+        return labelMatrix;
     }
 }

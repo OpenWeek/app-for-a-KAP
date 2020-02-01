@@ -11,6 +11,7 @@ import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.Screens.Game2;
 import gdx.kapotopia.Screens.Game3;
 import gdx.kapotopia.Screens.MainMenu;
+import gdx.kapotopia.Screens.Options;
 import gdx.kapotopia.Screens.World1;
 import gdx.kapotopia.Screens.World2;
 import gdx.kapotopia.Screens.World4;
@@ -23,8 +24,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	public FitViewport viewport;
 
-	private static final float GAME_WIDTH = 1080;
-	private static final int GAME_HEIGHT = 1920;
+	public static final float GAME_WIDTH = 1080;
+	public static final int GAME_HEIGHT = 1920;
 
 	public final static float SCALLING_FACTOR_ENTITY = 5.3f;
 
@@ -51,6 +52,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private World3 world3;
 	private World4 world4;
 	private ChoosingDifficultyScreen dif;
+	private Options options;
 
 	// The value Gateway
 	private ValueGateway gate;
@@ -131,7 +133,9 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 			return destroyScreen(ScreenType.WORLD4);
 		} else if(sc == dif) {
 			return destroyScreen(ScreenType.DIF);
-		}
+		} else if(sc == options) {
+		    return destroyScreen(ScreenType.OPTIONS);
+        }
 
 		return false;
 	}
@@ -353,6 +357,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 						break;
 				}
 				break;
+            case OPTIONS:
+                switch (ACTION) {
+                    case CHANGE:
+                        if (options == null) options = new Options(this);
+                        setScreen(options);
+                        succeeded = true;
+                        break;
+                    case DESTROY:
+                        if (options != null) {
+                            options.dispose();
+                            options = null;
+                            succeeded = true;
+                        }
+                        break;
+                }
+                break;
 		}
 		return succeeded;
 	}

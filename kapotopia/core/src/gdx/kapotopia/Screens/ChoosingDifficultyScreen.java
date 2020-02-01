@@ -23,9 +23,9 @@ import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.GameDifficulty;
-import gdx.kapotopia.Helpers.Builders.Alignement;
+import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
-import gdx.kapotopia.Helpers.Builders.Padding;
+import gdx.kapotopia.Helpers.Padding;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localization;
 import gdx.kapotopia.ScreenType;
@@ -114,7 +114,7 @@ public class ChoosingDifficultyScreen implements Screen {
         final Localization loc = Localization.getInstance();
 
         ImageTextButton infiniteBtn = new ImageTextButtonBuilder(game, loc.getString("infinite_button"))
-                .withY(WH * 0.1f).withAlignment(Alignement.RIGHT).withPadding(Padding.STANDARD)
+                .withY(WH * 0.1f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
                 .withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -128,7 +128,7 @@ public class ChoosingDifficultyScreen implements Screen {
                 }).withFontStyle(infiniteBtnStyle).withImageStyle("ImagesGadgets/Bouton.png").build();
 
         ImageTextButton hardBtn = new ImageTextButtonBuilder(game, loc.getString("hard_button"))
-                .withY(WH * 0.3f).withAlignment(Alignement.RIGHT).withPadding(Padding.STANDARD)
+                .withY(WH * 0.3f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
                 .withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -142,7 +142,7 @@ public class ChoosingDifficultyScreen implements Screen {
                 }).withFontStyle(hardBtnStyle).withImageStyle("ImagesGadgets/Bouton.png").build();
 
         ImageTextButton mediumBtn = new ImageTextButtonBuilder(game, loc.getString("medium_button"))
-                .withY(WH * 0.5f).withAlignment(Alignement.RIGHT).withPadding(Padding.STANDARD)
+                .withY(WH * 0.5f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
                 .withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -156,7 +156,7 @@ public class ChoosingDifficultyScreen implements Screen {
                 }).withFontStyle(mediumBtnStyle).withImageStyle("ImagesGadgets/Bouton.png").build();
 
         ImageTextButton easyBtn = new ImageTextButtonBuilder(game, loc.getString("easy_button"))
-                .withY(WH * 0.7f).withAlignment(Alignement.RIGHT).withPadding(Padding.STANDARD)
+                .withY(WH * 0.7f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
                 .withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {

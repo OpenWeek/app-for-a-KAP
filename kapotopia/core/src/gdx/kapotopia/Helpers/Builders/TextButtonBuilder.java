@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Helpers.Align;
+import gdx.kapotopia.Helpers.Alignement;
 
 /**
  * A class to help build TextButton. A mandatory argument is the text displayed in the TextButton
@@ -21,6 +23,7 @@ public class TextButtonBuilder {
     private float x, y;
     private float bx, by, bw, bh;
     private float width, height;
+    private Alignement alignement;
     private boolean visible;
     // TextButton attributes
     private TextButton.TextButtonStyle style;
@@ -44,6 +47,7 @@ public class TextButtonBuilder {
         this.bh = -1;
         this.width = -1;
         this.height = -1;
+        this.alignement = Alignement.NONE;
         this.visible = true;
 
         // TextButton attributes
@@ -67,6 +71,11 @@ public class TextButtonBuilder {
 
     public TextButtonBuilder withCaptureListener(EventListener event) {
         this.captureListeners.add(event);
+        return this;
+    }
+
+    public TextButtonBuilder withY(float y) {
+        this.y = y;
         return this;
     }
 
@@ -112,6 +121,11 @@ public class TextButtonBuilder {
         return this;
     }
 
+    public TextButtonBuilder withAlignment(Alignement alignment) {
+        this.alignement = alignment;
+        return this;
+    }
+
     public TextButtonBuilder isVisible(boolean visible) {
         this.visible = visible;
         return this;
@@ -147,7 +161,6 @@ public class TextButtonBuilder {
      * @return the textButton given the TextButtonBuilder arguments
      * @throws IllegalArgumentException if no skin or no style are set
      */
-    @SuppressWarnings("JavadocReference")
     public TextButton build() throws IllegalArgumentException{
         final TextButton tb;
         if (style != null) {
@@ -162,6 +175,9 @@ public class TextButtonBuilder {
 
         // Actor attributes
 
+        if (alignement != Alignement.NONE) {
+            x = Align.getX(alignement, text.length());
+        }
         tb.setPosition(x, y);
         // It shouldn't be possible to have a negative height or weight
         if(bw >= 0 && bh >= 0) {

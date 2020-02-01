@@ -6,20 +6,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 
 public class DialogueElement {
-    private int seqNumber;  /** Sequence number */
-    private Image image;
-    private Label label;
+    private int seqNumber;
+    private Image[] imageList;
+    private Label[] labelList;
 
-    public DialogueElement(int seqNumber, Image image, Label label) {
+    public DialogueElement(int seqNumber, Image[] imgSeq, Label[] labSeq) {
         this.seqNumber = seqNumber;
-        this.image = image;
-        this.label = label;
+
+        imageList = imgSeq;
+        labelList = labSeq;
     }
 
-    public DialogueElement(int seqNumber, String imagePath, Label label) {
+    public DialogueElement(int seqNumber, String[] imagePaths, Label[] labSeq) {
         this.seqNumber = seqNumber;
-        this.image = new Image(AssetsManager.getInstance().getTextureByPath(imagePath));
-        this.label = label;
+
+        imageList = new Image[imagePaths.length];
+        for (int i = 0; i < imagePaths.length; i++) {
+            imageList[i] = new Image(AssetsManager.getInstance().getTextureByPath(imagePaths[i]));
+        }
+        labelList = labSeq;
     }
 
     public int getSeqNumber() {
@@ -31,18 +36,30 @@ public class DialogueElement {
     }
 
     public Image getImage() {
-        return image;
+        return getImage(0);
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public Image getImage(int index) {
+        if (index < 0 || index >= imageList.length) throw new AssertionError();
+        return imageList[index];
     }
 
     public Label getLabel() {
-        return label;
+        return getLabel(0);
     }
 
-    public void setLabel(Label label) {
-        this.label = label;
+    public Label getLabel(int index) {
+        if (index < 0 || index >= labelList.length) throw new AssertionError();
+        return labelList[index];
+    }
+
+    /** Lists */
+
+    public Image[] getImageList() {
+        return imageList;
+    }
+
+    public Label[] getLabelList() {
+        return labelList;
     }
 }
