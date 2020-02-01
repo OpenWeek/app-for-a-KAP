@@ -4,6 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
+import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_BLACK;
+
 public class Basket {
 
     /* Characteristics of the STD represented by the basket*/
@@ -12,7 +14,6 @@ public class Basket {
     private Label label;
     private float x;
     private float y;
-
     /*Previous and next node to make a double-linked list*/
     private Basket previous;
     private Basket next;
@@ -36,9 +37,21 @@ public class Basket {
     public Basket(int nbr, String txt, Basket prevB, Basket nextB){
         this.STInbr = nbr;
         this.symptom = txt;
-        this.label = new LabelBuilder(txt).isVisible(false).build();
+        this.label = new LabelBuilder(txt)
+                .isVisible(false)
+                .build();
         this.previous = prevB;
         this.next = nextB;
+    }
+
+    public Basket(Basket prevB, Basket nextB){
+        this.previous = prevB;
+        this.next = nextB;
+    }
+
+    public Basket(){
+        this.previous = null;
+        this.next = null;
     }
 
     public Basket getPrevious(){
@@ -57,6 +70,14 @@ public class Basket {
         return this.STInbr;
     }
 
+    public String getname(){
+        return this.symptom;
+    }
+
+    public void setId(int id){
+        this.STInbr = id;
+    }
+
     public void setPrevious(Basket prev){
         this.previous = prev;
     }
@@ -68,6 +89,19 @@ public class Basket {
     public void setPosition(float x,float y){
         this.x = x;
         this.y = y;
+        if(label!=null) {
+            this.label.setPosition(x, y);
+        }
+    }
+
+    public void setName(String name){
+        this.symptom = name;
+        this.label = new LabelBuilder(name)
+                .withStyle(CLASSIC_SANS_SMALL_BLACK)
+                .isVisible(false)
+                .withWidth(500)
+                .isWrapped(true)
+                .build();
         this.label.setPosition(x,y);
     }
 

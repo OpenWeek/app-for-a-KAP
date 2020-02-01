@@ -10,18 +10,19 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
+import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_WHITE;
+
 public class Ball extends Button {
 
     final private String TAG = "Ball class";
     /*Characteristics of the STD represented by the ball*/
     private int STInbr; //Integer that is linked to an STD and permits connection with the correct STD basket
     private String STIname;
-
     /*Variables related to the ball representation*/
     private float initX, initY; //Position of ball when waiting to be picked
     private float posX, posY; //Current position of ball
     private float finishX, finishY;
-    final private float size = 150;
+    final private float size = 200;
     private Label label;
     private ImageButton button;
     private final String TEXTURE_PATH = "World1/Game2/Ballon.png";
@@ -46,6 +47,19 @@ public class Ball extends Button {
         this.finishX = x;
         this.finishY = y;
         this.label = new LabelBuilder(name).withPosition(15,40).build();
+        this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
+                AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
+        this.button.setBounds(x,y,size,size);
+    }
+
+    public Ball(int nbr, float x, float y){
+        this.STInbr = nbr;
+        this.initX = x;
+        this.initY = y;
+        this.posX = x;
+        this.posY = y;
+        this.finishX = x;
+        this.finishY = y;
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
@@ -87,6 +101,10 @@ public class Ball extends Button {
         return this.STInbr;
     }
 
+    public String getName() {
+        return this.STIname;
+    }
+
 
     public void setPosition(float x,float y){
         this.posX = x;
@@ -94,6 +112,9 @@ public class Ball extends Button {
         this.finishX = x;
         this.finishY = y;
         this.button.setPosition(x,y);
+        if(this.label!=null){
+            this.label.setPosition(0,0); //Relative position of label in ball
+        }
     }
 
     public void setGoalX(float x){
@@ -107,6 +128,12 @@ public class Ball extends Button {
     public void setGoal(float x, float y){
         this.finishX = x;
         this.finishY = y;
+    }
+
+    public void setName(String name){
+        this.STIname = name;
+        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).build();
+        this.label.setPosition(10,75); //Relative position of label in ball
     }
 
 

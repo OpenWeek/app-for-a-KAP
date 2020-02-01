@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import java.util.ArrayList;
+
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
@@ -19,8 +21,11 @@ import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localization;
 
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
+import static java.util.Collections.shuffle;
+
 
 public class Game2 implements Screen {
 
@@ -86,26 +91,28 @@ public class Game2 implements Screen {
         prepareMockup(outro0);
 
         /*Creation of instances for game*/
-        final float symptX = game.viewport.getWorldWidth()/2.5f;
-        final float symptY = game.viewport.getWorldHeight()/1.15f;
-        final float sitBalX = game.viewport.getWorldWidth()/12;
+        final float symptX = game.viewport.getWorldWidth()/3.5f;
+        final float symptY = game.viewport.getWorldHeight()/2.25f;
+        final float sitBalX = game.viewport.getWorldWidth()/50;
         final float sitBalY = game.viewport.getWorldHeight()/24;
         readyBalX = game.viewport.getWorldWidth()/2.2f;
         readyBalY = game.viewport.getWorldHeight()/7;
         finalBalX = game.viewport.getWorldWidth()/1.2f;
         finalBalY = game.viewport.getWorldHeight()/2.25f;
-        ballDelta = game.viewport.getWorldWidth()/7.3f;
+        ballDelta = game.viewport.getWorldWidth()/6.5f;
 
         //Symptoms creation and set up (representation of symptoms)
-        currentBasket = new Basket(0,"IST0");
+        //currentBasket = new Basket(0,"IST0");
+        currentBasket = new Basket();
         currentBasket.setPosition(symptX,symptY);
-        currentBasket.hideLabel();
-        stage.addActor(currentBasket.getLabel());
+        //currentBasket.hideLabel();
+        //stage.addActor(currentBasket.getLabel());
         for(int i = 1; i< STInbr; i++){
-            Basket newBasket = new Basket(i,"IST"+i);
+            //Basket newBasket = new Basket(i,"IST"+i);
+            Basket newBasket = new Basket();
             newBasket.setPosition(symptX,symptY);
-            newBasket.hideLabel();
-            stage.addActor(newBasket.getLabel());
+            //newBasket.hideLabel();
+            //stage.addActor(newBasket.getLabel());
             currentBasket.setNext(newBasket);
             Basket intermediate = currentBasket;
             currentBasket = currentBasket.getNext();
@@ -114,14 +121,14 @@ public class Game2 implements Screen {
         //Set currentBasket to the first STI symptom
         while(currentBasket.getPrevious()!=null)
             currentBasket = currentBasket.getPrevious();
-        currentBasket.showLabel();
+        //currentBasket.showLabel();
 
         //STI's creation and set up (representation of STI)
-
         for(int i = 0; i < STInbr; i++) {
-            sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * ballDelta, sitBalY);
+            //sittingBalls[i] = new Ball(i, "IST" + i, sitBalX + i * ballDelta, sitBalY);
+            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY);
             stage.addActor(sittingBalls[i].getButton());
-            sittingBalls[i].getButton().addActor(sittingBalls[i].getLabel());
+            //sittingBalls[i].getButton().addActor(sittingBalls[i].getLabel());
         }
         for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
@@ -133,6 +140,9 @@ public class Game2 implements Screen {
             };
             sittingBalls[i].getButton().addListener(ballClick[i]);
         }
+
+        //Link between balls, baskets and the STI they represent
+        setUpSTI(currentBasket);
 
         AssetsManager.getInstance().addStage(stage, "game2");
     }
@@ -200,6 +210,45 @@ public class Game2 implements Screen {
             currentBall = ball;
         }
 
+    }
+
+    /**
+     *
+     */
+    private void setUpSTI(Basket firstbasket){
+        final Localization localisation = Localization.getInstance();
+        String[] stiNames = {
+                localisation.getStiName("hiv"),
+                localisation.getStiName("c_hepatitis"),
+                localisation.getStiName("hpv"),
+                localisation.getStiName("gonorrhea"),
+                localisation.getStiName("chlamydia"),
+                localisation.getStiName("herpes")};
+        String[] symptoms = {
+                localisation.getStiSymptom("hiv"),
+                localisation.getStiSymptom("c_hepatitis"),
+                localisation.getStiSymptom("hpv"),
+                localisation.getStiSymptom("gonorrhea"),
+                localisation.getStiSymptom("chlamydia"),
+                localisation.getStiSymptom("herpes")};
+        ArrayList<Integer>numbers = new ArrayList<Integer>();
+        ArrayList<Integer>ids = new ArrayList<Integer>();
+        for(int i = 0; i < STInbr; i++){
+            numbers.add(i);
+            ids.add(i);
+        }
+        shuffle(numbers);
+        shuffle(ids);
+        Basket inter = firstbasket;
+        for(int i = 0; i < STInbr; i++){
+            sittingBalls[ids.get(i)].setName(stiNames[numbers.get(i)]);
+            sittingBalls[ids.get(i)].getButton().addActor(sittingBalls[ids.get(i)].getLabel());
+            inter.setId(ids.get(i));
+            inter.setName(symptoms[numbers.get(i)]);
+            stage.addActor(inter.getLabel());
+            inter = inter.getNext();
+        }
+        firstbasket.showLabel();
     }
 
     /*Allows to detect sliding movements on the screen and decide which action needs to be executed*/

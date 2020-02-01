@@ -7,6 +7,8 @@ import com.badlogic.gdx.Gdx;
 public class Localization {
 
     private I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
+    private I18NBundle stiStrings = I18NBundle.createBundle(Gdx.files.internal("strings/stiNames"));
+    private I18NBundle symptomsStrings = I18NBundle.createBundle(Gdx.files.internal("strings/stiSymptoms"));
     private static Localization instance = new Localization();
     public Localization()
     {
@@ -22,4 +24,13 @@ public class Localization {
     {
         return languageStrings.get(key);
     }
+
+    public String getStiName(String key){
+        return stiStrings.get(key);
+    }
+
+    public String getStiSymptom(String key){
+        return symptomsStrings.get(key);
+    }
+
 }
