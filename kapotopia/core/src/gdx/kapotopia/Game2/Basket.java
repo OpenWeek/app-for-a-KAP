@@ -37,7 +37,9 @@ public class Basket {
     public Basket(int nbr, String txt, Basket prevB, Basket nextB){
         this.STInbr = nbr;
         this.symptom = txt;
-        this.label = new LabelBuilder(txt).isVisible(false).build();
+        this.label = new LabelBuilder(txt)
+                .isVisible(false)
+                .build();
         this.previous = prevB;
         this.next = nextB;
     }
@@ -94,7 +96,12 @@ public class Basket {
 
     public void setName(String name){
         this.symptom = name;
-        this.label = new LabelBuilder(name).withStyle(CLASSIC_SANS_SMALL_BLACK).isVisible(false).build();
+        this.label = new LabelBuilder(name)
+                .withStyle(CLASSIC_SANS_SMALL_BLACK)
+                .isVisible(false)
+                .withWidth(500)
+                .isWrapped(true)
+                .build();
         this.label.setPosition(x,y);
     }
 
