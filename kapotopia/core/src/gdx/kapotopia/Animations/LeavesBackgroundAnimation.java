@@ -10,7 +10,7 @@ public class LeavesBackgroundAnimation extends AnimationAbstract{
         final String [] FRAMES = new String[]{"World1/Game1/Feuilles.png",
                 "World1/Game1/Feuilles2.png", "World1/Game1/Feuilles3.png",
                 "World1/Game1/Feuilles4.png", "World1/Game1/Feuilles5.png",
-                "World1/Game1/Feuilles5.png"
+                "World1/Game1/Feuilles6.png"
         };
 
         setAnimation(new AnimationBuilder(0.75f).withPlayMode(playMode)

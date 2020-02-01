@@ -55,8 +55,10 @@ public class BilanG1 implements Screen {
     private Sound pauseSound;
     private Sound openSound;
 
-    // Constantes
-    private static final String TAG = "BilangG1";
+    // Constants
+    private final String TAG = "BilangG1";
+    private final String IMGBACK_PATH = "World1/Game1/World1Ecran3.png";
+    private final String MIR_PATH = "MireilleImages/MireilleInstruit.png";
 
     public BilanG1(final Kapotopia game) {
         this.game = game;
@@ -67,9 +69,9 @@ public class BilanG1 implements Screen {
         final float wHeight = game.viewport.getWorldHeight();
 
         /* IMAGES */
-        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath("World1/Game1/World1Ecran3.png"));
+        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath(IMGBACK_PATH));
         imgFond.setVisible(true);
-        final Texture mireille = AssetsManager.getInstance().getTextureByPath("MireilleImages/MireilleInstruit.png");
+        final Texture mireille = AssetsManager.getInstance().getTextureByPath(MIR_PATH);
         this.mireilleUni = new Image(mireille);
         mireilleUni.setVisible(true);
         mireilleUni.setPosition(-75, 0);
