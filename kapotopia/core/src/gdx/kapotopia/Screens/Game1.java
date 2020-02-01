@@ -57,7 +57,7 @@ import gdx.kapotopia.Helpers.Padding;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
-import gdx.kapotopia.Localization;
+import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
@@ -160,7 +160,7 @@ public class Game1 implements Screen, MireilleListener {
         this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f,0); // I dont understand why, but this works. If someone knows plz explain me. F.D.
         this.camera.update();
         this.random = new Random();
-        final Localization loc = Localization.getInstance();
+        final Localisation loc = Localisation.getInstance();
 
         this.style = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_WHITE);
         this.styleSmall = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_SMALL_WHITE);
@@ -606,7 +606,7 @@ public class Game1 implements Screen, MireilleListener {
             highscore = totalScore;
             scoreLabXFactor = 300;
             scoreLabYFactor = 60;
-            highscoreLabHead = Localization.getInstance().getString("high_score_lab_head");
+            highscoreLabHead = Localisation.getInstance().getString("high_score_lab_head");
             highscoreLabTail = " !";
         } else {
             endScoreLabel = new LabelBuilder(SCORE_TXT + totalScore).withStyle(style)
@@ -643,11 +643,11 @@ public class Game1 implements Screen, MireilleListener {
                     break;
             }
             this.successSound.play();
-            titleText = Localization.getInstance().getString("success");
+            titleText = Localisation.getInstance().getString("success");
             titleLabXFactor = 150;
         }else{
             this.failSound.play(0.7f);
-            titleText = Localization.getInstance().getString("fail");
+            titleText = Localisation.getInstance().getString("fail");
             titleLabXFactor = 250;
         }
         final Button title = new TextButtonBuilder(titleText).withStyle(UseFont.CLASSIC_REG_BIG_WHITE)

@@ -23,7 +23,7 @@ import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localization;
+import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 
 public class MainMenu implements Screen {
@@ -70,13 +70,13 @@ public class MainMenu implements Screen {
         //setup Button
         final float x = game.viewport.getWorldWidth() / 2.6f;
         final float y = game.viewport.getWorldHeight();
-        final TextButton world1 = new TextButtonBuilder(Localization.getInstance().getString("text_world1"))
+        final TextButton world1 = new TextButtonBuilder(Localisation.getInstance().getString("text_world1"))
                 .withStyle(style).withPosition(x, y * 0.83f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD1)).build();
-        final TextButton world2 = new TextButtonBuilder(Localization.getInstance().getString("text_world2"))
+        final TextButton world2 = new TextButtonBuilder(Localisation.getInstance().getString("text_world2"))
                 .withStyle(style).withPosition(x, y * 0.5f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
-        final TextButton world4 = new TextButtonBuilder(Localization.getInstance().getString("text_istdex"))
+        final TextButton world4 = new TextButtonBuilder(Localisation.getInstance().getString("text_istdex"))
                 .withStyle(style).withPosition(x, y * 0.2f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD4)).build();
         final TextButton optionsBtn = new TextButtonBuilder("Options").withStyle(style).withPosition(x / 3, y * 0.01f)

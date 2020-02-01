@@ -14,12 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.Animations.LetsgoG1Animation;
 import gdx.kapotopia.Animations.MireilleBlinkingAnimation;
-import gdx.kapotopia.Animations.MireilleCoucouAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localization;
+import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
@@ -42,7 +41,7 @@ public class World4 implements Screen {
         stage.addActor(imgFond);
 
         TextButton.TextButtonStyle style = Utils.getStyleFont("COMMS.ttf", 60);
-        Label soon = new Label(Localization.getInstance().getString("soon_label"), new Label.LabelStyle(style.font, style.fontColor));
+        Label soon = new Label(Localisation.getInstance().getString("soon_label"), new Label.LabelStyle(style.font, style.fontColor));
         soon.setPosition(50, game.viewport.getWorldHeight() * 0.8f);
         soon.setWrap(true);
         soon.setWidth(game.viewport.getWorldWidth() - 200);
@@ -50,7 +49,7 @@ public class World4 implements Screen {
         soon.setVisible(true);
         stage.addActor(soon);
 
-        TextButton back = new TextButtonBuilder(Localization.getInstance().getString("back_button")).withStyle(style)
+        TextButton back = new TextButtonBuilder(Localisation.getInstance().getString("back_button")).withStyle(style)
                 .withPosition(game.viewport.getWorldWidth() / 2, 50).isVisible(true)
                 .withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.WORLD4)).build();
         stage.addActor(back);

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localization;
+import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 
 //import static gdx.kapotopia.ScreenType.GAME2;
@@ -17,7 +17,7 @@ public class mockupG2 extends CinematicScreen {
 
     public mockupG2(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG2");
-        final Localization loc = Localization.getInstance();
+        final Localisation loc = Localisation.getInstance();
         UseFont font = UseFont.CLASSIC_SANS_NORMAL_BLACK;
         Label[] labels = new Label[] {
                 new LabelBuilder(loc.getString("game2_diag1"))

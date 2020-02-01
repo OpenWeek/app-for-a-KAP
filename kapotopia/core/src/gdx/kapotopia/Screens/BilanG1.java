@@ -26,7 +26,7 @@ import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localization;
+import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 
@@ -121,12 +121,12 @@ public class BilanG1 implements Screen {
         pointeur = 0;
 
         // Intro text
-        intro = new LabelBuilder(Localization.getInstance().getString("intro_text"))
+        intro = new LabelBuilder(Localisation.getInstance().getString("intro_text"))
                 .withStyle(style).withPosition(wWidth / 9f,wHeight / 1.2f).isWrapped(true).withWidth(wWidth / 1.3f).build();
         stage.addActor(intro);
 
         // Button
-        next = new TextButton(Localization.getInstance().getString("next_button"), style);
+        next = new TextButton(Localisation.getInstance().getString("next_button"), style);
         final float xNext = wWidth / 2.5f;
         final float yNext = wHeight / 8f;
         next.setPosition(xNext, yNext);

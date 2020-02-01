@@ -22,7 +22,7 @@ import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Languages;
-import gdx.kapotopia.Localization;
+import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Settings;
 
@@ -71,7 +71,7 @@ public class Options implements Screen {
                 .withPosition(game.viewport.getWorldWidth() / 3, game.viewport.getWorldHeight() / 2)
                 .isVisible(!settings.isMusicOn()).build();
 
-        backBtn = new TextButtonBuilder(Localization.getInstance().getString("back_button"))
+        backBtn = new TextButtonBuilder(Localisation.getInstance().getString("back_button"))
                 .withY(50).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU)).isVisible(true)
                 .withStyle(UseFont.CLASSIC_BOLD_NORMAL_YELLOW).withAlignment(Alignement.CENTER).build();
 

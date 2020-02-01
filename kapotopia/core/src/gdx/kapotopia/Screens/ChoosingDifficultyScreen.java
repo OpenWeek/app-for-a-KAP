@@ -27,7 +27,7 @@ import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.Padding;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localization;
+import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.UnlockedLevel;
@@ -112,7 +112,7 @@ public class ChoosingDifficultyScreen implements Screen {
         }
 
         final float WH = game.viewport.getWorldHeight();
-        final Localization loc = Localization.getInstance();
+        final Localisation loc = Localisation.getInstance();
 
         ImageTextButton infiniteBtn = new ImageTextButtonBuilder(game, loc.getString("infinite_button"))
                 .withY(WH * 0.1f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)

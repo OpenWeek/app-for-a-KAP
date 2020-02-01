@@ -21,7 +21,7 @@ import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localization;
+import gdx.kapotopia.Localisation;
 
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
 import static java.util.Collections.shuffle;
@@ -61,7 +61,7 @@ public class Game2 implements Screen {
 
     private ChangeListener[] ballClick = new ChangeListener[STInbr];
 
-    final Localization loc = Localization.getInstance();
+    final Localisation loc = Localisation.getInstance();
 
     /**
      * Prepare images to fullScreen and hidden

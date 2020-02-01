@@ -9,7 +9,7 @@ import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localization;
+import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.UnlockedLevel;
 
@@ -17,7 +17,7 @@ public class mockupG1 extends CinematicScreen {
 
     public mockupG1(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG1");
-        final Localization loc = Localization.getInstance();
+        final Localisation loc = Localisation.getInstance();
         UseFont font = UseFont.CLASSIC_SANS_NORMAL_BLACK;
         Label[][] labels = new Label[][] {
                 {

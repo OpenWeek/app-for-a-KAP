@@ -4,18 +4,18 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.Gdx;
 
 
-public class Localization {
+public class Localisation {
 
     private I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
     private I18NBundle stiStrings = I18NBundle.createBundle(Gdx.files.internal("strings/stiNames"));
     private I18NBundle symptomsStrings = I18NBundle.createBundle(Gdx.files.internal("strings/stiSymptoms"));
-    private static Localization instance = new Localization();
-    public Localization()
+    private static Localisation instance = new Localisation();
+    public Localisation()
     {
 
     }
 
-    public static Localization getInstance()
+    public static Localisation getInstance()
     {
         return instance;
     }
