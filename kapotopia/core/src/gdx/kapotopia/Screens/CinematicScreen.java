@@ -109,7 +109,7 @@ public abstract class CinematicScreen implements Screen {
                 .withPosition(xButton, this.game.viewport.getWorldHeight() / 10f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        if(!nextImage()) {
+                         if(!nextImage()) {
                             // In the case when the image queue is empty (is == null or we saw every image)
                             if (withFinishBtn) {
                                 next.setVisible(false);
@@ -217,10 +217,14 @@ public abstract class CinematicScreen implements Screen {
             Iterator<DialogueElement> iterator = sequence.iterator();
             while(iterator.hasNext()) {
                 DialogueElement element = iterator.next();
-                element.getImage().setVisible(false);
-                element.getLabel().setVisible(false);
+                for (Image img : element.getImageList() ) {
+                    img.setVisible(false);
+                }
+                for (Label lab : element.getLabelList() ) {
+                    lab.setVisible(false);
+                }
             }
-            setElementVisibility(true, curImg);
+            setElementVisibility(true, 0);
             finish.setVisible(false);
             next.setVisible(true);
             fond.setVisible(false);
