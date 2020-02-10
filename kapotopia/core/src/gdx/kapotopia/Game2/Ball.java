@@ -31,7 +31,7 @@ public class Ball extends Button {
     public Ball(int nbr, String name){
         this.STInbr = nbr;
         this.STIname = name;
-        this.label = new LabelBuilder(name).build();
+        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(10,75).build();
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setSize(size,size);
@@ -46,7 +46,7 @@ public class Ball extends Button {
         this.posY = y;
         this.finishX = x;
         this.finishY = y;
-        this.label = new LabelBuilder(name).withPosition(15,40).build();
+        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(10,75).build();
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
@@ -112,9 +112,6 @@ public class Ball extends Button {
         this.finishX = x;
         this.finishY = y;
         this.button.setPosition(x,y);
-        if(this.label!=null){
-            this.label.setPosition(0,0); //Relative position of label in ball
-        }
     }
 
     public void setGoalX(float x){
@@ -132,8 +129,7 @@ public class Ball extends Button {
 
     public void setName(String name){
         this.STIname = name;
-        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).build();
-        this.label.setPosition(10,75); //Relative position of label in ball
+        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(10,75).build();
     }
 
 

@@ -10,15 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
-import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
-import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.ScreenType;
+import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
+import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localisation;
+import gdx.kapotopia.ScreenType;
 
 public class World1 implements Screen {
 
@@ -36,13 +36,15 @@ public class World1 implements Screen {
         // Import sounds
         this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
 
-        final float x = game.viewport.getWorldWidth() / 2.5f;
+        final Localisation loc = Localisation.getInstance();
+
+        final float x = game.viewport.getWorldWidth() / 2f;
         final float y = game.viewport.getWorldHeight();
-        TextButton game1 = new TextButtonBuilder("Game 1").withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
-                .withPosition(x,y * 0.75f)
+        TextButton game1 = new TextButtonBuilder(loc.getString("game1_button")).withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
+                .withPosition(x*0.35f,y * 0.57f)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG1)).build();
-        TextButton game2 = new TextButtonBuilder("Game 2").withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
-                .withPosition(x, y * 0.25f)
+        TextButton game2 = new TextButtonBuilder(loc.getString("game2_button")).withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
+                .withPosition(x*0.6f, y * 0.1f)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG2)).build();
 
         stage.addActor(imgFond);

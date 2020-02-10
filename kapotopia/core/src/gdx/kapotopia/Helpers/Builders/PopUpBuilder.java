@@ -23,6 +23,7 @@ public class PopUpBuilder {
     private float btnSize = 90f;
     private int x;
     private int y;
+    private Label title;
 
     public PopUpBuilder(final Kapotopia game, Stage stage) {
         this.stage = stage;
@@ -64,9 +65,12 @@ public class PopUpBuilder {
 
     public void setTitle(String title){
 
-        Label label1 = new LabelBuilder(title).withStyle(UseFont.CLASSIC_BOLD_NORMAL_WHITE).build();
-        label1.setAlignment(Align.center);
-        dialog.getContentTable().add(label1).padTop(40f);
+        if(title != null){
+            dialog.getContentTable().removeActor(this.title);
+        }
+        this.title = new LabelBuilder(title).withStyle(UseFont.CLASSIC_BOLD_NORMAL_WHITE).build();
+        this.title.setAlignment(Align.center);
+        dialog.getContentTable().add(this.title).padTop(40f);
     }
 
     public void addButton(TextButton btn){

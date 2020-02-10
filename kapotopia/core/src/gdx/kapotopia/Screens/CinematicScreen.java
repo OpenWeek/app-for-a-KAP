@@ -107,7 +107,7 @@ public abstract class CinematicScreen implements Screen {
 
         final float xButton = this.game.viewport.getWorldWidth() / 2.5f;
         this.next = new TextButtonBuilder(nextBtnLabel).withStyle(styleNextBtn).isVisible(true)
-                .withPosition(xButton, this.game.viewport.getWorldHeight() / 10f).withListener(new ChangeListener() {
+                .withPosition(xButton, this.game.viewport.getWorldHeight() / 30f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                          if(!nextImage()) {
