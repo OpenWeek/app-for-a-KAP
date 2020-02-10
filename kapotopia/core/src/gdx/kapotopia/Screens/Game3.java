@@ -83,6 +83,8 @@ public class Game3 implements Screen {
 
     }
 
+    public Core getCore(){return core;}
+
     public void back(){
         if(core.playerSucceeded()) {
             this.successSound.play();
@@ -170,6 +172,29 @@ public class Game3 implements Screen {
                 game.changeScreen(ScreenType.WORLD2);
                 game.destroyScreen(ScreenType.GAME3);
 
+                return true;
+            }
+
+        });
+
+        popup.addButton(btnYes);
+        popup.setPosition(0,50);
+        popup.show();
+    }
+    public void LockPopUp(String description) {
+
+        final PopUpBuilder popup = new  PopUpBuilder(game, popStage);
+
+        popup.setTitle(description);
+
+        TextButton btnYes = new TextButtonBuilder("back").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
+        btnYes.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+
+                // Do whatever here for exit button
+                popup.close();
                 return true;
             }
 

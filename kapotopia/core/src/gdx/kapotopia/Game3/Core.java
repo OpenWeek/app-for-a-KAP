@@ -13,7 +13,6 @@ import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Helpers.Builders.PopUpBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Screens.Game3;
 
 import java.util.*;
@@ -40,7 +39,6 @@ public class Core {
 
     private SpriteBatch batch;
 
-    private Texture goalT;
     private Texture falseGoalT;
 
     public Core(Game3 parent, int sizex, int sizey){
@@ -58,7 +56,7 @@ public class Core {
         random = new Random();
         tiles = new Pair[sizex][sizey];
 
-        goalT = new Texture("game3/Serrure1Fermee.png");
+        Texture T2 = new Texture("game3/Serrure1Fermee.png");
         falseGoalT = new Texture("game3/Serrure2Fermee.png");
 
         width = Pair.tile_size*sizex;
@@ -70,22 +68,50 @@ public class Core {
         stack = new Stack<Pair>();
         set = new HashSet<Tile>(sizex*sizey);
 
-        setGoal(nbGoals, sizey);
-
         batch = new SpriteBatch();
 
-        //TODO : assign correct goal
-        correctGoal = goals[nbGoals/2].pos;
-        goals[nbGoals/2].sprite.setTexture(goalT);
+        setGoal(nbGoals, sizey);
 
-        for (Goal g: goals) {
-            createPath(g.pos,sizey-1);
+        Random r = new Random();
+        //TODO : fill with real strings
+        for (int i = 0; i < nbGoals; i++){
+            goals[i].popup.setTitle("unsafe practice placeholder");
+            if (r.nextBoolean()){
+                goals[i].sprite.setTexture(T2);
+            }
         }
+        int correct = r.nextInt(nbGoals);
+        goals[correct].popup.setTitle( "safe practice placeholder");
+        correctGoal = goals[correct].pos;
+
+        for (int i = 0; i < nbGoals; i++){
+            if(i == correct){
+                continue;
+            }
+            createPath(goals[i].pos,sizey-1);
+        }
+        createPath(correctGoal, sizey-1);
 
         updatePath(tiles[0][0]);
 
     }
 
+    private void addLine(int x, int y){
+        if(tiles[x][y] == null){
+            tiles[x][y] = Pair.randomLine(x ,y);
+        }
+        else if (!tiles[x][y].line){
+            tiles[x][y] = Pair.randomBoth(x,y);
+        }
+    }
+    private void addTurn(int x, int y){
+        if(tiles[x][y] == null){
+            tiles[x][y] = Pair.randomTurn(x, y);
+        }
+        else if (!tiles[x][y].turn){
+            tiles[x][y] = Pair.randomBoth(x, y);
+        }
+    }
     private void createPath(int xDest, int yDest){
 
         //tiles[0][0] = Pair.randomTurn(0,0);
@@ -94,6 +120,9 @@ public class Core {
         boolean vert = true;
         boolean dx = false;
         boolean dy = false;
+
+        //N,W,S,E
+        int previous = 2;
 
         int p = 25;
 
@@ -106,38 +135,36 @@ public class Core {
                         dx = !dx;
                         p -= 1;
                     }
-                    if(tiles[x][y] == null){
-                        tiles[x][y] = Pair.randomTurn(x, y);
-                    }
-                    else if (!tiles[x][y].turn){
-                        tiles[x][y] = Pair.randomBoth(x, y);
-                    }
 
                     if (dx && x > 0) {
+                        addTurn(x,y);
                         x--;
+                        previous = 3;
                     }
                     else if(x < sizex - 1){
+                        addTurn(x,y);
                         x++;
+                        previous = 1;
+                    }
+                    else {
+                        vert = true;
                     }
                 }
                 else{
-
                     dy = (yDest - y) < 0;
                     if(random.nextInt(100) < p){
                         dy = !dy;
                         p-=1;
                     }
-                    if(tiles[x][y] == null){
-                        tiles[x][y] = Pair.randomLine(x ,y);
-                    }
-                    else if (!tiles[x][y].line){
-                        tiles[x][y] = Pair.randomBoth(x,y);
-                    }
-                    if (dy && y > 0) {
+                    if (previous != 2 && dy && y > 0) {
+                        addLine(x,y);
                         y--;
+                        previous = 0;
                     }
-                    else if(y < sizey - 1){
+                    else if(previous != 0 && y < sizey - 1){
+                        addLine(x,y);
                         y++;
+                        previous = 2;
                     }
                 }
             }
@@ -149,18 +176,15 @@ public class Core {
                         dx = !dx;
                         p -= 1;
                     }
-                    if(tiles[x][y] == null){
-                        tiles[x][y] = Pair.randomLine(x, y);
-                    }
-                    else if (!tiles[x][y].turn)
-                    {
-                        tiles[x][y] = Pair.randomBoth(x, y);
-                    }
-                    if (dx && x > 0) {
+                    if (previous != 1 && dx && x > 0) {
+                        addLine(x,y);
                         x--;
+                        previous = 3;
                     }
-                    else if(x < sizex - 1){
+                    else if(previous != 3 && x < sizex - 1){
+                        addLine(x,y);
                         x++;
+                        previous = 1;
                     }
                 }
                 else{
@@ -171,37 +195,27 @@ public class Core {
                         p-=1;
                     }
 
-                    if(tiles[x][y] == null){
-                        tiles[x][y] = Pair.randomTurn(x ,y);
-                    }
-                    else if (!tiles[x][y].line)
-                    {
-                        tiles[x][y] = Pair.randomBoth(x,y);
-                    }
                     if (dy && y > 0) {
+                        addTurn(x,y);
                         y--;
+                        previous = 0;
                     }
                     else if(y < sizey - 1){
+                        addTurn(x,y);
                         y++;
+                        previous = 2;
+                    }
+                    else {
+                        vert = false;
                     }
                 }
             }
         }
         if(vert){
-            if(tiles[x][y] == null){
-                tiles[x][y] = Pair.randomLine(x ,y);
-            }
-            else if (!tiles[x][y].line){
-                tiles[x][y] = Pair.randomBoth(x,y);
-            }
+            addLine(x,y);
         }
         else {
-            if(tiles[x][y] == null){
-                tiles[x][y] = Pair.randomTurn(x ,y);
-            }
-            else if (!tiles[x][y].line){
-                tiles[x][y] = Pair.randomBoth(x,y);
-            }
+            addTurn(x,y);
         }
     }
 
@@ -299,6 +313,7 @@ public class Core {
         //Click inside puzzle
         int X = (x-xOffSet)/Pair.tile_size;
         int Y = (y-yOffSet)/Pair.tile_size;
+
         if(x >= xOffSet && y >= yOffSet && x <= xOffSet+width && y <= yOffSet+height){
             if(tiles[X][Y] != null){
                 tiles[X][Y].rotate(1);
@@ -310,7 +325,6 @@ public class Core {
                     parent.back();
                 }
             }
-
         }
 
         for (Goal g : goals){
@@ -345,6 +359,7 @@ public class Core {
     public boolean playerSucceeded() {
         return this.succeeded;
     }
+
 }
 
 
@@ -587,7 +602,4 @@ class Goal{
             sprite.draw(batch);
         }
     }
-
-
-
 }
