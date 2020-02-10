@@ -284,20 +284,21 @@ public class Game2 implements Screen {
              * @param left: boolean that indicates in what direction the change needs to be done
              * the current basket is changed to the next one if there is one and if left is true,
              * it is changed to the previous one if there is one and left is false.
-             * Nothing happens if there is no following or previous basket.
+             * Nothing happens if there is no following or previous basket or if the game has been lost.
              */
             private void updateBasket(boolean left){
-                Gdx.app.log("TAG","entering updateBasket function");
-                currentBasket.hideLabel();
-                if(left){//get following basket on the right
-                    if(currentBasket.getNext()!=null)
-                        currentBasket = currentBasket.getNext();
+                if(lives>0) {
+                    Gdx.app.log("TAG", "entering updateBasket function");
+                    currentBasket.hideLabel();
+                    if (left) {//get following basket on the right
+                        if (currentBasket.getNext() != null)
+                            currentBasket = currentBasket.getNext();
+                    } else {//get following basket on the left
+                        if (currentBasket.getPrevious() != null)
+                            currentBasket = currentBasket.getPrevious();
+                    }
+                    currentBasket.showLabel();
                 }
-                else {//get following basket on the left
-                    if(currentBasket.getPrevious()!=null)
-                        currentBasket = currentBasket.getPrevious();
-                }
-                currentBasket.showLabel();
             }
 
             /**
@@ -308,7 +309,7 @@ public class Game2 implements Screen {
              *      set @currentBall to null
              *      decreases @lives by one if no match
              *      increase @STIfound by one if match
-             *      display end game message if game is finished
+             *      display end game message and remove the listeners if game is finished
              */
             private void play(){
                 Gdx.app.log(TAG,"Entering play function");
@@ -319,7 +320,12 @@ public class Game2 implements Screen {
                     livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).isVisible(true).withPosition(livesX,livesY).build();
                     stage.addActor(livesLabel);
                     if(lives==0){//Game is lost
+                        //remove the listeners and hide the symptom
+                        for(int i=0; i < STInbr; i++){
+                            sittingBalls[i].getButton().removeListener(ballClick[i]);
+                        }
                         currentBasket.hideLabel();
+                        //Display losing message
                         if(STIfound>=(STInbr/2)){
                             Label gameWon0 = new LabelBuilder("Pas mal!")
                                     .withPosition(game.viewport.getWorldWidth()/2.5f,middleY)
