@@ -2,6 +2,7 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,7 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
@@ -35,6 +38,9 @@ public class Options implements Screen {
     private Skin skin;
     private Image fond;
 
+    private Sound soundOnSound;
+    private Sound soundOffSound;
+
     private SelectBox<String> languageSelect;
     private ImageButton soundOnBtn;
     private ImageButton soundOffBtn;
@@ -45,8 +51,11 @@ public class Options implements Screen {
         this.stage = new Stage(game.viewport);
         settings = game.getSettings();
 
-        fond = new ImageBuilder().withTexture("FondNiveauBlanc2.png").isVisible(true).build();
+        fond = new ImageBuilder().withTexture("game3/Porte.png").isVisible(true).build();
         skin = AssetsManager.getInstance().getSkinByPath("skins/comic/skin/comic-ui.json");
+
+        soundOnSound = SoundHelper.getSound(UseSound.BOUP9);
+        soundOffSound = SoundHelper.getSound(UseSound.BOUP1);
 
         languageSelect = new SelectBoxBuilder<String>().withSkin(skin).withItems(settings.getSupportedLangsText())
                 .withPosition(game.viewport.getWorldWidth() / 4, 300)
@@ -76,7 +85,7 @@ public class Options implements Screen {
                 .withStyle(UseFont.CLASSIC_BOLD_NORMAL_YELLOW).withAlignment(Alignement.CENTER).build();
 
         stage.addActor(fond);
-        stage.addActor(languageSelect);
+        //stage.addActor(languageSelect);
         stage.addActor(soundOnBtn);
         stage.addActor(soundOffBtn);
         stage.addActor(backBtn);
@@ -128,6 +137,8 @@ public class Options implements Screen {
             settings.toggleMusic();
             soundOnBtn.setVisible(settings.isMusicOn());
             soundOffBtn.setVisible(!settings.isMusicOn());
+            if (soundOnBtn.isVisible()) soundOnSound.play();
+            else soundOffSound.play();
         }
     }
 }

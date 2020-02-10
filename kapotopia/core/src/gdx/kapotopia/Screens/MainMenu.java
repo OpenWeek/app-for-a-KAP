@@ -9,9 +9,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.Animations.NeonDoorAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
@@ -25,6 +27,7 @@ import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
+import sun.security.util.ByteArrayLexOrder;
 
 public class MainMenu implements Screen {
 
@@ -63,6 +66,7 @@ public class MainMenu implements Screen {
 
         // Import sounds
         this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
+        final Sound blocked = SoundHelper.getSound(UseSound.HINT);
 
         //Import fonts
         TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
@@ -77,8 +81,15 @@ public class MainMenu implements Screen {
                 .withStyle(style).withPosition(x*0.82f, y * 0.43f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
         final TextButton world4 = new TextButtonBuilder(Localisation.getInstance().getString("text_istdex"))
-                .withStyle(style).withPosition(x, y * 0.2f)
-                .withListener(new ChangeScreenListener(game, ScreenType.WORLD4)).build();
+                .withStyle(style).withPosition(x, y * 0.2f).withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+
+                        blocked.play();
+                    }
+                })
+                //.withListener(new ChangeScreenListener(game, ScreenType.WORLD4))
+                .build();
         final TextButton optionsBtn = new TextButtonBuilder("Options").withStyle(style).withPosition(x / 3, y * 0.01f)
                 .withListener(new ChangeScreenListener(game, ScreenType.OPTIONS)).build();
 
