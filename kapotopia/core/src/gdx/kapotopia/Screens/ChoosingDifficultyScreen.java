@@ -44,7 +44,6 @@ public class ChoosingDifficultyScreen implements Screen {
 
     private final ScreenType nextScreen;
 
-    private final String TAG = "difficultyScreen";
     private final String BTN_PATH = "ImagesGadgets/Bouton.png";
 
     // Animation
@@ -171,7 +170,7 @@ public class ChoosingDifficultyScreen implements Screen {
         stage.addActor(hardBtn);
         stage.addActor(infiniteBtn);
 
-        AssetsManager.getInstance().addStage(stage, TAG);
+        AssetsManager.getInstance().addStage(stage, this.getClass().getName());
     }
 
     @Override

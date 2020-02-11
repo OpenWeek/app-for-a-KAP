@@ -2,6 +2,7 @@ package gdx.kapotopia;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
@@ -22,21 +23,34 @@ import gdx.kapotopia.Screens.mockupG3;
 
 public class Kapotopia extends com.badlogic.gdx.Game {
 
-	public FitViewport viewport;
+	/* APP-WIDE VARIABLES */
 
-	public static final float GAME_WIDTH = 1080;
-	public static final int GAME_HEIGHT = 1920;
+    // CONSTANTS
 
-	public final static float SCALLING_FACTOR_ENTITY = 5.3f;
+    // TODO changer VERSION_NAME ET VERSION_CODE à chaque fois que l'on update le jeu, pas trouvé de moyen pour les liés automatiquement au gradle build d'android
+    public static final String VERSION_NAME = "Alpha-0.4";
+    public static final int VERSION_CODE = 13;
 
-	public final static float ONE_CHARACTER_STD_HEIGHT = 60f;
-	public final static float ONE_CHARACTER_STD_WIDTH = 30f;
+    public static final float GAME_WIDTH = 1080;
+    public static final int GAME_HEIGHT = 1920;
 
-	private static final String TAG = "Kapotopia_class";
+    public final static float SCALLING_FACTOR_ENTITY = 5.3f;
+    public final static float ONE_CHARACTER_STD_HEIGHT = 60f;
+    public final static float ONE_CHARACTER_STD_WIDTH = 30f;
 
-	// TODO changer VERSION_NAME ET VERSION_CODE à chaque fois que l'on update le jeu, pas trouvé de moyen pour les liés automatiquement au gradle build d'android
-	public static final String VERSION_NAME = "Alpha-0.3.3";
-	public static final int VERSION_CODE = 12;
+    public final static int debugLvl = Logger.DEBUG;
+
+    // COMPLEX OBJECTS
+
+    private final Logger log = new Logger(this.getClass().getName(), debugLvl);
+
+    public FitViewport viewport;
+    // The value Gateway
+    private ValueGateway gate;
+    // Settings
+    private Settings settings;
+
+    /* INNER VARIABLES */
 
 	// Screens
 	private Game1 game1;
@@ -54,10 +68,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private ChoosingDifficultyScreen dif;
 	private Options options;
 
-	// The value Gateway
-	private ValueGateway gate;
-	// Settings
-	private Settings settings;
+
 
 	@Override
 	public void create () {
@@ -71,7 +82,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	@Override
 	public void dispose () {
-		Gdx.app.log(TAG, "Disposing every game resources");
+	    log.info("Disposing every game resources");
 		AssetsManager.getInstance().disposeAllResources();
 	}
 
@@ -89,7 +100,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 * @return true if the operation succeeded, false otherwise
 	 */
 	public boolean changeScreen(ScreenType TYPE) {
-		Gdx.app.log(TAG,"Entering changeScreen function");
+	    log.debug("Changing screen to " + TYPE.name());
 		return selectScreen(ScreenAction.CHANGE, TYPE);
 	}
 
@@ -99,7 +110,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 * @return true if the operation succeeded, false otherwise
 	 */
 	public boolean destroyScreen(ScreenType TYPE) {
-		Gdx.app.log(TAG, "Entering destroyScreen function");
+	    log.debug("Destroying Screen " + TYPE.name());
 		return selectScreen(ScreenAction.DESTROY, TYPE);
 	}
 

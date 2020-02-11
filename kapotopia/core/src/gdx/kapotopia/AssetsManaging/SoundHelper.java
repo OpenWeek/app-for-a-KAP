@@ -52,6 +52,12 @@ public class SoundHelper {
             case SUCCESS:
                 result = "sound/bruitage/leszek-szary_success-1.wav";
                 break;
+            case BOUP1:
+                result = "sound/bruitage/boup1.ogg";
+                break;
+            case BOUP9:
+                result = "sound/bruitage/boup9.ogg";
+                break;
             default:
                 result = null;
                 break;
