@@ -219,8 +219,7 @@ public class Game1 implements Screen, MireilleListener {
         EventListener quitEvent = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                music = prepareMusic();
-                music.pause();
+                music.stop();
                 game.destroyScreen(ScreenType.GAME1);
                 game.destroyScreen(ScreenType.MAINMENU);
                 game.changeScreen(ScreenType.MAINMENU);

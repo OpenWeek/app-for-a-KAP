@@ -1,6 +1,7 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -23,6 +24,7 @@ import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.SelectBoxBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Languages;
 import gdx.kapotopia.Localisation;
@@ -38,6 +40,7 @@ public class Options implements Screen {
     private Skin skin;
     private Image fond;
 
+    private Sound pauseSound;
     private Sound soundOnSound;
     private Sound soundOffSound;
 
@@ -51,9 +54,10 @@ public class Options implements Screen {
         this.stage = new Stage(game.viewport);
         settings = game.getSettings();
 
-        fond = new ImageBuilder().withTexture("game3/Porte.png").isVisible(true).build();
+        fond = new ImageBuilder().withTexture("EcranMenu/EcranOption.png").isVisible(true).build();
         skin = AssetsManager.getInstance().getSkinByPath("skins/comic/skin/comic-ui.json");
 
+        pauseSound = SoundHelper.getSound(UseSound.PAUSE);
         soundOnSound = SoundHelper.getSound(UseSound.BOUP9);
         soundOffSound = SoundHelper.getSound(UseSound.BOUP1);
 
@@ -82,7 +86,7 @@ public class Options implements Screen {
 
         backBtn = new TextButtonBuilder(Localisation.getInstance().getString("back_button"))
                 .withY(50).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU)).isVisible(true)
-                .withStyle(UseFont.CLASSIC_BOLD_NORMAL_YELLOW).withAlignment(Alignement.CENTER).build();
+                .withStyle(UseFont.CLASSIC_BOLD_NORMAL_WHITE).withAlignment(Alignement.CENTER).build();
 
         stage.addActor(fond);
         //stage.addActor(languageSelect);
@@ -94,7 +98,7 @@ public class Options implements Screen {
     @Override
     public void show() {
         settings = game.getSettings();
-        Gdx.input.setInputProcessor(stage);
+        setUpInputProcessor();
     }
 
     @Override
@@ -113,7 +117,7 @@ public class Options implements Screen {
 
     @Override
     public void pause() {
-
+        pauseSound.play();
     }
 
     @Override
@@ -129,6 +133,13 @@ public class Options implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    private void setUpInputProcessor() {
+        InputMultiplexer im = new InputMultiplexer();
+        im.addProcessor(new StandardInputAdapter(this, game));
+        im.addProcessor(stage);
+        Gdx.input.setInputProcessor(im);
     }
 
     private class toggleMusicListener extends ChangeListener {

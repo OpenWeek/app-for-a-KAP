@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_BLACK;
+import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_WHITE;
 
 public class Basket {
 
@@ -21,7 +22,7 @@ public class Basket {
     public Basket(int nbr, String txt){
         this.STInbr = nbr;
         this.symptom = txt;
-        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_BLACK).isVisible(false).withWidth(500).isWrapped(true).build();
+        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(500).isWrapped(true).build();
         this.previous = null;
         this.next = null;
     }
@@ -29,7 +30,7 @@ public class Basket {
     public Basket(int nbr, String txt, Basket prevB){
         this.STInbr = nbr;
         this.symptom = txt;
-        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_BLACK).isVisible(false).withWidth(500).isWrapped(true).build();
+        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(500).isWrapped(true).build();
         this.previous = prevB;
         this.next = null;
     }
@@ -37,7 +38,7 @@ public class Basket {
     public Basket(int nbr, String txt, Basket prevB, Basket nextB){
         this.STInbr = nbr;
         this.symptom = txt;
-        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_BLACK).isVisible(false).withWidth(500).isWrapped(true).build();
+        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(500).isWrapped(true).build();
         this.previous = prevB;
         this.next = nextB;
     }
@@ -94,7 +95,7 @@ public class Basket {
 
     public void setName(String name){
         this.symptom = name;
-        this.label = new LabelBuilder(name).withStyle(CLASSIC_SANS_SMALL_BLACK).isVisible(false).withWidth(500).isWrapped(true).withPosition(x,y).build();
+        this.label = new LabelBuilder(name).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(500).isWrapped(true).withPosition(x,y).build();
     }
 
     public void showLabel(){
