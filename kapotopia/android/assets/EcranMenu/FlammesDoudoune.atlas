@@ -1,0 +1,62 @@
+
+FlammesDoudoune.png
+size: 8192,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+EcranJeu1Enfer
+  rotate: false
+  xy: 2, 2
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+EcranJeu1Enfer2
+  rotate: false
+  xy: 1084, 2
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+EcranJeu1Enfer3
+  rotate: false
+  xy: 2166, 2
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+EcranJeu1Enfer4
+  rotate: false
+  xy: 3248, 2
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+EcranJeu1Enfer5
+  rotate: false
+  xy: 4330, 2
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+EcranJeu1Enfer6
+  rotate: false
+  xy: 5412, 2
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+EcranJeu1Enfer7
+  rotate: false
+  xy: 6494, 2
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+EcranJeu1Enfer8
+  rotate: false
+  xy: 2, 1924
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1

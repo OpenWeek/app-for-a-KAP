@@ -82,11 +82,13 @@ public class Game2 implements Screen {
         Image imgBckground2 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Mer.png"));
         Image imgBckground3 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"ciel.png"));
         Image imgBckground4 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Palmier1.png"));
+        Image imgBckground5 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"UnPANNAL.png"));
         this.stage = new Stage(game.viewport);
         this.stage.addActor(imgBckground);
         this.stage.addActor(imgBckground2);
         this.stage.addActor(imgBckground3);
         this.stage.addActor(imgBckground4);
+        this.stage.addActor(imgBckground5);
         middleX = game.viewport.getWorldWidth()/3;
         middleY = game.viewport.getWorldHeight()/2;
 
