@@ -3,6 +3,7 @@ package gdx.kapotopia.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -34,6 +35,9 @@ public class Game2 implements Screen {
 
     private Sound successSound;
     private Sound nextSound;
+    private Music music;
+
+    private boolean musicOn;
 
     private Basket currentBasket;
     private Ball currentBall;
@@ -92,9 +96,14 @@ public class Game2 implements Screen {
         middleX = game.viewport.getWorldWidth()/3;
         middleY = game.viewport.getWorldHeight()/2;
 
+        this.musicOn = game.getSettings().isMusicOn();
+
         // Sounds and Music
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
         this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
+        this.music = AssetsManager.getInstance().getMusicByPath("sound/verano_sensual.mp3");
+        this.music.setPosition(0f);
+        this.music.setLooping(true);
 
         final Image outro0 = new Image(new Texture(GAME_PATH + "20_board_1.png"));
         prepareMockup(outro0);
@@ -156,6 +165,7 @@ public class Game2 implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         setUpInputProcessor(); //Custom Input processor that allows to detect swipes
+        if (musicOn) music.play();
     }
 
     @Override
@@ -172,22 +182,25 @@ public class Game2 implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        game.viewport.update(width, height, true);
     }
 
     @Override
     public void pause() {
-
+        if (musicOn)
+            music.pause();
     }
 
     @Override
     public void resume() {
-
+        if (musicOn)
+            this.music.play();
     }
 
     @Override
     public void hide() {
-
+        if (musicOn)
+            this.music.stop();
     }
 
     @Override

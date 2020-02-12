@@ -147,6 +147,7 @@ public class Game1 implements Screen, MireilleListener {
      *                      M E T H O D S                   *
      ******************************************************* */
 
+    //TODO add Jojos references
 
     /**
      * Constructeur

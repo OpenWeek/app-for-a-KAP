@@ -2,6 +2,7 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -35,6 +36,9 @@ public class MainMenu implements Screen {
     private Stage stage;
 
     private Sound pauseSound;
+    private Music music;
+
+    private boolean musicOn;
 
     // Background
     private OrthographicCamera camera;
@@ -52,6 +56,8 @@ public class MainMenu implements Screen {
         this.game = game;
         stage = new Stage(game.viewport);
 
+        this.musicOn = game.getSettings().isMusicOn();
+
         // Background
         this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f,0); // I dont understand why, but this works. If someone knows plz explain me. F.D.
@@ -67,6 +73,9 @@ public class MainMenu implements Screen {
         // Import sounds
         this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
         final Sound blocked = SoundHelper.getSound(UseSound.HINT);
+        this.music = AssetsManager.getInstance().getMusicByPath("sound/breaktime.mp3");
+        music.setPosition(0f);
+        music.setLooping(true);
 
         //Import fonts
         TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
@@ -111,6 +120,9 @@ public class MainMenu implements Screen {
     public void show() {
         Gdx.app.log(TAG,"Entering show function");
         Gdx.input.setInputProcessor(stage);
+
+        if (musicOn)
+            music.play();
     }
 
     @Override
@@ -142,16 +154,20 @@ public class MainMenu implements Screen {
     @Override
     public void pause() {
         this.pauseSound.play();
+        if (musicOn)
+            this.music.pause();
     }
 
     @Override
     public void resume() {
-
+        if (musicOn)
+            this.music.play();
     }
 
     @Override
     public void hide() {
-
+        if (musicOn)
+            this.music.stop();
     }
 
     @Override
