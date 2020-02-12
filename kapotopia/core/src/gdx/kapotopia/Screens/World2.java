@@ -41,7 +41,7 @@ public class World2 implements Screen {
 
         this.gameStart = SoundHelper.getSound(UseSound.GAMESTART);
 
-        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK);
+        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
 
         final Button play = new TextButton(Localisation.getInstance().getString("play_button"), style);
         float x = game.viewport.getWorldWidth() / 2.5f;

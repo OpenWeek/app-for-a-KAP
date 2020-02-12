@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.I18NBundle;
 
+import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
@@ -33,9 +34,14 @@ public class mockupG3 extends CinematicScreen {
                 }
         };
 
+        final Image tom = new ImageBuilder().withTexture("game3/Thomas Godiva.png").withPosition(50, 50)
+                .build();
+        tom.setScaleY(0.75f);
+
         final Image[][] images = new Image[][] {
                 {
-                    new ImageBuilder().withTexture("game3/Monde2Ecran2.png").build()
+                    new ImageBuilder().withTexture("game3/Monde2Ecran2.png").build(),
+                        tom
                 },
                 {
                     new ImageBuilder().withTexture("game3/Monde2Ecran3.png").build()
@@ -43,7 +49,7 @@ public class mockupG3 extends CinematicScreen {
         };
 
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME3)
-        .withImages(images).withLabels(labels).withFinishBtn(false));
+        .withImages(images).withLabels(labels).withFinishBtn(false).withNextBtnStyle(UseFont.CLASSIC_BOLD_NORMAL_WHITE));
     }
 
     @Override
