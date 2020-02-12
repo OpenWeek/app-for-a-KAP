@@ -6,28 +6,20 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import gdx.kapotopia.*;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
-import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.PopUpBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
+
+import java.util.Random;
 
 public class Game3 implements Screen {
 
@@ -46,7 +38,7 @@ public class Game3 implements Screen {
         inGame = true;
         popStage = new Stage(game.viewport);
 
-        core = new Core(this, 9,10, 2);
+        core = new Core(this, 10,15, 3);
 
         EventHandlerGame3 eventHandlerGame3 = new EventHandlerGame3(core);
 
@@ -72,7 +64,9 @@ public class Game3 implements Screen {
         //stage.addActor(res);
         Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("game3/Porte.png"));
         Image imgFond2 = new Image(AssetsManager.getInstance().getTextureByPath("game3/VerrouFerme.png"));
-        Image imgFond3 = new Image(AssetsManager.getInstance().getTextureByPath("game3/NeonsRoses.png"));
+        String[] neons = {"NeonsRoses", "NeonsRouges", "NeonsTurquoises", "NeonsVerts", "NeonsViolets"};
+        Random r = new Random();
+        Image imgFond3 = new Image(AssetsManager.getInstance().getTextureByPath("game3/"+neons[r.nextInt(neons.length)]+".png"));
 
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
 
@@ -89,7 +83,6 @@ public class Game3 implements Screen {
         if(core.playerSucceeded()) {
             this.successSound.play();
         }
-        //game.changeScreen(ScreenType.WORLD2);
         quitGameConfirm();
     }
     public final Kapotopia getGame(){
@@ -158,7 +151,7 @@ public class Game3 implements Screen {
 
         final PopUpBuilder popup = new  PopUpBuilder(game, popStage);
 
-        popup.setTitle("Are you sure that you want to exit?");
+        popup.setTitle("Congratulations!");
 
         TextButton btnYes = new TextButtonBuilder("Exit").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
         btnYes.addListener(new InputListener() {
