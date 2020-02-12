@@ -9,6 +9,7 @@ public class Localisation {
     private I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
     private I18NBundle stiStrings = I18NBundle.createBundle(Gdx.files.internal("strings/stiNames"));
     private I18NBundle symptomsStrings = I18NBundle.createBundle(Gdx.files.internal("strings/stiSymptoms"));
+    private I18NBundle practices = I18NBundle.createBundle(Gdx.files.internal("strings/practices"));
     private static Localisation instance = new Localisation();
     public Localisation()
     {
@@ -33,4 +34,7 @@ public class Localisation {
         return symptomsStrings.get(key);
     }
 
+    public String getPractice(String key){
+        return practices.get(key);
+    }
 }
