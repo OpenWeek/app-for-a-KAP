@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -45,6 +46,7 @@ import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Game1.CollisionManager;
 import gdx.kapotopia.Game1.MireilleBasic;
+import gdx.kapotopia.Game1.MireilleJojo;
 import gdx.kapotopia.Game1.MireilleListener;
 import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
@@ -81,6 +83,11 @@ public class Game1 implements Screen, MireilleListener {
     private boolean letsGoAppeared;
     private SpriteBatch animationSpriteBatch;
     private SpriteBatch backgroundBatch;
+    //JOJO
+    private byte Jcount;
+    private boolean jojoAppears;
+    private boolean jojoHasAppeared;
+    private MireilleJojo jojo;
     // Style of text
     private TextButton.TextButtonStyle style;
     private TextButton.TextButtonStyle styleSmall;
@@ -196,6 +203,11 @@ public class Game1 implements Screen, MireilleListener {
         this.backgroundBatch = new SpriteBatch();
         stateTime = 0f;
         letsGoAppeared = false;
+
+        Jcount = 0;
+        jojoAppears = false;
+        jojoHasAppeared = false;
+        this.jojo = new MireilleJojo(game);
 
         // Major actors
         this.mireille = prepareMireille();
@@ -327,6 +339,7 @@ public class Game1 implements Screen, MireilleListener {
         camera.update();
         backgroundBatch.setProjectionMatrix(camera.combined);
         animationSpriteBatch.setProjectionMatrix(camera.combined);
+        jojo.upProjMatrBatch(camera.combined);
 
         stateTime += delta;
         renderBackground();
@@ -361,6 +374,17 @@ public class Game1 implements Screen, MireilleListener {
             animationSpriteBatch.draw(currentFrame, (bounds.width / 5) * 2, bounds.height / 2);
             animationSpriteBatch.end();
         }
+
+        if (jojoAppears && !jojoHasAppeared) {
+            jojo.draw(delta);
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    jojoHasAppeared = true;
+                    isPaused = false;
+                }
+            }, 8f);
+        }
     }
 
     @Override
@@ -381,7 +405,7 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void resume() {
-
+        isPaused = false;
     }
 
     private void resumeFromPause() {
@@ -396,6 +420,7 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void hide() {
+        isPaused = false;
         if(musicOn) {
             music.pause();
         }
@@ -764,6 +789,7 @@ public class Game1 implements Screen, MireilleListener {
         im.addProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
             @Override
             public void onLeft() {
+                Jcount = 0;
                 if(!isPaused) {
                     final float newX = Math.max(mireille.getX() - MOVE_VALUE_X, MIN_X);
                     updateMireille(newX);
@@ -772,6 +798,7 @@ public class Game1 implements Screen, MireilleListener {
 
             @Override
             public void onRight() {
+                Jcount = 0;
                 if(!isPaused) {
                     final float xAndMoveValue = mireille.getX() + MOVE_VALUE_X;
                     final float newX = Math.min(xAndMoveValue, MAX_X);
@@ -782,15 +809,20 @@ public class Game1 implements Screen, MireilleListener {
 
             @Override
             public void onUp() {
-
+                Jcount++;
+                if (Jcount >= 3) {
+                    isPaused = true;
+                    jojoAppears = true;
+                }
             }
 
             @Override
             public void onDown() {
-
+                Jcount = 0;
             }
 
             private void updateMireille(float newX) {
+                Jcount = 0;
                 if(!isFinish) {
                     Gdx.app.log(TAG, "Mireille pos(x:" + newX + " | y:" + MIN_Y + " )");
                     mireille.setX(newX);
