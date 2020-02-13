@@ -17,6 +17,7 @@ public class MireilleJojo {
 
     private Sprite mireilleJojoFace;
     private Sprite mireilleJojoPose;
+    private Sprite mireilleJojoKanji;
     private SpriteBatch batch;
 
     public MireilleJojo(Kapotopia game) {
@@ -26,6 +27,7 @@ public class MireilleJojo {
         stateTime = 0;
         this.mireilleJojoFace = new Sprite(AssetsManager.getInstance().getTextureByPath("MireilleImages/MireilleJojo.png"));
         this.mireilleJojoPose = new Sprite(AssetsManager.getInstance().getTextureByPath("MireilleImages/MireilleJojoPose.png"));
+        this.mireilleJojoKanji = new Sprite(AssetsManager.getInstance().getTextureByPath("MireilleImages/MireilleJojoPoseKanji.png"));
         this.batch = new SpriteBatch();
     }
 
@@ -37,12 +39,16 @@ public class MireilleJojo {
             batch.draw(mireilleJojoFace, (wW - mireilleJojoFace.getWidth()) / 2, (wH - mireilleJojoFace.getHeight()) / 2, 0, 0,
                     mireilleJojoFace.getWidth(), mireilleJojoFace.getHeight(),
                     1, 1, 0);
-        } else {
+        } else if (stateTime < 6) {
+
             batch.draw(mireilleJojoPose, (wW - mireilleJojoFace.getWidth()) / 2, (wH - mireilleJojoFace.getHeight()) / 2, 0, 0,
                     mireilleJojoFace.getWidth(), mireilleJojoFace.getHeight(),
                     1, 1, 0);
+        } else {
+            batch.draw(mireilleJojoKanji, (wW - mireilleJojoFace.getWidth()) / 2, (wH - mireilleJojoFace.getHeight()) / 2, 0, 0,
+                    mireilleJojoFace.getWidth(), mireilleJojoFace.getHeight(),
+                    1, 1, 0);
         }
-
 
         batch.end();
     }
