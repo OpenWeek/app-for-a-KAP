@@ -400,14 +400,21 @@ public class Game1 implements Screen, MireilleListener {
                 music.stop();
                 musicJ.play();
                 musicJOn = true;
+                // We upgrade the difficulty => NIGHTMARE MODE
+                ennemi.setAccAddFactor(0.09f);
+                ennemi.setAccMaxLim(12f);
+                ennemi.setAcceleration(ennemi.getAcceleration() + 2);
+                mireille.toggleJojo();
+                mireille.setPosition(-500, - 500);
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
                         jojoHasAppeared = true;
                         isPaused = false;
                         Gdx.app.debug(TAG, "Jojo has appeared - isPaused is false");
+                        mireille.resetPosition();
                     }
-                }, 10f);
+                }, 9f);
                 jojoTimerLaunched = true;
             }
         }
@@ -759,7 +766,7 @@ public class Game1 implements Screen, MireilleListener {
                                 break;
                             case HARD:
                                 // We send the player to the next game, so GAME 2
-                                game.changeScreen(ScreenType.GAME2);
+                                game.changeScreen(ScreenType.MOCKUPG2);
                                 break;
                         }
 
