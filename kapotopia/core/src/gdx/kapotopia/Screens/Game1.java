@@ -414,7 +414,7 @@ public class Game1 implements Screen, MireilleListener {
                         Gdx.app.debug(TAG, "Jojo has appeared - isPaused is false");
                         mireille.resetPosition();
                     }
-                }, 9f);
+                }, 6f);
                 jojoTimerLaunched = true;
             }
         }
@@ -769,7 +769,6 @@ public class Game1 implements Screen, MireilleListener {
                                 game.changeScreen(ScreenType.MOCKUPG2);
                                 break;
                         }
-
                     }
                 };
 

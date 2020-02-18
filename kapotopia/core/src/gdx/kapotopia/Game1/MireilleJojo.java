@@ -1,10 +1,11 @@
 package gdx.kapotopia.Game1;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Animations.MireilluAnimation;
 import gdx.kapotopia.Kapotopia;
 
 public class MireilleJojo {
@@ -14,10 +15,7 @@ public class MireilleJojo {
     private final float wH;
 
     private float stateTime;
-
-    private Sprite mireilleJojoFace;
-    private Sprite mireilleJojoPose;
-    private Sprite mireilleJojoKanji;
+    private final Animation<TextureRegion> animation;
     private SpriteBatch batch;
 
     public MireilleJojo(Kapotopia game) {
@@ -25,9 +23,7 @@ public class MireilleJojo {
         this.wW = game.viewport.getWorldWidth();
         this.wH = game.viewport.getWorldHeight();
         stateTime = 0;
-        this.mireilleJojoFace = new Sprite(AssetsManager.getInstance().getTextureByPath("MireilleImages/MireilleJojo.png"));
-        this.mireilleJojoPose = new Sprite(AssetsManager.getInstance().getTextureByPath("MireilleImages/MireilleJojoPose.png"));
-        this.mireilleJojoKanji = new Sprite(AssetsManager.getInstance().getTextureByPath("MireilleImages/MireilleJojoPoseKanji.png"));
+        this.animation = new MireilluAnimation(Animation.PlayMode.NORMAL).getAnimation();
         this.batch = new SpriteBatch();
     }
 
@@ -35,21 +31,8 @@ public class MireilleJojo {
         stateTime += delta;
 
         batch.begin();
-        if (stateTime < 4) {
-            batch.draw(mireilleJojoFace, (wW - mireilleJojoFace.getWidth()) / 2, (wH - mireilleJojoFace.getHeight()) / 2, 0, 0,
-                    mireilleJojoFace.getWidth(), mireilleJojoFace.getHeight(),
-                    1, 1, 0);
-        } else if (stateTime < 6) {
-
-            batch.draw(mireilleJojoPose, (wW - mireilleJojoFace.getWidth()) / 2, (wH - mireilleJojoFace.getHeight()) / 2, 0, 0,
-                    mireilleJojoFace.getWidth(), mireilleJojoFace.getHeight(),
-                    1, 1, 0);
-        } else {
-            batch.draw(mireilleJojoKanji, (wW - mireilleJojoFace.getWidth()) / 2, (wH - mireilleJojoFace.getHeight()) / 2, 0, 0,
-                    mireilleJojoFace.getWidth(), mireilleJojoFace.getHeight(),
-                    1, 1, 0);
-        }
-
+        batch.draw(animation.getKeyFrame(stateTime, false), 0, 0,
+                game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         batch.end();
     }
 
