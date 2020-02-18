@@ -15,18 +15,31 @@ import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_WHITE;
 public class Ball extends Button {
 
     final private String TAG = "Ball class";
+
     /*Characteristics of the STD represented by the ball*/
     private int STInbr; //Integer that is linked to an STD and permits connection with the correct STD basket
     private String STIname;
+
     /*Variables related to the ball representation*/
     private float initX, initY; //Position of ball when waiting to be picked
     private float posX, posY; //Current position of ball
-    private float finishX, finishY;
+    private float finishX, finishY; //Position of ball after successfully been thrown
     final private float size = 200;
     private Label label;
     private ImageButton button;
     private final String TEXTURE_PATH = "World1/Game2/Ballon.png";
 
+    /*Variables related to movement of ball*/
+    private boolean moving;
+    private boolean flying;
+    private boolean rolling;
+    private boolean sliding;
+    private float g = 9.8f;
+    private float speed = 550;
+    private float t;
+    private double deg = 90;
+    private double rad = Math.toRadians(90);
+    private double ground;
 
     public Ball(int nbr, String name){
         this.STInbr = nbr;
@@ -63,6 +76,24 @@ public class Ball extends Button {
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
+    }
+
+    public Ball(int nbr, float x, float y, float g){
+        this.STInbr = nbr;
+        this.initX = x;
+        this.initY = y;
+        this.posX = x;
+        this.posY = y;
+        this.finishX = x;
+        this.finishY = y;
+        this.ground = g;
+        this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
+                AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
+        this.button.setBounds(x,y,size,size);
+        moving = false;
+        flying = false;
+        rolling = false;
+        sliding = false;
     }
 
     public Label getLabel(){
@@ -125,7 +156,23 @@ public class Ball extends Button {
     public void setGoal(float x, float y){
         this.finishX = x;
         this.finishY = y;
+        this.moving = true;
+        this.rolling = true;
+        this.sliding = true;
     }
+
+    public void setGoal(float x, float y, boolean fly){
+        this.finishX = x;
+        this.finishY = y;
+        this.moving = true;
+        this.rolling = true;
+        this.sliding = true;
+        if(fly){
+            this.flying = true;
+        }
+    }
+
+
 
     public void setName(String name){
         this.STIname = name;
@@ -141,7 +188,56 @@ public class Ball extends Button {
         this.label.setVisible(false);
     }
 
+    public void launch() {
+        this.moving = true;
+        this.flying = true;
+        this.rolling = true;
+        this.sliding = true;
+    }
+
     public void update(float delta) {
+        if(moving){
+            Gdx.app.log(TAG,"moving is true");
+            float v0 = speed * delta;
+            if(flying){
+                this.posY = this.posY + v0 * (float) Math.sin(rad) - g*(t-1);
+                t = t + delta;
+                if(this.posY <= ground){ //TODO: is not going to work that easily
+                    flying = false;
+                }
+            }
+            else {
+                if (rolling) {
+                    Gdx.app.log(TAG,"rolling is true");
+                    float vX = 2*(this.finishX - this.posX) * delta;
+                    this.posX = this.posX + vX;
+                    if (Math.abs(this.posX - this.finishX) < 1) {
+                        rolling = false;
+                    }
+                }
+                if (sliding) {
+                    Gdx.app.log(TAG,"sliding is true");
+                    float vY = 2*(this.finishY - this.posY) * delta;
+                    this.posY = this.posY + vY;
+                    if (Math.abs(this.posY - this.finishY) < 1) {
+                        sliding = false;
+                    }
+                } else {//End of launch, reset variables
+                    t = 0;
+                    moving = false;
+                }
+            }
+            this.button.setPosition(posX, posY);
+        }
+    }
+}
+
+/*
+float v0 = 400 * delta;
+        double deg = 90;
+        double rad = Math.toRadians(90);
+        this.posY = this.posY + v0 * (float) Math.sin(rad);
+
         //TODO improve ball displacement
         float speed = 400 * delta;
         if (this.posX < finishX - speed || this.posX > finishX + speed || this.posY < finishY - speed || this.posY > finishY + speed) {
@@ -157,6 +253,4 @@ public class Ball extends Button {
                 this.posY = this.posY - speed;
             }
             this.button.setPosition(posX, posY);
-        }
-    }
-}
+ */

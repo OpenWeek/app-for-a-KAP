@@ -102,6 +102,7 @@ public class Game2 implements Screen {
         final float symptY = game.viewport.getWorldHeight()/2.25f;
         final float sitBalX = game.viewport.getWorldWidth()/50;
         final float sitBalY = game.viewport.getWorldHeight()/24;
+        final float ground = game.viewport.getWorldHeight()/25;
         livesX = game.viewport.getWorldWidth()/1.3f;
         livesY = game.viewport.getWorldHeight()/1.225f;
         readyBalX = game.viewport.getWorldWidth()/2.2f;
@@ -130,7 +131,7 @@ public class Game2 implements Screen {
 
         //STI's creation and set up (representation of STI)
         for(int i = 0; i < STInbr; i++) {
-            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY);
+            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY, ground);
             stage.addActor(sittingBalls[i].getButton());
         }
         for(int i = 0; i < STInbr; i++){
@@ -360,7 +361,7 @@ public class Game2 implements Screen {
                 }
                 else{//right STI and symptom have been connected
                     currentBasket.hideLabel();
-                    currentBall.setGoal(finalBalX,finalBalY-STIfound*ballDelta);
+                    currentBall.setGoal(finalBalX,finalBalY-STIfound*ballDelta,true);
                     //currentBall.slide(finalBalX,finalBalY-STIfound*ballDelta);
                     currentBall.getButton().removeListener(ballClick[currentBall.getSTInbr()]);
                     currentBall = null;
