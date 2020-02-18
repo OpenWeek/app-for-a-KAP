@@ -10,7 +10,7 @@ import java.util.Random;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Screens.Game1;
 
-import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
+import static gdx.kapotopia.GameConfig.SCALLING_FACTOR_ENTITY;
 
 public class Virus extends VirusAbstract {
 

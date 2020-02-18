@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.badlogic.gdx.utils.Timer;
-
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 
-import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
+import static gdx.kapotopia.GameConfig.SCALLING_FACTOR_ENTITY;
 
 public class MireilleBasic extends EntityAbstract {
 

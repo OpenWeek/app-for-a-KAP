@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-import static gdx.kapotopia.Kapotopia.SCALLING_FACTOR_ENTITY;
+import static gdx.kapotopia.GameConfig.SCALLING_FACTOR_ENTITY;
 
 public abstract class VirusAbstract extends EntityAbstract {
 

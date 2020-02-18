@@ -1,9 +1,7 @@
 package gdx.kapotopia;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
@@ -30,20 +28,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	private final String TAG = this.getClass().getSimpleName();
 
-    // TODO changer VERSION_NAME ET VERSION_CODE à chaque fois que l'on update le jeu, pas trouvé de moyen pour les liés automatiquement au gradle build d'android
-    public static final String VERSION_NAME = "Alpha-0.4.1";
-    public static final int VERSION_CODE = 14;
-
-    public static final float GAME_WIDTH = 1080;
-    public static final int GAME_HEIGHT = 1920;
-
-    public final static float SCALLING_FACTOR_ENTITY = 5.3f;
-    public final static float ONE_CHARACTER_STD_HEIGHT = 60f;
-    public final static float ONE_CHARACTER_STD_WIDTH = 30f;
-
-    public final static int debugLvl = Logger.DEBUG;
-
-    // COMPLEX OBJECTS
+	// COMPLEX OBJECTS
 
     public FitViewport viewport;
     // The value Gateway
@@ -73,13 +58,13 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	@Override
 	public void create () {
-		viewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT);
+		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
 		this.gate = new ValueGateway();
 		this.settings = new Settings();
 		changeScreen(ScreenType.MAINMENU);
-		Gdx.app.setLogLevel(debugLvl);
+		Gdx.app.setLogLevel(GameConfig.debugLvl);
 	}
 
 	@Override
