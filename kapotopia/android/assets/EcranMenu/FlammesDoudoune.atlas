@@ -4,59 +4,59 @@ size: 8192,4096
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-EcranJeu1Enfer
+difScreenFire
   rotate: false
   xy: 2, 2
   size: 1080, 1920
   orig: 1080, 1920
   offset: 0, 0
-  index: -1
-EcranJeu1Enfer2
+  index: 1
+difScreenFire
   rotate: false
   xy: 1084, 2
   size: 1080, 1920
   orig: 1080, 1920
   offset: 0, 0
-  index: -1
-EcranJeu1Enfer3
+  index: 2
+difScreenFire
   rotate: false
   xy: 2166, 2
   size: 1080, 1920
   orig: 1080, 1920
   offset: 0, 0
-  index: -1
-EcranJeu1Enfer4
+  index: 3
+difScreenFire
   rotate: false
   xy: 3248, 2
   size: 1080, 1920
   orig: 1080, 1920
   offset: 0, 0
-  index: -1
-EcranJeu1Enfer5
+  index: 4
+difScreenFire
   rotate: false
   xy: 4330, 2
   size: 1080, 1920
   orig: 1080, 1920
   offset: 0, 0
-  index: -1
-EcranJeu1Enfer6
+  index: 5
+difScreenFire
   rotate: false
   xy: 5412, 2
   size: 1080, 1920
   orig: 1080, 1920
   offset: 0, 0
-  index: -1
-EcranJeu1Enfer7
+  index: 6
+difScreenFire
   rotate: false
   xy: 6494, 2
   size: 1080, 1920
   orig: 1080, 1920
   offset: 0, 0
-  index: -1
-EcranJeu1Enfer8
+  index: 7
+difScreenFire
   rotate: false
   xy: 2, 1924
   size: 1080, 1920
   orig: 1080, 1920
   offset: 0, 0
-  index: -1
+  index: 8

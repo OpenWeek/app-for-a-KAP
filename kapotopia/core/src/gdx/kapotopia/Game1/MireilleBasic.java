@@ -22,14 +22,20 @@ public class MireilleBasic extends EntityAbstract {
      */
     // Pour avertir les autres composants qu'elle a perdu une vie
     private List<MireilleListener> listeners = new ArrayList<MireilleListener>();
+    //TODO see if we cannot refractor the way we use textures
     private TextureRegion normalTexture;
     private TextureRegion sadTexture;
     private TextureRegion madTexture;
     private TextureRegion happyTexture;
+    private TextureRegion jojoFaceTexture;
+    private TextureRegion jojoPoseTexture;
+    private TextureRegion jojoKanjiTexture;
 
     private Random random;
     private byte lifes;
     private int score;
+    private boolean jojoActivated;
+    private float jojoScallingFactor;
 
     /*
      *  CONSTRUCTORS
@@ -47,6 +53,9 @@ public class MireilleBasic extends EntityAbstract {
         String SAD_TEXTURE_PATH = "MireilleImages/MireillePleure.png";
         String MAD_TEXTURRE_PATH = "MireilleImages/MireilleAChaud.png";
         String HAPPY_TEXTURE_PATH = "MireilleImages/MireilleBoucheOuverte.png";
+        String JOJO_FACE_TEXTURE_PATH = "MireilleImages/MireilleJojo.png";
+        String JOJO_POSE_TEXTURE_PATH = "MireilleImages/MireilleJojoPose.png";
+        String JOJO_KANJI_TEXTURE_PATH = "MireilleImages/MireilleJojoPoseKanji.png";
         final AssetsManager man = AssetsManager.getInstance();
         /*
          *  INITIALIZATION
@@ -55,12 +64,17 @@ public class MireilleBasic extends EntityAbstract {
         this.lifes = (byte) 3;
         this.score = 0;
         this.random = new Random();
+        this.jojoActivated = false;
+        jojoScallingFactor = 0f;
 
         // Differents textures
         normalTexture = new TextureRegion(man.getTextureByPath(NORMAL_TEXTURE_PATH));
         sadTexture = new TextureRegion(man.getTextureByPath(SAD_TEXTURE_PATH));
         madTexture = new TextureRegion(man.getTextureByPath(MAD_TEXTURRE_PATH));
         happyTexture = new TextureRegion(man.getTextureByPath(HAPPY_TEXTURE_PATH));
+        jojoFaceTexture = new TextureRegion(man.getTextureByPath(JOJO_FACE_TEXTURE_PATH));
+        jojoPoseTexture = new TextureRegion(man.getTextureByPath(JOJO_POSE_TEXTURE_PATH));
+        jojoKanjiTexture = new TextureRegion(man.getTextureByPath(JOJO_KANJI_TEXTURE_PATH));
     }
 
     /*
@@ -68,9 +82,10 @@ public class MireilleBasic extends EntityAbstract {
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        //TODO jojoscalling factor is there because the file dimensions for these textures are smaller than the other ones for mireille. When these will be reduced, we will be able to remove this factor
         batch.draw(texture, this.getX(), this.getY(),
-                (float) texture.getRegionWidth() / SCALLING_FACTOR_ENTITY,
-                (float) texture.getRegionHeight() / SCALLING_FACTOR_ENTITY);
+                (float) texture.getRegionWidth() / (SCALLING_FACTOR_ENTITY - jojoScallingFactor),
+                (float) texture.getRegionHeight() / (SCALLING_FACTOR_ENTITY - jojoScallingFactor));
     }
 
     public void act(float delta) {
@@ -95,7 +110,8 @@ public class MireilleBasic extends EntityAbstract {
         this.score += add;
         notifyScoreChanged(this.score);
         // We change temporally the texture
-        this.texture = happyTexture;
+        if (jojoActivated)  this.texture = jojoKanjiTexture;
+        else                this.texture = happyTexture;
         Timer.schedule(new BackToNormalTask(), 1.5f);
     }
 
@@ -120,9 +136,11 @@ public class MireilleBasic extends EntityAbstract {
         // We change temporally the texture
         boolean madOrSad = random.nextBoolean();
         if(madOrSad) {
-            this.texture = madTexture;
+            if (jojoActivated)   this.texture = jojoFaceTexture;
+            else                this.texture = madTexture;
         }else{
-            this.texture = sadTexture;
+            if (jojoActivated)  this.texture = jojoFaceTexture;
+            else                this.texture = sadTexture;
         }
         Timer.schedule(new BackToNormalTask(), 1.5f);
     }
@@ -145,10 +163,17 @@ public class MireilleBasic extends EntityAbstract {
         this.lifes = lifes;
     }
 
+    public void toggleJojo() {
+        this.jojoActivated = true;
+        jojoScallingFactor = 2f;
+        this.texture = jojoPoseTexture;
+    }
+
     private class BackToNormalTask extends Timer.Task {
         @Override
         public void run() {
-            texture = normalTexture;
+            if (jojoActivated) texture = jojoPoseTexture;
+            else texture = normalTexture;
         }
     }
 }

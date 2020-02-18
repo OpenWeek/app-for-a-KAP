@@ -45,6 +45,7 @@ import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.Game1.CollisionManager;
 import gdx.kapotopia.Game1.MireilleBasic;
+import gdx.kapotopia.Game1.MireilleJojo;
 import gdx.kapotopia.Game1.MireilleListener;
 import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
@@ -53,14 +54,14 @@ import gdx.kapotopia.GameDifficulty;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
-import gdx.kapotopia.Helpers.Padding;
-import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
-import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
-import gdx.kapotopia.Localisation;
-import gdx.kapotopia.ScreenType;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
+import gdx.kapotopia.Helpers.Padding;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
+import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localisation;
+import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.UnlockedLevel;
 import gdx.kapotopia.Utils;
 
@@ -81,6 +82,12 @@ public class Game1 implements Screen, MireilleListener {
     private boolean letsGoAppeared;
     private SpriteBatch animationSpriteBatch;
     private SpriteBatch backgroundBatch;
+    //JOJO
+    private byte Jcount;
+    private boolean jojoAppears;
+    private boolean jojoHasAppeared;
+    private boolean jojoTimerLaunched;
+    private MireilleJojo jojo;
     // Style of text
     private TextButton.TextButtonStyle style;
     private TextButton.TextButtonStyle styleSmall;
@@ -92,11 +99,13 @@ public class Game1 implements Screen, MireilleListener {
     private Sound pauseSound;
     private Sound istTouchedSound;
     private Music music;
+    private Music musicJ;
     // Useful Variables
     private boolean isFinish;
     private boolean didGameOverScreenAppeared;
     private boolean isPaused;   // To check if the game is paused or not
     private boolean musicOn;    // If this is true, the music will play
+    private boolean musicJOn;
     private boolean victory;
     private byte mireilleLife;
     private int totalScore;
@@ -122,7 +131,7 @@ public class Game1 implements Screen, MireilleListener {
     private final Rectangle bounds;
     private final float BTN_SPACING = 90f;
 
-    private final String TAG = "game1";
+    private final String TAG = this.getClass().getSimpleName();
     private final String LIFE_TXT = "Vies: ";
     private final String SCORE_TXT = "Score: ";
     private final String HIGHSCORE_TXT = "Highscore: ";
@@ -197,6 +206,18 @@ public class Game1 implements Screen, MireilleListener {
         stateTime = 0f;
         letsGoAppeared = false;
 
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        Jcount = 0;
+        jojoAppears = false;
+        jojoHasAppeared = false;
+        jojoTimerLaunched = false;
+        musicJOn = false;
+        this.jojo = new MireilleJojo(game);
+        this.musicJ = AssetsManager.getInstance().getMusicByPath("sound/bgm.ogg");
+        this.musicJ.setLooping(true);
+        this.musicJ.setPosition(0);
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
         // Major actors
         this.mireille = prepareMireille();
         this.mireille.addListener(this);
@@ -221,6 +242,7 @@ public class Game1 implements Screen, MireilleListener {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 music.stop();
+                musicJ.stop();
                 game.destroyScreen(ScreenType.GAME1);
                 game.destroyScreen(ScreenType.MAINMENU);
                 game.changeScreen(ScreenType.MAINMENU);
@@ -252,7 +274,10 @@ public class Game1 implements Screen, MireilleListener {
            public void clicked(InputEvent event, float x, float y) {
                if(isPaused) {
                    resumeFromPause();
+               } else {
+                   pause();
                }
+               Gdx.app.debug(TAG, "pauseLabel clicked - isPaused is " + isPaused);
            }
         });
 
@@ -286,7 +311,11 @@ public class Game1 implements Screen, MireilleListener {
         // in the case when the player come back after changed preferences by using back button
         this.musicOn = game.getSettings().isMusicOn();
         if(musicOn) {
-            music.play();
+            if (musicJOn) {
+                musicJ.play();
+            } else {
+                music.play();
+            }
         }
 
         setUpInputProcessor();
@@ -299,9 +328,11 @@ public class Game1 implements Screen, MireilleListener {
                 public void run() {
                     letsGoAppeared = true;
                     isPaused = false;
+                    Gdx.app.debug(TAG, "LetsGoAppeared - isPaused is false");
                 }
             }, delay);
         }
+        Gdx.app.log(TAG, "coucou c'est oui-oui");
     }
 
     private void renderBackground() {
@@ -327,6 +358,7 @@ public class Game1 implements Screen, MireilleListener {
         camera.update();
         backgroundBatch.setProjectionMatrix(camera.combined);
         animationSpriteBatch.setProjectionMatrix(camera.combined);
+        jojo.upProjMatrBatch(camera.combined);
 
         stateTime += delta;
         renderBackground();
@@ -361,6 +393,31 @@ public class Game1 implements Screen, MireilleListener {
             animationSpriteBatch.draw(currentFrame, (bounds.width / 5) * 2, bounds.height / 2);
             animationSpriteBatch.end();
         }
+
+        if (jojoAppears && !jojoHasAppeared) {
+            jojo.draw(delta);
+            if (!jojoTimerLaunched) {
+                music.stop();
+                musicJ.play();
+                musicJOn = true;
+                // We upgrade the difficulty => NIGHTMARE MODE
+                ennemi.setAccAddFactor(0.09f);
+                ennemi.setAccMaxLim(12f);
+                ennemi.setAcceleration(ennemi.getAcceleration() + 2);
+                mireille.toggleJojo();
+                mireille.setPosition(-500, - 500);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        jojoHasAppeared = true;
+                        isPaused = false;
+                        Gdx.app.debug(TAG, "Jojo has appeared - isPaused is false");
+                        mireille.resetPosition();
+                    }
+                }, 9f);
+                jojoTimerLaunched = true;
+            }
+        }
     }
 
     @Override
@@ -371,24 +428,34 @@ public class Game1 implements Screen, MireilleListener {
     @Override
     public void pause() {
         if(musicOn) {
-            music.pause();
+            if (musicJOn) {
+                musicJ.pause();
+            }else{
+                music.pause();
+            }
         }
         pauseSound.play();
         pauseLabel.setVisible(true);
         quitBtn.setVisible(true);
         isPaused = true;
+        Gdx.app.debug(TAG, "game paused - isPaused is true");
     }
 
     @Override
     public void resume() {
-
+        isPaused = true;
+        Gdx.app.debug(TAG, "game resumed - isPaused is false");
     }
 
     private void resumeFromPause() {
         pauseLabel.setVisible(false);
         quitBtn.setVisible(false);
         if(musicOn) {
-            music.play();
+            if (musicJOn) {
+                musicJ.play();
+            } else {
+                music.play();
+            }
         }
 
         isPaused = false;
@@ -396,8 +463,14 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void hide() {
+        isPaused = true;
+        Gdx.app.debug(TAG, "game hidden - isPaused is true");
         if(musicOn) {
-            music.pause();
+            if (musicJOn) {
+                musicJ.pause();
+            } else {
+                music.pause();
+            }
         }
     }
 
@@ -581,7 +654,11 @@ public class Game1 implements Screen, MireilleListener {
     }
     private void gameOver() {
         if(musicOn) {
-            this.music.setVolume(0.1f);
+            if (musicJOn) {
+                musicJ.setVolume(0.1f);
+            } else {
+                this.music.setVolume(0.1f);
+            }
         }
 
         // We hide every actor
@@ -672,7 +749,11 @@ public class Game1 implements Screen, MireilleListener {
                 EventListener continueEvent = new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        resetMusic(music);
+                        if (musicJOn) {
+                            resetMusic(musicJ);
+                        } else {
+                            resetMusic(music);
+                        }
                         game.destroyScreen(ScreenType.GAME1);
                         switch (difficulty) {
                             case EASY:
@@ -685,7 +766,7 @@ public class Game1 implements Screen, MireilleListener {
                                 break;
                             case HARD:
                                 // We send the player to the next game, so GAME 2
-                                game.changeScreen(ScreenType.GAME2);
+                                game.changeScreen(ScreenType.MOCKUPG2);
                                 break;
                         }
 
@@ -695,7 +776,11 @@ public class Game1 implements Screen, MireilleListener {
                 EventListener restartEvent = new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        resetMusic(music);
+                        if (musicJOn) {
+                            resetMusic(musicJ);
+                        } else {
+                            resetMusic(music);
+                        }
                         game.getTheValueGateway().addToTheStore("difficulty", difficulty);
                         game.destroyScreen(ScreenType.GAME1);
                         game.changeScreen(ScreenType.GAME1);
@@ -764,6 +849,8 @@ public class Game1 implements Screen, MireilleListener {
         im.addProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
             @Override
             public void onLeft() {
+                Jcount = 0;
+                Gdx.app.debug(TAG, "swipe left - isPaused is " + isPaused);
                 if(!isPaused) {
                     final float newX = Math.max(mireille.getX() - MOVE_VALUE_X, MIN_X);
                     updateMireille(newX);
@@ -772,6 +859,8 @@ public class Game1 implements Screen, MireilleListener {
 
             @Override
             public void onRight() {
+                Jcount = 0;
+                Gdx.app.debug(TAG, "swipe right - isPaused is " + isPaused);
                 if(!isPaused) {
                     final float xAndMoveValue = mireille.getX() + MOVE_VALUE_X;
                     final float newX = Math.min(xAndMoveValue, MAX_X);
@@ -782,12 +871,18 @@ public class Game1 implements Screen, MireilleListener {
 
             @Override
             public void onUp() {
-
+                Jcount++;
+                Gdx.app.debug(TAG , "swipe up - isPaused is " + isPaused);
+                if (Jcount >= 3) {
+                    isPaused = true;
+                    jojoAppears = true;
+                }
             }
 
             @Override
             public void onDown() {
-
+                Jcount = 0;
+                Gdx.app.debug(TAG, "swipe down - isPaused is " + isPaused);
             }
 
             private void updateMireille(float newX) {

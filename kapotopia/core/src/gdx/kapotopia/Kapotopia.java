@@ -1,5 +1,6 @@
 package gdx.kapotopia;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Logger;
@@ -27,6 +28,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
     // CONSTANTS
 
+	private final String TAG = this.getClass().getSimpleName();
+
     // TODO changer VERSION_NAME ET VERSION_CODE à chaque fois que l'on update le jeu, pas trouvé de moyen pour les liés automatiquement au gradle build d'android
     public static final String VERSION_NAME = "Alpha-0.4.1";
     public static final int VERSION_CODE = 14;
@@ -41,8 +44,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
     public final static int debugLvl = Logger.DEBUG;
 
     // COMPLEX OBJECTS
-
-    private final Logger log = new Logger(this.getClass().getName(), debugLvl);
 
     public FitViewport viewport;
     // The value Gateway
@@ -78,11 +79,12 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.gate = new ValueGateway();
 		this.settings = new Settings();
 		changeScreen(ScreenType.MAINMENU);
+		Gdx.app.setLogLevel(debugLvl);
 	}
 
 	@Override
 	public void dispose () {
-	    log.info("Disposing every game resources");
+	    Gdx.app.log(TAG, "Disposing every game resources");
 		AssetsManager.getInstance().disposeAllResources();
 	}
 
@@ -100,7 +102,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 * @return true if the operation succeeded, false otherwise
 	 */
 	public boolean changeScreen(ScreenType TYPE) {
-	    log.debug("Changing screen to " + TYPE.name());
+	    Gdx.app.debug(TAG, "Changing screen to " + TYPE.name());
 		return selectScreen(ScreenAction.CHANGE, TYPE);
 	}
 
@@ -110,7 +112,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 * @return true if the operation succeeded, false otherwise
 	 */
 	public boolean destroyScreen(ScreenType TYPE) {
-	    log.debug("Destroying Screen " + TYPE.name());
+	    Gdx.app.debug(TAG, "Destroying Screen " + TYPE.name());
 		return selectScreen(ScreenAction.DESTROY, TYPE);
 	}
 

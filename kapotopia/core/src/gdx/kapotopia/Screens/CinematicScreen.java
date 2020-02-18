@@ -34,12 +34,12 @@ import gdx.kapotopia.ScreenType;
  * Sounds can be played when Images are changed
  */
 public abstract class CinematicScreen implements Screen {
-    private final Logger log = new Logger(this.getClass().getName(), Kapotopia.debugLvl);
     /* VARIABLES */
     protected Kapotopia game;
     protected Stage stage;
     private String screenName;
     private boolean initialized; // Indicate if the applyBundle function has been called or not
+    private final String TAG = this.getClass().getSimpleName();
     // Graphics
     private FixedDialogueSequence sequence;
     private Image fond;
@@ -205,7 +205,7 @@ public abstract class CinematicScreen implements Screen {
                 fond.setVisible(true);
             }
         }
-        log.debug("The sequence is ended");
+        Gdx.app.debug(TAG, "The sequence is ended");
         return false;
     }
 
@@ -243,7 +243,7 @@ public abstract class CinematicScreen implements Screen {
      * @param index the index must be within 0 and sequence.size-1 or it will throw an AssertionError
      */
     private void setElementVisibility(boolean isVisible, int index) {
-        log.debug("Image at index " + index + " set to " + isVisible);
+        Gdx.app.debug(TAG, "Image at index " + index + " set to " + isVisible);
         DialogueElement element = sequence.getDialogueElement(index);
         FixedDialogSeqBuilder.setVisibility(element, isVisible);
     }

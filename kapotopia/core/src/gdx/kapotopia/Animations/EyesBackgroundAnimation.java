@@ -10,8 +10,6 @@ import gdx.kapotopia.Helpers.Builders.AnimationBuilder;
 
 public class EyesBackgroundAnimation extends AnimationAbstract {
 
-    private Animation<TextureRegion> animation;
-
     public EyesBackgroundAnimation(Animation.PlayMode playMode) {
 
         final String ATLAS_PATH = "World1/Game1/eyes.atlas";
@@ -19,11 +17,7 @@ public class EyesBackgroundAnimation extends AnimationAbstract {
         Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("eyes");
         TextureAtlas.AtlasRegion[] array = r.toArray();
 
-        this.animation = new AnimationBuilder(0.04f).withPlayMode(playMode)
-                .addFrames(array).build();
-    }
-
-    public Animation<TextureRegion> getAnimation() {
-        return animation;
+        setAnimation(new AnimationBuilder(0.04f).withPlayMode(playMode)
+                .addFrames(array).build());
     }
 }

@@ -23,6 +23,7 @@ public class Virus extends VirusAbstract {
 
     private float acceleration;
     private float accAddFactor;
+    private float accMaxLim;
     private float nameLabX;
 
     public Virus(Rectangle bounds, Game1 game) {
@@ -38,6 +39,7 @@ public class Virus extends VirusAbstract {
         this.speed = 500;
         this.acceleration = 1.00f;
         this.accAddFactor = 0.08f;
+        this.accMaxLim = 3f;
         this.realWidth = ((float) texture.getRegionWidth()) / (SCALLING_FACTOR_ENTITY + LOCAL_SCALLING_FACTOR);
         this.realHeight = ((float) texture.getRegionHeight()) / (SCALLING_FACTOR_ENTITY + LOCAL_SCALLING_FACTOR);
 
@@ -62,7 +64,8 @@ public class Virus extends VirusAbstract {
             if(isIST()) {
                 game.addMissedIST(isMaybeIST, getName());
             }
-            acceleration += accAddFactor;
+            // We cap the acceleration to keep it under an acceptable level
+            if (acceleration <= accMaxLim) acceleration += accAddFactor;
             hasToChange = true;
         }
 
@@ -163,4 +166,11 @@ public class Virus extends VirusAbstract {
         this.accAddFactor = accAddFactor;
     }
 
+    public float getAccMaxLim() {
+        return accMaxLim;
+    }
+
+    public void setAccMaxLim(float accMaxLim) {
+        this.accMaxLim = accMaxLim;
+    }
 }

@@ -26,10 +26,10 @@ import gdx.kapotopia.GameDifficulty;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.Padding;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.UnlockedLevel;
 
 public class ChoosingDifficultyScreen implements Screen {
