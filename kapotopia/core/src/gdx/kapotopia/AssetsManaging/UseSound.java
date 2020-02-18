@@ -15,5 +15,7 @@ public enum UseSound {
     PAUSE,
     POWER_UP,
     PUNCH,
-    SUCCESS
+    SUCCESS,
+    BOUP1,
+    BOUP9
 }

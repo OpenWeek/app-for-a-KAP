@@ -1,0 +1,432 @@
+
+jojo.png
+size: 4096,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+jojo
+  rotate: false
+  xy: 2, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 2
+jojo
+  rotate: false
+  xy: 724, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 3
+jojo
+  rotate: false
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 4
+jojo
+  rotate: false
+  xy: 2168, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 5
+jojo
+  rotate: false
+  xy: 2890, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 6
+jojo
+  rotate: false
+  xy: 2, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 7
+jojo
+  rotate: false
+  xy: 724, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 8
+jojo
+  rotate: false
+  xy: 1446, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 9
+jojo
+  rotate: false
+  xy: 2168, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 10
+jojo
+  rotate: false
+  xy: 2890, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 11
+jojo
+  rotate: false
+  xy: 2, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 12
+jojo
+  rotate: false
+  xy: 724, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 13
+jojo
+  rotate: false
+  xy: 1446, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 14
+jojo
+  rotate: false
+  xy: 1446, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 15
+jojo
+  rotate: false
+  xy: 1446, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 16
+jojo
+  rotate: false
+  xy: 1446, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 17
+jojo
+  rotate: false
+  xy: 1446, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 18
+jojo
+  rotate: false
+  xy: 1446, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 19
+jojo
+  rotate: false
+  xy: 1446, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 20
+jojo
+  rotate: false
+  xy: 2168, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 21
+jojo
+  rotate: false
+  xy: 2890, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 22
+
+jojo2.png
+size: 4096,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+jojo
+  rotate: false
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 1
+jojo
+  rotate: false
+  xy: 2, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 23
+jojo
+  rotate: false
+  xy: 724, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 24
+jojo
+  rotate: false
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 25
+jojo
+  rotate: false
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 26
+jojo
+  rotate: false
+  xy: 2168, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 27
+jojo
+  rotate: false
+  xy: 2890, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 28
+jojo
+  rotate: false
+  xy: 2, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 29
+jojo
+  rotate: false
+  xy: 724, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 30
+jojo
+  rotate: false
+  xy: 1446, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 31
+jojo
+  rotate: false
+  xy: 1446, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 32
+jojo
+  rotate: false
+  xy: 1446, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 33
+jojo
+  rotate: false
+  xy: 1446, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 34
+jojo
+  rotate: false
+  xy: 1446, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 35
+jojo
+  rotate: false
+  xy: 1446, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 36
+jojo
+  rotate: false
+  xy: 1446, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 37
+jojo
+  rotate: false
+  xy: 1446, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 38
+jojo
+  rotate: false
+  xy: 2168, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 39
+jojo
+  rotate: false
+  xy: 2168, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 40
+jojo
+  rotate: false
+  xy: 2890, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 41
+jojo
+  rotate: false
+  xy: 2, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 42
+jojo
+  rotate: false
+  xy: 724, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 43
+jojo
+  rotate: false
+  xy: 1446, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 44
+jojo
+  rotate: false
+  xy: 724, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 45
+jojo
+  rotate: false
+  xy: 2, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 46
+jojo
+  rotate: false
+  xy: 2890, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 47
+jojo
+  rotate: false
+  xy: 2168, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 48
+jojo
+  rotate: false
+  xy: 2168, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 49
+jojo
+  rotate: false
+  xy: 2168, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 50
+jojo
+  rotate: false
+  xy: 2890, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 51
+jojo
+  rotate: false
+  xy: 2, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 52
+jojo
+  rotate: false
+  xy: 724, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 53
+jojo
+  rotate: false
+  xy: 1446, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 54
+jojo
+  rotate: false
+  xy: 724, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 55
+jojo
+  rotate: false
+  xy: 2, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 56
+jojo
+  rotate: false
+  xy: 2890, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 57
+jojo
+  rotate: false
+  xy: 2168, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 58
+jojo
+  rotate: false
+  xy: 2168, 2566
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 59
+jojo
+  rotate: false
+  xy: 2168, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 60

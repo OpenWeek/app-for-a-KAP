@@ -3,10 +3,12 @@ package gdx.kapotopia.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
@@ -42,10 +44,61 @@ public class mockupG1 extends CinematicScreen {
                                 .withStyle(font).withBounds(150,1100,750,315).isWrapped(true).build()
                 }
         };
+        final Image jungle = new ImageBuilder().withTexture("World1/Game1/Jungle.png").build();
+        final Image sky = new ImageBuilder().withTexture("World1/Game1/Ciel.png").build();
+        final Image leaves = new ImageBuilder().withTexture("World1/Game1/Feuilles.png").build();
+        final Image mireille = new ImageBuilder().withTexture("MireilleImages/MireilleAChaud.png").build();
+        mireille.setScale(1.0f, 0.6f);
+        mireille.setPosition(250, -150);
+        final Image dildo1 = new ImageBuilder().withTexture("World1/Game1/SergendDildo.png").build();
+        dildo1.setScale(0.7f,0.5f);
+        dildo1.setPosition(125, -50);
+        final Image dildo2 = new ImageBuilder().withTexture("World1/Game1/SergentDildo2.png").build();
+        dildo2.setScale(0.7f,0.5f);
+        dildo2.setPosition(game.viewport.getWorldWidth() / 3, -50);
+        dildo2.setX(game.viewport.getWorldWidth() / 3);
+        final Image bigBubble = new ImageBuilder().withTexture("ImagesGadgets/BulleExplicative.png").build();
+        final Image bubbleLeft = new ImageBuilder().withTexture("ImagesGadgets/Bulle1.png").build();
+        final Image bubbleRight = new ImageBuilder().withTexture("ImagesGadgets/Bulle3.png").build();
+        final Image[][] images = new Image[][] {
+                {
+                    sky,
+                    jungle,
+                        leaves,
+                        mireille,
+                        bubbleLeft
+                },
+                {
+                    sky,
+                    jungle,
+                        leaves,
+                        dildo1,
+                        bubbleRight
+                },
+                {
+                    sky,
+                    jungle,
+                        leaves,
+                        dildo2,
+                        bubbleLeft
+                },
+                {
+                    sky,
+                    jungle,
+                        leaves,
+                        bigBubble
+                },
+                {
+                    sky,
+                    jungle,
+                        leaves,
+                        dildo1,
+                        bubbleRight
+                }
+        };
+
         applyBundle(new ParameterBundleBuilder(ScreenType.DIF)
-                .withTextures(new String[]{"World1/Game1/World1Ecran1.png", "World1/Game1/World1Ecran2.png",
-                        "World1/Game1/World1Ecran5.png", "World1/Game1/World1Ecran3.png",
-                        "World1/Game1/World1Ecran4.png"}).withFinishBtn(false)
+                .withImages(images).withFinishBtn(false)
                 .withNextBtnStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE).withTimerScheduleTime(0).withLabels(labels));
         // Preload this sound for the BilanG1 screen
         AssetsManager.getInstance().getSoundByPath("sound/bruitage/littlerainyseasons_fail.mp3");

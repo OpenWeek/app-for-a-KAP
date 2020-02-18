@@ -10,13 +10,15 @@ public class ImageBuilder {
 
     private Texture texture;
     private boolean isVisible;
-    private int x, y;
+    private float x, y;
+    private float width, height;
     private Color color;
 
     public ImageBuilder() {
         texture = null;
         isVisible = true;
         x = 0; y = 0;
+        width = -1; height = -1;
         color = null;
     }
 
@@ -25,8 +27,24 @@ public class ImageBuilder {
         return this;
     }
 
-    public ImageBuilder withPosition(int x, int y) {
+    public ImageBuilder withPosition(float x, float y) {
         this.x = x; this.y = y;
+        return this;
+    }
+
+    public ImageBuilder withWidth(float width) {
+        this.width = width;
+        return this;
+    }
+
+    public ImageBuilder withHeight(float height) {
+        this.height = height;
+        return this;
+    }
+
+    public ImageBuilder withSize(float width, float height) {
+        this.height = height;
+        this.width = width;
         return this;
     }
 
@@ -51,6 +69,8 @@ public class ImageBuilder {
             image = new Image(texture);
         else image = new Image();
         image.setPosition(x,y);
+        if ( width >= 0 ) image.setWidth(width);
+        if ( height >= 0 ) image.setHeight(height);
         image.setVisible(isVisible);
         if(color != null) image.setColor(color);
         return image;

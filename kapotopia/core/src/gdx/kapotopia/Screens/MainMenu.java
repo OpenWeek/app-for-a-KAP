@@ -2,6 +2,7 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,9 +10,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.Animations.NeonDoorAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
@@ -25,6 +28,7 @@ import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
+import sun.security.util.ByteArrayLexOrder;
 
 public class MainMenu implements Screen {
 
@@ -32,6 +36,9 @@ public class MainMenu implements Screen {
     private Stage stage;
 
     private Sound pauseSound;
+    private Music music;
+
+    private boolean musicOn;
 
     // Background
     private OrthographicCamera camera;
@@ -49,6 +56,8 @@ public class MainMenu implements Screen {
         this.game = game;
         stage = new Stage(game.viewport);
 
+        this.musicOn = game.getSettings().isMusicOn();
+
         // Background
         this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f,0); // I dont understand why, but this works. If someone knows plz explain me. F.D.
@@ -63,6 +72,10 @@ public class MainMenu implements Screen {
 
         // Import sounds
         this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
+        final Sound blocked = SoundHelper.getSound(UseSound.HINT);
+        this.music = AssetsManager.getInstance().getMusicByPath("sound/breaktime.mp3");
+        music.setPosition(0f);
+        music.setLooping(true);
 
         //Import fonts
         TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
@@ -77,8 +90,15 @@ public class MainMenu implements Screen {
                 .withStyle(style).withPosition(x*0.82f, y * 0.43f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
         final TextButton world4 = new TextButtonBuilder(Localisation.getInstance().getString("text_istdex"))
-                .withStyle(style).withPosition(x, y * 0.2f)
-                .withListener(new ChangeScreenListener(game, ScreenType.WORLD4)).build();
+                .withStyle(style).withPosition(x, y * 0.2f).withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+
+                        blocked.play();
+                    }
+                })
+                //.withListener(new ChangeScreenListener(game, ScreenType.WORLD4))
+                .build();
         final TextButton optionsBtn = new TextButtonBuilder("Options").withStyle(style).withPosition(x / 3, y * 0.01f)
                 .withListener(new ChangeScreenListener(game, ScreenType.OPTIONS)).build();
 
@@ -100,6 +120,9 @@ public class MainMenu implements Screen {
     public void show() {
         Gdx.app.log(TAG,"Entering show function");
         Gdx.input.setInputProcessor(stage);
+
+        if (musicOn)
+            music.play();
     }
 
     @Override
@@ -131,16 +154,20 @@ public class MainMenu implements Screen {
     @Override
     public void pause() {
         this.pauseSound.play();
+        if (musicOn)
+            this.music.pause();
     }
 
     @Override
     public void resume() {
-
+        if (musicOn)
+            this.music.play();
     }
 
     @Override
     public void hide() {
-
+        if (musicOn)
+            this.music.stop();
     }
 
     @Override

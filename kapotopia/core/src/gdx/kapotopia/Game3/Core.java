@@ -13,6 +13,7 @@ import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Helpers.Builders.PopUpBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localisation;
 import gdx.kapotopia.Screens.Game3;
 
 import java.util.*;
@@ -33,13 +34,19 @@ public class Core {
 
     private Goal[] goals;//All goals at y = sizey-1
     private int correctGoal;
+    private int correct;
     private Stack<Pair> stack;
     private HashSet<Tile> set;
     private Random random;
 
+    final Localisation loc = Localisation.getInstance();
+    final int nbSafe = 2;
+    final int nbUnSafe = 3;
+
     private SpriteBatch batch;
 
-    private Texture falseGoalT;
+    Sprite source ;
+
 
     public Core(Game3 parent, int sizex, int sizey){
         this(parent, sizex, sizey, 2);
@@ -56,9 +63,6 @@ public class Core {
         random = new Random();
         tiles = new Pair[sizex][sizey];
 
-        Texture T2 = new Texture("game3/Serrure1Fermee.png");
-        falseGoalT = new Texture("game3/Serrure2Fermee.png");
-
         width = Pair.tile_size*sizex;
         height = Pair.tile_size*sizey;
 
@@ -73,15 +77,16 @@ public class Core {
         setGoal(nbGoals, sizey);
 
         Random r = new Random();
-        //TODO : fill with real strings
-        for (int i = 0; i < nbGoals; i++){
-            goals[i].popup.setTitle("unsafe practice placeholder");
-            if (r.nextBoolean()){
-                goals[i].sprite.setTexture(T2);
-            }
+        ArrayList<String> names = new ArrayList<String>(nbUnSafe);
+        for(int i = 0; i < nbUnSafe; i++){
+            names.add("unsafe"+(i+1));
         }
-        int correct = r.nextInt(nbGoals);
-        goals[correct].popup.setTitle( "safe practice placeholder");
+        Collections.shuffle(names);
+        for (int i = 0; i < nbGoals; i++){
+            goals[i].popup.setTitle(loc.getPractice(names.get(i)));
+        }
+        correct = r.nextInt(nbGoals);
+        goals[correct].popup.setTitle( loc.getPractice("safe"+(r.nextInt(nbSafe)+1)) );
         correctGoal = goals[correct].pos;
 
         for (int i = 0; i < nbGoals; i++){
@@ -90,9 +95,15 @@ public class Core {
             }
             createPath(goals[i].pos,sizey-1);
         }
+        source = new Sprite(new Texture("game3/Batterie.png"));
+        source.setPosition(Core.xOffSet, Core.yOffSet - Pair.tile_size);
+        source.setSize(Pair.tile_size, Pair.tile_size);
+
         createPath(correctGoal, sizey-1);
 
         updatePath(tiles[0][0]);
+
+
 
     }
 
@@ -112,9 +123,104 @@ public class Core {
             tiles[x][y] = Pair.randomBoth(x, y);
         }
     }
+    private void addTo(int to, int x, int y, int from){
+        Pair t = tiles[x][y];
+        if(t != null && t.connection(from) != null && t.connection(from).connection[to]){
+            return;//already in place
+        }
+
+        if((to+from)%2 == 0){//must add a line
+            if(t != null){
+                if(!t.turn){//single line
+                    tiles[x][y] = Pair.dline(x,y);
+                }
+                else if(!t.line){
+                    if(t.t2 == null){//simple turn
+                        int turnTo = t.t1.connection[(from+1)%4] ? (from+1)%4 : (from+3)%4;
+                        Pair p = Pair.tcross(x,y);
+                        Tile tcross = p.t1;
+                        while (!(tcross.connection[from] && tcross.connection[to] && tcross.connection[turnTo])){
+                            p.rotate(1);
+                        }
+                        tiles[x][y] = p;
+                    }
+                    else {//dturn
+                        tiles[x][y] = Pair.cross(x,y);
+                    }
+                }
+                else { //tcross
+                    tiles[x][y] = Pair.cross(x,y);
+                }
+            }
+            else {
+                Pair p = Pair.line(x,y);
+                while (p.connection(from) == null){
+                    p.rotate(1);
+                }
+                tiles[x][y] = p;
+            }
+        }
+        else if((to+from)%2 == 1){//must add a turn
+            if(t != null){
+                if(!t.turn){
+                    if(t.t2 != null){//dline
+                        tiles[x][y] = Pair.cross(x,y);
+                    }
+                    else {//simple line
+                        int lineTo = t.t1.connection[(from+1)%4] ? (from+1)%4 : (from+3)%4;
+                        Pair p = Pair.tcross(x,y);
+                        Tile tcross = p.t1;
+                        while (!(tcross.connection[from] && tcross.connection[to] && tcross.connection[lineTo])){
+                            p.rotate(1);
+                        }
+                        tiles[x][y] = p;
+                    }
+                }
+                else if(t.line){//tcross
+                    tiles[x][y] = Pair.cross(x,y);
+                }
+                else {
+                    if(t.t2 != null){//dturn
+                        tiles[x][y] = Pair.cross(x,y);
+                    }
+                    else {//turn
+                        Tile tile = t.t1;
+                        if(tile.connection[from] || tile.connection[to]){
+                            int lineTo = t.t1.connection[(from+1)%4] ? (from+1)%4 : (from+3)%4;
+                            Pair p = Pair.tcross(x,y);
+                            Tile tcross = p.t1;
+                            while (!(tcross.connection[from] && tcross.connection[to] && tcross.connection[lineTo])){
+                                p.rotate(1);
+                            }
+                            tiles[x][y] = p;
+                        }
+                        else {
+                            Pair p = Pair.dturn(x,y);
+                            while (!(p.t1.connection[from] && p.t1.connection[to])){
+                                p.rotate(1);
+                            }
+                            tiles[x][y] = p;
+                        }
+                    }
+                }
+            }
+            else {
+                Pair p = Pair.turn(x,y);
+                while (p.connection(from) == null && p.connection(to) == null){
+                    p.rotate(1);
+                }
+                tiles[x][y] = p;
+            }
+        }
+    }
+
+    /**
+     * builds a path from the input to the specified location
+     * @param xDest  pixel horizontal position of the goal given in in-game coordinates
+     * @param yDest  pixel vertical position of the goal given in in-game coordinates
+     */
     private void createPath(int xDest, int yDest){
 
-        //tiles[0][0] = Pair.randomTurn(0,0);
         int x = 0;
         int y = 0;
         boolean vert = true;
@@ -124,7 +230,7 @@ public class Core {
         //N,W,S,E
         int previous = 2;
 
-        int p = 25;
+        int p = 40;
 
         while (! ((x == xDest) && (y == yDest))){
             if(vert){
@@ -137,12 +243,14 @@ public class Core {
                     }
 
                     if (dx && x > 0) {
-                        addTurn(x,y);
+                        //addTurn(x,y);
+                        addTo(1,x,y,previous);
                         x--;
                         previous = 3;
                     }
                     else if(x < sizex - 1){
-                        addTurn(x,y);
+                        //addTurn(x,y);
+                        addTo(3,x,y,previous);
                         x++;
                         previous = 1;
                     }
@@ -157,12 +265,14 @@ public class Core {
                         p-=1;
                     }
                     if (previous != 2 && dy && y > 0) {
-                        addLine(x,y);
+                        //addTurn(x,y);
+                        addTo(2,x,y,previous);
                         y--;
                         previous = 0;
                     }
                     else if(previous != 0 && y < sizey - 1){
-                        addLine(x,y);
+                        //addTurn(x,y);
+                        addTo(0,x,y,previous);
                         y++;
                         previous = 2;
                     }
@@ -177,12 +287,14 @@ public class Core {
                         p -= 1;
                     }
                     if (previous != 1 && dx && x > 0) {
-                        addLine(x,y);
+                        //addTurn(x,y);
+                        addTo(1,x,y,previous);
                         x--;
                         previous = 3;
                     }
                     else if(previous != 3 && x < sizex - 1){
-                        addLine(x,y);
+                        //addTurn(x,y);
+                        addTo(3,x,y,previous);
                         x++;
                         previous = 1;
                     }
@@ -196,12 +308,14 @@ public class Core {
                     }
 
                     if (dy && y > 0) {
-                        addTurn(x,y);
+                        //addTurn(x,y);
+                        addTo(2,x,y,previous);
                         y--;
                         previous = 0;
                     }
                     else if(y < sizey - 1){
-                        addTurn(x,y);
+                        //addTurn(x,y);
+                        addTo(0,x,y,previous);
                         y++;
                         previous = 2;
                     }
@@ -219,20 +333,53 @@ public class Core {
         }
     }
 
+    /**
+     * Creates a number of goals at a given game vertical position
+     * @param nbGoals  number of goals to generate
+     * @param y  vertical position, given in in-game coordinates
+     */
     private void setGoal(int nbGoals, int y){
+        Texture closedTexture1 = new Texture("game3/Serrure1Fermee.png");
+        Texture closedTexture2 = new Texture("game3/Serrure2Fermee.png");
+
+        Texture openTexture1 = new Texture("game3/Serrure1Ouverte.png");
+        Texture openTexture2 = new Texture("game3/Serrure2Ouverte.png");
+
+        Random r = new Random();
         goals = new Goal[nbGoals];
         int part = sizex/(nbGoals+1);
         for (int i = 1; i <= nbGoals; i++){
-            goals[i-1] = new Goal(falseGoalT ,i*part, y, parent.getGame(), parent.getPopStage());
+            Texture open;
+            Texture closed;
+            if(r.nextBoolean()){
+                open = openTexture1;
+                closed = closedTexture1;
+            }
+            else {
+                open = openTexture2;
+                closed = closedTexture2;
+            }
+            goals[i-1] = new Goal(closed, open ,i*part, y, parent.getGame(), parent.getPopStage());
         }
 
     }
 
+    /**
+     * Checks whethers the goal is connected to the input
+     */
     private boolean checkGoal(){
         Tile t = tiles[correctGoal][sizey-1].connection(0);
-        return  t != null && t.isLit();
+        if(t != null && t.isLit()){
+            goals[correct].open();
+            return true;
+        }
+        return  false;
     }
 
+    /**
+     * Colors the whole path that's connected to the input.
+     * @param moved Pair of tiles whose move has potentially changed the connected path
+     */
     private void updatePath(Pair moved){
 
         for(Pair[] pa : tiles){
@@ -265,50 +412,55 @@ public class Core {
             if(p.connection(0) != null && p.connection(0).isLit() && p.y < sizey-1){
                 Pair p2 =  tiles[p.x][p.y+1];
                 if(p2 != null){
-                    Tile t2 = p2.connection(2);
-                    if( t2 != null && ! set.contains(t2)){
+                    Tile ClosedTexture1 = p2.connection(2);
+                    if( ClosedTexture1 != null && ! set.contains(ClosedTexture1)){
                         stack.add(p2);
-                        set.add(t2);
-                        t2.lit();
+                        set.add(ClosedTexture1);
+                        ClosedTexture1.lit();
                     }
                 }
             }
             if(p.connection(1) != null && p.connection(1).isLit() && p.x > 0){
                 Pair p2 = tiles[p.x-1][p.y];
                 if(p2 != null){
-                    Tile t2 = p2.connection(3);
-                    if(t2 != null && !set.contains(t2)){
+                    Tile ClosedTexture1 = p2.connection(3);
+                    if(ClosedTexture1 != null && !set.contains(ClosedTexture1)){
                         stack.add(p2);
-                        set.add(t2);
-                        t2.lit();
+                        set.add(ClosedTexture1);
+                        ClosedTexture1.lit();
                     }
                 }
             }
             if(p.connection(2) != null && p.connection(2).isLit() && p.y > 0){
                 Pair p2 = tiles[p.x][p.y-1];
                 if(p2 != null){
-                    Tile t2 = p2.connection(0);
-                    if(t2 != null && !set.contains(t2)){
+                    Tile ClosedTexture1 = p2.connection(0);
+                    if(ClosedTexture1 != null && !set.contains(ClosedTexture1)){
                         stack.add(p2);
-                        set.add(t2);
-                        t2.lit();
+                        set.add(ClosedTexture1);
+                        ClosedTexture1.lit();
                     }
                 }
             }
             if(p.connection(3) != null  && p.connection(3).isLit() && p.x < sizex-1){
                 Pair p2 = tiles[p.x+1][p.y];
                 if(p2 != null){
-                    Tile t2 = p2.connection(1);
-                    if(t2 != null && !set.contains(t2) ){
+                    Tile ClosedTexture1 = p2.connection(1);
+                    if(ClosedTexture1 != null && !set.contains(ClosedTexture1) ){
                         stack.add(p2);
-                        set.add(t2);
-                        t2.lit();
+                        set.add(ClosedTexture1);
+                        ClosedTexture1.lit();
                     }
                 }
             }
         }
     }
 
+    /**
+     * This function handles the touch action
+     * @param x  pixel horizontal position of the touch action
+     * @param y  pixel vertical position of the touch action
+     */
     void touchHandler(int x, int y){
         //Click inside puzzle
         int X = (x-xOffSet)/Pair.tile_size;
@@ -335,6 +487,9 @@ public class Core {
 
     }
 
+    /**
+     * Draws the puzzle parts and the goals
+     */
     public void draw(){
         batch.begin();
         for (Pair[] t : tiles){
@@ -345,9 +500,9 @@ public class Core {
             }
         }
         for(Goal i : goals){
-            //shapeRenderer.rect(xOffSet+i*Pair.tile_size, yOffSet+ sizey*Pair.tile_size, Pair.tile_size, Pair.tile_size);
             i.draw(batch);
         }
+        source.draw(batch);
         batch.end();
 
     }
@@ -393,40 +548,40 @@ class Pair{
     }
 
     //N,W,S,E
-    private static Pair line(int x, int y){
+    static Pair line(int x, int y){
         Pair p = new Pair(x, y);
         p.t1 = new Tile(new boolean[]{false, true, false, true}, lineT, x, y);
         p.line = true;
         return p;
     }
-    private static Pair dline(int x, int y){
+    static Pair dline(int x, int y){
         Pair p = new Pair(x, y);
         p.t1 = new Tile(new boolean[]{false, true, false, true}, lineT, x, y);
         p.t2 = new Tile(new boolean[]{true, false, true, false}, halflineT, x, y);
         p.line = true;
         return p;
     }
-    private static Pair cross(int x, int y){
+    static Pair cross(int x, int y){
         Pair p = new Pair(x, y);
         p.t1 = new Tile(new boolean[]{true, true, true, true}, crossT, x, y);
         p.line = true;
         p.turn = true;
         return p;
     }
-    private static Pair tcross(int x, int y){
+    static Pair tcross(int x, int y){
         Pair p = new Pair(x, y);
         p.t1 = new Tile(new boolean[]{true, true, false, true}, tcrossT, x, y);
         p.line = true;
         p.turn = true;
         return p;
     }
-    private static Pair turn(int x, int y){
+    static Pair turn(int x, int y){
         Pair p = new Pair(x, y);
         p.t1 = new Tile(new boolean[]{true, false, false, true}, turnT, x, y);
         p.turn = true;
         return p;
     }
-    private static Pair dturn(int x, int y){
+    static Pair dturn(int x, int y){
         Pair p = new Pair(x, y);
         p.t1 = new Tile(new boolean[]{true, false, false, true}, turnT, x, y);
         p.t2 = new Tile(new boolean[]{true, false, false, true}, turnT, x, y);
@@ -571,12 +726,17 @@ class Tile{
 
 class Goal{
     int pos;
-    Sprite sprite;
     final PopUpBuilder popup;
 
-    Goal(Texture texture, int x, int y, final Kapotopia game, Stage stage){
+    private Sprite sprite;
+    private Texture closed;
+    private Texture open;
+
+    Goal(Texture closed, Texture open, int x, int y, final Kapotopia game, Stage stage){
         pos = x;
-        sprite = new Sprite(texture);
+        this.closed = closed;
+        this.open = open;
+        sprite = new Sprite(closed);
         sprite.setPosition(Core.xOffSet + Pair.tile_size * x , Core.yOffSet + Pair.tile_size * y );
         sprite.setSize(Pair.tile_size, Pair.tile_size);
         sprite.setOriginCenter();
@@ -595,6 +755,10 @@ class Goal{
         });
         popup.addButton(btnYes);
         popup.setPosition(0,500);
+    }
+
+    void open(){
+        sprite.setTexture(open);
     }
 
     void draw(SpriteBatch batch){

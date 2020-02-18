@@ -41,19 +41,11 @@ public class World2 implements Screen {
 
         this.gameStart = SoundHelper.getSound(UseSound.GAMESTART);
 
-        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK);
-
-        I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
-        String instr_string = languageStrings.get("game3_instr");
-
-        Label instr = new Label(instr_string, new Label.LabelStyle(style.font, Color.BLACK));
-        float x = game.viewport.getWorldWidth() / 12f;
-        float y = game.viewport.getWorldHeight()*3 / 4;
-        instr.setPosition(x,y);
+        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
 
         final Button play = new TextButton(Localisation.getInstance().getString("play_button"), style);
-        x = game.viewport.getWorldWidth() / 2.5f;
-        y = game.viewport.getWorldHeight() / 4;
+        float x = game.viewport.getWorldWidth() / 2.5f;
+        float y = game.viewport.getWorldHeight() / 4;
         play.setPosition(x,y);
         play.addListener(new ChangeListener() {
             @Override
@@ -69,7 +61,6 @@ public class World2 implements Screen {
             }
         });
 
-        stage.addActor(instr);
         stage.addActor(play);
 
         AssetsManager.getInstance().addStage(stage, "world2");
