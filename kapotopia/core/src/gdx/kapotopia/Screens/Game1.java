@@ -159,8 +159,6 @@ public class Game1 implements Screen, MireilleListener {
      *                      M E T H O D S                   *
      ******************************************************* */
 
-    //TODO add Jojos references
-
     /**
      * Constructeur
      * @param game
@@ -631,7 +629,6 @@ public class Game1 implements Screen, MireilleListener {
         mireille.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log(TAG, "Something changed lol");
             }
         });
         return mireille;
@@ -753,7 +750,6 @@ public class Game1 implements Screen, MireilleListener {
                 // If the player missed some STI's, the game will prompt it to the player and once the player
                 // come back here, we show the different options
                 if (!missedIsts.isEmpty()) {
-                    game.getTheValueGateway().addToTheStore("G1-missedIST", missedIsts);
                     game.changeScreen(ScreenType.BILANG1);
                 }
 
