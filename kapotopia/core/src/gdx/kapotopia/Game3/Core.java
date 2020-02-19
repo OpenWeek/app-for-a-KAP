@@ -102,9 +102,6 @@ public class Core {
         createPath(correctGoal, sizey-1);
 
         updatePath(tiles[0][0]);
-
-
-
     }
 
     private void addLine(int x, int y){

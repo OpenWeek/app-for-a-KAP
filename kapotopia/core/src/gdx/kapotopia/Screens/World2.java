@@ -22,6 +22,7 @@ import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 
 public class World2 implements Screen {
@@ -34,7 +35,7 @@ public class World2 implements Screen {
     public World2(final Kapotopia game) {
 
         this.game = game;
-        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("game3/Monde2Ecran1.png"));
+        Image imgFond = ImageHelper.getBackground(game.viewport,"game3/Monde2Ecran1.png");
         stage = new Stage(game.viewport);
 
         stage.addActor(imgFond);
