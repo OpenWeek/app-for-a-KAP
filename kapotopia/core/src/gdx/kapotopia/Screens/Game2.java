@@ -143,7 +143,6 @@ public class Game2 implements Screen {
         //STI's creation and set up (representation of STI)
         for(int i = 0; i < STInbr; i++) {
             sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY, ground);
-            stage.addActor(sittingBalls[i].getButton());
         }
         for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
@@ -158,6 +157,11 @@ public class Game2 implements Screen {
 
         //Link between balls, baskets and the STI they represent
         setUpSTI(currentBasket);
+
+        //Adding ball actors to stage (they have to be added after symptoms to be in front)
+        for(int i = 0; i < STInbr; i++) {
+            stage.addActor(sittingBalls[i].getButton());
+        }
 
         AssetsManager.getInstance().addStage(stage, "game2");
     }
@@ -330,7 +334,7 @@ public class Game2 implements Screen {
             private void play(){
                 Gdx.app.log(TAG,"Entering play function");
                 if(currentBall.getSTInbr() != currentBasket.getSTInbr()){//wrong STI and symptom combination, ball is brought back to initial position
-                    changeBall(currentBall);
+                    currentBall.lose();
                     lives--;
                     livesLabel.setVisible(false);
                     livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).isVisible(true).withPosition(livesX,livesY).build();
@@ -376,8 +380,7 @@ public class Game2 implements Screen {
                 }
                 else{//right STI and symptom have been connected
                     currentBasket.hideLabel();
-                    currentBall.setGoal(finalBalX,finalBalY-STIfound*ballDelta,true);
-                    //currentBall.slide(finalBalX,finalBalY-STIfound*ballDelta);
+                    currentBall.win(finalBalX,finalBalY-STIfound*ballDelta);
                     currentBall.getButton().removeListener(ballClick[currentBall.getSTInbr()]);
                     currentBall = null;
                     STIfound++;
