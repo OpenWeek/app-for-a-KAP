@@ -6,11 +6,14 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
 
+import java.util.ArrayList;
+
 import gdx.kapotopia.Game1.VirusContainer;
 
 public class STIData {
     private static XmlReader.Element root;
     private static ArrayMap<String, ObjectMap<String, String>> allSTIs;
+    private static ArrayList<String> names;
 
 
     /**
@@ -21,20 +24,21 @@ public class STIData {
 
         if(root != null) return;//data not loaded yet, load it
 
-
+        names = new ArrayList<String>();
         XmlReader xml = new XmlReader();
         root = xml.parse(Gdx.files.internal("sprite.xml"));
 
         allSTIs = new ArrayMap<String, ObjectMap<String, String>>();
 
-        Array<XmlReader.Element> ist = root.getChildrenByName("ist-l");
-        Array<XmlReader.Element> fakeIst = root.getChildrenByName("fakeist-l");
-        Array<XmlReader.Element> maybeIst = root.getChildrenByName("maybeist-l");
+        Array<XmlReader.Element> ist = root.getChildrenByName("ist");
+        Array<XmlReader.Element> fakeIst = root.getChildrenByName("fakeist");
+        Array<XmlReader.Element> maybeIst = root.getChildrenByName("maybeist");
 
         for(XmlReader.Element e : ist){
 
             String tag = "ist";
             String name = e.getAttribute("name");
+            names.add(name);
             String texturePath = e.getAttribute("texture");
             String desc = e.getChildByName("explanation").getText();
 
@@ -51,6 +55,7 @@ public class STIData {
 
             String tag = "fakeist";
             String name = e.getAttribute("name");
+            names.add(name);
             String texturePath = e.getAttribute("texture");
             String desc = e.getChildByName("explanation").getText();
 
@@ -66,6 +71,7 @@ public class STIData {
 
             String tag = "maybeist";
             String name = e.getAttribute("name");
+            names.add(name);
             String texturePath = e.getAttribute("texture");
             String desc = e.getChildByName("explanation").getText();
 
@@ -92,6 +98,11 @@ public class STIData {
     public static String getIstSpritePath(String name){
         ensureData();
         return allSTIs.get(name).get("path");
+    }
+
+    public static Object[] getIstNames(){
+        ensureData();
+        return names.toArray();
     }
 
 }

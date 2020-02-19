@@ -90,14 +90,8 @@ public class MainMenu implements Screen {
                 .withStyle(style).withPosition(x*0.82f, y * 0.43f)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
         final TextButton world4 = new TextButtonBuilder(Localisation.getInstance().getString("text_istdex"))
-                .withStyle(style).withPosition(x, y * 0.2f).withListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-
-                        blocked.play();
-                    }
-                })
-                //.withListener(new ChangeScreenListener(game, ScreenType.WORLD4))
+                .withStyle(style).withPosition(x, y * 0.2f)
+                .withListener(new ChangeScreenListener(game, ScreenType.WORLD4))
                 .build();
         final TextButton optionsBtn = new TextButtonBuilder("Options").withStyle(style).withPosition(x / 3, y * 0.01f)
                 .withListener(new ChangeScreenListener(game, ScreenType.OPTIONS)).build();
