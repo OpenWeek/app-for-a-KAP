@@ -48,13 +48,14 @@ public class mockupG1 extends CinematicScreen {
         final Image sky = new ImageBuilder().withTexture("World1/Game1/Ciel.png").build();
         final Image leaves = new ImageBuilder().withTexture("World1/Game1/Feuilles.png").build();
         final Image mireille = new ImageBuilder().withTexture("MireilleImages/MireilleAChaud.png").build();
-        mireille.setScale(1.0f, 0.6f);
+        final float scalling_factor = 0.6f;
+        mireille.setScale(scalling_factor);
         mireille.setPosition(250, -150);
         final Image dildo1 = new ImageBuilder().withTexture("World1/Game1/SergendDildo.png").build();
-        dildo1.setScale(0.7f,0.5f);
+        dildo1.setScale(scalling_factor);
         dildo1.setPosition(125, -50);
         final Image dildo2 = new ImageBuilder().withTexture("World1/Game1/SergentDildo2.png").build();
-        dildo2.setScale(0.7f,0.5f);
+        dildo2.setScale(scalling_factor);
         dildo2.setPosition(game.viewport.getWorldWidth() / 3, -50);
         dildo2.setX(game.viewport.getWorldWidth() / 3);
         final Image bigBubble = new ImageBuilder().withTexture("ImagesGadgets/BulleExplicative.png").build();

@@ -50,7 +50,7 @@ public class ImageButtonBuilder {
         // ImageButton attributes
         this.style = null;
         this.imageUp = new TextureRegionDrawable(new TextureRegion(
-                AssetsManager.getInstance().getTextureByPath("badlogic.jpg")));
+                AssetsManager.getInstance().getTextureByPath("pause_logo.png")));
         this.imageDown = null;
         this.imageChecked = null;
     }

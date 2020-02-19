@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.I18NBundle;
 
 import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
@@ -27,16 +27,18 @@ public class mockupG3 extends CinematicScreen {
                 },
                 {
                     new LabelBuilder(loc.getString("game3_instr"))
-                            .withPosition(Kapotopia.ONE_CHARACTER_STD_WIDTH, (game.viewport.getWorldHeight() / 2))
-                            .withWidth(game.viewport.getWorldWidth() - (2 * Kapotopia.ONE_CHARACTER_STD_WIDTH))
-                            .withHeight(Kapotopia.ONE_CHARACTER_STD_HEIGHT * 10).isWrapped(true)
+                            .withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK)
+                            .withPosition(GameConfig.ONE_CHAR_STD_WIDTH, (game.viewport.getWorldHeight() / 2))
+                            .withWidth(game.viewport.getWorldWidth() - (2 * GameConfig.ONE_CHAR_STD_WIDTH))
+                            .withHeight(GameConfig.ONE_CHAR_STD_HEIGHT * 10).isWrapped(true)
                             .build()
                 }
         };
 
         final Image tom = new ImageBuilder().withTexture("game3/Thomas Godiva.png").withPosition(50, 50)
                 .build();
-        tom.setScaleY(0.75f);
+        final float scale_factor = 0.75f;
+        tom.setScale(scale_factor);
 
         final Image[][] images = new Image[][] {
                 {

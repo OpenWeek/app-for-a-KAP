@@ -5,12 +5,14 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -50,6 +52,7 @@ import gdx.kapotopia.Game1.MireilleListener;
 import gdx.kapotopia.Game1.VIRUS_TYPE;
 import gdx.kapotopia.Game1.Virus;
 import gdx.kapotopia.Game1.VirusContainer;
+import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.GameDifficulty;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
@@ -414,11 +417,13 @@ public class Game1 implements Screen, MireilleListener {
                         Gdx.app.debug(TAG, "Jojo has appeared - isPaused is false");
                         mireille.resetPosition();
                     }
-                }, 9f);
+                }, 6f);
                 jojoTimerLaunched = true;
             }
         }
     }
+
+
 
     @Override
     public void resize(int width, int height) {
@@ -563,10 +568,16 @@ public class Game1 implements Screen, MireilleListener {
     // Labels
 
     public void setNewEnnemiLabelPosition(float x, float y){
+        if (this.ennemiNameLabel.getX() != x) {
+            Gdx.app.debug(TAG, "EnnemiLab :" + ennemiNameLabel + " | (old) x :" + ennemiNameLabel.getX() + " ,y :" + ennemiNameLabel.getY());
+            Gdx.app.debug(TAG, "EnnemiLab :" + ennemiNameLabel + " | (new) x :" + x + " ,y :" + y);
+        }
         this.ennemiNameLabel.setPosition(x, y);
     }
     public void changeEnnemiLabel(String newName) {
         this.ennemiNameLabel.setText(newName);
+        final float labelLength = newName.length() * GameConfig.ONE_CHAR_SMALL_WIDTH;
+        this.ennemiNameLabel.setWidth(labelLength);
     }
     private void playMissedLabelAnim() {
         missedLabel.setVisible(true);
@@ -769,7 +780,6 @@ public class Game1 implements Screen, MireilleListener {
                                 game.changeScreen(ScreenType.MOCKUPG2);
                                 break;
                         }
-
                     }
                 };
 
@@ -896,5 +906,44 @@ public class Game1 implements Screen, MireilleListener {
         }));
         im.addProcessor(stage);
         Gdx.input.setInputProcessor(im);
+    }
+
+    /*
+     *      DEBUG METHODS
+     */
+
+    private void drawVirusBounds_debug(ShapeRenderer renderer) {
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+
+        final float x = ennemi.getX();
+        final float y = ennemi.getY();
+        final float width = ennemi.getWidth();
+        final float height = ennemi.getHeight();
+        final float widthReal = ennemi.getRealWidth();
+        final float heightReal = ennemi.getRealHeight();
+
+        renderer.setColor(Color.WHITE);
+        renderer.box(x, y, 0, widthReal, heightReal, 0);
+        renderer.setColor(Color.BLUE);
+        renderer.box(x, y, 0, width, height, 0);
+
+        renderer.end();
+    }
+    private void drawVirusLabelBounds_debug(ShapeRenderer renderer) {
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+
+        final float x = ennemiNameLabel.getX();
+        final float y = ennemiNameLabel.getY();
+        final float width = ennemiNameLabel.getWidth();
+        final float height = ennemiNameLabel.getHeight();
+        final float widthPref = ennemiNameLabel.getPrefWidth();
+        final float heightPref = ennemiNameLabel.getPrefHeight();
+
+        renderer.setColor(Color.RED);
+        renderer.box(x, y, 0, widthPref, heightPref, 0);
+        renderer.setColor(Color.GREEN);
+        renderer.box(x, y, 0, width, height, 0);
+
+        renderer.end();
     }
 }

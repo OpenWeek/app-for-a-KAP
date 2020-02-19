@@ -40,8 +40,8 @@ public class Core {
     private Random random;
 
     final Localisation loc = Localisation.getInstance();
-    final int nbSafe = 2;
-    final int nbUnSafe = 3;
+    final int nbSafe = 5; //TODO make this dynamic without having to indicate the number of safe/unsafe practice manually
+    final int nbUnSafe = 5;
 
     private SpriteBatch batch;
 

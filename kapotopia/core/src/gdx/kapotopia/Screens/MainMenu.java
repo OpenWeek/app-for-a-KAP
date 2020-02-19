@@ -22,13 +22,13 @@ import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
-import sun.security.util.ByteArrayLexOrder;
 
 public class MainMenu implements Screen {
 
@@ -102,7 +102,7 @@ public class MainMenu implements Screen {
         final TextButton optionsBtn = new TextButtonBuilder("Options").withStyle(style).withPosition(x / 3, y * 0.01f)
                 .withListener(new ChangeScreenListener(game, ScreenType.OPTIONS)).build();
 
-        Label version = new LabelBuilder("v:" + Kapotopia.VERSION_NAME + " | code:" + Kapotopia.VERSION_CODE)
+        Label version = new LabelBuilder("v:" + GameConfig.VERSION_NAME + " | code:" + GameConfig.VERSION_CODE)
                 .withStyle(UseFont.AESTHETIC_TINY_BLACK).withPosition(15, 0).build();
 
         //stage.addActor(imgFond);
