@@ -1,5 +1,6 @@
 package gdx.kapotopia.Game1;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,13 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import java.util.Random;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Screens.Game1;
-
-import static gdx.kapotopia.GameConfig.SCALLING_FACTOR_ENTITY;
 
 public class Virus extends VirusAbstract {
 
-    private final String TAG = "VIRUS";
+    private final String TAG = this.getClass().getSimpleName();
 
     private Random random;
     private boolean isIST;
@@ -40,8 +40,7 @@ public class Virus extends VirusAbstract {
         this.acceleration = 1.00f;
         this.accAddFactor = 0.08f;
         this.accMaxLim = 3f;
-        this.realWidth = ((float) texture.getRegionWidth()) / (SCALLING_FACTOR_ENTITY + LOCAL_SCALLING_FACTOR);
-        this.realHeight = ((float) texture.getRegionHeight()) / (SCALLING_FACTOR_ENTITY + LOCAL_SCALLING_FACTOR);
+        updateRealUnits();
 
         // We don't know yet the size of the label, so we take an arbitrary middle position
         this.nameLabX = computeNameLabX();
@@ -85,41 +84,24 @@ public class Virus extends VirusAbstract {
      * @return the new Value of X
      */
     private float computeNameLabX() {
-        /* Note: I know this is very ugly code, but believe me, i spent already to much time trying
-         *       to find a better way to do this. I found the values by trials.
-         *       This works, don't break it.
-         */
-        final float factoredNameLength;
-        if (this.getName().length() > 11) {
-            factoredNameLength = this.getName().length() * this.getName().length();
-        } else if (this.getName().length() > 9) {
-            factoredNameLength = this.getName().length() * this.getName().length() * (this.getName().length() / 8f);
-        } else if (this.getName().length() > 7) {
-            factoredNameLength = this.getName().length() * this.getName().length() * (this.getName().length() / 6f);
-        } else if (this.getName().length() > 5) {
-            factoredNameLength = this.getName().length() * this.getName().length() * (this.getName().length() / 1.5f);
-        } else if (this.getName().length() > 3) {
-            factoredNameLength = this.getName().length() * this.getName().length() * this.getName().length() * (this.getName().length() / 2f);
-        } else {
-            factoredNameLength = this.getName().length() * this.getName().length() * this.getName().length() * this.getName().length() * (this.getName().length() / 2f);
-        }
-
-        final float a = this.getX() + (this.getRealWidth() - factoredNameLength) / 2f;
-        return Math.max(a,this.getX());
+        final float center = this.getX() + (this.getRealWidth() / 2);
+        final float labelLength = this.getName().length() * GameConfig.ONE_CHAR_SMALL_WIDTH;
+        final float labelX = center - (labelLength / 2);
+        Gdx.app.debug(TAG, "X : " + this.getX() + " | center : " + center + " | labelLength : " + labelLength + " | labelX : " + labelX);
+        return labelX;
     }
 
     /**
-     * Change le type de virus (texture et label)
+     * Change the type of the virus (texture and label)
+     * Update with a new texture, a new label, new realWidth and realHeight
      */
     public void changeVirusType() {
         this.setTexture(new TextureRegion(updateNewVirus()));
+        updateRealUnits();
         game.changeEnnemiLabel(this.getName());
         setNewRandPosition();
         // We update the X position of the name label to make it fit right
         this.nameLabX = computeNameLabX();
-//        Gdx.app.log(TAG, "GetX() : " + getX() + " | Name.length : " +
-//                this.getName().length() + "\nRealWidth : " + getRealWidth() + " | Width : " +
-//                getWidth() + "\nnameLabX : " + this.nameLabX + " for " + this.getName());
     }
 
     /**

@@ -33,7 +33,6 @@ public class MireilleBasic extends EntityAbstract {
     private byte lifes;
     private int score;
     private boolean jojoActivated;
-    private float jojoScallingFactor;
 
     /*
      *  CONSTRUCTORS
@@ -63,7 +62,6 @@ public class MireilleBasic extends EntityAbstract {
         this.score = 0;
         this.random = new Random();
         this.jojoActivated = false;
-        jojoScallingFactor = 0f;
 
         // Differents textures
         normalTexture = new TextureRegion(man.getTextureByPath(NORMAL_TEXTURE_PATH));
@@ -82,8 +80,8 @@ public class MireilleBasic extends EntityAbstract {
     public void draw(Batch batch, float parentAlpha) {
         //TODO jojoscalling factor is there because the file dimensions for these textures are smaller than the other ones for mireille. When these will be reduced, we will be able to remove this factor
         batch.draw(texture, this.getX(), this.getY(),
-                (float) texture.getRegionWidth() / (SCALLING_FACTOR_ENTITY - jojoScallingFactor),
-                (float) texture.getRegionHeight() / (SCALLING_FACTOR_ENTITY - jojoScallingFactor));
+                (float) texture.getRegionWidth() / (SCALLING_FACTOR_ENTITY),
+                (float) texture.getRegionHeight() / (SCALLING_FACTOR_ENTITY));
     }
 
     public void act(float delta) {
@@ -163,7 +161,6 @@ public class MireilleBasic extends EntityAbstract {
 
     public void toggleJojo() {
         this.jojoActivated = true;
-        jojoScallingFactor = 2f;
         this.texture = jojoPoseTexture;
     }
 

@@ -13,9 +13,12 @@ public class GameConfig {
 
     public final static float SCALLING_FACTOR_BACKGROUND = 0.6666667f; // 2/3
 
-    public final static float SCALLING_FACTOR_ENTITY = 5.3f;
-    public final static float ONE_CHARACTER_STD_HEIGHT = 60f;
-    public final static float ONE_CHARACTER_STD_WIDTH = 30f;
+    public final static float SCALLING_FACTOR_ENTITY = 3f;
+    // Units in pixels for fonts characters sizes
+    public final static float ONE_CHAR_STD_HEIGHT = 60f;
+    public final static float ONE_CHAR_STD_WIDTH = 30f;
+    public final static float ONE_CHAR_SMALL_HEIGHT = 30f;
+    public final static float ONE_CHAR_SMALL_WIDTH = 15f;
 
     public final static int debugLvl = Logger.DEBUG;
 

@@ -74,9 +74,9 @@ public class BilanG1 implements Screen {
         final Texture mireille = AssetsManager.getInstance().getTextureByPath(MIR_PATH);
         this.mireilleUni = new Image(mireille);
         mireilleUni.setVisible(true);
-        mireilleUni.setPosition(-75, 0);
-        mireilleUni.setWidth(mireille.getWidth() / 2.5f);
-        mireilleUni.setHeight(mireille.getHeight() / 2.5f);
+        mireilleUni.setPosition(0, 0);
+        mireilleUni.setWidth(mireille.getWidth() / 2f);
+        mireilleUni.setHeight(mireille.getHeight() / 2f);
 
 
         stage.addActor(imgFond);

@@ -7,7 +7,7 @@ public class Pad {
         float width = 0;
         switch (pad) {
             case STANDARD:
-                width = (GameConfig.ONE_CHARACTER_STD_WIDTH * textLength) + (GameConfig.ONE_CHARACTER_STD_WIDTH * 2);
+                width = (GameConfig.ONE_CHAR_STD_WIDTH * textLength) + (GameConfig.ONE_CHAR_STD_WIDTH * 2);
         }
         return width;
     }
@@ -16,7 +16,7 @@ public class Pad {
         float height = 1;
         switch (pad) {
             case STANDARD:
-                height = GameConfig.ONE_CHARACTER_STD_HEIGHT + (GameConfig.ONE_CHARACTER_STD_HEIGHT / 2);
+                height = GameConfig.ONE_CHAR_STD_HEIGHT + (GameConfig.ONE_CHAR_STD_HEIGHT / 2);
         }
         return height;
     }
