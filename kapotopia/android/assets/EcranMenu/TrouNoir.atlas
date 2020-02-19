@@ -1,0 +1,90 @@
+
+TrouNoir.png
+size: 8192,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+EcranJeu1Infini1
+  rotate: false
+  xy: 2, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini10
+  rotate: false
+  xy: 724, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini11
+  rotate: false
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini12
+  rotate: false
+  xy: 2168, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini2
+  rotate: false
+  xy: 2890, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini3
+  rotate: false
+  xy: 3612, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini4
+  rotate: false
+  xy: 4334, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini5
+  rotate: false
+  xy: 5056, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini6
+  rotate: false
+  xy: 5778, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini7
+  rotate: false
+  xy: 6500, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini8
+  rotate: false
+  xy: 7222, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+EcranJeu1Infini9
+  rotate: false
+  xy: 2, 1284
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1

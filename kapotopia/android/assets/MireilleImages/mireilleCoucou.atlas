@@ -1,0 +1,55 @@
+
+mireilleCoucou.png
+size: 8192,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+MireilleCoucou
+  rotate: false
+  xy: 2, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 4
+MireilleCoucou
+  rotate: false
+  xy: 724, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 5
+MireilleCoucou
+  rotate: false
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 6
+MireilleCoucou
+  rotate: false
+  xy: 2168, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 7
+MireilleCoucou
+  rotate: false
+  xy: 2890, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 1
+MireilleCoucou
+  rotate: false
+  xy: 3612, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 2
+MireilleCoucou
+  rotate: false
+  xy: 4334, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 3
