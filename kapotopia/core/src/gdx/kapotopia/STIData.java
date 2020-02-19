@@ -31,6 +31,7 @@ public class STIData {
         allSTIs = new ArrayMap<String, ObjectMap<String, String>>();
 
         Array<XmlReader.Element> ist = root.getChildrenByName("ist");
+        //Gdx.app.log();
         Array<XmlReader.Element> fakeIst = root.getChildrenByName("fakeist");
         Array<XmlReader.Element> maybeIst = root.getChildrenByName("maybeist");
 

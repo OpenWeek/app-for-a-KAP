@@ -64,7 +64,7 @@ public class World4 implements Screen {
     }
 
     private void preload(){
-
+        Gdx.app.log("W4", "Preloading stuff... Size of the names array: "+STIData.getIstNames().length);
         for(Object name : STIData.getIstNames()){
             Gdx.app.log("W4", STIData.getIstType((String)name));
         }
