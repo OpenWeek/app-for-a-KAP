@@ -1,90 +1,90 @@
 
-TrouNoir.png
+blackhole.png
 size: 8192,4096
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-EcranJeu1Infini1
+blackhole
   rotate: false
   xy: 2, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini10
+  index: 1
+blackhole
   rotate: false
   xy: 724, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini11
+  index: 10
+blackhole
   rotate: false
   xy: 1446, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini12
+  index: 11
+blackhole
   rotate: false
   xy: 2168, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini2
+  index: 12
+blackhole
   rotate: false
   xy: 2890, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini3
+  index: 2
+blackhole
   rotate: false
   xy: 3612, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini4
+  index: 3
+blackhole
   rotate: false
   xy: 4334, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini5
+  index: 4
+blackhole
   rotate: false
   xy: 5056, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini6
+  index: 5
+blackhole
   rotate: false
   xy: 5778, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini7
+  index: 6
+blackhole
   rotate: false
   xy: 6500, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini8
+  index: 7
+blackhole
   rotate: false
   xy: 7222, 2
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
-EcranJeu1Infini9
+  index: 8
+blackhole
   rotate: false
   xy: 2, 1284
   size: 720, 1280
   orig: 720, 1280
   offset: 0, 0
-  index: -1
+  index: 9
