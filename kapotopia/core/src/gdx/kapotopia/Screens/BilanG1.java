@@ -57,7 +57,8 @@ public class BilanG1 implements Screen {
 
     // Constants
     private final String TAG = "BilangG1";
-    private final String IMGBACK_PATH = "World1/Game1/World1Ecran3.png";
+    private final String IMGBACK_PATH = "World1/Game1/EcranTotal.png";
+    private final String BUBBLE_PATH = "ImagesGadgets/BulleExplicative.png";
     private final String MIR_PATH = "MireilleImages/MireilleInstruit.png";
 
     public BilanG1(final Kapotopia game) {
@@ -74,12 +75,15 @@ public class BilanG1 implements Screen {
         // Images
         Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath(IMGBACK_PATH));
         imgFond.setVisible(true);
+        final Image bubble = new Image(AssetsManager.getInstance().getTextureByPath(BUBBLE_PATH));
+        bubble.setVisible(true);
         final Texture mireille = AssetsManager.getInstance().getTextureByPath(MIR_PATH);
         Image mireilleUni = new ImageBuilder().withTexture(mireille).isVisible(true).withPosition(0, 0).withWidth(mireille.getWidth() / 2f)
                 .withHeight(mireille.getHeight() / 2f).build();
 
 
         stage.addActor(imgFond);
+        stage.addActor(bubble);
         stage.addActor(mireilleUni);
 
         this.missedIsts = game.getGame1().getMissedIST();

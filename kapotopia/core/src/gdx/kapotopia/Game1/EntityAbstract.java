@@ -16,7 +16,7 @@ public abstract class EntityAbstract extends Actor implements Entity {
 
     void builderHelper(Texture texture, float X, float Y) {
         if(texture == null) {
-            this.texture = new TextureRegion(AssetsManager.getInstance().getTextureByPath("badlogic.jpg"));
+            this.texture = new TextureRegion(AssetsManager.getInstance().getTextureByPath("IST/Alternariose.png"));
         }else{
             this.texture = new TextureRegion(texture);
         }

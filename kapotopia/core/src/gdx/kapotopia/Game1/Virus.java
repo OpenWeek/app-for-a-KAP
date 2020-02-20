@@ -61,7 +61,7 @@ public class Virus extends VirusAbstract {
         boolean hasToChange = false;
         if (this.getY() < -200) {
             if(isIST()) {
-                game.addMissedIST(isMaybeIST, getName());
+                game.getGameController().addMissedIST(isMaybeIST, getName());
             }
             // We cap the acceleration to keep it under an acceptable level
             if (acceleration <= accMaxLim) acceleration += accAddFactor;
@@ -76,7 +76,7 @@ public class Virus extends VirusAbstract {
 
     private void setNewRandPosition() {
         this.setY(screenBounds.getHeight());
-        this.setX(game.getMIN_X() + game.getMOVE_VALUE_X() * random.nextInt(4));
+        this.setX(game.getGameController().getMIN_X() + game.getGameController().getMOVE_VALUE_X() * random.nextInt(4));
     }
 
     /**
@@ -109,7 +109,7 @@ public class Virus extends VirusAbstract {
      * @return une nouvelle texture
      */
     private Texture updateNewVirus() {
-        final VirusContainer v = game.getRdmVirusTexture(VIRUS_TYPE.getRandomType());
+        final VirusContainer v = game.getGameController().getRdmVirusTexture(VIRUS_TYPE.getRandomType());
         this.setName(v.getName());
         this.isIST = v.isIst();
         this.isMaybeIST = v.isMaybeIst();
