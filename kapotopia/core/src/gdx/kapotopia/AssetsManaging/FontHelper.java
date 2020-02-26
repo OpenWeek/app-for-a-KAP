@@ -13,11 +13,11 @@ public class FontHelper {
     private static final String CLASSIC_SANS_NAME = "COMMS.ttf";
     private static final String AESTHETIC_NAME = "SEASRN__.ttf";
 
-    private static final int TINY_SIZE = 20;
-    private static final int SMALL_SIZE = 38;
-    private static final int MIDDLE_SIZE = 50;
-    private static final int NORMAL_SIZE = 60;
-    private static final int BIG_SIZE = 90;
+    private static final int TINY_SIZE = 14;
+    private static final int SMALL_SIZE = 25;
+    private static final int MIDDLE_SIZE = 33;
+    private static final int NORMAL_SIZE = 40;
+    private static final int BIG_SIZE = 60;
 
     /**
      * Get one of the preconfigured fonts
