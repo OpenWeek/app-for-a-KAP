@@ -23,8 +23,11 @@ import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.Bilan1.BilanController;
 import gdx.kapotopia.Game1.VirusContainer;
+import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
@@ -34,21 +37,18 @@ public class BilanG1 implements Screen {
     // Basic variables
     private Kapotopia game;
     private Stage stage;
-    TextButton.TextButtonStyle style;
 
     private HashSet<VirusContainer> missedIsts;
 
     private Button next;
+
+    private BilanController controller;
 
     // Labels
     private LinkedList<Label> istsToShow;
     private LinkedList<Label> descrToShow;
     private Label intro;
     private int pointeur;
-
-    // Images
-    private Image imgFond;
-    private Image mireilleUni;
 
     // Sounds
     private Sound fail;
@@ -57,32 +57,36 @@ public class BilanG1 implements Screen {
 
     // Constants
     private final String TAG = "BilangG1";
-    private final String IMGBACK_PATH = "World1/Game1/World1Ecran3.png";
+    private final String IMGBACK_PATH = "World1/Game1/EcranTotal.png";
+    private final String BUBBLE_PATH = "ImagesGadgets/BulleExplicative.png";
     private final String MIR_PATH = "MireilleImages/MireilleInstruit.png";
 
     public BilanG1(final Kapotopia game) {
         this.game = game;
         this.stage = new Stage(game.viewport);
-        this.style = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_BLACK);
+        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_BLACK);
+
+        this.controller = new BilanController();
 
         final float wWidth = game.viewport.getWorldWidth();
         final float wHeight = game.viewport.getWorldHeight();
 
         /* IMAGES */
-        this.imgFond = new Image(AssetsManager.getInstance().getTextureByPath(IMGBACK_PATH));
+        // Images
+        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath(IMGBACK_PATH));
         imgFond.setVisible(true);
+        final Image bubble = new Image(AssetsManager.getInstance().getTextureByPath(BUBBLE_PATH));
+        bubble.setVisible(true);
         final Texture mireille = AssetsManager.getInstance().getTextureByPath(MIR_PATH);
-        this.mireilleUni = new Image(mireille);
-        mireilleUni.setVisible(true);
-        mireilleUni.setPosition(0, 0);
-        mireilleUni.setWidth(mireille.getWidth() / 2f);
-        mireilleUni.setHeight(mireille.getHeight() / 2f);
+        Image mireilleUni = new ImageBuilder().withTexture(mireille).isVisible(true).withPosition(0, 0).withWidth(mireille.getWidth() / 2f)
+                .withHeight(mireille.getHeight() / 2f).build();
 
 
         stage.addActor(imgFond);
+        stage.addActor(bubble);
         stage.addActor(mireilleUni);
 
-        this.missedIsts = (HashSet<VirusContainer>) game.getTheValueGateway().removeFromTheStore("G1-missedIST");
+        this.missedIsts = game.getGame1().getMissedIST();
         if(missedIsts == null) {
             comeBackToG1();
             return;
@@ -96,27 +100,7 @@ public class BilanG1 implements Screen {
         this.istsToShow = new LinkedList<Label>();
         this.descrToShow = new LinkedList<Label>();
 
-        for (VirusContainer ist : missedIsts) {
-            // Name
-            final float xNext = wWidth / 3f;
-            final float yNext = wHeight / 1.5f;
-            final Label ln = new LabelBuilder(ist.getName()).withStyle(style).isVisible(false).withPosition(xNext, yNext).build();
-
-            // Description
-            final float xDescr = wWidth / 30f;
-            final float yDescr = yNext - (wHeight / 3f);
-            final float wDescr = wWidth - 2 * (wWidth / 30f);
-            final float hDescr = wHeight / 3f;
-            final Label ld = new LabelBuilder(ist.getDescription()).withStyle(style).isVisible(false)
-                    .withPosition(xDescr, yDescr).withTextAlignement(Align.left).withWidth(wDescr)
-                    .withHeight(hDescr).isWrapped(true).build();
-
-            // General
-            istsToShow.add(ln);
-            descrToShow.add(ld);
-            stage.addActor(ln);
-            stage.addActor(ld);
-        }
+        controller.init(stage, istsToShow, descrToShow, missedIsts);
 
         pointeur = 0;
 
@@ -126,36 +110,37 @@ public class BilanG1 implements Screen {
         stage.addActor(intro);
 
         // Button
-        next = new TextButton(Localisation.getInstance().getString("next_button"), style);
         final float xNext = wWidth / 2.5f;
         final float yNext = wHeight / 8f;
-        next.setPosition(xNext, yNext);
-        next.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.input.vibrate(50);
-                if(istsToShow.size() <= pointeur) {
-                    comeBackToG1();
-                }else{
-                    if(pointeur == 0) {
-                        final Label ln = istsToShow.getFirst();
-                        ln.setVisible(true);
-                        final Label ld = descrToShow.getFirst();
-                        ld.setVisible(true);
-                        intro.setVisible(false);
-                    } else {
-                        istsToShow.get(pointeur-1).setVisible(false);
-                        final Label ln = istsToShow.get(pointeur);
-                        ln.setVisible(true);
-                        descrToShow.get(pointeur-1).setVisible(false);
-                        final Label ld = descrToShow.get(pointeur);
-                        ld.setVisible(true);
+        next = new TextButtonBuilder(Localisation.getInstance().getString("next_button"))
+                .withStyle(style).withPosition(xNext, yNext)
+                .withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        Gdx.input.vibrate(50);
+                        if(istsToShow.size() <= pointeur) {
+                            comeBackToG1();
+                        }else{
+                            if(pointeur == 0) {
+                                final Label ln = istsToShow.getFirst();
+                                ln.setVisible(true);
+                                final Label ld = descrToShow.getFirst();
+                                ld.setVisible(true);
+                                intro.setVisible(false);
+                            } else {
+                                istsToShow.get(pointeur-1).setVisible(false);
+                                final Label ln = istsToShow.get(pointeur);
+                                ln.setVisible(true);
+                                descrToShow.get(pointeur-1).setVisible(false);
+                                final Label ld = descrToShow.get(pointeur);
+                                ld.setVisible(true);
+                            }
+                            openSound.play();
+                            pointeur++;
+                        }
                     }
-                    openSound.play();
-                    pointeur++;
-                }
-            }
-        });
+                })
+                .build();
         stage.addActor(next);
 
         // Sounds

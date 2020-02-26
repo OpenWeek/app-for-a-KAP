@@ -1,21 +1,22 @@
 package gdx.kapotopia.Animations;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Array;
 
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.Builders.AnimationBuilder;
 
 public class DifficultyScreenInfinityAnimation extends AnimationAbstract {
 
     public DifficultyScreenInfinityAnimation(Animation.PlayMode playMode) {
-        final String [] FRAMES = new String[]{"EcranMenu/EcranJeu1Infini1.png",
-                "EcranMenu/EcranJeu1Infini2.png", "EcranMenu/EcranJeu1Infini3.png",
-                "EcranMenu/EcranJeu1Infini4.png","EcranMenu/EcranJeu1Infini5.png",
-                "EcranMenu/EcranJeu1Infini6.png", "EcranMenu/EcranJeu1Infini7.png",
-                "EcranMenu/EcranJeu1Infini8.png","EcranMenu/EcranJeu1Infini9.png",
-                "EcranMenu/EcranJeu1Infini10.png", "EcranMenu/EcranJeu1Infini11.png",
-                "EcranMenu/EcranJeu1Infini12.png"};
+
+        final String ATLAS_PATH = "EcranMenu/blackhole.atlas";
+        TextureAtlas atlas = AssetsManager.getInstance().getAtlasByPath(ATLAS_PATH);
+        Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("blackhole");
+        TextureAtlas.AtlasRegion[] array = r.toArray();
 
         setAnimation(new AnimationBuilder(0.05f).withPlayMode(playMode)
-                .addFrames(FRAMES).build());
+                .addFrames(array).build());
     }
 }

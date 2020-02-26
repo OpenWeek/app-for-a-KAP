@@ -5,20 +5,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-import gdx.kapotopia.Animations.LetsgoG1Animation;
-import gdx.kapotopia.Animations.MireilleBlinkingAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
+import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
+import gdx.kapotopia.STIData;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
@@ -29,10 +27,11 @@ public class World4 implements Screen {
     // Test Animation
     private Animation<TextureRegion> animTest;
     private Animation<TextureRegion> animTest2;
-    private float stateTime;
-    private SpriteBatch spriteBatch;
+    private Image displayedIst;
 
     public World4(final Kapotopia game) {
+
+        preload();
 
         this.game = game;
         Texture fond = AssetsManager.getInstance().getTextureByPath("Pokedex.png");
@@ -55,14 +54,20 @@ public class World4 implements Screen {
         stage.addActor(back);
 
         // Animation test
-        this.animTest = new LetsgoG1Animation(Animation.PlayMode.LOOP).getAnimation();
-        this.animTest2 = new MireilleBlinkingAnimation(Animation.PlayMode.LOOP_PINGPONG).getAnimation();
-        spriteBatch = new SpriteBatch();
-        stateTime = 0f;
 
-        AssetsManager.getInstance().addStage(stage, "world3");
+
+
+        AssetsManager.getInstance().addStage(stage, "world4");
     }
 
+    private void preload(){
+        Gdx.app.log("W4", "Preloading stuff... Size of the names array: "+STIData.getIstNames().length);
+        for(Object name : STIData.getIstNames()){
+            Gdx.app.log("W4", (String)name);
+            Gdx.app.log("W4", STIData.getIstType((String)name));
+            Gdx.app.log("W4", STIData.getIstSpritePath((String)name));
+        }
+    }
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
@@ -71,18 +76,12 @@ public class World4 implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stateTime += delta;
         stage.act();
         stage.draw();
 
-        //Animation test
-        TextureRegion currentFrameTest1 = animTest.getKeyFrame(stateTime, true);
-        TextureRegion currentFrameTest2 = animTest2.getKeyFrame(stateTime, true);
-        spriteBatch.begin();
-        spriteBatch.draw(currentFrameTest1, 100, 100);
-        spriteBatch.draw(currentFrameTest2, 200, 100, 0,0,1772,1772,0.5f,0.5f,0); // apparement qd x=0 on se trouve pas sur l'origine wtf
-        spriteBatch.end();
+
     }
+
 
     @Override
     public void resize(int width, int height) {
@@ -107,8 +106,7 @@ public class World4 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("world3");
-        spriteBatch.dispose();
+        AssetsManager.getInstance().disposeStage("world4");
     }
 
 }

@@ -32,7 +32,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
     public FitViewport viewport;
     // The value Gateway
-    private ValueGateway gate;
+    private ValueGateway gate; 		//TODO remove this
+	public GlobalVariables vars;
     // Settings
     private Settings settings;
 
@@ -62,6 +63,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
 		this.gate = new ValueGateway();
+		this.vars = new GlobalVariables();
 		this.settings = new Settings();
 		changeScreen(ScreenType.MAINMENU);
 		Gdx.app.setLogLevel(GameConfig.debugLvl);
@@ -375,8 +377,66 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		return succeeded;
 	}
 
+	public Game1 getGame1() {
+		return game1;
+	}
+
+	public Game2 getGame2() {
+		return game2;
+	}
+
+	public Game3 getGame3() {
+		return game3;
+	}
+
+	public MainMenu getMainMenu() {
+		return mainMenu;
+	}
+
+	public mockupG1 getMockupG1() {
+		return mockupG1;
+	}
+
+	public mockupG2 getMockupG2() {
+		return mockupG2;
+	}
+
+	public mockupG3 getMockupG3() {
+		return mockupG3;
+	}
+
+	public BilanG1 getBilanG1() {
+		return bilanG1;
+	}
+
+	public World1 getWorld1() {
+		return world1;
+	}
+
+	public World2 getWorld2() {
+		return world2;
+	}
+
+	public World3 getWorld3() {
+		return world3;
+	}
+
+	public World4 getWorld4() {
+		return world4;
+	}
+
+	public ChoosingDifficultyScreen getDif() {
+		return dif;
+	}
+
+	public Options getOptions() {
+		return options;
+	}
+
 	private enum ScreenAction {
 		DESTROY,
 		CHANGE
 	}
+
+
 }

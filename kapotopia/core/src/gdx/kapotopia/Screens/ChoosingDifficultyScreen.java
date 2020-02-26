@@ -46,6 +46,8 @@ public class ChoosingDifficultyScreen implements Screen {
 
     private final String BTN_PATH = "ImagesGadgets/Bouton.png";
 
+    private GameDifficulty choosenDifficulty;
+
     // Animation
     private Texture top;
     private Animation<TextureRegion> backgroundHell;
@@ -65,7 +67,7 @@ public class ChoosingDifficultyScreen implements Screen {
         this.backgroundHell = new DifficultyScreenHellAnimation(Animation.PlayMode.LOOP).getAnimation();
         this.backgroundInfinity = new DifficultyScreenInfinityAnimation(Animation.PlayMode.LOOP).getAnimation();
         this.spriteBatch = new SpriteBatch();
-        stateTime = 0f;
+        stateTime = 0.1f;
 
         // Sounds
 
@@ -170,6 +172,9 @@ public class ChoosingDifficultyScreen implements Screen {
         stage.addActor(hardBtn);
         stage.addActor(infiniteBtn);
 
+        // Other variables
+        choosenDifficulty = GameDifficulty.EASY;
+
         AssetsManager.getInstance().addStage(stage, this.getClass().getName());
     }
 
@@ -190,7 +195,7 @@ public class ChoosingDifficultyScreen implements Screen {
 
     private void goToNextScreen(GameDifficulty difficulty) {
         clic.play();
-        game.getTheValueGateway().addToTheStore("difficulty", difficulty);
+        game.vars.setChoosenDifficultyG1(difficulty);
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -210,9 +215,9 @@ public class ChoosingDifficultyScreen implements Screen {
 
         stateTime += delta;
         spriteBatch.begin();
-        spriteBatch.draw(backgroundInfinity.getKeyFrame(stateTime, true), 0, 0);
-        spriteBatch.draw(backgroundHell.getKeyFrame(stateTime, true), 0, 0);
-        spriteBatch.draw(top, 0, 0);
+        spriteBatch.draw(backgroundInfinity.getKeyFrame(stateTime, true), 0f, 0f);
+        spriteBatch.draw(backgroundHell.getKeyFrame(stateTime, true), 0f, 0f);
+        spriteBatch.draw(top, 0f, 0f);
         spriteBatch.end();
 
         stage.act(Gdx.graphics.getDeltaTime());
