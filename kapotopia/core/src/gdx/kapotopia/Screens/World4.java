@@ -5,18 +5,15 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-import gdx.kapotopia.Animations.LetsgoG1Animation;
-import gdx.kapotopia.Animations.MireilleBlinkingAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
+import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.STIData;
@@ -66,7 +63,9 @@ public class World4 implements Screen {
     private void preload(){
         Gdx.app.log("W4", "Preloading stuff... Size of the names array: "+STIData.getIstNames().length);
         for(Object name : STIData.getIstNames()){
+            Gdx.app.log("W4", (String)name);
             Gdx.app.log("W4", STIData.getIstType((String)name));
+            Gdx.app.log("W4", STIData.getIstSpritePath((String)name));
         }
     }
     @Override
@@ -82,6 +81,7 @@ public class World4 implements Screen {
 
 
     }
+
 
     @Override
     public void resize(int width, int height) {

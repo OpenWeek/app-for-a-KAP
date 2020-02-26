@@ -8,8 +8,6 @@ import com.badlogic.gdx.utils.XmlReader;
 
 import java.util.ArrayList;
 
-import gdx.kapotopia.Game1.VirusContainer;
-
 public class STIData {
     private static XmlReader.Element root;
     private static ArrayMap<String, ObjectMap<String, String>> allSTIs;
@@ -32,8 +30,8 @@ public class STIData {
 
         Array<XmlReader.Element> ist = root.getChildrenByName("ist");
         //Gdx.app.log();
-        Array<XmlReader.Element> fakeIst = root.getChildrenByName("fakeist");
-        Array<XmlReader.Element> maybeIst = root.getChildrenByName("maybeist");
+        Array<XmlReader.Element> fakeIst = root.getChildByName("fakeist-l").getChildrenByName("fakeist");
+        Array<XmlReader.Element> maybeIst = root.getChildByName("maybeist-l").getChildrenByName("maybeist");
 
         for(XmlReader.Element e : ist){
 
@@ -48,7 +46,7 @@ public class STIData {
             objectRep.put("desc", desc);
             objectRep.put("path", texturePath);
             objectRep.put("type", tag);
-            allSTIs.put("name", objectRep);
+            allSTIs.put(name, objectRep);
 
         }
 
@@ -58,14 +56,15 @@ public class STIData {
             String name = e.getAttribute("name");
             names.add(name);
             String texturePath = e.getAttribute("texture");
-            String desc = e.getChildByName("explanation").getText();
+            //TODO Add descriptions for fakeists?
+            String desc = "";
 
             ObjectMap<String, String> objectRep = new ObjectMap<String, String>();
             objectRep.put("name", name);
             objectRep.put("desc", desc);
             objectRep.put("path", texturePath);
             objectRep.put("type", "fakeist");
-            allSTIs.put("name", objectRep);
+            allSTIs.put(name, objectRep);
         }
 
         for(XmlReader.Element e : maybeIst){
@@ -81,7 +80,7 @@ public class STIData {
             objectRep.put("path", texturePath);
             objectRep.put("desc", desc);
             objectRep.put("type", "maybeist");
-            allSTIs.put("name", objectRep);
+            allSTIs.put(name, objectRep);
         }
 
     }
