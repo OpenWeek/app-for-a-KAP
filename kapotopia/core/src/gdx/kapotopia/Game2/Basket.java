@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
-import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_BLACK;
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_WHITE;
 
 public class Basket {
@@ -63,6 +62,14 @@ public class Basket {
 
     public Label getLabel(){
         return this.label;
+    }
+
+    public float getLabelWidth() {
+        return this.label.getPrefWidth();
+    }
+
+    public float getLabelHeight() {
+        return this.label.getPrefHeight();
     }
 
     public int getSTInbr(){

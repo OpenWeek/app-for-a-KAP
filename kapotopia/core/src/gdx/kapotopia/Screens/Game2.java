@@ -36,6 +36,7 @@ public class Game2 implements Screen {
     private Sound successSound;
     private Sound nextSound;
     private Music music;
+    private Image panneau;
 
     private boolean musicOn;
 
@@ -86,13 +87,13 @@ public class Game2 implements Screen {
         Image imgBckground2 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Mer.png"));
         Image imgBckground3 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"ciel.png"));
         Image imgBckground4 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Palmier1.png"));
-        Image imgBckground5 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"UnPANNAL.png"));
+        panneau = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"UnPANNAL.png"));
         this.stage = new Stage(game.viewport);
         this.stage.addActor(imgBckground);
         this.stage.addActor(imgBckground2);
         this.stage.addActor(imgBckground3);
         this.stage.addActor(imgBckground4);
-        this.stage.addActor(imgBckground5);
+        this.stage.addActor(panneau);
         middleX = game.viewport.getWorldWidth()/3;
         middleY = game.viewport.getWorldHeight()/2;
 
@@ -157,6 +158,11 @@ public class Game2 implements Screen {
 
         //Link between balls, baskets and the STI they represent
         setUpSTI(currentBasket);
+        //Adapt size of board to text
+        float delta = (currentBasket.getLabel().getText().length/22f-5f)/20f;
+        panneau.setScale(1+delta);
+        panneau.setX(-panneau.getPrefWidth()*delta/2);
+        panneau.setY(-panneau.getPrefHeight()*delta/2);
 
         //Adding ball actors to stage (they have to be added after symptoms to be in front)
         for(int i = 0; i < STInbr; i++) {
@@ -317,6 +323,11 @@ public class Game2 implements Screen {
                         if (currentBasket.getPrevious() != null)
                             currentBasket = currentBasket.getPrevious();
                     }
+                    //Adapt size of board to text
+                    float delta = (currentBasket.getLabel().getText().length/22f-5f)/20f;
+                    panneau.setScale(1+delta);
+                    panneau.setX(-panneau.getPrefWidth()*delta/2);
+                    panneau.setY(-panneau.getPrefHeight()*delta/2);
                     currentBasket.showLabel();
                 }
             }
