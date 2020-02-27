@@ -31,7 +31,7 @@ public class World4 implements Screen {
     // Test Animation
     private Animation<TextureRegion> animTest;
     private Animation<TextureRegion> animTest2;
-    private Image displayedIst;
+    private Image displayedIstSprite;
     private int istIndex;
     private String[] istNames;
 
@@ -72,30 +72,46 @@ public class World4 implements Screen {
         int lowerWidth = (int)((630f/720f)*imgFond.getWidth());
         int lowerHeight = (int)((542f/1280f)*imgFond.getHeight());
 
-        //this is used to make some sort of giant button
-        displayedIst = new Image(AssetsManager.getInstance().getTextureByPath(STIData.getIstSpritePath(istNames[istIndex])));
-        displayedIst.setBounds(upperDownLeftCornerX, upperDownLeftCornerY, upperWidth, upperHeight);
-        Gdx.app.log("WR", displayedIst.getX()+" "+displayedIst.getY());
-        displayedIst.setVisible(true);
-        displayedIst.addListener(new InputListener() {
+        //this code is used to update the displayedIstSprite
+        displayedIstSprite = new Image(AssetsManager.getInstance().getTextureByPath(STIData.getIstSpritePath(istNames[istIndex])));
+        displayedIstSprite.setBounds(upperDownLeftCornerX, upperDownLeftCornerY, upperWidth, upperHeight);
+        displayedIstSprite.setVisible(true);
+        displayedIstSprite.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 istIndex = (istIndex + 1) % istNames.length;
-                displayedIst.setDrawable(
+                displayedIstSprite.setDrawable(
                         new TextureRegionDrawable(
                                 new TextureRegion(AssetsManager.getInstance().getTextureByPath(
                                         STIData.getIstSpritePath(istNames[istIndex]))
                                 )
                         )
                 );
-                // must return true for touchUp event to occur
                 return true;
             }
         });
-        displayedIst.setTouchable(Touchable.enabled);
-        stage.addActor(displayedIst);
+        displayedIstSprite.setTouchable(Touchable.enabled);
+        stage.addActor(displayedIstSprite);
+
+        //right arrow
+        Image rightArrow = new Image(AssetsManager.getInstance().getTextureByPath("ui_arrow.png"));
+        rightArrow.setX(0.9f * game.viewport.getWorldWidth() - rightArrow.getWidth());
+        rightArrow.setY(0.12f * game.viewport.getWorldHeight() - rightArrow.getHeight());
+        stage.addActor(rightArrow);
+
+        //left arrow, first gotta flip the texture
+        TextureRegion reversedArrow =
+                new TextureRegion(AssetsManager.getInstance().getTextureByPath("ui_arrow.png"));
+        reversedArrow.flip(true, false);
+        Image leftArrow = new Image(reversedArrow);
+        leftArrow.setX(game.viewport.getWorldWidth() - rightArrow.getX() - rightArrow.getWidth());
+        leftArrow.setY(rightArrow.getY());
+        stage.addActor(leftArrow);
         AssetsManager.getInstance().addStage(stage, "world4");
     }
 
+    private void updateSti(){
+
+    }
     private void preload(){
 
         Gdx.app.log("W4", "Preloading stuff... ");
