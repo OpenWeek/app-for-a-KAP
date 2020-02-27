@@ -76,19 +76,6 @@ public class World4 implements Screen {
         displayedIstSprite = new Image(AssetsManager.getInstance().getTextureByPath(STIData.getIstSpritePath(istNames[istIndex])));
         displayedIstSprite.setBounds(upperDownLeftCornerX, upperDownLeftCornerY, upperWidth, upperHeight);
         displayedIstSprite.setVisible(true);
-        displayedIstSprite.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                istIndex = (istIndex + 1) % istNames.length;
-                displayedIstSprite.setDrawable(
-                        new TextureRegionDrawable(
-                                new TextureRegion(AssetsManager.getInstance().getTextureByPath(
-                                        STIData.getIstSpritePath(istNames[istIndex]))
-                                )
-                        )
-                );
-                return true;
-            }
-        });
         displayedIstSprite.setTouchable(Touchable.enabled);
         stage.addActor(displayedIstSprite);
 
@@ -96,6 +83,14 @@ public class World4 implements Screen {
         Image rightArrow = new Image(AssetsManager.getInstance().getTextureByPath("ui_arrow.png"));
         rightArrow.setX(0.9f * game.viewport.getWorldWidth() - rightArrow.getWidth());
         rightArrow.setY(0.12f * game.viewport.getWorldHeight() - rightArrow.getHeight());
+        rightArrow.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                istIndex = (istIndex + 1) % istNames.length;
+                updateSti();
+                return true;
+            }
+        });
+        rightArrow.setTouchable(Touchable.enabled);
         stage.addActor(rightArrow);
 
         //left arrow, first gotta flip the texture
@@ -105,12 +100,26 @@ public class World4 implements Screen {
         Image leftArrow = new Image(reversedArrow);
         leftArrow.setX(game.viewport.getWorldWidth() - rightArrow.getX() - rightArrow.getWidth());
         leftArrow.setY(rightArrow.getY());
+        leftArrow.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                istIndex = (istIndex - 1) % istNames.length;
+                updateSti();
+                return true;
+            }
+        });
+        leftArrow.setTouchable(Touchable.enabled);
         stage.addActor(leftArrow);
         AssetsManager.getInstance().addStage(stage, "world4");
     }
 
     private void updateSti(){
-
+        displayedIstSprite.setDrawable(
+                new TextureRegionDrawable(
+                        new TextureRegion(AssetsManager.getInstance().getTextureByPath(
+                                STIData.getIstSpritePath(istNames[istIndex]))
+                        )
+                )
+        );
     }
     private void preload(){
 
