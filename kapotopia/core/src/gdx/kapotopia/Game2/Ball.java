@@ -24,7 +24,7 @@ public class Ball extends Button {
     private float initX, initY; //Position of ball when waiting to be picked
     private float posX, posY; //Current position of ball
     private float finishX, finishY; //Position of ball after successfully been thrown
-    final private float size = 200;
+    private float size; // = 200;
     private Label label;
     private ImageButton button;
     private final String TEXTURE_PATH = "World1/Game2/Ballon.png";
@@ -84,7 +84,7 @@ public class Ball extends Button {
         this.moving = false;
     }
 
-    public Ball(int nbr, float x, float y, float g){
+    public Ball(int nbr, float x, float y, float size, float g){
         this.STInbr = nbr;
         this.initX = x;
         this.initY = y;
@@ -97,6 +97,7 @@ public class Ball extends Button {
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
         this.moving = false;
+        this.size = size;
     }
 
     public Label getLabel(){

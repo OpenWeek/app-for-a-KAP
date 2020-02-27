@@ -51,6 +51,7 @@ public class Game2 implements Screen {
     private float middleY;
     private final float livesX;
     private final float livesY;
+    private float ballSize;
 
     private final int STInbr = 6;
     private int STIfound = 0;
@@ -122,6 +123,7 @@ public class Game2 implements Screen {
         finalBalX = game.viewport.getWorldWidth()/1.2f;
         finalBalY = game.viewport.getWorldHeight()/2.25f;
         ballDelta = game.viewport.getWorldWidth()/6.5f;
+        ballSize = game.viewport.getWorldWidth()/(STInbr-1);
 
         livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).isVisible(true).withPosition(livesX,livesY).build();
         stage.addActor(livesLabel);
@@ -143,7 +145,7 @@ public class Game2 implements Screen {
 
         //STI's creation and set up (representation of STI)
         for(int i = 0; i < STInbr; i++) {
-            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY, ground);
+            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY, ballSize, ground);
         }
         for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
