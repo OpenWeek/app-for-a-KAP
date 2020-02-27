@@ -89,7 +89,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 * @return true if the operation succeeded, false otherwise
 	 */
 	public boolean changeScreen(ScreenType TYPE) {
-	    Gdx.app.debug(TAG, "Changing screen to " + TYPE.name());
+	    Gdx.app.debug(TAG, "Changing screen to ZA " + TYPE.name());
 		return selectScreen(ScreenAction.CHANGE, TYPE);
 	}
 
