@@ -24,6 +24,7 @@ import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 
+import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_BOLD_NORMAL_BLACK;
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
 import static java.util.Collections.shuffle;
 
@@ -52,6 +53,7 @@ public class Game2 implements Screen {
     private final float livesX;
     private final float livesY;
     private float ballSize;
+    private float sympTextSize;
 
     private final int STInbr = 6;
     private int STIfound = 0;
@@ -88,12 +90,14 @@ public class Game2 implements Screen {
         Image imgBckground2 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Mer.png"));
         Image imgBckground3 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"ciel.png"));
         Image imgBckground4 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Palmier1.png"));
+        Image imgBckground5 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Filet.png"));
         panneau = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"UnPANNAL.png"));
         this.stage = new Stage(game.viewport);
         this.stage.addActor(imgBckground);
         this.stage.addActor(imgBckground2);
         this.stage.addActor(imgBckground3);
         this.stage.addActor(imgBckground4);
+        this.stage.addActor(imgBckground5);
         this.stage.addActor(panneau);
         middleX = game.viewport.getWorldWidth()/3;
         middleY = game.viewport.getWorldHeight()/2;
@@ -124,8 +128,9 @@ public class Game2 implements Screen {
         finalBalY = game.viewport.getWorldHeight()/2.25f;
         ballDelta = game.viewport.getWorldWidth()/6.5f;
         ballSize = game.viewport.getWorldWidth()/(STInbr-1);
+        sympTextSize = game.viewport.getWorldWidth()/2;
 
-        livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).isVisible(true).withPosition(livesX,livesY).build();
+        livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).withStyle(CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
         stage.addActor(livesLabel);
 
         //Symptoms creation and set up (representation of symptoms)
@@ -161,6 +166,7 @@ public class Game2 implements Screen {
         //Link between balls, baskets and the STI they represent
         setUpSTI(currentBasket);
         //Adapt size of board to text
+        //panneau.setWidth(sympTextSize*2f);  //sympTextSize could be used to have a better scale of board
         float delta = (currentBasket.getLabel().getText().length/22f-5f)/20f;
         panneau.setScale(1+delta);
         panneau.setX(-panneau.getPrefWidth()*delta/2);
@@ -273,7 +279,7 @@ public class Game2 implements Screen {
             sittingBalls[ids.get(i)].setName(stiNames[numbers.get(i)]);
             sittingBalls[ids.get(i)].getButton().addActor(sittingBalls[ids.get(i)].getLabel());
             inter.setId(ids.get(i));
-            inter.setName(symptoms[numbers.get(i)]);
+            inter.setName(symptoms[numbers.get(i)], sympTextSize);
             stage.addActor(inter.getLabel());
             inter = inter.getNext();
         }
@@ -327,6 +333,7 @@ public class Game2 implements Screen {
                     }
                     //Adapt size of board to text
                     float delta = (currentBasket.getLabel().getText().length/22f-5f)/20f;
+                    //panneau.setWidth(sympTextSize*2f); //sympTextSize could be used to have a better scale of board
                     panneau.setScale(1+delta);
                     panneau.setX(-panneau.getPrefWidth()*delta/2);
                     panneau.setY(-panneau.getPrefHeight()*delta/2);
