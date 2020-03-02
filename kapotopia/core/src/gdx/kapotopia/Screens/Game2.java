@@ -36,6 +36,7 @@ public class Game2 implements Screen {
     private Sound successSound;
     private Sound nextSound;
     private Music music;
+    private Image panneau;
 
     private boolean musicOn;
 
@@ -50,6 +51,7 @@ public class Game2 implements Screen {
     private float middleY;
     private final float livesX;
     private final float livesY;
+    private float ballSize;
 
     private final int STInbr = 6;
     private int STIfound = 0;
@@ -86,13 +88,13 @@ public class Game2 implements Screen {
         Image imgBckground2 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Mer.png"));
         Image imgBckground3 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"ciel.png"));
         Image imgBckground4 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Palmier1.png"));
-        Image imgBckground5 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"UnPANNAL.png"));
+        panneau = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"UnPANNAL.png"));
         this.stage = new Stage(game.viewport);
         this.stage.addActor(imgBckground);
         this.stage.addActor(imgBckground2);
         this.stage.addActor(imgBckground3);
         this.stage.addActor(imgBckground4);
-        this.stage.addActor(imgBckground5);
+        this.stage.addActor(panneau);
         middleX = game.viewport.getWorldWidth()/3;
         middleY = game.viewport.getWorldHeight()/2;
 
@@ -113,6 +115,7 @@ public class Game2 implements Screen {
         final float symptY = game.viewport.getWorldHeight()/2.25f;
         final float sitBalX = game.viewport.getWorldWidth()/50;
         final float sitBalY = game.viewport.getWorldHeight()/24;
+        final float ground = game.viewport.getWorldHeight()/25;
         livesX = game.viewport.getWorldWidth()/1.3f;
         livesY = game.viewport.getWorldHeight()/1.225f;
         readyBalX = game.viewport.getWorldWidth()/2.2f;
@@ -120,6 +123,7 @@ public class Game2 implements Screen {
         finalBalX = game.viewport.getWorldWidth()/1.2f;
         finalBalY = game.viewport.getWorldHeight()/2.25f;
         ballDelta = game.viewport.getWorldWidth()/6.5f;
+        ballSize = game.viewport.getWorldWidth()/(STInbr-1);
 
         livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).isVisible(true).withPosition(livesX,livesY).build();
         stage.addActor(livesLabel);
@@ -141,8 +145,7 @@ public class Game2 implements Screen {
 
         //STI's creation and set up (representation of STI)
         for(int i = 0; i < STInbr; i++) {
-            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY);
-            stage.addActor(sittingBalls[i].getButton());
+            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY, ballSize, ground);
         }
         for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
@@ -157,6 +160,16 @@ public class Game2 implements Screen {
 
         //Link between balls, baskets and the STI they represent
         setUpSTI(currentBasket);
+        //Adapt size of board to text
+        float delta = (currentBasket.getLabel().getText().length/22f-5f)/20f;
+        panneau.setScale(1+delta);
+        panneau.setX(-panneau.getPrefWidth()*delta/2);
+        panneau.setY(-panneau.getPrefHeight()*delta/2);
+
+        //Adding ball actors to stage (they have to be added after symptoms to be in front)
+        for(int i = 0; i < STInbr; i++) {
+            stage.addActor(sittingBalls[i].getButton());
+        }
 
         AssetsManager.getInstance().addStage(stage, "game2");
     }
@@ -312,6 +325,11 @@ public class Game2 implements Screen {
                         if (currentBasket.getPrevious() != null)
                             currentBasket = currentBasket.getPrevious();
                     }
+                    //Adapt size of board to text
+                    float delta = (currentBasket.getLabel().getText().length/22f-5f)/20f;
+                    panneau.setScale(1+delta);
+                    panneau.setX(-panneau.getPrefWidth()*delta/2);
+                    panneau.setY(-panneau.getPrefHeight()*delta/2);
                     currentBasket.showLabel();
                 }
             }
@@ -329,7 +347,7 @@ public class Game2 implements Screen {
             private void play(){
                 Gdx.app.log(TAG,"Entering play function");
                 if(currentBall.getSTInbr() != currentBasket.getSTInbr()){//wrong STI and symptom combination, ball is brought back to initial position
-                    changeBall(currentBall);
+                    currentBall.lose();
                     lives--;
                     livesLabel.setVisible(false);
                     livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).isVisible(true).withPosition(livesX,livesY).build();
@@ -375,8 +393,7 @@ public class Game2 implements Screen {
                 }
                 else{//right STI and symptom have been connected
                     currentBasket.hideLabel();
-                    currentBall.setGoal(finalBalX,finalBalY-STIfound*ballDelta);
-                    //currentBall.slide(finalBalX,finalBalY-STIfound*ballDelta);
+                    currentBall.win(finalBalX,finalBalY-STIfound*ballDelta);
                     currentBall.getButton().removeListener(ballClick[currentBall.getSTInbr()]);
                     currentBall = null;
                     STIfound++;

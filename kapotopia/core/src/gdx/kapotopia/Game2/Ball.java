@@ -15,18 +15,34 @@ import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_WHITE;
 public class Ball extends Button {
 
     final private String TAG = "Ball class";
+
     /*Characteristics of the STD represented by the ball*/
     private int STInbr; //Integer that is linked to an STD and permits connection with the correct STD basket
     private String STIname;
+
     /*Variables related to the ball representation*/
     private float initX, initY; //Position of ball when waiting to be picked
     private float posX, posY; //Current position of ball
-    private float finishX, finishY;
-    final private float size = 200;
+    private float finishX, finishY; //Position of ball after successfully been thrown
+    private float size; // = 200;
     private Label label;
     private ImageButton button;
     private final String TEXTURE_PATH = "World1/Game2/Ballon.png";
 
+    /*Variables related to movement of ball*/
+    private boolean moving;
+    private boolean flying;
+    private boolean rolling;
+    private boolean sliding;
+    private boolean winning;
+    private float g = 20f;
+    private final float v = 550;
+    private final float v_lost = 250;
+    private float speed;
+    private float t;
+    private double deg = 90;
+    private double rad = Math.toRadians(90);
+    private double ground;
 
     public Ball(int nbr, String name){
         this.STInbr = nbr;
@@ -35,6 +51,7 @@ public class Ball extends Button {
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setSize(size,size);
+        this.moving = false;
     }
 
     public Ball(int nbr, String name, float x, float y){
@@ -50,6 +67,7 @@ public class Ball extends Button {
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
+        this.moving = false;
     }
 
     public Ball(int nbr, float x, float y){
@@ -63,6 +81,23 @@ public class Ball extends Button {
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
+        this.moving = false;
+    }
+
+    public Ball(int nbr, float x, float y, float size, float g){
+        this.STInbr = nbr;
+        this.initX = x;
+        this.initY = y;
+        this.posX = x;
+        this.posY = y;
+        this.finishX = x;
+        this.finishY = y;
+        this.ground = g;
+        this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
+                AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
+        this.button.setBounds(x,y,size,size);
+        this.moving = false;
+        this.size = size;
     }
 
     public Label getLabel(){
@@ -125,6 +160,29 @@ public class Ball extends Button {
     public void setGoal(float x, float y){
         this.finishX = x;
         this.finishY = y;
+        this.moving = true;
+        this.rolling = true;
+        this.sliding = true;
+    }
+
+    public void win(float x, float y){
+        this.finishX = x;
+        this.finishY = y;
+        this.moving = true;
+        this.rolling = true;
+        this.sliding = true;
+        this.flying = true;
+        this.speed = v;
+    }
+
+    public void lose(){
+        this.finishX = initX;
+        this.finishY = initY;
+        this.moving = true;
+        this.rolling = true;
+        this.sliding = true;
+        this.flying = true;
+        this.speed = v_lost;
     }
 
     public void setName(String name){
@@ -142,19 +200,36 @@ public class Ball extends Button {
     }
 
     public void update(float delta) {
-        //TODO improve ball displacement
-        float speed = 400 * delta;
-        if (this.posX < finishX - speed || this.posX > finishX + speed || this.posY < finishY - speed || this.posY > finishY + speed) {
-            Gdx.app.log(TAG, "If of update entered");
-            if (finishX > this.posX) {
-                this.posX = this.posX + speed;
-            } else if (finishX < this.posX) {
-                this.posX = this.posX - speed;
+        if(moving){
+            Gdx.app.log(TAG,"moving is true");
+            if(flying){
+                float v0 = speed * delta;
+                this.posY = this.posY + v0 * (float) Math.sin(rad) - g * (t - 1);
+                t = t + delta;
+                if(this.posY <= ground){ //Work only if ground is lower than initY
+                    flying = false;
+                }
             }
-            if (finishY > this.posY) {
-                this.posY = this.posY + speed;
-            } else if (finishY < this.posY) {
-                this.posY = this.posY - speed;
+            else {
+                if (rolling) {
+                    Gdx.app.log(TAG,"rolling is true");
+                    float vX = 3*(this.finishX - this.posX) * delta;
+                    this.posX = this.posX + vX;
+                    if (Math.abs(this.posX - this.finishX) < 1) {
+                        rolling = false;
+                    }
+                }
+                if (sliding) {
+                    Gdx.app.log(TAG,"sliding is true");
+                    float vY = 3*(this.finishY - this.posY) * delta;
+                    this.posY = this.posY + vY;
+                    if (Math.abs(this.posY - this.finishY) < 1) {
+                        sliding = false;
+                    }
+                } else {//End of launch, reset variables
+                    t = 0;
+                    moving = false;
+                }
             }
             this.button.setPosition(posX, posY);
         }
