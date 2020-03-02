@@ -13,27 +13,6 @@ blackhole
   index: 1
 blackhole
   rotate: false
-  xy: 724, 2
-  size: 720, 1280
-  orig: 720, 1280
-  offset: 0, 0
-  index: 10
-blackhole
-  rotate: false
-  xy: 1446, 2
-  size: 720, 1280
-  orig: 720, 1280
-  offset: 0, 0
-  index: 11
-blackhole
-  rotate: false
-  xy: 2168, 2
-  size: 720, 1280
-  orig: 720, 1280
-  offset: 0, 0
-  index: 12
-blackhole
-  rotate: false
   xy: 2890, 2
   size: 720, 1280
   orig: 720, 1280
@@ -88,3 +67,24 @@ blackhole
   orig: 720, 1280
   offset: 0, 0
   index: 9
+blackhole
+  rotate: false
+  xy: 724, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 10
+blackhole
+  rotate: false
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 11
+blackhole
+  rotate: false
+  xy: 2168, 2
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: 12

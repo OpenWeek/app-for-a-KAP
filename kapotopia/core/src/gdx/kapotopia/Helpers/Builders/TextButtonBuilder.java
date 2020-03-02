@@ -74,6 +74,11 @@ public class TextButtonBuilder {
         return this;
     }
 
+    public TextButtonBuilder withX(float x) {
+        this.x = x;
+        return this;
+    }
+
     public TextButtonBuilder withY(float y) {
         this.y = y;
         return this;

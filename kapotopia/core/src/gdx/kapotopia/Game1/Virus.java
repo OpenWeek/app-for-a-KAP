@@ -1,6 +1,5 @@
 package gdx.kapotopia.Game1;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import java.util.Random;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.GameConfig;
+import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Screens.Game1;
 
 public class Virus extends VirusAbstract {
@@ -43,7 +42,7 @@ public class Virus extends VirusAbstract {
         updateRealUnits();
 
         // We don't know yet the size of the label, so we take an arbitrary middle position
-        this.nameLabX = computeNameLabX();
+        this.nameLabX = Align.getXCenteredWithElement(this.getX(), this.getRealWidth(), this.getName().length());
     }
 
     // Méthode draw se trouve dans VirusAbstract
@@ -80,18 +79,6 @@ public class Virus extends VirusAbstract {
     }
 
     /**
-     * Compute the X value for the label that indicate the name
-     * @return the new Value of X
-     */
-    private float computeNameLabX() {
-        final float center = this.getX() + (this.getRealWidth() / 2);
-        final float labelLength = this.getName().length() * GameConfig.ONE_CHAR_SMALL_WIDTH;
-        final float labelX = center - (labelLength / 2);
-        Gdx.app.debug(TAG, "X : " + this.getX() + " | center : " + center + " | labelLength : " + labelLength + " | labelX : " + labelX);
-        return labelX;
-    }
-
-    /**
      * Change the type of the virus (texture and label)
      * Update with a new texture, a new label, new realWidth and realHeight
      */
@@ -101,7 +88,7 @@ public class Virus extends VirusAbstract {
         game.changeEnnemiLabel(this.getName());
         setNewRandPosition();
         // We update the X position of the name label to make it fit right
-        this.nameLabX = computeNameLabX();
+        this.nameLabX = Align.getXCenteredWithElement(this.getX(), this.getRealWidth(), this.getName().length());
     }
 
     /**

@@ -1,5 +1,5 @@
 
-eyes.png
+eyes2.png
 size: 4096,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -7,560 +7,560 @@ repeat: none
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 1
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 2
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 3
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 4
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 5
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 6
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 7
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 8
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 9
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 10
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 11
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 12
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 13
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 14
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 15
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 16
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 17
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 18
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 19
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 20
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 21
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 22
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 23
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 24
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 25
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 26
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 27
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 28
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 29
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 30
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 31
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 32
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 33
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 34
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 35
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 36
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 37
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 38
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 39
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 40
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 41
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 42
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 43
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 44
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 45
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 46
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 47
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 48
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 49
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 50
 eyes
   rotate: false
-  xy: 1084, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 724, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 51
 eyes
   rotate: false
-  xy: 1084, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 724, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 52
 eyes
   rotate: false
-  xy: 2166, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 53
 eyes
   rotate: false
-  xy: 2166, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 54
 eyes
   rotate: false
-  xy: 2166, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 55
 eyes
   rotate: false
-  xy: 2166, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 56
 eyes
   rotate: false
-  xy: 2166, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 57
 eyes
   rotate: false
-  xy: 2166, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 58
 eyes
   rotate: false
-  xy: 2166, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 59
 eyes
   rotate: false
-  xy: 2166, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 1446, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 60
 eyes
   rotate: false
-  xy: 1084, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 724, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 61
 eyes
   rotate: false
-  xy: 1084, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 724, 2
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 62
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 63
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 64
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 65
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 66
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 67
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 68
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 69
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 70
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 71
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 72
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 73
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 74
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 75
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 76
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 77
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 78
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 79
 eyes
   rotate: false
   xy: 2, 2
-  size: 1080, 1920
-  orig: 1080, 1920
+  size: 720, 1280
+  orig: 720, 1280
   offset: 0, 0
   index: 80

@@ -11,7 +11,7 @@ public class SkyBackgroundAnimation extends AnimationAbstract {
 
     public SkyBackgroundAnimation(Animation.PlayMode playMode) {
 
-        TextureAtlas atlas = AssetsManager.getInstance().getAtlasByPath("World1/Game1/sky.atlas");
+        TextureAtlas atlas = AssetsManager.getInstance().getAtlasByPath("World1/Game1/sky2.atlas");
         Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("sky");
         TextureAtlas.AtlasRegion[] array = r.toArray();
 

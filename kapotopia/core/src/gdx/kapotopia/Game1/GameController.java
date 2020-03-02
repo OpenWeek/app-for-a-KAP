@@ -62,10 +62,10 @@ public class GameController {
     private int upperLimitScore;
 
     // Constants
-    private final int MIN_X;
-    private final int MAX_X;
-    private final int MIN_Y;
-    private final int MOVE_VALUE_X;
+    private float MIN_X;
+    private float MAX_X;    // Max value on the X axis
+    private float MIN_Y;
+    private float MOVE_VALUE_X;
     private final Rectangle bounds;
     private GameDifficulty difficulty;
 
@@ -86,10 +86,7 @@ public class GameController {
         this.game = game;
         this.game1 = game1;
 
-        this.MIN_X = 15;
-        this.MAX_X = Utils.floorOfAMultipleOf250( ( ((int) game.viewport.getWorldWidth()) / 2) + 250);
-        this.MIN_Y = 25;
-        this.MOVE_VALUE_X = 250;
+        setConstants(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
 
         this.random = new Random();
         this.letsGoAppeared = false;
@@ -124,6 +121,16 @@ public class GameController {
         if(this.difficulty == null)
             this.difficulty = GameDifficulty.MEDIUM;
         configureGame(this.difficulty);
+    }
+
+    private void setConstants(float worldW, float worldH) {
+        float x = (worldW / 72);
+        float z = 21 * x;
+        float y = (worldW - x - z) / 3;
+        this.MIN_X = x;
+        this.MAX_X = worldW - z;
+        this.MIN_Y = 25;
+        this.MOVE_VALUE_X = y;
     }
 
     public void init() {
@@ -551,19 +558,19 @@ public class GameController {
         return victory;
     }
 
-    public int getMIN_X() {
+    public float getMIN_X() {
         return MIN_X;
     }
 
-    public int getMAX_X() {
+    public float getMAX_X() {
         return MAX_X;
     }
 
-    public int getMIN_Y() {
+    public float getMIN_Y() {
         return MIN_Y;
     }
 
-    public int getMOVE_VALUE_X() {
+    public float getMOVE_VALUE_X() {
         return MOVE_VALUE_X;
     }
 }
