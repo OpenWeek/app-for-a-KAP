@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Helpers.Alignement;
+import gdx.kapotopia.Helpers.Bounds;
 import gdx.kapotopia.Utils;
 
 /**
@@ -82,6 +83,16 @@ public class LabelBuilder {
         return this;
     }
 
+    public LabelBuilder withX(float x) {
+        this.x = x;
+        return this;
+    }
+
+    public LabelBuilder withY(float y) {
+        this.y = y;
+        return this;
+    }
+
     public LabelBuilder withPosition(float x, float y) {
         this.x = x;
         this.y = y;
@@ -101,6 +112,14 @@ public class LabelBuilder {
         this.by = boundY;
         this.bw = boundWidth;
         this.bh = boundHeight;
+        return this;
+    }
+
+    public LabelBuilder withBounds(Bounds bounds) {
+        this.bx = bounds.getX();
+        this.by = bounds.getY();
+        this.bw = bounds.getWidth();
+        this.bh = bounds.getHeight();
         return this;
     }
 

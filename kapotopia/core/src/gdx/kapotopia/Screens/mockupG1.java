@@ -8,6 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.GameConfig;
+import gdx.kapotopia.Helpers.Align;
+import gdx.kapotopia.Helpers.Bounds;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
@@ -20,28 +23,32 @@ public class mockupG1 extends CinematicScreen {
     public mockupG1(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG1");
         final Localisation loc = Localisation.getInstance();
+        final float ww = game.viewport.getWorldWidth();
+        final float wh = game.viewport.getWorldHeight();
         UseFont font = UseFont.CLASSIC_SANS_NORMAL_BLACK;
+        Bounds dialogBubbleBounds = Align.getDialogBubbleBounds();
+        Bounds explicativeBubbleBounds = Align.getExplicativeBubbleBounds();
         Label[][] labels = new Label[][] {
                 {
                         new LabelBuilder(loc.getString("dialogG1_1"))
-                                .withStyle(font).withBounds(125, 1000, 750 ,315)
+                                .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true).build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_2"))
-                                .withStyle(font).withBounds(125,1050,800,315).isWrapped(true).build()
+                                .withStyle(font).withBounds(dialogBubbleBounds).isWrapped(true).build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_3"))
-                                .withStyle(font).withBounds(125,1050,800,315).isWrapped(true).build()
+                                .withStyle(font).withBounds(dialogBubbleBounds).isWrapped(true).build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_rules"))
-                                .withStyle(font).withBounds(100,800,900,1500).isWrapped(true).build()
+                                .withStyle(font).withBounds(explicativeBubbleBounds).isWrapped(true).build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_4"))
-                                .withStyle(font).withBounds(150,1100,750,315).isWrapped(true).build()
+                                .withStyle(font).withBounds(dialogBubbleBounds).isWrapped(true).build()
                 }
         };
         final Image jungle = new ImageBuilder().withTexture("World1/Game1/Jungle.png").build();
@@ -50,14 +57,14 @@ public class mockupG1 extends CinematicScreen {
         final Image mireille = new ImageBuilder().withTexture("MireilleImages/MireilleAChaud.png").build();
         final float scalling_factor = 0.6f;
         mireille.setScale(scalling_factor);
-        mireille.setPosition(250, -150);
+        mireille.setPosition(ww / 4f, 0);
         final Image dildo1 = new ImageBuilder().withTexture("World1/Game1/SergendDildo.png").build();
         dildo1.setScale(scalling_factor);
-        dildo1.setPosition(125, -50);
+        dildo1.setPosition(ww / 8f, 0);
         final Image dildo2 = new ImageBuilder().withTexture("World1/Game1/SergentDildo2.png").build();
         dildo2.setScale(scalling_factor);
-        dildo2.setPosition(game.viewport.getWorldWidth() / 3, -50);
-        dildo2.setX(game.viewport.getWorldWidth() / 3);
+        dildo2.setPosition(ww / 3, 0);
+        dildo2.setX(ww / 3);
         final Image bigBubble = new ImageBuilder().withTexture("ImagesGadgets/BulleExplicative.png").build();
         final Image bubbleLeft = new ImageBuilder().withTexture("ImagesGadgets/Bulle1.png").build();
         final Image bubbleRight = new ImageBuilder().withTexture("ImagesGadgets/Bulle3.png").build();

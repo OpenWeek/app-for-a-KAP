@@ -50,8 +50,8 @@ public class RenderController {
     private OrthographicCamera camera;
 
     // Graphisms and animations
-    private final Animation<TextureRegion> sky;
     private final Texture trees;
+    private final Animation<TextureRegion> sky;
     private final Animation<TextureRegion> eyes;
     private final Animation<TextureRegion> leaves;
     private final Animation<TextureRegion> letsGoAnimation;
@@ -83,9 +83,12 @@ public class RenderController {
 
     private final String BTN_PATH = "ImagesGadgets/Bouton.png";
 
-    public RenderController(final Kapotopia game, final Game1 game1, Stage stage) {
+    public  RenderController(final Kapotopia game, final Game1 game1, Stage stage) {
         this.game = game;
         this.game1 = game1;
+
+        final float ww = game.viewport.getWorldWidth();
+        final float wh = game.viewport.getWorldHeight();
 
         final Localisation loc = Localisation.getInstance();
 
@@ -102,7 +105,7 @@ public class RenderController {
         this.eyes = new EyesBackgroundAnimation(Animation.PlayMode.LOOP).getAnimation();
         this.leaves = new LeavesBackgroundAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
 
-        this.letsGoAnimation = new LetsgoG1Animation(Animation.PlayMode.NORMAL).getAnimation();
+        this.letsGoAnimation = new LetsgoG1Animation(Animation.PlayMode.LOOP_PINGPONG).getAnimation();
         this.animationSpriteBatch = new SpriteBatch();
         this.backgroundBatch = new SpriteBatch();
 
@@ -110,8 +113,8 @@ public class RenderController {
 
         // Buttons
         this.pauseIcon = new ImageButtonBuilder().withImageUp("pause_logo_2.png")
-                .withBounds(game1.getGameController().getBounds().width - 230,
-                        game1.getGameController().getBounds().height - 200, 140, 80)
+                .withBounds(game1.getGameController().getBounds().width - (ww / 5f),
+                        game1.getGameController().getBounds().height - (wh / 10f), ww / 7.2f, wh / 25f)
                 .withListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -143,17 +146,17 @@ public class RenderController {
 
         // Labels
         lifeLabel = new LabelBuilder(LIFE_TXT + game1.getGameController().getMireilleLife()).withStyle(style)
-                .withPosition(game1.getGameController().getBounds().width - 240, game1.getGameController().getBounds().height - 100).build();
+                .withPosition(game1.getGameController().getBounds().width - (ww / 4.5f), game1.getGameController().getBounds().height - (ww / 10.8f)).build();
         istCatchedLabel = new LabelBuilder(IST_CATCHED_TXT  + game1.getGameController().getIstsCatched()).withStyle(style)
-                .withPosition(25, game1.getGameController().getBounds().height - 100).build();
+                .withPosition(25, game1.getGameController().getBounds().height - (ww / 10.8f)).build();
         scoreLabel = new LabelBuilder(SCORE_TXT  + game1.getGameController().getTotalScore()).withStyle(style)
-                .withPosition(25, game1.getGameController().getBounds().height - 200).build();
-        pauseLabel = new LabelBuilder(loc.getString("pause_label_text")).withStyle(style).withTextAlignement(Align.center)
-                .withPosition(((game1.getGameController().getBounds().width / 5) * 2) + 20, game1.getGameController().getBounds().height / 2).isVisible(false).build();
+                .withPosition(25, game1.getGameController().getBounds().height - (ww / 5.4f)).build();
+        pauseLabel = new LabelBuilder(loc.getString("pause_label_text")).withStyle(style).withAlignment(Alignement.CENTER) // faut rajouter le x
+                .withY(game1.getGameController().getBounds().height / 2).isVisible(false).build();
         missedLabel = new LabelBuilder(loc.getString("missed_label_text")).withStyle(styleSmall).isVisible(false).build();
         ennemiNameLabel = new LabelBuilder(game1.getGameController().getEnnemi().getName()).withStyle(styleSmall).withTextAlignement(Align.center)
                 .withPosition(game1.getGameController().getEnnemi().getX() + (game1.getGameController().getEnnemi().getRealWidth() - game1.getGameController().getEnnemi().getName().length()) /2,
-                        game1.getGameController().getEnnemi().getY() - 50).build();
+                        game1.getGameController().getEnnemi().getY() - (ww / 10.8f)).build();
 
         pauseLabel.addListener(new ClickListener() {
             @Override
@@ -194,7 +197,7 @@ public class RenderController {
 
         backgroundBatch.draw(sky.getKeyFrame(stateTime, true),0, 0);
         backgroundBatch.draw(trees, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),
-                0, 0,1080,1920, false, false);
+                0, 0,720,1280, false, false);
         backgroundBatch.draw(eyes.getKeyFrame(stateTime, true),0, 0);
         if(!game1.getGameController().isFinish()) // We hide mireille  when the game is finished
             game1.getGameController().getMireille().draw(backgroundBatch, 0);
@@ -233,7 +236,7 @@ public class RenderController {
          *  It can take two forms, whenever there is a highscore breaker or not
          */
         int highscore = game.getSettings().getG1Highscore();
-        final int scoreLabXFactor, scoreLabYFactor;
+        final float highScoreY;
         final String highscoreLabHead, highscoreLabTail;
         final Label endScoreLabel;
         if (highscore <= game1.getGameController().getTotalScore()) {
@@ -242,39 +245,36 @@ public class RenderController {
             // We did a new highscore !
             game.getSettings().setG1Highscore(game1.getGameController().getTotalScore());
             highscore = game1.getGameController().getTotalScore();
-            scoreLabXFactor = 300;
-            scoreLabYFactor = 60;
+            highScoreY = (game1.getGameController().getBounds().height / 2) - (game.viewport.getWorldHeight() / 38.4f);
             highscoreLabHead = Localisation.getInstance().getString("high_score_lab_head");
             highscoreLabTail = " !";
         } else {
-            endScoreLabel = new LabelBuilder(SCORE_TXT + game1.getGameController().getTotalScore()).withStyle(style)
-                    .withPosition((game1.getGameController().getBounds().width / 2) - 135,
-                            (game1.getGameController().getBounds().height / 2) - 60).build();
+            endScoreLabel = new LabelBuilder(SCORE_TXT + game1.getGameController().getTotalScore())
+                    .withStyle(style)
+                    .withPosition((game1.getGameController().getBounds().width / 2) - (game.viewport.getWorldWidth() / 8f),
+                            (game1.getGameController().getBounds().height / 2) - (game.viewport.getWorldHeight() / 32))
+                    .build();
             stage.addActor(endScoreLabel);
-            scoreLabXFactor = 200;
-            scoreLabYFactor = 120;
+            highScoreY = (game1.getGameController().getBounds().height / 2) - (game.viewport.getWorldHeight() / 16f);
             highscoreLabHead = "";
             highscoreLabTail = "";
         }
 
-        final Label highscoreLabel = new LabelBuilder(highscoreLabHead + HIGHSCORE_TXT + highscore + highscoreLabTail)
-                .withPosition((game1.getGameController().getBounds().width / 2) - scoreLabXFactor,
-                        (game1.getGameController().getBounds().height / 2) - scoreLabYFactor - 10)
-                .withStyle(UseFont.CLASSIC_BOLD_NORMAL_YELLOW).build();
+        final String highScoreLabelTxt = highscoreLabHead + HIGHSCORE_TXT + highscore + highscoreLabTail;
+        final Label highscoreLabel = new LabelBuilder(highScoreLabelTxt).withY(highScoreY)
+                .withAlignment(Alignement.CENTER).withStyle(UseFont.CLASSIC_BOLD_NORMAL_YELLOW).build();
         stage.addActor(highscoreLabel);
 
         final String titleText;
-        int titleLabXFactor;
         if (game1.getGameController().isVictory()) {
             titleText = Localisation.getInstance().getString("success");
-            titleLabXFactor = 150;
         } else {
             titleText = Localisation.getInstance().getString("fail");
-            titleLabXFactor = 250;
         }
 
         final Button title = new TextButtonBuilder(titleText).withStyle(UseFont.CLASSIC_REG_BIG_WHITE)
-                .withPosition((game1.getGameController().getBounds().getWidth() / 2) - titleLabXFactor, (game1.getGameController().getBounds().getHeight() / 2) + 40).build();
+                .withY((game1.getGameController().getBounds().getHeight() / 2) + (game.viewport.getWorldHeight() / 48f))
+                .withAlignment(Alignement.CENTER).build();
         title.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -296,16 +296,16 @@ public class RenderController {
                 if (game1.getGameController().isVictory()) {
                     final ImageTextButton continueBtn = new ImageTextButtonBuilder(game, "Continuer")
                             .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
-                            .withPosition((game1.getGameController().getBounds().getWidth() / 2) - 130,
-                                    (game1.getGameController().getBounds().getHeight() / 2) + BTN_SPACING)
+                            .withY( (game1.getGameController().getBounds().getHeight() / 2) + BTN_SPACING )
+                            .withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
                             .withListener(continueBtnEvent).withImageStyle(BTN_PATH).build();
 
                     stage.addActor(continueBtn);
                 }
                 final ImageTextButton restartBtn = new ImageTextButtonBuilder(game, "Recommencer")
                         .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE)
-                        .withPosition((game1.getGameController().getBounds().getWidth() / 2) - 200,
-                                (game1.getGameController().getBounds().getHeight() / 2))
+                        .withY((game1.getGameController().getBounds().getHeight() / 2))
+                        .withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
                         .withListener(restartBtnEvent).withImageStyle(BTN_PATH).build();
 
                 stage.addActor(restartBtn);

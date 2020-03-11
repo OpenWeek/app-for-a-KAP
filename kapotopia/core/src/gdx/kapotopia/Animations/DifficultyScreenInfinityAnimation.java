@@ -16,7 +16,7 @@ public class DifficultyScreenInfinityAnimation extends AnimationAbstract {
         Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("blackhole");
         TextureAtlas.AtlasRegion[] array = r.toArray();
 
-        setAnimation(new AnimationBuilder(0.05f).withPlayMode(playMode)
+        setAnimation(new AnimationBuilder(0.04f).withPlayMode(playMode)
                 .addFrames(array).build());
     }
 }
