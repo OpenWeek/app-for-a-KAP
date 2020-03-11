@@ -26,6 +26,7 @@ import gdx.kapotopia.Localisation;
 
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_BOLD_NORMAL_BLACK;
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
+import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_NORMAL_BLACK;
 import static java.util.Collections.shuffle;
 
 
@@ -43,6 +44,8 @@ public class Game2 implements Screen {
 
     private Basket currentBasket;
     private Ball currentBall;
+    private float screenWidth;
+    private float screenHeigth;
     private float readyBalX;
     private float readyBalY;
     private float finalBalX;
@@ -84,6 +87,8 @@ public class Game2 implements Screen {
     public Game2(final Kapotopia game){
 
         Gdx.app.log(TAG,"Entering Game2 function");
+        screenHeigth = game.viewport.getWorldHeight();
+        screenWidth = game.viewport.getWorldWidth();
 
         this.game = game;
         Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Sable.png"));
@@ -99,8 +104,8 @@ public class Game2 implements Screen {
         this.stage.addActor(imgBckground4);
         this.stage.addActor(imgBckground5);
         this.stage.addActor(panneau);
-        middleX = game.viewport.getWorldWidth()/3;
-        middleY = game.viewport.getWorldHeight()/2;
+        middleX = screenWidth/3;
+        middleY = screenHeigth/2;
 
         this.musicOn = game.getSettings().isMusicOn();
 
@@ -115,20 +120,20 @@ public class Game2 implements Screen {
         prepareMockup(outro0);
 
         /*Creation of instances for game*/
-        final float symptX = game.viewport.getWorldWidth()/3.5f;
-        final float symptY = game.viewport.getWorldHeight()/2.25f;
-        final float sitBalX = game.viewport.getWorldWidth()/50;
-        final float sitBalY = game.viewport.getWorldHeight()/24;
-        final float ground = game.viewport.getWorldHeight()/25;
-        livesX = game.viewport.getWorldWidth()/1.3f;
-        livesY = game.viewport.getWorldHeight()/1.225f;
-        readyBalX = game.viewport.getWorldWidth()/2.2f;
-        readyBalY = game.viewport.getWorldHeight()/7;
-        finalBalX = game.viewport.getWorldWidth()/1.2f;
-        finalBalY = game.viewport.getWorldHeight()/2.25f;
-        ballDelta = game.viewport.getWorldWidth()/6.5f;
-        ballSize = game.viewport.getWorldWidth()/(STInbr-1);
-        sympTextSize = game.viewport.getWorldWidth()/2;
+        final float symptX = screenWidth/3.5f;
+        final float symptY = screenHeigth/2.25f;
+        final float sitBalX = screenWidth/50;
+        final float sitBalY = screenHeigth/24;
+        //final float ground = screenHeigth/25; //TODO delete
+        livesX = screenWidth/1.3f;
+        livesY = screenHeigth/1.225f;
+        readyBalX = screenWidth/2.2f;
+        readyBalY = screenHeigth/7;
+        finalBalX = screenWidth/1.2f;
+        finalBalY = screenHeigth/2.25f;
+        ballDelta = screenWidth/6.5f;
+        ballSize = screenWidth/(STInbr-1);
+        sympTextSize = screenWidth/2;
 
         livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).withStyle(CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
         stage.addActor(livesLabel);
@@ -150,7 +155,7 @@ public class Game2 implements Screen {
 
         //STI's creation and set up (representation of STI)
         for(int i = 0; i < STInbr; i++) {
-            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY, ballSize, ground);
+            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY, ballSize, screenHeigth, screenWidth);
         }
         for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
@@ -357,7 +362,7 @@ public class Game2 implements Screen {
                     currentBall.lose();
                     lives--;
                     livesLabel.setVisible(false);
-                    livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).isVisible(true).withPosition(livesX,livesY).build();
+                    livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).withStyle(CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
                     stage.addActor(livesLabel);
                     if(lives==0){//Game is lost
                         //remove the listeners and hide the symptom
@@ -368,14 +373,16 @@ public class Game2 implements Screen {
                         //Display losing message
                         if(STIfound>=(STInbr/2)){
                             Label gameWon0 = new LabelBuilder("Pas mal!")
-                                    .withPosition(game.viewport.getWorldWidth()/2.5f,middleY)
+                                    .withPosition(screenWidth/2.5f,middleY)
+                                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
                                     .build();
                             Label gameWon1 = new LabelBuilder("Tu as les bons symptômes pour "+STIfound+" IST.")
-                                    .withPosition(game.viewport.getWorldWidth()/10,middleY-60)
+                                    .withPosition(screenWidth/10,middleY-60)
                                     .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
                                     .build();
                             Label gameWon2 = new LabelBuilder("Tu y es presque!")
-                                    .withPosition(game.viewport.getWorldWidth()/4,middleY-125)
+                                    .withPosition(screenWidth/4,middleY-125)
+                                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
                                     .build();
                             stage.addActor(gameWon0);
                             stage.addActor(gameWon1);
@@ -383,14 +390,16 @@ public class Game2 implements Screen {
                         }
                         else{
                             Label gameWon0 = new LabelBuilder("Bien essayé!")
-                                    .withPosition(game.viewport.getWorldWidth()/2.5f,middleY)
+                                    .withPosition(screenWidth/2.5f,middleY)
+                                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
                                     .build();
                             Label gameWon1 = new LabelBuilder("Tu as les bons symptômes pour "+STIfound+" IST.")
-                                    .withPosition(game.viewport.getWorldWidth()/10,middleY-60)
+                                    .withPosition(screenWidth/10,middleY-60)
                                     .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
                                     .build();
                             Label gameWon2 = new LabelBuilder("Persévère! Tu peux y arriver.")
-                                    .withPosition(game.viewport.getWorldWidth()/8,middleY-125)
+                                    .withPosition(screenWidth/8,middleY-125)
+                                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
                                     .build();
                             stage.addActor(gameWon0);
                             stage.addActor(gameWon1);
@@ -423,13 +432,16 @@ public class Game2 implements Screen {
                     else if(STIfound == STInbr){//game has been won
                         currentBasket.hideLabel();
                         Label gameWon0 = new LabelBuilder("Félicitation!")
-                                .withPosition(game.viewport.getWorldWidth()/3,middleY)
+                                .withPosition(screenWidth/3,middleY)
+                                .withStyle(CLASSIC_SANS_NORMAL_BLACK)
                                 .build();
                         Label gameWon1 = new LabelBuilder("Tu as associé tous les bons")
-                                .withPosition(game.viewport.getWorldWidth()/8,middleY-60)
+                                .withPosition(screenWidth/8,middleY-60)
+                                .withStyle(CLASSIC_SANS_NORMAL_BLACK)
                                 .build();
                         Label gameWon2 = new LabelBuilder("symptômes aux bonnes IST!")
-                                .withPosition(game.viewport.getWorldWidth()/8,middleY-120)
+                                .withPosition(screenWidth/8,middleY-120)
+                                .withStyle(CLASSIC_SANS_NORMAL_BLACK)
                                 .build();
 
                         stage.addActor(gameWon0);

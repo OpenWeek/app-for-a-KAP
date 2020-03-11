@@ -12,6 +12,8 @@ import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_WHITE;
 
+//TODO: refactor variables ot better use screenHeight and screenWidth
+
 public class Ball extends Button {
 
     final private String TAG = "Ball class";
@@ -36,14 +38,19 @@ public class Ball extends Button {
     private boolean sliding;
     private boolean winning;
     private float g = 20f;
-    private final float v = 550;
-    private final float v_lost = 250;
+    private final float v; //550;
+    private final float v_lost; // = 250;
     private float speed;
     private float t;
     private double deg = 90;
     private double rad = Math.toRadians(90);
     private double ground;
 
+    /*Variables related to the environment*/
+    private float screenHeigth;
+    private float screenWidth;
+
+    /*
     public Ball(int nbr, String name){
         this.STInbr = nbr;
         this.STIname = name;
@@ -82,9 +89,11 @@ public class Ball extends Button {
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
         this.moving = false;
-    }
+    }*/
 
-    public Ball(int nbr, float x, float y, float size, float g){
+    public Ball(int nbr, float x, float y, float size, float height, float width){
+        this.screenHeigth = height;
+        this.screenWidth = width;
         this.STInbr = nbr;
         this.initX = x;
         this.initY = y;
@@ -92,12 +101,14 @@ public class Ball extends Button {
         this.posY = y;
         this.finishX = x;
         this.finishY = y;
-        this.ground = g;
+        this.ground = screenHeigth/25;
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
         this.moving = false;
         this.size = size;
+        this.v = screenHeigth/5;
+        this.v_lost = screenHeigth/12;
     }
 
     public Label getLabel(){
