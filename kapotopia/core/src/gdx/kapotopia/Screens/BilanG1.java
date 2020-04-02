@@ -78,7 +78,8 @@ public class BilanG1 implements Screen {
         final Image bubble = new Image(AssetsManager.getInstance().getTextureByPath(BUBBLE_PATH));
         bubble.setVisible(true);
         final Texture mireille = AssetsManager.getInstance().getTextureByPath(MIR_PATH);
-        Image mireilleUni = new ImageBuilder().withTexture(mireille).isVisible(true).withPosition(0, 0).withWidth(mireille.getWidth() / 2f)
+        Image mireilleUni = new ImageBuilder().withTexture(mireille).isVisible(true).withPosition(0, 0 - (wHeight / 20))
+                .withWidth(mireille.getWidth() / 2f)
                 .withHeight(mireille.getHeight() / 2f).build();
 
 
