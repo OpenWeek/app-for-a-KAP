@@ -151,6 +151,10 @@ public class Ball extends Button {
         return this.STIname;
     }
 
+    public boolean isMoving(){
+        return moving;
+    }
+
 
     public void setPosition(float x,float y){
         this.posX = x;
