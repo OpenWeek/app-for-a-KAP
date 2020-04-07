@@ -126,7 +126,7 @@ public class Game2 implements Screen {
         final float sitBalY = screenHeigth/24;
         livesX = screenWidth/1.3f;
         livesY = screenHeigth/1.225f;
-        readyBalX = screenWidth/2.2f;
+        readyBalX = screenWidth/2.45f;
         readyBalY = screenHeigth/7;
         finalBalX = screenWidth/1.2f;
         finalBalY = screenHeigth/2.25f;
