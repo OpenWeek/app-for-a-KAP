@@ -107,8 +107,8 @@ public class Ball extends Button {
         this.button.setBounds(x,y,size,size);
         this.moving = false;
         this.size = size;
-        this.v = screenHeigth/5;
-        this.v_lost = screenHeigth/12;
+        this.v = screenHeigth/4;
+        this.v_lost = screenHeigth/60;
     }
 
     public Label getLabel(){

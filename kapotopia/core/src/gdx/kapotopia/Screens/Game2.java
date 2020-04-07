@@ -124,7 +124,6 @@ public class Game2 implements Screen {
         final float symptY = screenHeigth/2.25f;
         final float sitBalX = screenWidth/50;
         final float sitBalY = screenHeigth/24;
-        //final float ground = screenHeigth/25; //TODO delete
         livesX = screenWidth/1.3f;
         livesY = screenHeigth/1.225f;
         readyBalX = screenWidth/2.2f;
@@ -291,7 +290,7 @@ public class Game2 implements Screen {
         firstbasket.showLabel();
     }
 
-    /*Allows to detect sliding movements on the screen and decide which action needs to be executed*/
+    /** Allows to detect sliding movements on the screen and decide which action needs to be executed */
     private void setUpInputProcessor() {
         InputMultiplexer im = new InputMultiplexer();
         im.addProcessor(new StandardInputAdapter(this, game, true));
@@ -347,7 +346,7 @@ public class Game2 implements Screen {
             }
 
             /**
-             * Function called when the player launch a ball
+             * Function called when the player swipes up
              * Checks if @currentBall STI matches @currentBasket STI symptoms,
              *      set @currentBall position to ball finish position and remove listener if match
              *      set @currentBall position to ball start position if no match
@@ -360,6 +359,7 @@ public class Game2 implements Screen {
                 Gdx.app.log(TAG,"Entering play function");
                 if(currentBall.getSTInbr() != currentBasket.getSTInbr()){//wrong STI and symptom combination, ball is brought back to initial position
                     currentBall.lose();
+                    currentBall = null;
                     lives--;
                     livesLabel.setVisible(false);
                     livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).withStyle(CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
