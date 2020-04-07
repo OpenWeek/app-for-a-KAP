@@ -35,20 +35,29 @@ public class mockupG1 extends CinematicScreen {
                                 .isWrapped(true).build()
                 },
                 {
+                        new LabelBuilder(loc.getString("dialogG1_15"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true).build()
+                },
+                {
                         new LabelBuilder(loc.getString("dialogG1_2"))
-                                .withStyle(font).withBounds(dialogBubbleBounds).isWrapped(true).build()
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true).build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_3"))
-                                .withStyle(font).withBounds(dialogBubbleBounds).isWrapped(true).build()
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true).build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_rules"))
-                                .withStyle(font).withBounds(explicativeBubbleBounds).isWrapped(true).build()
+                                .withStyle(font).withBounds(explicativeBubbleBounds)
+                                .isWrapped(true).build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_4"))
-                                .withStyle(font).withBounds(dialogBubbleBounds).isWrapped(true).build()
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true).build()
                 }
         };
         final Image jungle = new ImageBuilder().withTexture("World1/Game1/Jungle.png").build();
@@ -69,6 +78,13 @@ public class mockupG1 extends CinematicScreen {
         final Image bubbleLeft = new ImageBuilder().withTexture("ImagesGadgets/Bulle1.png").build();
         final Image bubbleRight = new ImageBuilder().withTexture("ImagesGadgets/Bulle3.png").build();
         final Image[][] images = new Image[][] {
+                {
+                    sky,
+                    jungle,
+                        leaves,
+                        mireille,
+                        bubbleLeft
+                },
                 {
                     sky,
                     jungle,
