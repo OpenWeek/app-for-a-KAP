@@ -63,7 +63,7 @@ public class STIData {
             objectRep.put("name", name);
             objectRep.put("desc", desc);
             objectRep.put("path", texturePath);
-            objectRep.put("type", "fakeist");
+            objectRep.put("type", tag);
             allSTIs.put(name, objectRep);
         }
 
@@ -79,7 +79,7 @@ public class STIData {
             objectRep.put("name", name);
             objectRep.put("path", texturePath);
             objectRep.put("desc", desc);
-            objectRep.put("type", "maybeist");
+            objectRep.put("type", tag);
             allSTIs.put(name, objectRep);
         }
 

@@ -147,6 +147,16 @@ public class ImageButtonBuilder {
         return this;
     }
 
+    public ImageButtonBuilder withImageUp(TextureRegion texture) {
+        this.imageUp = new TextureRegionDrawable(texture);
+        return this;
+    }
+
+    public ImageButtonBuilder withImageUp(TextureRegionDrawable texture) {
+        this.imageUp = texture;
+        return this;
+    }
+
     public ImageButtonBuilder withImageDown(String path) {
         this.imageDown = new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(path)));

@@ -11,10 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Helpers.Builders.ImageBuilder;
+import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
@@ -25,6 +28,8 @@ import gdx.kapotopia.Utils;
 
 
 public class World4 implements Screen {
+
+    private final String TAG = this.getClass().getSimpleName();
 
     private Kapotopia game;
     private Stage stage;
@@ -80,34 +85,37 @@ public class World4 implements Screen {
         stage.addActor(displayedIstSprite);
 
         //right arrow
-        Image rightArrow = new Image(AssetsManager.getInstance().getTextureByPath("ui_arrow.png"));
-        rightArrow.setX(0.9f * game.viewport.getWorldWidth() - rightArrow.getWidth());
-        rightArrow.setY(0.12f * game.viewport.getWorldHeight() - rightArrow.getHeight());
-        rightArrow.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                istIndex = (istIndex + 1) % istNames.length;
-                updateSti();
-                return true;
-            }
-        });
-        rightArrow.setTouchable(Touchable.enabled);
+        Texture rightArrowT = AssetsManager.getInstance().getTextureByPath("ui_arrow.png");
+        ImageButton rightArrow = new ImageButtonBuilder().withImageUp(rightArrowT)
+                .withPosition(0.9f * game.viewport.getWorldWidth() - rightArrowT.getWidth(),
+                        0.12f * game.viewport.getWorldHeight() - rightArrowT.getHeight())
+                .withListener(new InputListener() {
+                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                        istIndex = (istIndex + 1) % istNames.length;
+                        updateSti();
+                        return true;
+                    }
+                })
+                .build();
         stage.addActor(rightArrow);
 
         //left arrow, first gotta flip the texture
         TextureRegion reversedArrow =
-                new TextureRegion(AssetsManager.getInstance().getTextureByPath("ui_arrow.png"));
+                new TextureRegion(rightArrowT);
         reversedArrow.flip(true, false);
-        Image leftArrow = new Image(reversedArrow);
-        leftArrow.setX(game.viewport.getWorldWidth() - rightArrow.getX() - rightArrow.getWidth());
-        leftArrow.setY(rightArrow.getY());
-        leftArrow.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                istIndex = (istIndex - 1) % istNames.length;
-                updateSti();
-                return true;
-            }
-        });
-        leftArrow.setTouchable(Touchable.enabled);
+        //ImageButtonBuilder = new ImageButtonBuilder().withImageUp(reversedArrow);
+        ImageButton leftArrow = new ImageButtonBuilder().withImageUp(reversedArrow)
+                .withPosition(game.viewport.getWorldWidth() - rightArrow.getX() - rightArrow.getWidth(),
+                        rightArrow.getY())
+                .withListener(new InputListener() {
+                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                        istIndex = (istIndex - 1) % istNames.length;
+                        if (istIndex < 0) istIndex = 0;
+                        updateSti();
+                        return true;
+                    }
+                })
+                .build();
         stage.addActor(leftArrow);
         AssetsManager.getInstance().addStage(stage, "world4");
     }
@@ -123,7 +131,7 @@ public class World4 implements Screen {
     }
     private void preload(){
 
-        Gdx.app.log("W4", "Preloading stuff... ");
+        Gdx.app.log(TAG, "Preloading stuff... ");
         istNames = new String[STIData.getIstNames().length];
         for(Object name : STIData.getIstNames()){
             istNames[istIndex] = (String)name;
