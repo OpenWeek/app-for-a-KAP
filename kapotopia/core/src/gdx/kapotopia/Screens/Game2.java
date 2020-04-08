@@ -61,6 +61,7 @@ public class Game2 implements Screen {
     //Flags to check if an action is waiting to be executed
     private boolean ballSet = true;
     private boolean changeBasketFlag = false;
+    private boolean endTextFlag = false;
 
     private final int STInbr = 6;
     private int STIfound = 0;
@@ -216,6 +217,10 @@ public class Game2 implements Screen {
                 changeBasket(currentBasket);
                 changeBasketFlag = false;
             }
+            if(endTextFlag){
+                displayEndText();
+                endTextFlag = false;
+            }
         }
 
     }
@@ -286,6 +291,61 @@ public class Game2 implements Screen {
             currentBasket.showLabel();
         }
         //TODO check if this doesn't lead to any memory leak because the old previous basket has not been explicitly deleted
+    }
+
+    private void displayEndText(){
+        currentBasket.hideLabel();
+        if (STIfound == STInbr) {//game has been won
+            currentBasket.hideLabel();
+            Label gameWon0 = new LabelBuilder("Félicitation!")
+                    .withPosition(screenWidth / 3, middleY)
+                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+                    .build();
+            Label gameWon1 = new LabelBuilder("Tu as associé tous les bons")
+                    .withPosition(screenWidth / 8, middleY - 60)
+                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+                    .build();
+            Label gameWon2 = new LabelBuilder("symptômes aux bonnes IST!")
+                    .withPosition(screenWidth / 8, middleY - 120)
+                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+                    .build();
+
+            stage.addActor(gameWon0);
+            stage.addActor(gameWon1);
+            stage.addActor(gameWon2);
+        } else if (STIfound >= (STInbr / 2)) { //game has been lost
+            Label gameWon0 = new LabelBuilder("Pas mal!")
+                    .withPosition(screenWidth / 2.5f, middleY)
+                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+                    .build();
+            Label gameWon1 = new LabelBuilder("Tu as les bons symptômes pour " + STIfound + " IST.")
+                    .withPosition(screenWidth / 10, middleY - 60)
+                    .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
+                    .build();
+            Label gameWon2 = new LabelBuilder("Tu y es presque!")
+                    .withPosition(screenWidth / 4, middleY - 125)
+                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+                    .build();
+            stage.addActor(gameWon0);
+            stage.addActor(gameWon1);
+            stage.addActor(gameWon2);
+        } else { //game has been lost by a lot
+            Label gameWon0 = new LabelBuilder("Bien essayé!")
+                    .withPosition(screenWidth / 2.5f, middleY)
+                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+                    .build();
+            Label gameWon1 = new LabelBuilder("Tu as les bons symptômes pour " + STIfound + " IST.")
+                    .withPosition(screenWidth / 10, middleY - 60)
+                    .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
+                    .build();
+            Label gameWon2 = new LabelBuilder("Persévère! Tu peux y arriver.")
+                    .withPosition(screenWidth / 8, middleY - 125)
+                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+                    .build();
+            stage.addActor(gameWon0);
+            stage.addActor(gameWon1);
+            stage.addActor(gameWon2);
+        }
     }
 
     /**
@@ -409,41 +469,8 @@ public class Game2 implements Screen {
                             for (int i = 0; i < STInbr; i++) {
                                 sittingBalls[i].getButton().removeListener(ballClick[i]);
                             }
-                            currentBasket.hideLabel();
-                            //Display losing message
-                            if (STIfound >= (STInbr / 2)) {
-                                Label gameWon0 = new LabelBuilder("Pas mal!")
-                                        .withPosition(screenWidth / 2.5f, middleY)
-                                        .withStyle(CLASSIC_SANS_NORMAL_BLACK)
-                                        .build();
-                                Label gameWon1 = new LabelBuilder("Tu as les bons symptômes pour " + STIfound + " IST.")
-                                        .withPosition(screenWidth / 10, middleY - 60)
-                                        .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
-                                        .build();
-                                Label gameWon2 = new LabelBuilder("Tu y es presque!")
-                                        .withPosition(screenWidth / 4, middleY - 125)
-                                        .withStyle(CLASSIC_SANS_NORMAL_BLACK)
-                                        .build();
-                                stage.addActor(gameWon0);
-                                stage.addActor(gameWon1);
-                                stage.addActor(gameWon2);
-                            } else {
-                                Label gameWon0 = new LabelBuilder("Bien essayé!")
-                                        .withPosition(screenWidth / 2.5f, middleY)
-                                        .withStyle(CLASSIC_SANS_NORMAL_BLACK)
-                                        .build();
-                                Label gameWon1 = new LabelBuilder("Tu as les bons symptômes pour " + STIfound + " IST.")
-                                        .withPosition(screenWidth / 10, middleY - 60)
-                                        .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
-                                        .build();
-                                Label gameWon2 = new LabelBuilder("Persévère! Tu peux y arriver.")
-                                        .withPosition(screenWidth / 8, middleY - 125)
-                                        .withStyle(CLASSIC_SANS_NORMAL_BLACK)
-                                        .build();
-                                stage.addActor(gameWon0);
-                                stage.addActor(gameWon1);
-                                stage.addActor(gameWon2);
-                            }
+                            //Ask for display of end of game message
+                            endTextFlag = true;
                         }
                     } else {//right STI and symptom have been connected
                         currentBall.win(finalBalX, finalBalY - STIfound * ballDelta);
@@ -454,24 +481,8 @@ public class Game2 implements Screen {
                             changeBasketFlag = true;
                             //IMPROVEMENT maybe add a success message (with a label) here
                         } else if (STIfound == STInbr) {//game has been won
-                            currentBasket.hideLabel();
-                            Label gameWon0 = new LabelBuilder("Félicitation!")
-                                    .withPosition(screenWidth / 3, middleY)
-                                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
-                                    .build();
-                            Label gameWon1 = new LabelBuilder("Tu as associé tous les bons")
-                                    .withPosition(screenWidth / 8, middleY - 60)
-                                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
-                                    .build();
-                            Label gameWon2 = new LabelBuilder("symptômes aux bonnes IST!")
-                                    .withPosition(screenWidth / 8, middleY - 120)
-                                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
-                                    .build();
-
-                            stage.addActor(gameWon0);
-                            stage.addActor(gameWon1);
-                            stage.addActor(gameWon2);
-                            //TODO check if there is no memory leak
+                            //Ask for display of end of game message
+                            endTextFlag = true;
                         } else {//STIfound is greater than STInbr. This situation should never happen
                             Gdx.app.log(TAG, "ERROR: Number of STI found is greater than number of total STI");
                         }
