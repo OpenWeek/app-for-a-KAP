@@ -23,6 +23,7 @@ import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
 import gdx.kapotopia.GameConfig;
+import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
@@ -84,13 +85,16 @@ public class MainMenu implements Screen {
         final float x = game.viewport.getWorldWidth() / 2.6f;
         final float y = game.viewport.getWorldHeight();
         final TextButton world1 = new TextButtonBuilder(Localisation.getInstance().getString("text_world1"))
-                .withStyle(style).withPosition(x*0.7f, y * 0.75f)
+                .withStyle(style)
+                .withY(y * 0.75f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD1)).build();
         final TextButton world2 = new TextButtonBuilder(Localisation.getInstance().getString("text_world2"))
-                .withStyle(style).withPosition(x*0.82f, y * 0.43f)
+                .withStyle(style)
+                .withY(y * 0.43f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
         final TextButton world4 = new TextButtonBuilder(Localisation.getInstance().getString("text_istdex"))
-                .withStyle(style).withPosition(x, y * 0.2f)
+                .withStyle(style)
+                .withY(y * 0.2f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD4))
                 .build();
         final TextButton optionsBtn = new TextButtonBuilder("Options").withStyle(style).withPosition(x / 3, y * 0.01f)

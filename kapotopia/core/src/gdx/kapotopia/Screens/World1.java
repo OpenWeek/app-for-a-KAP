@@ -13,6 +13,7 @@ import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.AssetsManaging.SoundHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
@@ -38,13 +39,12 @@ public class World1 implements Screen {
 
         final Localisation loc = Localisation.getInstance();
 
-        final float x = game.viewport.getWorldWidth() / 2f;
         final float y = game.viewport.getWorldHeight();
         TextButton game1 = new TextButtonBuilder(loc.getString("game1_button")).withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
-                .withPosition(x*0.35f,y * 0.57f)
+                .withY(y * 0.57f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG1)).build();
         TextButton game2 = new TextButtonBuilder(loc.getString("game2_button")).withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
-                .withPosition(x*0.6f, y * 0.1f)
+                .withY(y * 0.1f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG2)).build();
 
         stage.addActor(imgFond);

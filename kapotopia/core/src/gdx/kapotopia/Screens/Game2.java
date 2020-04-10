@@ -415,17 +415,14 @@ public class Game2 implements Screen {
                             //Display losing message
                             if (STIfound >= (STInbr / 2)) {
                                 Label gameWon0 = new LabelBuilder(loc.getString("game2_badending1"))
-                                        //.withPosition(screenWidth / 2.5f, middleY)
                                         .withStyle(CLASSIC_SANS_NORMAL_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY)
                                         .build();
-                                Label gameWon1 = new LabelBuilder(loc.getString("game2_badending2") + STIfound + loc.getString("game2_badending3"))
-                                        //.withPosition(screenWidth / 10, middleY - 60)
+                                Label gameWon1 = new LabelBuilder(loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3"))
                                         .withStyle(CLASSIC_SANS_SMALL_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY - 60)
                                         .build();
                                 Label gameWon2 = new LabelBuilder(loc.getString("game2_badending4"))
-                                        .withPosition(screenWidth / 4, middleY - 125)
                                         .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY - 125)
                                         .build();
@@ -434,17 +431,14 @@ public class Game2 implements Screen {
                                 stage.addActor(gameWon2);
                             } else {
                                 Label gameWon0 = new LabelBuilder(loc.getString("game2_badending5"))
-                                        //.withPosition(screenWidth / 2.5f, middleY)
                                         .withStyle(CLASSIC_SANS_NORMAL_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY)
                                         .build();
-                                Label gameWon1 = new LabelBuilder(loc.getString("game2_badending2") + STIfound + loc.getString("game2_badending3"))
-                                        //.withPosition(screenWidth / 10, middleY - 60)
+                                Label gameWon1 = new LabelBuilder(loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3"))
                                         .withStyle(CLASSIC_SANS_SMALL_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY - 60)
                                         .build();
                                 Label gameWon2 = new LabelBuilder(loc.getString("game2_badending6"))
-                                        //.withPosition(screenWidth / 8, middleY - 125)
                                         .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY - 125)
                                         .build();
@@ -464,15 +458,15 @@ public class Game2 implements Screen {
                         } else if (STIfound == STInbr) {//game has been won
                             currentBasket.hideLabel();
                             Label gameWon0 = new LabelBuilder(loc.getString("game2_goodending1"))
-                                    .withPosition(screenWidth / 3, middleY)
+                                    .withAlignment(Alignement.CENTER).withY(middleY)
                                     .withStyle(CLASSIC_SANS_NORMAL_BLACK)
                                     .build();
                             Label gameWon1 = new LabelBuilder(loc.getString("game2_goodending2"))
-                                    .withPosition(screenWidth / 8, middleY - 60)
+                                    .withAlignment(Alignement.CENTER).withY(middleY - 60)
                                     .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
                                     .build();
                             Label gameWon2 = new LabelBuilder(loc.getString("game2_goodending3"))
-                                    .withPosition(screenWidth / 8, middleY - 120)
+                                    .withAlignment(Alignement.CENTER).withY(middleY - 120)
                                     .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
                                     .build();
 
