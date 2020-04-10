@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
+import gdx.kapotopia.AssetsManaging.Font;
 import gdx.kapotopia.AssetsManaging.FontHelper;
 import gdx.kapotopia.AssetsManaging.UseFont;
 import gdx.kapotopia.Helpers.Alignement;
@@ -30,9 +31,7 @@ public class LabelBuilder {
     private boolean visible;
     // Font style
     private TextButton.TextButtonStyle style;
-    private String path;
-    private Color color;
-    private int size;
+    private Font font;
     // Label
     private String text;
     private int textAlignement;
@@ -58,9 +57,7 @@ public class LabelBuilder {
         this.visible = true;
         // Label attributes
         this.style = null;
-        this.path = "COMMS.ttf";
-        this.color = Color.BLACK;
-        this.size = 60;
+        this.font = null;
         this.text = text;
         this.textAlignement = Align.left;
         this.wrap = false;
@@ -160,29 +157,13 @@ public class LabelBuilder {
         return this;
     }
 
+    public LabelBuilder withStyle(Font font) {
+        this.font = font;
+        return this;
+    }
+
     public LabelBuilder withStyle(UseFont type) {
-        this.style = FontHelper.getStyleFont(type);
-        return this;
-    }
-
-    public LabelBuilder withFontPath(String path) {
-        this.path = path;
-        return this;
-    }
-
-    /**
-     * Set up a personalized style, if this method is used, the style provided by withStyle method
-     * is not taken in count
-     * @param path of the font file
-     * @param color of the font
-     * @param size of the font
-     * @return this builder
-     */
-    public LabelBuilder withPersonalizedStyle(String path, Color color, int size) {
-        this.path = path;
-        this.color = color;
-        this.size = size;
-        this.style = null;
+        this.font = FontHelper.getFont(type);
         return this;
     }
 
@@ -213,17 +194,25 @@ public class LabelBuilder {
         //final Label label = (Label) super.buildActor();
 
         TextButton.TextButtonStyle theStyle;
-        if(style == null) {
-            theStyle = Utils.getStyleFont(path, size, color);
-        } else {
+        Color theColor;
+        if (font == null) {
             theStyle = style;
+            theColor = style.fontColor;
+        } else {
+            theStyle = font.getStyle();
+            theColor = font.getColor();
         }
-        Label l = new Label(text, new Label.LabelStyle(theStyle.font, theStyle.fontColor));
+
+        Label l = new Label(text, new Label.LabelStyle(theStyle.font, theColor));
 
         // Actor Attributes
 
         if (alignment != Alignement.NONE) {
-            this.x = gdx.kapotopia.Helpers.Align.getX(alignment, text.length());
+            if (font == null) {
+                this.x = gdx.kapotopia.Helpers.Align.getX(alignment, text.length());
+            } else {
+                this.x = gdx.kapotopia.Helpers.Align.getX(alignment, text.length(), font.getSize());
+            }
         }
         l.setPosition(x, y);
         // It shouldn't be possible to have a negative height or weight
