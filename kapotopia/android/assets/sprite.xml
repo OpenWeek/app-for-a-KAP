@@ -3,25 +3,21 @@
     <ist-l>
         <ist texture="IST/Gonorrhee.png" name="Gonorrhée">
             <explanation>
-              Bactérie le plus souvent sans symptômes. Quand ils sont présents, on observe des
-              écoulements (pénis ou vagin), des irritations et des brûlures en urinant. Elle mène à la stérilité.
+              Bactérie le plus souvent sans symptômes. Quand ils sont présents, on observe des écoulements (pénis ou vagin), des irritations et des brûlures en urinant. Elle mène à la stérilité.
             </explanation>
         </ist>
         <ist texture="IST/Chlamydia.png" name="Chlamydia">
-            <explanation>Bactérie le plus souvent sans symptômes, elle peut notamment mener à des infections
-                sérieuses, des ulcères, un rétrécissement anormal de l’anus ainsi qu’à la stérilité.
+            <explanation>Bactérie le plus souvent sans symptômes, elle peut notamment mener à des infections sérieuses, des ulcères, un rétrécissement anormal de l'anus ainsi qu'à la stérilité.
             </explanation>
         </ist>
         <ist texture="IST/HepatiteB.png" name="Hepatite B">
             <explanation>
-              Virus le plus souvent sans symptômes, il peut causer une affection aiguë ou chronique
-              du fois, cirrhose, cancer et décès.
+              Virus le plus souvent sans symptômes, il peut causer une affection aiguë ou chronique du fois, cirrhose, cancer et décès.
             </explanation>
         </ist>
         <ist texture="IST/HepatiteC.png" name="Hepatite C">
             <explanation>
-              Virus le plus souvent sans symptômes, elle se soigne naturellement dans la majorité des
-              cas. Les autres évoluent en maladie du foie, cirrhose et décès.
+              Virus le plus souvent sans symptômes, elle se soigne naturellement dans la majorité des cas. Les autres évoluent en maladie du foie, cirrhose et décès.
             </explanation>
         </ist>
         <ist texture="IST/Herpes.png" name=" Herpes">
@@ -31,32 +27,27 @@
         </ist>
         <ist texture="IST/VIH.png" name="VIH">
             <explanation>
-              Virus le plus souvent sans symptômes, il provoque des infections multiples liés à une
-              baisse de l’immunité. Les traitements actuels permettent d’arrêter l’évolution du virus.
+              Virus le plus souvent sans symptômes, il provoque des infections multiples liés à une baisse de l'immunité. Les traitements actuels permettent d'arrêter l'évolution du virus.
             </explanation>
         </ist>
         <ist texture="IST/Papillomavirus.png" name="Papillomavirus">
             <explanation>
-              Virus le plus souvent sans symptômes, il peut causer des verrues génitales et des
-              lésions pouvant évoluer en cancer (du vol de l’utérus, vulve, gorge, pénis, anus)
+              Virus le plus souvent sans symptômes, il peut causer des verrues génitales et des lésions pouvant évoluer en cancer (du vol de l'utérus, vulve, gorge, pénis, anus)
             </explanation>
         </ist>
         <ist texture="IST/Syphillis.png" name="Syphillis">
             <explanation>
-               Bactérie pouvant causer des complications articulaires, cardiovasculaires et neurologiques.
-              Dépistée, elle se soigne en une piqûre.
+                Bactérie pouvant causer des complications articulaires, cardiovasculaires et neurologiques. Dépistée, elle se soigne en une piqûre.
             </explanation>
         </ist>
         <ist texture="IST/Trichomonas.png" name="Trichomonas">
             <explanation>
-              Parasite causant des pertes vaginales odorantes et colorées. Sans symptômes dans
-              20% des cas au niveau vaginal, 90% au niveau du pénis. Facilite largement l’apparition d’autres IST.
+              Parasite causant des pertes vaginales odorantes et colorées. Sans symptômes dans 20% des cas au niveau vaginal, 90% au niveau du pénis. Facilite largement l'apparition d'autres IST.
             </explanation>
         </ist>
         <ist texture="IST/HepatiteA.png" name="Hepatite A">
             <explanation>
-               Virus le plus souvent sans symptôme, on en guérit naturellement dans la grande
-               majorité des cas. Les autres évoluent en hépatites fulminantes (40% de mortalité).
+               Virus le plus souvent sans symptôme, on en guérit naturellement dans la grande majorité des cas. Les autres évoluent en hépatites fulminantes (40% de mortalité).
             </explanation>
         </ist>
     </ist-l>

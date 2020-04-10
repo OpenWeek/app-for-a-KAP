@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -12,33 +11,67 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Helpers.Builders.ImageBuilder;
+import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Helpers.Align;
+import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
+import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
-import gdx.kapotopia.STIData;
+import gdx.kapotopia.STIDex.STI;
+import gdx.kapotopia.STIDex.STIData;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Utils;
 
 
 public class World4 implements Screen {
 
+    /*
+     *
+     *      ###########################
+     *      #                         #
+     *      #            W2           #
+     *      #        ##########       #
+     *      #        #        #       #
+     *      #     H2 #        #       #
+     *      #        #        #       #
+     *      #        #        #       #
+     *      #        ##########       #
+     *      #     X2(x,y)             #
+     *      #                         #
+     *      #           W1            #
+     *      #   ###################   #
+     *      #   #                 #   #
+     *      #   #                 #   #
+     *      #   #                 #   #
+     *      #   #                 #   #
+     *      # H1#                 #   #
+     *      #   #                 #   #
+     *      #   #  <:  next   :>  #   #
+     *      #   #                 #   #
+     *      #   ###################   #
+     *      #  X1(x,y)                #
+     *      #                         #
+     *      ###########################
+     */
+
     private final String TAG = this.getClass().getSimpleName();
 
     private Kapotopia game;
     private Stage stage;
-    // Test Animation
-    private Animation<TextureRegion> animTest;
-    private Animation<TextureRegion> animTest2;
     private Image displayedIstSprite;
+    private float istSpriteWidth, istSpriteHeight;
+    private Label nameLab, descriptionLab;
     private int istIndex;
-    private String[] istNames;
+
+    private STI[] data;
 
     public World4(final Kapotopia game) {
 
@@ -59,39 +92,47 @@ public class World4 implements Screen {
         back.setVisible(true);
         stage.addActor(back);
 
-        //computing top left corner of the game boy's upperscreen
-        int upperWidth = (int)((430f/720f)*imgFond.getWidth());
-        int upperHeight = (int)((370f/1280f)*imgFond.getHeight());
+        // Right Arrow texture loading (we need it's dimensions for computing certain coordinates)
+        Texture rightArrowT = AssetsManager.getInstance().getTextureByPath("ui_arrow.png");
 
-        int upperDownLeftCornerX = (int)((144f/720f)*imgFond.getWidth());
-        int upperDownLeftCornerY = (int)((90f/1280f)*imgFond.getHeight());
-        upperDownLeftCornerY = (int)game.viewport.getWorldHeight() - upperDownLeftCornerY - upperHeight - 90;
-        upperDownLeftCornerY = upperDownLeftCornerY + (int)((1/20f)*game.viewport.getScreenHeight());
+        /* COMPUTING COORDINATES (for info about variable names, see the draw at the top of this file) */
+        final float ww = game.viewport.getWorldWidth();
+        final float wh = game.viewport.getWorldHeight();
 
+        // Computing arrows coordinates
+        final float arrowY = wh * 0.0275f;
+        final float rightArrowX = 0.9f * ww - rightArrowT.getWidth();
+        final float leftArrowX = ww - rightArrowX - rightArrowT.getWidth();
 
+        // Computing gameboy downscreen coordinates
+        final float x1_x = ww * 0.075f;
+        final float x1_y = wh * 0.282f;
+        final float w1 = ww * 0.85f;
+        //final float h1 = wh * 0.15f;
 
-        //computing top left corner of the game boy's lowerscreen
-        int lowerUpLeftCornerX = (int)((144f/720f)*imgFond.getWidth());
-        int lowerUpLeftCornerY = (int)(((730f)/1280f)*imgFond.getHeight());
-
-        int lowerWidth = (int)((630f/720f)*imgFond.getWidth());
-        int lowerHeight = (int)((542f/1280f)*imgFond.getHeight());
+        // Computing gameboy upscreen coordinates
+        final float x2_x = ww * 0.275f;
+        final float x2_y = wh * 0.675f;
+        final float w2 = ww * 0.45f;
+        final float h2 = wh * 0.25f;
 
         //this code is used to update the displayedIstSprite
-        displayedIstSprite = new Image(AssetsManager.getInstance().getTextureByPath(STIData.getIstSpritePath(istNames[istIndex])));
-        displayedIstSprite.setBounds(upperDownLeftCornerX, upperDownLeftCornerY, upperWidth, upperHeight);
+        displayedIstSprite = new Image(AssetsManager.getInstance().getTextureByPath(data[istIndex].getTexturePath()));
+        displayedIstSprite.setBounds(x2_x, x2_y, w2, h2);
         displayedIstSprite.setVisible(true);
         displayedIstSprite.setTouchable(Touchable.enabled);
         stage.addActor(displayedIstSprite);
 
         //right arrow
-        Texture rightArrowT = AssetsManager.getInstance().getTextureByPath("ui_arrow.png");
+
         ImageButton rightArrow = new ImageButtonBuilder().withImageUp(rightArrowT)
-                .withPosition(0.9f * game.viewport.getWorldWidth() - rightArrowT.getWidth(),
-                        0.12f * game.viewport.getWorldHeight() - rightArrowT.getHeight())
+                .withPosition(rightArrowX, arrowY)
                 .withListener(new InputListener() {
                     public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                        istIndex = (istIndex + 1) % istNames.length;
+                        istIndex = (istIndex + 1) % data.length;
+                        nameLab.setText(data[istIndex].getName());
+                        Align.centerLabel(nameLab, Alignement.CENTER);
+                        descriptionLab.setText(data[istIndex].getDescription());
                         updateSti();
                         return true;
                     }
@@ -100,23 +141,38 @@ public class World4 implements Screen {
         stage.addActor(rightArrow);
 
         //left arrow, first gotta flip the texture
-        TextureRegion reversedArrow =
-                new TextureRegion(rightArrowT);
+        TextureRegion reversedArrow = new TextureRegion(rightArrowT);
         reversedArrow.flip(true, false);
-        //ImageButtonBuilder = new ImageButtonBuilder().withImageUp(reversedArrow);
         ImageButton leftArrow = new ImageButtonBuilder().withImageUp(reversedArrow)
-                .withPosition(game.viewport.getWorldWidth() - rightArrow.getX() - rightArrow.getWidth(),
-                        rightArrow.getY())
+                .withPosition(leftArrowX, arrowY)
                 .withListener(new InputListener() {
                     public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                        istIndex = (istIndex - 1) % istNames.length;
-                        if (istIndex < 0) istIndex = 0;
+                        istIndex = (istIndex - 1) % data.length;
+                        if (istIndex < 0) istIndex = data.length-1; // Circular list
+                        nameLab.setText(data[istIndex].getName());
+                        Align.centerLabel(nameLab, Alignement.CENTER);
+                        descriptionLab.setText(data[istIndex].getDescription());
                         updateSti();
                         return true;
                     }
                 })
                 .build();
         stage.addActor(leftArrow);
+
+        // label containing STI name
+        nameLab = new LabelBuilder(data[istIndex].getName()).withY(wh * 0.625f)
+                .withStyle(UseFont.CLASSIC_SANS_MIDDLE_BLACK)
+                .withAlignment(Alignement.CENTER).build();
+        stage.addActor(nameLab);
+
+        // label containing the STI descriptionLab
+        descriptionLab = new LabelBuilder(data[istIndex].getDescription()).isWrapped(true)
+                .withStyle(UseFont.CLASSIC_SANS_MIDDLE_BLACK)
+                .withPosition(x1_x, x1_y).withWidth(w1)
+                //.withBounds(x1_x, x1_y, w1, h1)
+                .build();
+        stage.addActor(descriptionLab);
+
         AssetsManager.getInstance().addStage(stage, "world4");
     }
 
@@ -124,21 +180,24 @@ public class World4 implements Screen {
         displayedIstSprite.setDrawable(
                 new TextureRegionDrawable(
                         new TextureRegion(AssetsManager.getInstance().getTextureByPath(
-                                STIData.getIstSpritePath(istNames[istIndex]))
+                                data[istIndex].getTexturePath())
                         )
                 )
         );
     }
-    private void preload(){
 
+    private void preload(){
         Gdx.app.log(TAG, "Preloading stuff... ");
-        istNames = new String[STIData.getIstNames().length];
-        for(Object name : STIData.getIstNames()){
-            istNames[istIndex] = (String)name;
-            istIndex = (istIndex + 1) % istNames.length;
-            AssetsManager.getInstance().getTextureByPath(STIData.getIstSpritePath((String)name));
+        this.data = STIData.getIstAndMaybeIsts();
+        for (STI sti : data) {
+            istIndex = (istIndex + 1) % data.length;
+            Texture t = AssetsManager.getInstance().getTextureByPath(sti.getTexturePath());
+            // We imposed that every virus sprite texture has the same dimension, thus we can just take the last texture width/height
+            istSpriteWidth = t.getWidth();
+            istSpriteHeight = t.getHeight();
         }
     }
+
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
@@ -149,8 +208,6 @@ public class World4 implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-
-
     }
 
 
@@ -179,5 +236,7 @@ public class World4 implements Screen {
     public void dispose() {
         AssetsManager.getInstance().disposeStage("world4");
     }
+
+
 
 }

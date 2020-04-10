@@ -1,5 +1,7 @@
 package gdx.kapotopia.Helpers;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+
 import gdx.kapotopia.GameConfig;
 
 public class Align {
@@ -19,6 +21,12 @@ public class Align {
                 break;
         }
         return x;
+    }
+
+    public static Label centerLabel(Label lab, Alignement alignement) {
+        final float newX = getX(alignement, lab.getText().length);
+        lab.setX(newX);
+        return lab;
     }
 
     public static float getXCenteredWithElement(float x, float elementWidth, int textLength) {
