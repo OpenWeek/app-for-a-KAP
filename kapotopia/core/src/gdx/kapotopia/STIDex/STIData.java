@@ -7,8 +7,6 @@ import com.badlogic.gdx.utils.XmlReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static java.util.Collections.sort;
-
 public class STIData {
     private static XmlReader.Element root;
     private static ArrayList<STI> data;
