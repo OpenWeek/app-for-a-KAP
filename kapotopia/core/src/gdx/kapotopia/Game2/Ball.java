@@ -12,6 +12,8 @@ import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
 import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_WHITE;
 
+//TODO: refactor variables ot better use screenHeight and screenWidth
+
 public class Ball extends Button {
 
     final private String TAG = "Ball class";
@@ -36,18 +38,23 @@ public class Ball extends Button {
     private boolean sliding;
     private boolean winning;
     private float g = 20f;
-    private final float v = 550;
-    private final float v_lost = 250;
+    private final float v; //550;
+    private final float v_lost; // = 250;
     private float speed;
     private float t;
     private double deg = 90;
     private double rad = Math.toRadians(90);
     private double ground;
 
+    /*Variables related to the environment*/
+    private float screenHeigth;
+    private float screenWidth;
+
+    /*
     public Ball(int nbr, String name){
         this.STInbr = nbr;
         this.STIname = name;
-        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(10,75).build();
+        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(size/10,size/2.5f).build();
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setSize(size,size);
@@ -63,7 +70,7 @@ public class Ball extends Button {
         this.posY = y;
         this.finishX = x;
         this.finishY = y;
-        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(10,75).build();
+        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(size/10,size/2.5f).build();
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
@@ -82,9 +89,11 @@ public class Ball extends Button {
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
         this.moving = false;
-    }
+    }*/
 
-    public Ball(int nbr, float x, float y, float size, float g){
+    public Ball(int nbr, float x, float y, float size, float height, float width){
+        this.screenHeigth = height;
+        this.screenWidth = width;
         this.STInbr = nbr;
         this.initX = x;
         this.initY = y;
@@ -92,12 +101,14 @@ public class Ball extends Button {
         this.posY = y;
         this.finishX = x;
         this.finishY = y;
-        this.ground = g;
+        this.ground = screenHeigth/25;
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
                 AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
         this.button.setBounds(x,y,size,size);
         this.moving = false;
         this.size = size;
+        this.v = screenHeigth/4;
+        this.v_lost = screenHeigth/60;
     }
 
     public Label getLabel(){
@@ -138,6 +149,10 @@ public class Ball extends Button {
 
     public String getName() {
         return this.STIname;
+    }
+
+    public boolean isMoving(){
+        return moving;
     }
 
 
@@ -187,7 +202,7 @@ public class Ball extends Button {
 
     public void setName(String name){
         this.STIname = name;
-        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(10,75).build();
+        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(size/10,size/2.5f).build();
     }
 
 

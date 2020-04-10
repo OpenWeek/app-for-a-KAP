@@ -18,26 +18,26 @@ public class Basket {
     private Basket previous;
     private Basket next;
 
-    public Basket(int nbr, String txt){
+    public Basket(int nbr, String txt, float size){
         this.STInbr = nbr;
         this.symptom = txt;
-        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(500).isWrapped(true).build();
+        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(size).isWrapped(true).build();
         this.previous = null;
         this.next = null;
     }
 
-    public Basket(int nbr, String txt, Basket prevB){
+    public Basket(int nbr, String txt, float size, Basket prevB){
         this.STInbr = nbr;
         this.symptom = txt;
-        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(500).isWrapped(true).build();
+        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(size).isWrapped(true).build();
         this.previous = prevB;
         this.next = null;
     }
 
-    public Basket(int nbr, String txt, Basket prevB, Basket nextB){
+    public Basket(int nbr, String txt, float size, Basket prevB, Basket nextB){
         this.STInbr = nbr;
         this.symptom = txt;
-        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(500).isWrapped(true).build();
+        this.label = new LabelBuilder(txt).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(size).isWrapped(true).build();
         this.previous = prevB;
         this.next = nextB;
     }
@@ -100,9 +100,9 @@ public class Basket {
         }
     }
 
-    public void setName(String name){
+    public void setName(String name, float size){
         this.symptom = name;
-        this.label = new LabelBuilder(name).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(500).isWrapped(true).withPosition(x,y).build();
+        this.label = new LabelBuilder(name).withStyle(CLASSIC_SANS_SMALL_WHITE).isVisible(false).withWidth(size).isWrapped(true).withPosition(x,y).build();
     }
 
     public void showLabel(){
