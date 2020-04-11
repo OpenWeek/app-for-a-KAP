@@ -65,12 +65,12 @@ public class Align {
 
         final float width = ww * 0.9f;
         final float height = wh * 0.42f;
-        final float top_pad = wh / 128;
+        final float top_pad = wh * 0.0078125f;
         final float hor_pad = ww / 48;
         final float x = ww - width - hor_pad;
         final float y = wh - height - top_pad;
 
-        return new Bounds(x, y, width, height);
+        return new Bounds(x, y, width, height, hor_pad, 0, 0, 0, top_pad, 0);
     }
 
     public static Bounds getExplicativeBubbleBounds() {
@@ -78,12 +78,12 @@ public class Align {
         final float wh = GameConfig.GAME_HEIGHT;
 
         final float width = ww * 0.95f;
-        final float height = wh * 0.5f;
-        final float top_pad = wh / 42.667f;
-        final float hor_pad = ww / 98.5f;
+        final float height = wh * 0.55f;
+        final float top_pad = wh * 0.075f;
+        final float hor_pad = ww * 0.0125f;
         final float x = ww - width - hor_pad;
         final float y = wh - height - top_pad;
 
-        return new Bounds(x, y, width, height);
+        return new Bounds(x, y, width, height, hor_pad, 0, 0, 0, top_pad, 0);
     }
 }

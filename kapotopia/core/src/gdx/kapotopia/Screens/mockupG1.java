@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.Align;
+import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Bounds;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
@@ -18,6 +19,8 @@ import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.UnlockedLevel;
 
 public class mockupG1 extends CinematicScreen {
+
+    private final String TAG = this.getClass().getSimpleName();
 
     public mockupG1(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG1");
@@ -34,11 +37,6 @@ public class mockupG1 extends CinematicScreen {
                                 .isWrapped(true).build()
                 },
                 {
-                        new LabelBuilder(loc.getString("dialogG1_15"))
-                                .withStyle(font).withBounds(dialogBubbleBounds)
-                                .isWrapped(true).build()
-                },
-                {
                         new LabelBuilder(loc.getString("dialogG1_2"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true).build()
@@ -49,12 +47,31 @@ public class mockupG1 extends CinematicScreen {
                                 .isWrapped(true).build()
                 },
                 {
-                        new LabelBuilder(loc.getString("dialogG1_rules"))
+                        new LabelBuilder(loc.getString("dialogG1_4"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true).build()
+                },
+                {
+                        new LabelBuilder(loc.getString("dialogG1_5"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true).build()
+                },
+                {
+                        new LabelBuilder(loc.getString("dialogG1_6"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true).build()
+                },
+                {
+                        new LabelBuilder(loc.getString("dialogG1_rules_1"))
+                                .withStyle(UseFont.CLASSIC_BOLD_BIG_BLACK).withAlignment(Alignement.CENTER)
+                                .withY(wh - explicativeBubbleBounds.getTopPad())
+                                .build(),
+                        new LabelBuilder(loc.getString("dialogG1_rules_2"))
                                 .withStyle(font).withBounds(explicativeBubbleBounds)
                                 .isWrapped(true).build()
                 },
                 {
-                        new LabelBuilder(loc.getString("dialogG1_4"))
+                        new LabelBuilder(loc.getString("dialogG1_7"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true).build()
                 }
@@ -62,20 +79,39 @@ public class mockupG1 extends CinematicScreen {
         final Image jungle = new ImageBuilder().withTexture("World1/Game1/Jungle.png").build();
         final Image sky = new ImageBuilder().withTexture("World1/Game1/Ciel.png").build();
         final Image leaves = new ImageBuilder().withTexture("World1/Game1/Feuilles.png").build();
-        final Image mireille = new ImageBuilder().withTexture("MireilleImages/MireilleAChaud.png").build();
+
         final float scalling_factor = 0.6f;
+
+        final Image mireille = new ImageBuilder().withTexture("MireilleImages/Mireille.png").build();
         mireille.setScale(scalling_factor);
         mireille.setPosition(ww / 4f, 0);
+
+        final Image mireilleCrying = new ImageBuilder().withTexture("MireilleImages/MireillePleure.png").build();
+        mireilleCrying.setScale(scalling_factor);
+        mireilleCrying.setPosition(ww / 4f, 0);
+
+        final Image mireilleTired = new ImageBuilder().withTexture("MireilleImages/MireilleAChaud.png").build();
+        mireilleTired.setScale(scalling_factor);
+        mireilleTired.setPosition(ww / 4f, 0);
+
         final Image dildo1 = new ImageBuilder().withTexture("World1/Game1/SergendDildo.png").build();
         dildo1.setScale(scalling_factor);
         dildo1.setPosition(ww / 8f, 0);
+
         final Image dildo2 = new ImageBuilder().withTexture("World1/Game1/SergentDildo2.png").build();
         dildo2.setScale(scalling_factor);
         dildo2.setPosition(ww / 3, 0);
-        dildo2.setX(ww / 3);
+
+        final Image croquis = new ImageBuilder().withTexture("World1/Game1/Croquis2.png").build();
+        croquis.setScale(scalling_factor / 2.5f);
+        croquis.setY(explicativeBubbleBounds.getTopPad() / 4);
+        Gdx.app.log(TAG, "ww / 2 :" + (ww / 2) + " | croquis.getImageWidth() / 2 : " + ((croquis.getHeight() / 3) / 2));
+        croquis.setX((ww / 2) + (croquis.getHeight() / 2)); // Centering
+
         final Image bigBubble = new ImageBuilder().withTexture("ImagesGadgets/BulleExplicative.png").build();
         final Image bubbleLeft = new ImageBuilder().withTexture("ImagesGadgets/Bulle1.png").build();
         final Image bubbleRight = new ImageBuilder().withTexture("ImagesGadgets/Bulle3.png").build();
+        /* WE DEFINE THE IMAGES THAT WILL APPEAR HERE */
         final Image[][] images = new Image[][] {
                 {
                     sky,
@@ -89,6 +125,20 @@ public class mockupG1 extends CinematicScreen {
                     jungle,
                         leaves,
                         mireille,
+                        bubbleLeft
+                },
+                {
+                    sky,
+                    jungle,
+                        leaves,
+                        mireilleCrying,
+                        bubbleLeft
+                },
+                {
+                    sky,
+                    jungle,
+                        leaves,
+                        mireilleTired,
                         bubbleLeft
                 },
                 {
@@ -109,7 +159,8 @@ public class mockupG1 extends CinematicScreen {
                     sky,
                     jungle,
                         leaves,
-                        bigBubble
+                        bigBubble,
+                        croquis
                 },
                 {
                     sky,

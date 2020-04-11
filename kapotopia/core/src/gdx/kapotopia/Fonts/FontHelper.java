@@ -28,6 +28,8 @@ public class FontHelper {
                 return AssetsManager.getInstance().addStyleFont("CLASSIC_BOLD_NORMAL_WHITE", CLASSIC_BOLD_NAME, FontSize.getRawSize(FontSize.NORMAL), Color.WHITE);
             case CLASSIC_BOLD_NORMAL_YELLOW:
                 return AssetsManager.getInstance().addStyleFont("CLASSIC_BOLD_NORMAL_YELLOW", CLASSIC_BOLD_NAME, FontSize.getRawSize(FontSize.NORMAL), Color.YELLOW);
+            case CLASSIC_BOLD_BIG_BLACK:
+                return AssetsManager.getInstance().addStyleFont("CLASSIC_BOLD_BIG_BLACK", CLASSIC_BOLD_NAME, FontSize.getRawSize(FontSize.BIG), Color.BLACK);
             case CLASSIC_IT_NORMAL_BLACK:
                 return AssetsManager.getInstance().addStyleFont("CLASSIC_IT_NORMAL_BLACK", CLASSIC_IT_NAME, FontSize.getRawSize(FontSize.NORMAL), Color.BLACK);
             case CLASSIC_IT_NORMAL_WHITE:
@@ -78,6 +80,8 @@ public class FontHelper {
                 return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_BOLD_NORMAL_WHITE", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.BOLD, FontSize.NORMAL, Color.WHITE, style);
             case CLASSIC_BOLD_NORMAL_YELLOW:
                 return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_BOLD_NORMAL_YELLOW", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.BOLD, FontSize.NORMAL, Color.YELLOW, style);
+            case CLASSIC_BOLD_BIG_BLACK:
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_BOLD_NORMAL_WHITE", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.BOLD, FontSize.BIG, Color.BLACK, style);
             case CLASSIC_IT_NORMAL_BLACK:
                 return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_IT_NORMAL_BLACK", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.IT, FontSize.NORMAL, Color.BLACK, style);
             case CLASSIC_IT_NORMAL_WHITE:
