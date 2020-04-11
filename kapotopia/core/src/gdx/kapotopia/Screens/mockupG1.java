@@ -102,7 +102,7 @@ public class mockupG1 extends CinematicScreen {
         dildo2.setScale(scalling_factor);
         dildo2.setPosition(ww / 3, 0);
 
-        final Image croquis = new ImageBuilder().withTexture("World1/Game1/Croquis2.png").build();
+        final Image croquis = new ImageBuilder().withTexture("World1/Game1/Croquis.png").build();
         croquis.setScale(scalling_factor / 2.5f);
         croquis.setY(explicativeBubbleBounds.getTopPad() / 4);
         Gdx.app.log(TAG, "ww / 2 :" + (ww / 2) + " | croquis.getImageWidth() / 2 : " + ((croquis.getHeight() / 3) / 2));
