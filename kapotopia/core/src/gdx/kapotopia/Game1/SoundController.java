@@ -5,8 +5,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.SoundHelper;
-import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.Sound.SoundHelper;
+import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Screens.Game1;
 

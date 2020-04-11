@@ -8,12 +8,11 @@ import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
-import gdx.kapotopia.AssetsManaging.Font;
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Fonts.Font;
+import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Bounds;
-import gdx.kapotopia.Utils;
 
 /**
  * A class to help build Labels. A mandatory argument is the text displayed in the label

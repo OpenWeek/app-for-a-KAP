@@ -5,8 +5,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import gdx.kapotopia.AssetsManaging.SoundHelper;
-import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.Sound.SoundHelper;
+import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 

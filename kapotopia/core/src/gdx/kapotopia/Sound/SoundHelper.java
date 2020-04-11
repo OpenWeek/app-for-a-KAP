@@ -1,10 +1,13 @@
-package gdx.kapotopia.AssetsManaging;
+package gdx.kapotopia.Sound;
 
 import com.badlogic.gdx.audio.Sound;
 
+import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Sound.UseSound;
+
 public class SoundHelper {
 
-    public static String getSoundPath(UseSound sound) {
+    public static String getSoundPath(gdx.kapotopia.Sound.UseSound sound) {
         final String result;
         switch (sound) {
             case CLICKED_BTN:

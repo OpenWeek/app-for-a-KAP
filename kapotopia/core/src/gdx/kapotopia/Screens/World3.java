@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Game4.Mireille;
 import gdx.kapotopia.Game4.Question;
 import gdx.kapotopia.Kapotopia;

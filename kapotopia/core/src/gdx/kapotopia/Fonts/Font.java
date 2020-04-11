@@ -1,8 +1,11 @@
-package gdx.kapotopia.AssetsManaging;
+package gdx.kapotopia.Fonts;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+/**
+ * Wrapper class for a font object. Contains a TextButtonStyle, and the different characteristics of the font
+ */
 public class Font {
     private UseFont label;
     private String name;

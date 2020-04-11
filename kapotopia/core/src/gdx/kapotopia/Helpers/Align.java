@@ -2,7 +2,7 @@ package gdx.kapotopia.Helpers;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import gdx.kapotopia.AssetsManaging.FontSize;
+import gdx.kapotopia.Fonts.FontSize;
 import gdx.kapotopia.GameConfig;
 
 public class Align {

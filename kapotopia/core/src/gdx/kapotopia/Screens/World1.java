@@ -10,9 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.SoundHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
-import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.Sound.SoundHelper;
+import gdx.kapotopia.Fonts.UseFont;
+import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;

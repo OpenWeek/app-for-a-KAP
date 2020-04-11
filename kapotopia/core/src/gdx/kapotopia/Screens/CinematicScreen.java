@@ -11,14 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.Iterator;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.DialogsScreen.DialogueElement;
 import gdx.kapotopia.DialogsScreen.FixedDialogueSequence;
 import gdx.kapotopia.Helpers.Builders.FixedDialogSeqBuilder;

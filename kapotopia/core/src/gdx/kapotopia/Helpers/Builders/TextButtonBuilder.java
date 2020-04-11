@@ -6,9 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import java.util.ArrayList;
 
-import gdx.kapotopia.AssetsManaging.Font;
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Fonts.Font;
+import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
 

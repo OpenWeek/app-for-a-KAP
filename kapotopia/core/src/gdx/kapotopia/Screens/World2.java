@@ -1,6 +1,5 @@
 package gdx.kapotopia.Screens;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -10,18 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.*;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.SoundHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
-import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Sound.SoundHelper;
+import gdx.kapotopia.Fonts.UseFont;
+import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 

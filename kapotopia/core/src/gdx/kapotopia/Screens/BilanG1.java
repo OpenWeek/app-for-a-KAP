@@ -13,16 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.SoundHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
-import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Sound.SoundHelper;
+import gdx.kapotopia.Fonts.UseFont;
+import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.Bilan1.BilanController;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;

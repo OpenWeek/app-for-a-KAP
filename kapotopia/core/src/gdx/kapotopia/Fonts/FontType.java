@@ -1,4 +1,4 @@
-package gdx.kapotopia.AssetsManaging;
+package gdx.kapotopia.Fonts;
 
 public enum FontType {
     CLASSIC,

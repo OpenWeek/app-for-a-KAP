@@ -7,8 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.UseFont;
-import gdx.kapotopia.GameConfig;
+import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Bounds;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;

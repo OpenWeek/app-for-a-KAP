@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 
-import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_WHITE;
+import static gdx.kapotopia.Fonts.UseFont.CLASSIC_SANS_SMALL_WHITE;
 
 //TODO: refactor variables ot better use screenHeight and screenWidth
 

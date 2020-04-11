@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.DataStructures.RedBlackBST;
 import gdx.kapotopia.DataStructures.Tree;
+import gdx.kapotopia.Fonts.FontHelper;
 
 public final class AssetsManager {
     private static AssetsManager instance = new AssetsManager();

@@ -25,10 +25,10 @@ import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 
-import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_BOLD_NORMAL_BLACK;
-import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
-import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_NORMAL_BLACK;
-import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_SMALL_BLACK;
+import static gdx.kapotopia.Fonts.UseFont.CLASSIC_BOLD_NORMAL_BLACK;
+import static gdx.kapotopia.Fonts.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
+import static gdx.kapotopia.Fonts.UseFont.CLASSIC_SANS_NORMAL_BLACK;
+import static gdx.kapotopia.Fonts.UseFont.CLASSIC_SANS_SMALL_BLACK;
 import static java.util.Collections.shuffle;
 
 

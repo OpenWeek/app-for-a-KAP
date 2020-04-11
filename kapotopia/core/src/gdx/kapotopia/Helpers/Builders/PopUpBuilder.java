@@ -1,20 +1,12 @@
 package gdx.kapotopia.Helpers.Builders;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
-import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.Utils;
 
-import java.util.ArrayList;
+import gdx.kapotopia.Fonts.UseFont;
+import gdx.kapotopia.Kapotopia;
 
 public class PopUpBuilder {
 

@@ -1,4 +1,4 @@
-package gdx.kapotopia.AssetsManaging;
+package gdx.kapotopia.Sound;
 
 public enum UseSound {
     CLICKED_BTN,

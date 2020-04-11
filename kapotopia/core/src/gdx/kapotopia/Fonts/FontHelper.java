@@ -1,10 +1,12 @@
-package gdx.kapotopia.AssetsManaging;
+package gdx.kapotopia.Fonts;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 
 public class FontHelper {
     private static final String CLASSIC_BOLD_NAME = "COMMSB.ttf";
@@ -67,51 +69,51 @@ public class FontHelper {
         }
     }
 
-    public static Font getFont(UseFont type) {
+    public static gdx.kapotopia.Fonts.Font getFont(UseFont type) {
         TextButton.TextButtonStyle style = getStyleFont(type);
         switch (type) {
             case CLASSIC_BOLD_NORMAL_BLACK:
-                return new Font(type, "CLASSIC_BOLD_NORMAL_WHITE", FontType.CLASSIC, FontFamily.BOLD, FontSize.NORMAL, Color.BLACK, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_BOLD_NORMAL_WHITE", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.BOLD, FontSize.NORMAL, Color.BLACK, style);
             case CLASSIC_BOLD_NORMAL_WHITE:
-                return new Font(type, "CLASSIC_BOLD_NORMAL_WHITE", FontType.CLASSIC, FontFamily.BOLD, FontSize.NORMAL, Color.WHITE, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_BOLD_NORMAL_WHITE", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.BOLD, FontSize.NORMAL, Color.WHITE, style);
             case CLASSIC_BOLD_NORMAL_YELLOW:
-                return new Font(type, "CLASSIC_BOLD_NORMAL_YELLOW", FontType.CLASSIC, FontFamily.BOLD, FontSize.NORMAL, Color.YELLOW, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_BOLD_NORMAL_YELLOW", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.BOLD, FontSize.NORMAL, Color.YELLOW, style);
             case CLASSIC_IT_NORMAL_BLACK:
-                return new Font(type, "CLASSIC_IT_NORMAL_BLACK", FontType.CLASSIC, FontFamily.IT, FontSize.NORMAL, Color.BLACK, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_IT_NORMAL_BLACK", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.IT, FontSize.NORMAL, Color.BLACK, style);
             case CLASSIC_IT_NORMAL_WHITE:
-                return new Font(type, "CLASSIC_IT_NORMAL_WHITE", FontType.CLASSIC, FontFamily.IT, FontSize.NORMAL, Color.WHITE, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_IT_NORMAL_WHITE", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.IT, FontSize.NORMAL, Color.WHITE, style);
             case CLASSIC_REG_BIG_BLACK:
-                return new Font(type, "CLASSIC_REG_NORMAL_BLACK", FontType.CLASSIC, FontFamily.REG, FontSize.BIG, Color.BLACK, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_REG_NORMAL_BLACK", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.REG, FontSize.BIG, Color.BLACK, style);
             case CLASSIC_REG_BIG_WHITE:
-                return new Font(type, "CLASSIC_REG_NORMAL_WHITE", FontType.CLASSIC, FontFamily.REG, FontSize.BIG, Color.WHITE, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_REG_NORMAL_WHITE", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.REG, FontSize.BIG, Color.WHITE, style);
             case CLASSIC_REG_NORMAL_BLACK:
-                return new Font(type, "CLASSIC_REG_NORMAL_BLACK", FontType.CLASSIC, FontFamily.REG, FontSize.NORMAL, Color.BLACK, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_REG_NORMAL_BLACK", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.REG, FontSize.NORMAL, Color.BLACK, style);
             case CLASSIC_REG_NORMAL_WHITE:
-                return new Font(type, "CLASSIC_REG_NORMAL_WHITE", FontType.CLASSIC, FontFamily.REG, FontSize.NORMAL, Color.WHITE, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_REG_NORMAL_WHITE", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.REG, FontSize.NORMAL, Color.WHITE, style);
             case CLASSIC_SANS_MIDDLE_BLACK:
-                return new Font(type, "CLASSIC_BOLD_NORMAL_WHITE", FontType.CLASSIC, FontFamily.REG, FontSize.MIDDLE, Color.BLACK, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_BOLD_NORMAL_WHITE", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.REG, FontSize.MIDDLE, Color.BLACK, style);
             case CLASSIC_SANS_SMALL_BLACK:
-                return new Font(type, "CLASSIC_SANS_SMALL_BLACK", FontType.CLASSIC, FontFamily.SANS, FontSize.SMALL, Color.BLACK, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_SANS_SMALL_BLACK", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.SANS, FontSize.SMALL, Color.BLACK, style);
             case CLASSIC_SANS_SMALL_WHITE:
-                return new Font(type, "CLASSIC_SANS_SMALL_WHITE", FontType.CLASSIC, FontFamily.SANS, FontSize.SMALL, Color.WHITE, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_SANS_SMALL_WHITE", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.SANS, FontSize.SMALL, Color.WHITE, style);
             case CLASSIC_SANS_NORMAL_BLACK:
-                return new Font(type, "CLASSIC_SANS_NORMAL_BLACK", FontType.CLASSIC, FontFamily.SANS, FontSize.NORMAL, Color.BLACK, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_SANS_NORMAL_BLACK", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.SANS, FontSize.NORMAL, Color.BLACK, style);
             case CLASSIC_SANS_NORMAL_WHITE:
-                return new Font(type, "CLASSIC_SANS_NORMAL_WHITE", FontType.CLASSIC, FontFamily.SANS, FontSize.NORMAL, Color.WHITE, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_SANS_NORMAL_WHITE", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.SANS, FontSize.NORMAL, Color.WHITE, style);
             case CLASSIC_SANS_NORMAL_GRAY:
-                return new Font(type, "CLASSIC_SANS_NORMAL_GRAY", FontType.CLASSIC, FontFamily.SANS, FontSize.NORMAL, Color.GRAY, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_SANS_NORMAL_GRAY", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.SANS, FontSize.NORMAL, Color.GRAY, style);
             case CLASSIC_SANS_NORMAL_YELLOW:
-                return new Font(type, "CLASSIC_SANS_NORMAL_YELLOW", FontType.CLASSIC, FontFamily.SANS, FontSize.NORMAL, Color.YELLOW, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_SANS_NORMAL_YELLOW", FontType.CLASSIC, gdx.kapotopia.Fonts.FontFamily.SANS, FontSize.NORMAL, Color.YELLOW, style);
             case AESTHETIC_SMALL_BLACK:
-                return new Font(type, "AESTHETIC_SMALL_BLACK", FontType.AESTHETIC, FontFamily.REG, FontSize.SMALL, Color.BLACK, style);
+                return new gdx.kapotopia.Fonts.Font(type, "AESTHETIC_SMALL_BLACK", FontType.AESTHETIC, gdx.kapotopia.Fonts.FontFamily.REG, FontSize.SMALL, Color.BLACK, style);
             case AESTHETIC_SMALL_WHITE:
-                return new Font(type, "CLASSIC_BOLD_NORMAL_WHITE", FontType.AESTHETIC, FontFamily.REG, FontSize.SMALL, Color.WHITE, style);
+                return new gdx.kapotopia.Fonts.Font(type, "CLASSIC_BOLD_NORMAL_WHITE", FontType.AESTHETIC, gdx.kapotopia.Fonts.FontFamily.REG, FontSize.SMALL, Color.WHITE, style);
             case AESTHETIC_NORMAL_BLACK:
-                return new Font(type, "AESTHETIC_NORMAL_BLACK", FontType.AESTHETIC, FontFamily.REG, FontSize.NORMAL, Color.BLACK, style);
+                return new gdx.kapotopia.Fonts.Font(type, "AESTHETIC_NORMAL_BLACK", FontType.AESTHETIC, gdx.kapotopia.Fonts.FontFamily.REG, FontSize.NORMAL, Color.BLACK, style);
             case AESTHETIC_NORMAL_WHITE:
-                return new Font(type, "AESTHETIC_NORMAL_WHITE", FontType.AESTHETIC, FontFamily.REG, FontSize.NORMAL, Color.WHITE, style);
+                return new gdx.kapotopia.Fonts.Font(type, "AESTHETIC_NORMAL_WHITE", FontType.AESTHETIC, gdx.kapotopia.Fonts.FontFamily.REG, FontSize.NORMAL, Color.WHITE, style);
             case AESTHETIC_TINY_BLACK:
-                return new Font(type, "AESTHETIC_TINY_BLACK", FontType.AESTHETIC, FontFamily.REG, FontSize.TINY, Color.BLACK, style);
+                return new gdx.kapotopia.Fonts.Font(type, "AESTHETIC_TINY_BLACK", FontType.AESTHETIC, gdx.kapotopia.Fonts.FontFamily.REG, FontSize.TINY, Color.BLACK, style);
             default:
                 return new Font(type, "CLASSIC_SANS_NORMAL_BLACK", FontType.CLASSIC, FontFamily.SANS, FontSize.NORMAL, Color.BLACK, style);
         }
