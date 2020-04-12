@@ -105,8 +105,8 @@ public class mockupG1 extends CinematicScreen {
         final Image croquis = new ImageBuilder().withTexture("World1/Game1/Croquis.png").build();
         croquis.setScale(scalling_factor / 2.5f);
         croquis.setY(explicativeBubbleBounds.getTopPad() / 4);
-        Gdx.app.log(TAG, "ww / 2 :" + (ww / 2) + " | croquis.getImageWidth() / 2 : " + ((croquis.getHeight() / 3) / 2));
-        croquis.setX((ww / 2) + (croquis.getHeight() / 2)); // Centering
+        Gdx.app.log(TAG, "ww / 2 :" + (ww / 2) + " | croquis.getWidth() / 2 : " + ((croquis.getWidth() / 3) / 2));
+        croquis.setX((ww / 2) + (croquis.getWidth() / 2));
 
         final Image bigBubble = new ImageBuilder().withTexture("ImagesGadgets/BulleExplicative.png").build();
         final Image bubbleLeft = new ImageBuilder().withTexture("ImagesGadgets/Bulle1.png").build();

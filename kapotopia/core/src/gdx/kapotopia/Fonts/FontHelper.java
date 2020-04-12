@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 
 public class FontHelper {
+
+    //TODO watch out for big fonts not doing good https://github.com/libgdx/libgdx/wiki/Distance-field-fonts
     private static final String CLASSIC_BOLD_NAME = "COMMSB.ttf";
     private static final String CLASSIC_IT_NAME = "COMMI.ttf";
     private static final String CLASSIC_REG_NAME = "COMMUNIS.ttf";
