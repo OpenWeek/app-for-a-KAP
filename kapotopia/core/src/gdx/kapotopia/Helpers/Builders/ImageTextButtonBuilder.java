@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import java.util.ArrayList;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.Align;
@@ -41,6 +42,7 @@ public class ImageTextButtonBuilder {
     private boolean visible;
     private boolean checked;
 
+    private Font font;
     private ImageTextButton.ImageTextButtonStyle fontStyle;
     private Button.ButtonStyle imageStyle;
 
@@ -65,6 +67,7 @@ public class ImageTextButtonBuilder {
         // ImageTextButton attributes
         this.text = text;
         this.checked = false;
+        this.font = null;
         this.fontStyle = new ImageTextButton.ImageTextButtonStyle(FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK));
         this.imageStyle = null;
     }
@@ -160,8 +163,13 @@ public class ImageTextButtonBuilder {
 
     // ImageTextButton methods
 
+    public ImageTextButtonBuilder withFontStyle(Font font) {
+        this.font = font;
+        return this;
+    }
+
     public ImageTextButtonBuilder withFontStyle(UseFont font) {
-        this.fontStyle = new ImageTextButton.ImageTextButtonStyle(FontHelper.getStyleFont(font));
+        this.font = FontHelper.getFont(font);
         return this;
     }
 
@@ -209,11 +217,22 @@ public class ImageTextButtonBuilder {
 
 
     public ImageTextButton build() {
-        final ImageTextButton imgTxtBtn = new ImageTextButton(text, fontStyle);
+        final ImageTextButton imgTxtBtn;
+        if (font != null) {
+            imgTxtBtn = new ImageTextButton(text, new ImageTextButton.ImageTextButtonStyle(font.getStyle()));
+        } else {
+            imgTxtBtn = new ImageTextButton(text, fontStyle);
+        }
+
         if (imageStyle != null) {
-            final ImageTextButton.ImageTextButtonStyle style =
-                    new ImageTextButton.ImageTextButtonStyle(imageStyle.up, imageStyle.down,
-                            imageStyle.checked, fontStyle.font);
+            final ImageTextButton.ImageTextButtonStyle style;
+            if (font != null) {
+                style = new ImageTextButton.ImageTextButtonStyle(imageStyle.up, imageStyle.down,
+                        imageStyle.checked, new ImageTextButton.ImageTextButtonStyle(font.getStyle()).font);
+            } else {
+                style = new ImageTextButton.ImageTextButtonStyle(imageStyle.up, imageStyle.down,
+                        imageStyle.checked, fontStyle.font);
+            }
             imgTxtBtn.setStyle(style);
         }
 
