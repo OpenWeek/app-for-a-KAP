@@ -120,7 +120,6 @@ public class GameController {
         this.difficulty = game.vars.getChoosenDifficultyG1();
         if(this.difficulty == null)
             this.difficulty = GameDifficulty.MEDIUM;
-        configureGame(this.difficulty);
     }
 
     private void setConstants(float worldW, float worldH) {
@@ -135,6 +134,7 @@ public class GameController {
 
     public void init() {
         this.ennemi = new Virus(this.bounds, game1);
+        configureGame(this.difficulty);
     }
 
     // STANDARD SCREEN CALLS
