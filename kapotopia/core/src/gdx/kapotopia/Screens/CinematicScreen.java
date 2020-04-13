@@ -16,10 +16,10 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.Iterator;
 
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.DialogsScreen.DialogueElement;
 import gdx.kapotopia.DialogsScreen.FixedDialogueSequence;
+import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.Builders.FixedDialogSeqBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
@@ -89,7 +89,7 @@ public abstract class CinematicScreen implements Screen {
                          String finishBtnLabel, UseFont nextBtnFont, UseFont finishBtnFont,
                          final float timerScheduleTime, final int vibrationTime, final boolean withFinishBtn) {
         // Graphics
-        this.sequence = FixedDialogSeqBuilder.buildSequence(game.viewport, stage, imagesBigList, images, imagesTexturePaths,
+        this.sequence = FixedDialogSeqBuilder.buildSequence(stage, imagesBigList, images, imagesTexturePaths,
                 labels, labelsBigList);
 
         this.curImg = 0;

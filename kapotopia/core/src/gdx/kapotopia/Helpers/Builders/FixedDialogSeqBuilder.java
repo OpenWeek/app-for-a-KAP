@@ -3,7 +3,6 @@ package gdx.kapotopia.Helpers.Builders;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Iterator;
 
@@ -26,8 +25,6 @@ public class FixedDialogSeqBuilder {
      * imagesBigList is preferred over images which is again preferred over imagesTexturesPaths
      * labelsBigList is preferred over labels
      *
-     * @param viewport the viewport used in the game. It is used to fit the images to the viewport (it is therefore advised to use
-     *                 images that already have it's dimensions
      * @param stage the stage to which the images/labels must be added
      * @param imagesBigList a matrix of Images. Each row is a new SequenceElement, every Image for each row are displayed at the same time
      * @param images a list of images, each image will be displayed in a new SequenceElement
@@ -36,7 +33,7 @@ public class FixedDialogSeqBuilder {
      * @param labelsBigList a matrix of Labels. Each row is a new SequenceElement, every Label for each row are displayed at the same time
      * @return a new FixedDialogueSequence built with these parameters
      */
-    public static FixedDialogueSequence buildSequence(FitViewport viewport, Stage stage,
+    public static FixedDialogueSequence buildSequence(Stage stage,
                                                       Image[][] imagesBigList, Image[] images,
                                                       String[] imagesTexturePaths, Label[] labels,
                                                       Label[][] labelsBigList) {
@@ -78,25 +75,22 @@ public class FixedDialogSeqBuilder {
         } else {
             return null;
         }
-        configSequence(newSeq, viewport, stage);
+        configSequence(newSeq, stage);
         return newSeq;
     }
 
     /**
      * Configure the images and labels of the given sequence to fit the given viewport and are added to the stage
      * @param seq the FixedDialogueSequence to be configured
-     * @param viewport the viewport used which will be used to fit the images to it's WorldWidth and WorldHeight
      * @param stage the stage to which the images and labels will be added
      */
-    private static void configSequence(FixedDialogueSequence seq, FitViewport viewport, Stage stage) {
+    private static void configSequence(FixedDialogueSequence seq, Stage stage) {
         Iterator<DialogueElement> iterator = seq.iterator();
         while (iterator.hasNext()) {
             DialogueElement element = iterator.next();
             // Images
             Image[] imgList = element.getImageList();
             for (Image img : imgList) {
-                img.setWidth(viewport.getWorldWidth());
-                img.setHeight(viewport.getWorldHeight());
                 img.setVisible(false);
                 stage.addActor(img);
             }

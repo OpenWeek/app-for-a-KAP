@@ -8,8 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.GameConfig;
+import gdx.kapotopia.Helpers.Align;
+import gdx.kapotopia.Helpers.Alignement;
+import gdx.kapotopia.Helpers.Bounds;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
@@ -19,34 +23,122 @@ public class mockupG3 extends CinematicScreen {
     public mockupG3(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG3");
 
+        final float ww = GameConfig.GAME_WIDTH;
+        final float wh = GameConfig.GAME_HEIGHT;
+
         Localisation loc = Localisation.getInstance();
+
+        UseFont font = UseFont.CLASSIC_SANS_NORMAL_BLACK;
+        Bounds dialogBubbleBounds = Align.getDialogBubbleBounds();
+        Bounds explicativeBubbleBounds = Align.getExplicativeBubbleBounds();
 
         final Label[][] labels = new Label[][] {
                 {
-
+                        new LabelBuilder(loc.getString("game3_diag1"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
                 },
                 {
-                    new LabelBuilder(loc.getString("game3_instr"))
-                            .withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK)
-                            .withPosition(GameConfig.ONE_CHAR_STD_WIDTH, (game.viewport.getWorldHeight() / 2))
-                            .withWidth(game.viewport.getWorldWidth() - (2 * GameConfig.ONE_CHAR_STD_WIDTH))
-                            .withHeight(GameConfig.ONE_CHAR_STD_HEIGHT * 10).isWrapped(true)
-                            .build()
+                        new LabelBuilder(loc.getString("game3_diag2"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(loc.getString("game3_diag3"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(loc.getString("game3_diag4"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(loc.getString("game3_diag5"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(loc.getString("rules_title"))
+                                .withStyle(UseFont.CLASSIC_BOLD_BIG_BLACK).withAlignment(Alignement.CENTER)
+                                .withY(wh - explicativeBubbleBounds.getTopPad())
+                                .build(),
+                        new LabelBuilder(loc.getString("game3_instr"))
+                                .withStyle(font).withBounds(explicativeBubbleBounds)
+                                .isWrapped(true)
+                                .build()
                 }
         };
 
-        final Image tom = new ImageBuilder().withTexture("game3/Thomas Godiva.png").withPosition(50, 50)
+        final float scalling_factor = 0.6f;
+        // Backgrounds
+        final Image house = ImageHelper.getBackground(game.viewport, "game3/intro/Monde2Ecran1.png");
+        final Image inside = ImageHelper.getBackground(game.viewport, "game3/intro/Monde2Ecran2.png");
+        // Bubbles
+        final Image bigBubble = new ImageBuilder().withTexture("ImagesGadgets/BulleExplicative.png").build();
+        final Image bubbleLeft = new ImageBuilder().withTexture("ImagesGadgets/Bulle1.png").build();
+        final Image bubbleLeft2 = new ImageBuilder().withTexture("ImagesGadgets/Bulle1.png").build();
+        final Image bubbleRight = new ImageBuilder().withTexture("ImagesGadgets/Bulle2.png").build();
+        // Characters
+        final Image tom = new ImageBuilder().withTexture("game3/intro/Thomas Godiva.png")
+                .withPosition(ww * 0.075f, wh * 0.04f)
                 .build();
-        final float scale_factor = 0.75f;
-        tom.setScale(scale_factor);
+        tom.setScale(scalling_factor);
+        final Image mireille = new ImageBuilder().withTexture("MireilleImages/Mireille.png")
+                .withPosition(ww / 4f, 0)
+                .build();
+        mireille.setScale(scalling_factor);
+
+        final Image mireilleWorried = new ImageBuilder().withTexture("MireilleImages/MireilleWorried.png")
+                .withPosition(ww / 4f, 0)
+                .build();
+        mireilleWorried.setScale(scalling_factor);
+
+        final Image mireilleScared = new ImageBuilder().withTexture("MireilleImages/MireilleScared.png")
+                .withPosition(ww / 4f, 0)
+                .build();
+        mireilleScared.setScale(scalling_factor);
+
+        final Image mireilleSurprised = new ImageBuilder().withTexture("MireilleImages/MireilleSurprise.png")
+                .withPosition(ww / 4f, 0)
+                .build();
+        mireilleSurprised.setScale(scalling_factor);
 
         final Image[][] images = new Image[][] {
                 {
-                    new ImageBuilder().withTexture("game3/Monde2Ecran2.png").build(),
-                        tom
+                    house,
+                        mireilleWorried,
+                        bubbleLeft
                 },
                 {
-                    new ImageBuilder().withTexture("game3/Monde2Ecran3.png").build()
+                    house,
+                        mireilleSurprised,
+                        bubbleLeft
+                },
+                {
+                    house,
+                        mireille,
+                        bubbleLeft
+                },
+                {
+                    inside,
+                        mireilleScared,
+                        bubbleLeft2
+                },
+                {
+                    inside,
+                        tom,
+                        bubbleRight
+                },
+                {
+                    inside,
+                        tom,
+                        bigBubble
                 }
         };
 

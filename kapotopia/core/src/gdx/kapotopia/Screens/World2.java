@@ -32,7 +32,7 @@ public class World2 implements Screen {
     public World2(final Kapotopia game) {
 
         this.game = game;
-        Image imgFond = ImageHelper.getBackground(game.viewport,"game3/Monde2Ecran1.png");
+        Image imgFond = ImageHelper.getBackground(game.viewport,"game3/intro/Monde2Ecran1.png");
         stage = new Stage(game.viewport);
 
         stage.addActor(imgFond);
@@ -55,7 +55,7 @@ public class World2 implements Screen {
                         game.destroyScreen(ScreenType.WORLD2);
                         game.changeScreen(ScreenType.MOCKUPG3);
                     }
-                },2f);
+                },0.1f);
             }
         });
 

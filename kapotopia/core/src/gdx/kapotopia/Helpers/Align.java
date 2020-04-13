@@ -64,9 +64,9 @@ public class Align {
         final float wh = GameConfig.GAME_HEIGHT;
 
         final float width = ww * 0.9f;
-        final float height = wh * 0.42f;
+        final float height = wh * 0.45f;
         final float top_pad = wh * 0.0078125f;
-        final float hor_pad = ww / 48;
+        final float hor_pad = ww * 0.0375f;
         final float x = ww - width - hor_pad;
         final float y = wh - height - top_pad;
 

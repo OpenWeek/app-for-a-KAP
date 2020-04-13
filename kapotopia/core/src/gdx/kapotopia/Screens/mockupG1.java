@@ -13,6 +13,7 @@ import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Bounds;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
@@ -34,51 +35,59 @@ public class mockupG1 extends CinematicScreen {
                 {
                         new LabelBuilder(loc.getString("dialogG1_1"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
-                                .isWrapped(true).build()
+                                .isWrapped(true)
+                                .build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_2"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
-                                .isWrapped(true).build()
+                                .isWrapped(true)
+                                .build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_3"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
-                                .isWrapped(true).build()
+                                .isWrapped(true)
+                                .build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_4"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
-                                .isWrapped(true).build()
+                                .isWrapped(true)
+                                .build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_5"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
-                                .isWrapped(true).build()
+                                .isWrapped(true)
+                                .build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_6"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
-                                .isWrapped(true).build()
+                                .isWrapped(true)
+                                .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("dialogG1_rules_1"))
+                        new LabelBuilder(loc.getString("rules_title"))
                                 .withStyle(UseFont.CLASSIC_BOLD_BIG_BLACK).withAlignment(Alignement.CENTER)
                                 .withY(wh - explicativeBubbleBounds.getTopPad())
                                 .build(),
-                        new LabelBuilder(loc.getString("dialogG1_rules_2"))
+                        new LabelBuilder(loc.getString("dialogG1_rules_1"))
                                 .withStyle(font).withBounds(explicativeBubbleBounds)
-                                .isWrapped(true).build()
+                                .isWrapped(true)
+                                .build()
                 },
                 {
                         new LabelBuilder(loc.getString("dialogG1_7"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
-                                .isWrapped(true).build()
+                                .isWrapped(true)
+                                .build()
                 }
         };
-        final Image jungle = new ImageBuilder().withTexture("World1/Game1/Jungle.png").build();
-        final Image sky = new ImageBuilder().withTexture("World1/Game1/Ciel.png").build();
-        final Image leaves = new ImageBuilder().withTexture("World1/Game1/Feuilles.png").build();
+        final Image jungle = ImageHelper.getBackground(game.viewport, "World1/Game1/Jungle.png");
+        final Image sky = ImageHelper.getBackground(game.viewport, "World1/Game1/Ciel.png");
+        final Image leaves = ImageHelper.getBackground(game.viewport, "World1/Game1/Feuilles.png");
 
         final float scalling_factor = 0.6f;
 
@@ -103,7 +112,7 @@ public class mockupG1 extends CinematicScreen {
         dildo2.setPosition(ww / 3, 0);
 
         final Image croquis = new ImageBuilder().withTexture("World1/Game1/Croquis.png").build();
-        croquis.setScale(scalling_factor / 2.5f);
+        //croquis.setScale(scalling_factor / 1.5f);
         croquis.setY(explicativeBubbleBounds.getTopPad() / 4);
         Gdx.app.log(TAG, "ww / 2 :" + (ww / 2) + " | croquis.getWidth() / 2 : " + ((croquis.getWidth() / 3) / 2));
         croquis.setX((ww / 2) + (croquis.getWidth() / 2));

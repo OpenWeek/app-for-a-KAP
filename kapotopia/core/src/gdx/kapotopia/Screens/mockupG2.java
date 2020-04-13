@@ -3,11 +3,15 @@ package gdx.kapotopia.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.GameConfig;
+import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
@@ -37,8 +41,14 @@ public class mockupG2 extends CinematicScreen {
                         .isWrapped(true)
                         .build(),
         };
+        final Image back1 = ImageHelper.getBackground(game.viewport, "World1/Game2/20_board_0.png");
+        final Image back2 = ImageHelper.getBackground(game.viewport, "World1/Game2/20_board_1.png");
+        final Image[] images = {
+                back1,
+                back2
+        };
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME2)
-                .withTextures(new String[]{"World1/Game2/20_board_0.png", "World1/Game2/20_board_1.png"})
+                .withImages(images)
                 .withNextBtnStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK)
                 .withTimerScheduleTime(0)
                 .withLabels(labels)
