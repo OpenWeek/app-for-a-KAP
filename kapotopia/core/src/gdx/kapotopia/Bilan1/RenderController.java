@@ -73,10 +73,17 @@ public class RenderController {
 
     public void dequeueStiSprite() {
         stiSprites.removeFirst();
+        prepareFirstStiSprite();
     }
 
     public void setShowStiSprites() {
         showStiSprites = true;
+        prepareFirstStiSprite();
+    }
+
+    private void prepareFirstStiSprite() {
+        final Sprite sti = stiSprites.first();
+        sti.setScale(sti.getScaleX() + 0.05f);
     }
 
     public void update() {
@@ -97,9 +104,8 @@ public class RenderController {
                     Sprite sti = (Sprite) iter.next();
                     sti.draw(batch);
                 }
-                Sprite first = stiSprites.first();
-                //first.setScale(first.getScaleX() + 0.001f);
-                first.draw(batch);
+                // We draw the first sti so that it appear on top of the others
+                stiSprites.first().draw(batch);
             }
         }
 

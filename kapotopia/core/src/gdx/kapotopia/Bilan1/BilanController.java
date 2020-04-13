@@ -62,12 +62,12 @@ public class BilanController {
 
             // Image
             final float xImg = initStiImgX;
-            final float yImg = yName - (wHeight * 0.01f);
+            final float yImg = yName - (wHeight * 0.025f);
             final float scalling_factor = wHeight * 0.0002f;
             final Sprite stiImg = new Sprite(AssetsManager.getInstance().getTextureByPath(ist.getTexturePath()));
             stiImg.setPosition(xImg, yImg);
             stiImg.setScale(scalling_factor);
-            initStiImgX += stiImg.getWidth() / 8;
+            initStiImgX += stiImg.getWidth() / 7;
             bilan.getRenderController().enqueueStiSprite(stiImg);
             // General
             names.add(ln);
