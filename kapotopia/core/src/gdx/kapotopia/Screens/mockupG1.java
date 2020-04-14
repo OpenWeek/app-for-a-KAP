@@ -2,10 +2,15 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import gdx.kapotopia.Animations.MireilleBlinkingAnimation;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.Align;
@@ -22,6 +27,14 @@ import gdx.kapotopia.UnlockedLevel;
 public class mockupG1 extends CinematicScreen {
 
     private final String TAG = this.getClass().getSimpleName();
+
+    private final float scalling_factor = 0.6f;
+
+    private OrthographicCamera camera;
+    private SpriteBatch batch;
+
+    private Animation<TextureRegion> mireilleBlink;
+    private float stateTime;
 
     public mockupG1(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG1");
@@ -89,8 +102,6 @@ public class mockupG1 extends CinematicScreen {
         final Image sky = ImageHelper.getBackground(game.viewport, "World1/Game1/Ciel.png");
         final Image leaves = ImageHelper.getBackground(game.viewport, "World1/Game1/Feuilles.png");
 
-        final float scalling_factor = 0.6f;
-
         final Image mireille = new ImageBuilder().withTexture("MireilleImages/Mireille.png").build();
         mireille.setScale(scalling_factor);
         mireille.setPosition(ww / 4f, 0);
@@ -126,14 +137,14 @@ public class mockupG1 extends CinematicScreen {
                     sky,
                     jungle,
                         leaves,
-                        mireille,
+//                        mireille,
                         bubbleLeft
                 },
                 {
                     sky,
                     jungle,
                         leaves,
-                        mireille,
+//                        mireille,
                         bubbleLeft
                 },
                 {
@@ -180,6 +191,22 @@ public class mockupG1 extends CinematicScreen {
                 }
         };
 
+
+
+        /*
+                Additional stuff to the cutscene
+        */
+        // Camera
+        this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+        this.camera.position.set(0, 0,0); // I dont understand why, but this works. If someone knows plz explain me. F.D.
+        this.camera.update();
+        game.viewport.setCamera(camera);
+        // Making Animations
+        batch = new SpriteBatch();
+        mireilleBlink = new MireilleBlinkingAnimation(Animation.PlayMode.LOOP_PINGPONG).getAnimation();
+        stateTime = 0f;
+
+        /* ENDING */
         applyBundle(new ParameterBundleBuilder(ScreenType.DIF)
                 .withImages(images).withFinishBtn(false)
                 .withNextBtnStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE).withTimerScheduleTime(0).withLabels(labels));
@@ -200,7 +227,20 @@ public class mockupG1 extends CinematicScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+
+        stateTime += delta;
+
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        if (getCurrentSeqIndex() == 0 || getCurrentSeqIndex() == 1) {
+            batch.begin();
+            final TextureRegion m = mireilleBlink.getKeyFrame(stateTime, true);
+            batch.draw(m, camera.viewportWidth / 4f, 0,0,0,
+                    m.getRegionWidth(), m.getRegionHeight(), scalling_factor,scalling_factor,0);
+            batch.end();
+        }
     }
 }

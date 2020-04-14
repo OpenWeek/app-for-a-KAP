@@ -71,7 +71,7 @@ public class MainMenu implements Screen {
 
         // Import sounds
         this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
-        final Sound blocked = SoundHelper.getSound(UseSound.HINT);
+        //final Sound blocked = SoundHelper.getSound(UseSound.HINT);
         this.music = AssetsManager.getInstance().getMusicByPath("sound/breaktime.mp3");
         music.setPosition(0f);
         music.setLooping(true);

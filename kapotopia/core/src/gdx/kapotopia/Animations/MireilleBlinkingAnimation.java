@@ -15,7 +15,7 @@ public class MireilleBlinkingAnimation extends AnimationAbstract {
         Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("mireilleblink");
         TextureAtlas.AtlasRegion[] array = r.toArray();
 
-        setAnimation(new AnimationBuilder(0.0625f).withPlayMode(playMode)
+        setAnimation(new AnimationBuilder(0.1f).withPlayMode(playMode)
                 .addFrames(array).build());
     }
 }

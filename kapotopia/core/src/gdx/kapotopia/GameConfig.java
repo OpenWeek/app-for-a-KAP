@@ -9,7 +9,7 @@ public class GameConfig {
     public static final int VERSION_CODE = 14;
 
     public static final float GAME_WIDTH = 720;
-    public static final int GAME_HEIGHT = 1280;
+    public static final float GAME_HEIGHT = 1280;
 
     public final static float SCALLING_FACTOR_ENTITY = 4.5f;
     // Units in pixels for fonts characters sizes

@@ -165,8 +165,7 @@ public class BilanG1 implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        game.viewport.update(width, height);
-        renderController.getViewport().update(width, height, true);
+        game.viewport.update(width, height,true);
     }
 
     @Override

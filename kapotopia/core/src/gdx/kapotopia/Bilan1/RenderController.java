@@ -5,11 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Queue;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
 
 import java.util.Iterator;
 
@@ -30,7 +26,6 @@ public class RenderController {
     private Kapotopia game;
     private BilanG1 bilan;
 
-    private Viewport bilanViewport;
     private OrthographicCamera camera;
 
     private SpriteBatch batch;
@@ -48,12 +43,12 @@ public class RenderController {
         this.bilan = bilan;
 
         this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
-        this.bilanViewport = new FitViewport(game.viewport.getWorldWidth(), game.viewport.getWorldHeight(), camera);
+        game.viewport.setCamera(camera);
 
         this.batch = new SpriteBatch();
 
-        final float wWidth = game.viewport.getWorldWidth();
-        final float wHeight = game.viewport.getWorldHeight();
+//        final float wWidth = game.viewport.getWorldWidth();
+//        final float wHeight = game.viewport.getWorldHeight();
 
         // Defining visual elements
 
@@ -110,9 +105,5 @@ public class RenderController {
         }
 
         batch.end();
-    }
-
-    public Viewport getViewport() {
-        return bilanViewport;
     }
 }

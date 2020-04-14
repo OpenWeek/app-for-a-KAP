@@ -287,6 +287,14 @@ public abstract class CinematicScreen implements Screen {
         AssetsManager.getInstance().disposeStage(screenName);
     }
 
+    public int getCurrentSeqIndex() {
+        return curImg;
+    }
+
+    public int getMaxSeqIndex() {
+        return sequence.getSize() - 1;
+    }
+
     public class ParameterBundleBuilder {
         private ScreenType nextScreen;
         private Image[] images;
