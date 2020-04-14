@@ -1,0 +1,718 @@
+
+nightsky.png
+size: 4096,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Ciel
+  rotate: false
+  xy: 2, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 1
+Ciel
+  rotate: false
+  xy: 724, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 3
+Ciel
+  rotate: false
+  xy: 1446, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 4
+Ciel
+  rotate: false
+  xy: 2168, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 5
+Ciel
+  rotate: false
+  xy: 2890, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 6
+Ciel
+  rotate: false
+  xy: 2, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 7
+Ciel
+  rotate: false
+  xy: 724, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 8
+Ciel
+  rotate: false
+  xy: 1446, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 10
+Ciel
+  rotate: false
+  xy: 2168, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 12
+Ciel
+  rotate: false
+  xy: 2890, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 13
+Ciel
+  rotate: false
+  xy: 2, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 14
+Ciel
+  rotate: false
+  xy: 724, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 15
+Ciel
+  rotate: false
+  xy: 1446, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 16
+Ciel
+  rotate: false
+  xy: 2168, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 17
+Ciel
+  rotate: false
+  xy: 2168, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 34
+Ciel
+  rotate: false
+  xy: 2168, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 89
+Ciel
+  rotate: false
+  xy: 2890, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 18
+Ciel
+  rotate: false
+  xy: 2890, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 33
+Ciel
+  rotate: false
+  xy: 2, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 19
+Ciel
+  rotate: false
+  xy: 724, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 20
+Ciel
+  rotate: false
+  xy: 1446, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 21
+Ciel
+  rotate: false
+  xy: 2168, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 22
+Ciel
+  rotate: false
+  xy: 2168, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 86
+Ciel
+  rotate: false
+  xy: 2890, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 23
+Ciel
+  rotate: false
+  xy: 2, 2058
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 24
+Ciel
+  rotate: false
+  xy: 724, 2058
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 26
+Ciel
+  rotate: false
+  xy: 1446, 2058
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 27
+Ciel
+  rotate: false
+  xy: 2168, 2058
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 28
+Ciel
+  rotate: false
+  xy: 2890, 2058
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 29
+Ciel
+  rotate: false
+  xy: 2, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 30
+Ciel
+  rotate: false
+  xy: 724, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 31
+Ciel
+  rotate: false
+  xy: 724, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 61
+Ciel
+  rotate: false
+  xy: 1446, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 32
+Ciel
+  rotate: false
+  xy: 2168, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 35
+Ciel
+  rotate: false
+  xy: 2890, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 36
+Ciel
+  rotate: false
+  xy: 2, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 37
+Ciel
+  rotate: false
+  xy: 724, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 38
+Ciel
+  rotate: false
+  xy: 724, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 57
+Ciel
+  rotate: false
+  xy: 1446, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 39
+Ciel
+  rotate: false
+  xy: 2168, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 40
+Ciel
+  rotate: false
+  xy: 2168, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 92
+Ciel
+  rotate: false
+  xy: 2890, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 41
+Ciel
+  rotate: false
+  xy: 2890, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 11
+
+nightsky2.png
+size: 4096,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Ciel
+  rotate: false
+  xy: 2, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 42
+Ciel
+  rotate: false
+  xy: 724, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 43
+Ciel
+  rotate: false
+  xy: 724, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 54
+Ciel
+  rotate: false
+  xy: 724, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 9
+Ciel
+  rotate: false
+  xy: 1446, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 45
+Ciel
+  rotate: false
+  xy: 2168, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 46
+Ciel
+  rotate: false
+  xy: 2168, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 95
+Ciel
+  rotate: false
+  xy: 2890, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 47
+Ciel
+  rotate: false
+  xy: 2, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 48
+Ciel
+  rotate: false
+  xy: 724, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 49
+Ciel
+  rotate: false
+  xy: 1446, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 50
+Ciel
+  rotate: false
+  xy: 2168, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 51
+Ciel
+  rotate: false
+  xy: 2890, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 52
+Ciel
+  rotate: false
+  xy: 2, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 53
+Ciel
+  rotate: false
+  xy: 724, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 55
+Ciel
+  rotate: false
+  xy: 1446, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 56
+Ciel
+  rotate: false
+  xy: 2168, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 58
+Ciel
+  rotate: false
+  xy: 2890, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 59
+Ciel
+  rotate: false
+  xy: 2, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 60
+Ciel
+  rotate: false
+  xy: 724, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 62
+Ciel
+  rotate: false
+  xy: 1446, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 63
+Ciel
+  rotate: false
+  xy: 2168, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 64
+Ciel
+  rotate: false
+  xy: 2890, 1544
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 65
+Ciel
+  rotate: false
+  xy: 2, 2058
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 66
+Ciel
+  rotate: false
+  xy: 724, 2058
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 67
+Ciel
+  rotate: false
+  xy: 1446, 2058
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 68
+Ciel
+  rotate: false
+  xy: 2168, 2058
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 69
+Ciel
+  rotate: false
+  xy: 2890, 2058
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 70
+Ciel
+  rotate: false
+  xy: 2, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 71
+Ciel
+  rotate: false
+  xy: 724, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 72
+Ciel
+  rotate: false
+  xy: 1446, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 73
+Ciel
+  rotate: false
+  xy: 2168, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 74
+Ciel
+  rotate: false
+  xy: 2890, 2572
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 75
+Ciel
+  rotate: false
+  xy: 2, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 76
+Ciel
+  rotate: false
+  xy: 724, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 77
+Ciel
+  rotate: false
+  xy: 1446, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 78
+Ciel
+  rotate: false
+  xy: 2168, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 79
+Ciel
+  rotate: false
+  xy: 2890, 3086
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 80
+
+nightsky3.png
+size: 4096,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Ciel
+  rotate: false
+  xy: 2, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 81
+Ciel
+  rotate: false
+  xy: 724, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 82
+Ciel
+  rotate: false
+  xy: 1446, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 83
+Ciel
+  rotate: false
+  xy: 2168, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 84
+Ciel
+  rotate: false
+  xy: 2168, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 25
+Ciel
+  rotate: false
+  xy: 2890, 2
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 85
+Ciel
+  rotate: false
+  xy: 2, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 87
+Ciel
+  rotate: false
+  xy: 724, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 88
+Ciel
+  rotate: false
+  xy: 1446, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 90
+Ciel
+  rotate: false
+  xy: 2168, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 91
+Ciel
+  rotate: false
+  xy: 2890, 516
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 93
+Ciel
+  rotate: false
+  xy: 2, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 94
+Ciel
+  rotate: false
+  xy: 2, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 44
+Ciel
+  rotate: false
+  xy: 724, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 96
+Ciel
+  rotate: false
+  xy: 1446, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 97
+Ciel
+  rotate: false
+  xy: 2168, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 98
+Ciel
+  rotate: false
+  xy: 2168, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 2
+Ciel
+  rotate: false
+  xy: 2890, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 99
+Ciel
+  rotate: false
+  xy: 2890, 1030
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: 0

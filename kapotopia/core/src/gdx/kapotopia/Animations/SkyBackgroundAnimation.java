@@ -11,11 +11,11 @@ public class SkyBackgroundAnimation extends AnimationAbstract {
 
     public SkyBackgroundAnimation(Animation.PlayMode playMode) {
 
-        TextureAtlas atlas = AssetsManager.getInstance().getAtlasByPath("World1/Game1/sky2.atlas");
-        Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("sky");
+        TextureAtlas atlas = AssetsManager.getInstance().getAtlasByPath("World1/Game1/nightsky.atlas");
+        Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("Ciel");
         TextureAtlas.AtlasRegion[] array = r.toArray();
 
-        setAnimation(new AnimationBuilder(0.5f).withPlayMode(playMode)
+        setAnimation(new AnimationBuilder(0.05f).withPlayMode(playMode)
                 .addFrames(array).build());
     }
 }

@@ -102,10 +102,6 @@ public class mockupG1 extends CinematicScreen {
         final Image sky = ImageHelper.getBackground(game.viewport, "World1/Game1/Ciel.png");
         final Image leaves = ImageHelper.getBackground(game.viewport, "World1/Game1/Feuilles.png");
 
-        final Image mireille = new ImageBuilder().withTexture("MireilleImages/Mireille.png").build();
-        mireille.setScale(scalling_factor);
-        mireille.setPosition(ww / 4f, 0);
-
         final Image mireilleCrying = new ImageBuilder().withTexture("MireilleImages/MireillePleure.png").build();
         mireilleCrying.setScale(scalling_factor);
         mireilleCrying.setPosition(ww / 4f, 0);
@@ -137,14 +133,12 @@ public class mockupG1 extends CinematicScreen {
                     sky,
                     jungle,
                         leaves,
-//                        mireille,
                         bubbleLeft
                 },
                 {
                     sky,
                     jungle,
                         leaves,
-//                        mireille,
                         bubbleLeft
                 },
                 {

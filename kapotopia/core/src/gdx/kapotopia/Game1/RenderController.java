@@ -195,7 +195,8 @@ public class RenderController {
 
         backgroundBatch.begin();
 
-        backgroundBatch.draw(sky.getKeyFrame(stateTime, true),0, 0);
+        final TextureRegion skyFrame = sky.getKeyFrame(stateTime, true);
+        backgroundBatch.draw(skyFrame,0, game.viewport.getWorldHeight() - skyFrame.getRegionHeight());
         backgroundBatch.draw(trees, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),
                 0, 0,720,1280, false, false);
         backgroundBatch.draw(eyes.getKeyFrame(stateTime, true),0, 0);
