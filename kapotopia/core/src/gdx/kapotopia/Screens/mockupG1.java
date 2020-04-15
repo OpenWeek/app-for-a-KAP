@@ -192,8 +192,6 @@ public class mockupG1 extends CinematicScreen {
         */
         // Camera
         this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
-        this.camera.position.set(0, 0,0); // I dont understand why, but this works. If someone knows plz explain me. F.D.
-        this.camera.update();
         game.viewport.setCamera(camera);
         // Making Animations
         batch = new SpriteBatch();
@@ -224,12 +222,11 @@ public class mockupG1 extends CinematicScreen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        stateTime += delta;
-
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
         if (getCurrentSeqIndex() == 0 || getCurrentSeqIndex() == 1) {
+            stateTime += delta;
             batch.begin();
             final TextureRegion m = mireilleBlink.getKeyFrame(stateTime, true);
             batch.draw(m, camera.viewportWidth / 4f, 0,0,0,

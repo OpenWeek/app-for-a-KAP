@@ -15,7 +15,7 @@ public class EvilTomAnimation extends AnimationAbstract {
         Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("tom");
         TextureAtlas.AtlasRegion[] array = r.toArray();
 
-        setAnimation(new AnimationBuilder(0.05f).withPlayMode(playMode)
+        setAnimation(new AnimationBuilder(0.03f).withPlayMode(playMode)
                 .addFrames(array).build());
     }
 }

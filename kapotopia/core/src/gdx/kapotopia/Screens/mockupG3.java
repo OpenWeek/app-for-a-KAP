@@ -2,10 +2,16 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.sun.org.apache.bcel.internal.generic.FALOAD;
 
+import gdx.kapotopia.Animations.EvilTomAnimation;
 import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Align;
@@ -19,6 +25,14 @@ import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 
 public class mockupG3 extends CinematicScreen {
+
+    private final float scalling_factor = 0.6f;
+
+    private OrthographicCamera camera;
+    private SpriteBatch batch;
+
+    private Animation<TextureRegion> evilTom;
+    private float stateTime;
 
     public mockupG3(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG3");
@@ -75,7 +89,6 @@ public class mockupG3 extends CinematicScreen {
                 }
         };
 
-        final float scalling_factor = 0.6f;
         // Backgrounds
         final Image house = ImageHelper.getBackground(game.viewport, "game3/intro/Monde2Ecran1.png");
         final Image inside = ImageHelper.getBackground(game.viewport, "game3/intro/Monde2Ecran2.png");
@@ -132,7 +145,7 @@ public class mockupG3 extends CinematicScreen {
                 },
                 {
                     inside,
-                        tom,
+                        //tom,
                         bubbleRight
                 },
                 {
@@ -141,6 +154,17 @@ public class mockupG3 extends CinematicScreen {
                         bigBubble
                 }
         };
+
+        /* EXTRAS */
+        // Camera
+        this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+        game.viewport.setCamera(camera);
+        // Making Animations
+        batch = new SpriteBatch();
+            evilTom = new EvilTomAnimation(Animation.PlayMode.NORMAL).getAnimation();
+        stateTime = 0f;
+
+        /* ENDING */
 
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME3)
         .withImages(images).withLabels(labels).withFinishBtn(false).withNextBtnStyle(UseFont.CLASSIC_BOLD_NORMAL_WHITE));
@@ -156,7 +180,21 @@ public class mockupG3 extends CinematicScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+
+
+
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        if (getCurrentSeqIndex() == 4) {
+            stateTime += delta;
+            batch.begin();
+            final TextureRegion t = evilTom.getKeyFrame(stateTime, false);
+            batch.draw(t, camera.viewportWidth * 0.075f, camera.viewportHeight * 0.04f,
+                    0, 0, t.getRegionWidth(), t.getRegionHeight(), scalling_factor, scalling_factor, 0);
+            batch.end();
+        }
     }
 }
