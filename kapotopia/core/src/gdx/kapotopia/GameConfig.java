@@ -5,8 +5,8 @@ import com.badlogic.gdx.utils.Logger;
 public class GameConfig {
 
     // TODO changer VERSION_NAME ET VERSION_CODE à chaque fois que l'on update le jeu, pas trouvé de moyen pour les liés automatiquement au gradle build d'android
-    public static final String VERSION_NAME = "Alpha-0.4.1";
-    public static final int VERSION_CODE = 14;
+    public static final String VERSION_NAME = "Alpha-0.4.2";
+    public static final int VERSION_CODE = 15;
 
     public static final float GAME_WIDTH = 720;
     public static final float GAME_HEIGHT = 1280;
