@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.Animations.NeonDoorAnimation;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Sound.SoundHelper;
@@ -64,10 +65,10 @@ public class MainMenu implements Screen {
         this.backgroundBatch = new SpriteBatch();
         stateTime = 0f;
 
-        this.part_1 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre1.png");
+        this.part_1 = game.ass.get(AssetDescriptors.MM_PART1);
         this.part_2 = new NeonDoorAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
-        this.part_3 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre3.png");
-        this.part_4 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalBoutons.png");
+        this.part_3 = game.ass.get(AssetDescriptors.MM_PART3);
+        this.part_4 = game.ass.get(AssetDescriptors.MM_PART4);
 
         // Import sounds
         this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);

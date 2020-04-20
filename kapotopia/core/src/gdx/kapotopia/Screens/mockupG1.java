@@ -229,8 +229,8 @@ public class mockupG1 extends CinematicScreen {
             stateTime += delta;
             batch.begin();
             final TextureRegion m = mireilleBlink.getKeyFrame(stateTime, true);
-            batch.draw(m, camera.viewportWidth / 4f, 0,0,0,
-                    m.getRegionWidth(), m.getRegionHeight(), scalling_factor,scalling_factor,0);
+            batch.draw(m, camera.viewportWidth / 4f, 0, 0, 0,
+                    m.getRegionWidth(), m.getRegionHeight(), scalling_factor, scalling_factor, 0);
             batch.end();
         }
     }

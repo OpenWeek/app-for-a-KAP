@@ -2,8 +2,12 @@ package gdx.kapotopia;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Screens.BilanG1;
 import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
@@ -29,6 +33,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private final String TAG = this.getClass().getSimpleName();
 
 	// COMPLEX OBJECTS
+
+	public final AssetManager ass = new AssetManager();
 
     public FitViewport viewport;
     // The value Gateway
@@ -59,6 +65,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	@Override
 	public void create () {
+		Gdx.app.setLogLevel(GameConfig.debugLvl);
+		loadInitialTextures();
 		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
@@ -66,13 +74,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.vars = new GlobalVariables();
 		this.settings = new Settings();
 		changeScreen(ScreenType.MAINMENU);
-		Gdx.app.setLogLevel(GameConfig.debugLvl);
 	}
 
 	@Override
 	public void dispose () {
 	    Gdx.app.log(TAG, "Disposing every game resources");
 		AssetsManager.getInstance().disposeAllResources();
+		this.ass.dispose();
+	}
+
+	private void loadInitialTextures() {
+		this.ass.load(AssetDescriptors.MM_PART1);
+		this.ass.load(AssetDescriptors.MM_PART3);
+		this.ass.load(AssetDescriptors.MM_PART4);
+
+		this.ass.finishLoading();
+		Gdx.app.log(TAG, this.ass.getDiagnostics());
 	}
 
 	public ValueGateway getTheValueGateway() {

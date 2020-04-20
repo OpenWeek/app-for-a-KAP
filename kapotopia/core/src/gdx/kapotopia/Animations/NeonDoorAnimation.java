@@ -10,7 +10,6 @@ import gdx.kapotopia.Helpers.Builders.AnimationBuilder;
 public class NeonDoorAnimation extends AnimationAbstract {
 
     public NeonDoorAnimation(Animation.PlayMode playMode) {
-
         TextureAtlas atlas = AssetsManager.getInstance().getAtlasByPath("EcranMenu/mainmenu_w2.atlas");
         Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("mainmenu_w2");
         TextureAtlas.AtlasRegion[] array = r.toArray();
