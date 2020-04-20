@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.Animations.DifficultyScreenHellAnimation;
 import gdx.kapotopia.Animations.DifficultyScreenInfinityAnimation;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
@@ -30,8 +31,6 @@ import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.Sound.SoundHelper;
-import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.UnlockedLevel;
 
 public class ChoosingDifficultyScreen implements Screen {
@@ -65,17 +64,17 @@ public class ChoosingDifficultyScreen implements Screen {
         this.camera.update();
 
         // Background animation
-        this.top = AssetsManager.getInstance().getTextureByPath("EcranMenu/EcranJeu1Haut.png");
-        this.backgroundHell = new DifficultyScreenHellAnimation(Animation.PlayMode.LOOP).getAnimation();
-        this.backgroundInfinity = new DifficultyScreenInfinityAnimation(Animation.PlayMode.LOOP).getAnimation();
+        this.top = game.ass.get(AssetDescriptors.DIF_PART1);
+        this.backgroundHell = new DifficultyScreenHellAnimation(game, Animation.PlayMode.LOOP).getAnimation();
+        this.backgroundInfinity = new DifficultyScreenInfinityAnimation(game, Animation.PlayMode.LOOP).getAnimation();
         this.spriteBatch = new SpriteBatch();
         stateTime = 0.1f;
 
         // Sounds
 
-        this.clic = AssetsManager.getInstance().getSoundByPath("sound/bruitage/kickhat_open-button-2.wav");
-        this.clicBlockedSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/dland_hint.wav");
-        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
+        this.clic = game.ass.get(AssetDescriptors.SOUND_CLICKED_BTN);
+        this.clicBlockedSound = game.ass.get(AssetDescriptors.SOUND_HINT);
+        this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
 
         ScreenType nextScreen = (ScreenType) game.getTheValueGateway().removeFromTheStore("nextscreen");
         if(nextScreen == null)

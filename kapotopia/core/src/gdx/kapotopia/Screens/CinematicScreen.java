@@ -3,6 +3,7 @@ package gdx.kapotopia.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.Iterator;
 
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.DialogsScreen.DialogueElement;
 import gdx.kapotopia.DialogsScreen.FixedDialogueSequence;
@@ -72,9 +74,9 @@ public abstract class CinematicScreen implements Screen {
      * @param labels a list of labels to be displayed at the same time as the images
      * @param labelsBigList a matrix of labels to display multiple labels per Sequence Element.
      * @param fondPath the path of the background shown when the finish button appear
-     * @param changeOfImageSoundPath the path of the sound file that plays when screen is changed
-     * @param endSoundPath the path of the sound file that plays before the screen is changed to @nextScreen
-     * @param pauseSoundPath the path of the sound file that plays when the game is paused
+     * @param changeOfImageSoundDescr the path of the sound file that plays when screen is changed
+     * @param endSoundDescr the path of the sound file that plays before the screen is changed to @nextScreen
+     * @param pauseSoundDescr the path of the sound file that plays when the game is paused
      * @param nextBtnLabel the text displayed by the "next" button
      * @param finishBtnLabel the text displayed by the "finish" button
      * @param nextBtnFont the font used by the last button
@@ -84,8 +86,10 @@ public abstract class CinematicScreen implements Screen {
      * @param withFinishBtn define if there are a final button appearing (typically "play") or if after the last Image the game directly change to the next screen
      */
     private void builder(final ScreenType nextScreen,
-                         Image[] images, Image[][] imagesBigList, String[] imagesTexturePaths, Label[] labels, Label[][] labelsBigList, String fondPath, String changeOfImageSoundPath,
-                         String endSoundPath, String pauseSoundPath, String nextBtnLabel,
+                         Image[] images, Image[][] imagesBigList, String[] imagesTexturePaths,
+                         Label[] labels, Label[][] labelsBigList, String fondPath,
+                         AssetDescriptor<Sound> changeOfImageSoundDescr, AssetDescriptor<Sound> endSoundDescr,
+                         AssetDescriptor<Sound> pauseSoundDescr, String nextBtnLabel,
                          String finishBtnLabel, UseFont nextBtnFont, UseFont finishBtnFont,
                          final float timerScheduleTime, final int vibrationTime, final boolean withFinishBtn) {
         // Graphics
@@ -97,9 +101,10 @@ public abstract class CinematicScreen implements Screen {
         this.fond.setVisible(false);
         this.stage.addActor(this.fond);
         // Sounds
-        this.changeOfImageSound = AssetsManager.getInstance().getSoundByPath(changeOfImageSoundPath);
-        this.endSound = AssetsManager.getInstance().getSoundByPath(endSoundPath);
-        this.pauseSound = AssetsManager.getInstance().getSoundByPath(pauseSoundPath);
+        loadAssets(changeOfImageSoundDescr, endSoundDescr, pauseSoundDescr);
+        this.changeOfImageSound = game.ass.get(changeOfImageSoundDescr);
+        this.endSound = game.ass.get(endSoundDescr);
+        this.pauseSound = game.ass.get(pauseSoundDescr);
         // Buttons
         TextButton.TextButtonStyle styleNextBtn = FontHelper.getStyleFont(nextBtnFont);
         TextButton.TextButtonStyle styleFinishBtn = FontHelper.getStyleFont(finishBtnFont);
@@ -144,6 +149,21 @@ public abstract class CinematicScreen implements Screen {
         this.stage.addActor(this.finish);
     }
 
+    private void loadAssets(AssetDescriptor<Sound> changeOfImageSound, AssetDescriptor<Sound> endSound,
+                            AssetDescriptor<Sound> pauseSound) {
+        boolean needToLoad = false;
+        if (!game.ass.containsAsset(changeOfImageSound)) {
+            game.ass.load(changeOfImageSound);
+        }
+        if (!game.ass.containsAsset(endSound)) {
+            game.ass.load(endSound);
+        }
+        if (!game.ass.containsAsset(pauseSound)) {
+            game.ass.load(pauseSound);
+        }
+        game.ass.finishLoading();
+    }
+
     /**
      * Initialize the basic variables using the game, the stage and the screenName.
      * ATTENTION : the method *applyBundle* MUST come after this call ! Or nothing will appear on the screen
@@ -176,8 +196,8 @@ public abstract class CinematicScreen implements Screen {
      */
     protected void applyBundle(ParameterBundleBuilder params) {
         builder(params.getNextScreen(), params.getImages(), params.getImagesBigList(), params.getImagesTexturePaths(),
-                params.getLabels(), params.getLabelsBigList(), params.getFondPath(), params.getChangeOfImageSoundPath(),
-                params.getEndSoundPath(), params.getPauseSoundPath(), params.getNextBtnLabel(),
+                params.getLabels(), params.getLabelsBigList(), params.getFondPath(), params.getChangeOfImageSound(),
+                params.getEndSound(), params.getPauseSound(), params.getNextBtnLabel(),
                 params.getFinishBtnLabel(), params.getNextBtnFont(), params.getFinishBtnFont(),
                 params.getTimerScheduleTime(), params.getVibrationTime(), params.getWithFinishBtn());
         initialized = true;
@@ -303,9 +323,9 @@ public abstract class CinematicScreen implements Screen {
         private Label[] labels;
         private Label[][] labelsBigList;
         private String fondPath;
-        private String changeOfImageSoundPath;
-        private String endSoundPath;
-        private String pauseSoundPath;
+        private AssetDescriptor<Sound> changeOfImageSound;
+        private AssetDescriptor<Sound> endSound;
+        private AssetDescriptor<Sound> pauseSound;
         private String nextBtnLabel;
         private String finishBtnLabel;
         private UseFont nextBtnFont;
@@ -321,9 +341,9 @@ public abstract class CinematicScreen implements Screen {
             this.imagesTexturePaths = null;
             this.labels = null;
             this.fondPath = "FondNiveauBlanc2.png";
-            this.changeOfImageSoundPath = "sound/bruitage/cmdrobot_videogame-jump.ogg";
-            this.endSoundPath = "sound/bruitage/plasterbrain_game-start.ogg";
-            this.pauseSoundPath = "sound/bruitage/crisstanza_pause.mp3";
+            this.changeOfImageSound = AssetDescriptors.SOUND_JUMP_V1;
+            this.endSound = AssetDescriptors.SOUND_GAMESTART;
+            this.pauseSound = AssetDescriptors.SOUND_PAUSE;
             this.nextBtnLabel = "Next";
             this.finishBtnLabel = "Play";
             this.nextBtnFont = UseFont.CLASSIC_SANS_NORMAL_BLACK;
@@ -363,18 +383,18 @@ public abstract class CinematicScreen implements Screen {
             return this;
         }
 
-        public ParameterBundleBuilder withSoundToChangeImg(String changeOfImageSoundPath) {
-            this.changeOfImageSoundPath = changeOfImageSoundPath;
+        public ParameterBundleBuilder withSoundToChangeImg(AssetDescriptor<Sound> changeOfImageSound) {
+            this.changeOfImageSound = changeOfImageSound;
             return this;
         }
 
-        public ParameterBundleBuilder withSoundToEnd(String soundToEnd) {
-            this.endSoundPath = soundToEnd;
+        public ParameterBundleBuilder withSoundToEnd(AssetDescriptor<Sound> soundToEnd) {
+            this.endSound = soundToEnd;
             return this;
         }
 
-        public ParameterBundleBuilder withSoundToPause(String pauseSoundPath) {
-            this.pauseSoundPath = pauseSoundPath;
+        public ParameterBundleBuilder withSoundToPause(AssetDescriptor<Sound> pauseSound) {
+            this.pauseSound = pauseSound;
             return this;
         }
 
@@ -437,16 +457,16 @@ public abstract class CinematicScreen implements Screen {
             return fondPath;
         }
 
-        public String getChangeOfImageSoundPath() {
-            return changeOfImageSoundPath;
+        public AssetDescriptor<Sound> getChangeOfImageSound() {
+            return changeOfImageSound;
         }
 
-        public String getEndSoundPath() {
-            return endSoundPath;
+        public AssetDescriptor<Sound> getEndSound() {
+            return endSound;
         }
 
-        public String getPauseSoundPath() {
-            return pauseSoundPath;
+        public AssetDescriptor<Sound> getPauseSound() {
+            return pauseSound;
         }
 
         public String getNextBtnLabel() {

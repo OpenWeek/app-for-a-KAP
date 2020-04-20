@@ -11,8 +11,10 @@ import gdx.kapotopia.Kapotopia;
 public class EvilTomAnimation extends AnimationAbstract {
 
     public EvilTomAnimation(Kapotopia game, Animation.PlayMode playMode) {
-        if(!game.ass.containsAsset(AssetDescriptors.ANIM_EVIL_TOM))
+        if(!game.ass.containsAsset(AssetDescriptors.ANIM_EVIL_TOM)) {
             game.ass.load(AssetDescriptors.ANIM_EVIL_TOM);
+            game.ass.finishLoadingAsset(AssetDescriptors.ANIM_EVIL_TOM);
+        }
         TextureAtlas atlas = game.ass.get(AssetDescriptors.ANIM_EVIL_TOM);
         Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("tom");
         TextureAtlas.AtlasRegion[] array = r.toArray();

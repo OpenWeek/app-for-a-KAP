@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Sound.SoundHelper;
-import gdx.kapotopia.Sound.UseSound;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Screens.Game1;
 
@@ -27,7 +25,6 @@ public class SoundController {
 
     // Constants
     private final String TAG = this.getClass().getSimpleName();
-    private final String MUSICPATH = "sound/Musique_fast_chiptune.ogg";
 
     public SoundController(Kapotopia game, Game1 game1) {
         this.game = game;
@@ -35,20 +32,20 @@ public class SoundController {
 
         // Musicsthis.music = prepareMusic();
         this.music = prepareMusic();
-        this.musicJ = AssetsManager.getInstance().getMusicByPath("sound/bgm.ogg");
+        this.musicJ = game.ass.get(AssetDescriptors.MUSIC_J);
         this.musicJ.setLooping(true);
         this.musicJ.setPosition(0);
         // Sounds
-        this.touchedSound = SoundHelper.getSound(UseSound.PUNCH);
-        this.failSound = SoundHelper.getSound(UseSound.FAIL);
-        this.jumpSound = SoundHelper.getSound(UseSound.JUMP_V2);
-        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
-        this.istTouchedSound = SoundHelper.getSound(UseSound.COIN);
-        this.successSound = SoundHelper.getSound(UseSound.SUCCESS);
+        this.touchedSound = game.ass.get(AssetDescriptors.SOUND_PUNCH);
+        this.failSound = game.ass.get(AssetDescriptors.SOUND_FAIL);
+        this.jumpSound = game.ass.get(AssetDescriptors.SOUND_JUMP_V2);
+        this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
+        this.istTouchedSound = game.ass.get(AssetDescriptors.SOUND_COIN);
+        this.successSound = game.ass.get(AssetDescriptors.SOUND_SUCCESS);
     }
 
     private Music prepareMusic() {
-        Music music = AssetsManager.getInstance().getMusicByPath(MUSICPATH);
+        Music music = game.ass.get(AssetDescriptors.MUSIC_GAME1);
         music.setPosition(0f);
         music.setLooping(false);
         music.setVolume(0.66f);

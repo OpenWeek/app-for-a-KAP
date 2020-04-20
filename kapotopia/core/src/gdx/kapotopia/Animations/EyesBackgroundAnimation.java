@@ -11,8 +11,10 @@ import gdx.kapotopia.Kapotopia;
 public class EyesBackgroundAnimation extends AnimationAbstract {
 
     public EyesBackgroundAnimation(Kapotopia game, Animation.PlayMode playMode) {
-        if(!game.ass.containsAsset(AssetDescriptors.ANIM_EYES))
+        if(!game.ass.containsAsset(AssetDescriptors.ANIM_EYES)) {
             game.ass.load(AssetDescriptors.ANIM_EYES);
+            game.ass.finishLoadingAsset(AssetDescriptors.ANIM_EYES);
+        }
         TextureAtlas atlas = game.ass.get(AssetDescriptors.ANIM_EYES);
         Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("eyes");
         TextureAtlas.AtlasRegion[] array = r.toArray();

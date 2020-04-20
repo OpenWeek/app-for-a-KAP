@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import gdx.kapotopia.*;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Game3.Core;
@@ -38,6 +39,9 @@ public class Game3 implements Screen {
     public Game3(final Kapotopia game) {
 
         this.game = game;
+
+        loadAssets();
+
         inGame = true;
         popStage = new Stage(game.viewport);
 
@@ -74,7 +78,7 @@ public class Game3 implements Screen {
         // Sounds and musics
         this.musicOn = game.getSettings().isMusicOn();
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
-        this.music = AssetsManager.getInstance().getMusicByPath("sound/one_eyed_maestro.mp3");
+        this.music = game.ass.get(AssetDescriptors.MUSIC_GAME3);
         this.music.setLooping(true);
 
         stage.addActor(imgFond);
@@ -82,6 +86,12 @@ public class Game3 implements Screen {
         stage.addActor(imgFond3);
         AssetsManager.getInstance().addStage(stage, "game3");
 
+    }
+
+    private void loadAssets() {
+        game.ass.load(AssetDescriptors.MUSIC_GAME3);
+
+        game.ass.finishLoading();
     }
 
     public Core getCore(){return core;}

@@ -18,9 +18,7 @@ import gdx.kapotopia.Animations.NeonDoorAnimation;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Sound.SoundHelper;
 import gdx.kapotopia.Fonts.UseFont;
-import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
@@ -71,9 +69,8 @@ public class MainMenu implements Screen {
         this.part_4 = game.ass.get(AssetDescriptors.MM_PART4);
 
         // Import sounds
-        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
-        //final Sound blocked = SoundHelper.getSound(UseSound.HINT);
-        this.music = AssetsManager.getInstance().getMusicByPath("sound/breaktime.mp3");
+        this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
+        this.music = game.ass.get(AssetDescriptors.MUSIC_MM);
         music.setPosition(0f);
         music.setLooping(true);
 

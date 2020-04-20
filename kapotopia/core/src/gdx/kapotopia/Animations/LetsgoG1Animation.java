@@ -11,8 +11,10 @@ import gdx.kapotopia.Kapotopia;
 public class LetsgoG1Animation extends AnimationAbstract {
 
     public LetsgoG1Animation(Kapotopia game, Animation.PlayMode playMode) {
-        if(!game.ass.containsAsset(AssetDescriptors.ANIM_ACTIONTEXT))
+        if(!game.ass.containsAsset(AssetDescriptors.ANIM_ACTIONTEXT)) {
             game.ass.load(AssetDescriptors.ANIM_ACTIONTEXT);
+            game.ass.finishLoadingAsset(AssetDescriptors.ANIM_ACTIONTEXT);
+        }
         TextureAtlas atlas = game.ass.get(AssetDescriptors.ANIM_ACTIONTEXT);
         Array<TextureAtlas.AtlasRegion> r = atlas.findRegions("actiontext");
         TextureAtlas.AtlasRegion[] array = r.toArray();

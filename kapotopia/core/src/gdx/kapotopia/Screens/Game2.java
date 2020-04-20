@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.util.ArrayList;
 
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
@@ -97,6 +98,9 @@ public class Game2 implements Screen {
         screenWidth = game.viewport.getWorldWidth();
 
         this.game = game;
+
+        loadAssets();
+
         Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Sable.png"));
         Image imgBckground2 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Mer.png"));
         Image imgBckground3 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"ciel.png"));
@@ -118,7 +122,7 @@ public class Game2 implements Screen {
         // Sounds and Music
         this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
         this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
-        this.music = AssetsManager.getInstance().getMusicByPath("sound/verano_sensual.mp3");
+        this.music = game.ass.get(AssetDescriptors.MUSIC_GAME2);
         this.music.setPosition(0f);
         this.music.setLooping(true);
 
@@ -188,6 +192,13 @@ public class Game2 implements Screen {
         }
 
         AssetsManager.getInstance().addStage(stage, "game2");
+    }
+
+    private void loadAssets() {
+        game.ass.load(AssetDescriptors.MUSIC_GAME2);
+
+        game.ass.finishLoading();
+        Gdx.app.log(TAG, game.ass.getDiagnostics());
     }
 
     @Override

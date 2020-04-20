@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.HashSet;
 
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game1.GameController;
 import gdx.kapotopia.Game1.MireilleListener;
@@ -44,6 +45,8 @@ public class Game1 implements Screen, MireilleListener {
         this.game = game;
         this.stage = new Stage(game.viewport);
 
+        loadAssets();
+
         this.gameController = new GameController(game, this);
         this.gameController.init();
         this.renderController = new RenderController(game, this, stage);
@@ -53,6 +56,23 @@ public class Game1 implements Screen, MireilleListener {
         stateTime = 0f;
 
         AssetsManager.getInstance().addStage(stage, TAG);
+    }
+
+    private void loadAssets() {
+        // Musics
+        game.ass.load(AssetDescriptors.MUSIC_GAME1);
+        game.ass.load(AssetDescriptors.MUSIC_J);
+        // Sounds
+        game.ass.load(AssetDescriptors.SOUND_FAIL);
+        game.ass.load(AssetDescriptors.SOUND_JUMP_V1);
+        game.ass.load(AssetDescriptors.SOUND_JUMP_V2);
+        game.ass.load(AssetDescriptors.SOUND_PUNCH);
+        game.ass.load(AssetDescriptors.SOUND_FAIL);
+        game.ass.load(AssetDescriptors.SOUND_COIN);
+        game.ass.load(AssetDescriptors.SOUND_SUCCESS);
+
+        game.ass.finishLoading();
+        Gdx.app.log(TAG, game.ass.getDiagnostics());
     }
 
     @Override

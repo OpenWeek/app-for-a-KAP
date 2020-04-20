@@ -14,10 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Sound.SoundHelper;
 import gdx.kapotopia.Fonts.UseFont;
-import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
@@ -57,9 +56,9 @@ public class Options implements Screen {
         fond = new ImageBuilder().withTexture("EcranMenu/EcranOption.png").isVisible(true).build();
         skin = AssetsManager.getInstance().getSkinByPath("skins/comic/skin/comic-ui.json");
 
-        pauseSound = SoundHelper.getSound(UseSound.PAUSE);
-        soundOnSound = SoundHelper.getSound(UseSound.BOUP9);
-        soundOffSound = SoundHelper.getSound(UseSound.BOUP1);
+        pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
+        soundOnSound = game.ass.get(AssetDescriptors.SOUND_BOUP9);
+        soundOffSound = game.ass.get(AssetDescriptors.SOUND_BOUP1);
 
         languageSelect = new SelectBoxBuilder<String>().withSkin(skin).withItems(settings.getSupportedLangsText())
                 .withPosition(game.viewport.getWorldWidth() / 4, 300)

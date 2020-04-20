@@ -8,18 +8,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Bilan1.RenderController;
-import gdx.kapotopia.Sound.SoundHelper;
 import gdx.kapotopia.Fonts.UseFont;
-import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.Bilan1.BilanController;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
@@ -128,9 +126,10 @@ public class BilanG1 implements Screen {
         stage.addActor(next);
 
         // Sounds
-        this.fail = SoundHelper.getSound(UseSound.FAIL);
-        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
-        this.openSound = SoundHelper.getSound(UseSound.JUMP_V1);
+
+        this.fail = game.ass.get(AssetDescriptors.SOUND_FAIL);
+        this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
+        this.openSound = game.ass.get(AssetDescriptors.SOUND_JUMP_V1);
 
         AssetsManager.getInstance().addStage(stage, TAG);
     }

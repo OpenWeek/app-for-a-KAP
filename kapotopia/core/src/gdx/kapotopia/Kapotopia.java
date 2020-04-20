@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.awt.font.TextHitInfo;
+
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Screens.BilanG1;
@@ -84,9 +86,20 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	}
 
 	private void loadInitialTextures() {
+		// Graphics
 		this.ass.load(AssetDescriptors.MM_PART1);
+		this.ass.load(AssetDescriptors.ANIM_NEON_DOOR);
 		this.ass.load(AssetDescriptors.MM_PART3);
 		this.ass.load(AssetDescriptors.MM_PART4);
+		this.ass.load(AssetDescriptors.DIF_PART1);
+		// Sounds
+		this.ass.load(AssetDescriptors.MUSIC_MM);
+		this.ass.load(AssetDescriptors.SOUND_PAUSE);
+		this.ass.load(AssetDescriptors.SOUND_GAMESTART);
+		this.ass.load(AssetDescriptors.SOUND_BOUP1);
+		this.ass.load(AssetDescriptors.SOUND_BOUP9);
+		this.ass.load(AssetDescriptors.SOUND_CLICKED_BTN);
+		this.ass.load(AssetDescriptors.SOUND_HINT);
 
 		this.ass.finishLoading();
 		Gdx.app.log(TAG, this.ass.getDiagnostics());

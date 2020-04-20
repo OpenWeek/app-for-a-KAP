@@ -14,11 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.*;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Sound.SoundHelper;
 import gdx.kapotopia.Fonts.UseFont;
-import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 
@@ -37,7 +36,7 @@ public class World2 implements Screen {
 
         stage.addActor(imgFond);
 
-        this.gameStart = SoundHelper.getSound(UseSound.GAMESTART);
+        this.gameStart = game.ass.get(AssetDescriptors.SOUND_GAMESTART);
 
         TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
 

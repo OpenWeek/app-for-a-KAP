@@ -202,8 +202,6 @@ public class mockupG1 extends CinematicScreen {
         applyBundle(new ParameterBundleBuilder(ScreenType.DIF)
                 .withImages(images).withFinishBtn(false)
                 .withNextBtnStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE).withTimerScheduleTime(0).withLabels(labels));
-        // Preload this sound for the BilanG1 screen
-        AssetsManager.getInstance().getSoundByPath("sound/bruitage/littlerainyseasons_fail.mp3");
     }
 
     @Override

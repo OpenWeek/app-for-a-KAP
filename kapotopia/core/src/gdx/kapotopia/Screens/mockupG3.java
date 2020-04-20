@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.sun.org.apache.bcel.internal.generic.FALOAD;
 
 import gdx.kapotopia.Animations.EvilTomAnimation;
 import gdx.kapotopia.Fonts.UseFont;
