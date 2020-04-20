@@ -161,7 +161,7 @@ public class mockupG3 extends CinematicScreen {
         game.viewport.setCamera(camera);
         // Making Animations
         batch = new SpriteBatch();
-            evilTom = new EvilTomAnimation(Animation.PlayMode.NORMAL).getAnimation();
+        evilTom = new EvilTomAnimation(game, Animation.PlayMode.NORMAL).getAnimation();
         stateTime = 0f;
 
         /* ENDING */

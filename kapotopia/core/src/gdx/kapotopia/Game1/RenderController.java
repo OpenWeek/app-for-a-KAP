@@ -100,12 +100,12 @@ public class RenderController {
         this.camera.update();
 
         // Graphisms and animations
-        this.sky = new SkyBackgroundAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
+        this.sky = new SkyBackgroundAnimation(game, Animation.PlayMode.LOOP_RANDOM).getAnimation();
         this.trees = AssetsManager.getInstance().getTextureByPath("World1/Game1/Jungle.png");
-        this.eyes = new EyesBackgroundAnimation(Animation.PlayMode.LOOP).getAnimation();
-        this.leaves = new LeavesBackgroundAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
+        this.eyes = new EyesBackgroundAnimation(game, Animation.PlayMode.LOOP).getAnimation();
+        this.leaves = new LeavesBackgroundAnimation(game, Animation.PlayMode.LOOP_RANDOM).getAnimation();
 
-        this.letsGoAnimation = new LetsgoG1Animation(Animation.PlayMode.NORMAL).getAnimation();
+        this.letsGoAnimation = new LetsgoG1Animation(game, Animation.PlayMode.NORMAL).getAnimation();
         this.animationSpriteBatch = new SpriteBatch();
         this.backgroundBatch = new SpriteBatch();
 

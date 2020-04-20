@@ -44,7 +44,7 @@ public class Options implements Screen {
     private Sound soundOnSound;
     private Sound soundOffSound;
 
-    private SelectBox<String> languageSelect;
+    private SelectBox languageSelect;
     private ImageButton soundOnBtn;
     private ImageButton soundOffBtn;
     private TextButton backBtn;
@@ -69,7 +69,7 @@ public class Options implements Screen {
                 .addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        String selectedLang = languageSelect.getSelected();
+                        String selectedLang = (String) languageSelect.getSelected();
                         settings.setLanguage(selectedLang);
                     }
                 }).build();

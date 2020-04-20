@@ -66,7 +66,7 @@ public class MainMenu implements Screen {
         stateTime = 0f;
 
         this.part_1 = game.ass.get(AssetDescriptors.MM_PART1);
-        this.part_2 = new NeonDoorAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
+        this.part_2 = new NeonDoorAnimation(game, Animation.PlayMode.LOOP_RANDOM).getAnimation();
         this.part_3 = game.ass.get(AssetDescriptors.MM_PART3);
         this.part_4 = game.ass.get(AssetDescriptors.MM_PART4);
 

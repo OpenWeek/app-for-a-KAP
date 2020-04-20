@@ -3,10 +3,11 @@ package gdx.kapotopia.Animations;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 import gdx.kapotopia.Helpers.Builders.AnimationBuilder;
+import gdx.kapotopia.Kapotopia;
 
 public class MireilleCoucouAnimation extends AnimationAbstract {
 
-    public MireilleCoucouAnimation(Animation.PlayMode playMode) {
+    public MireilleCoucouAnimation(Kapotopia game, Animation.PlayMode playMode) {
         String [] FRAMES = {
                 "MireilleImages/MireilleCoucou_1.png",
                 "MireilleImages/MireilleCoucou_2.png",

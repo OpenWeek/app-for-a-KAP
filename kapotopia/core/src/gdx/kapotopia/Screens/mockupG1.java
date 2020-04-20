@@ -195,7 +195,7 @@ public class mockupG1 extends CinematicScreen {
         game.viewport.setCamera(camera);
         // Making Animations
         batch = new SpriteBatch();
-        mireilleBlink = new MireilleBlinkingAnimation(Animation.PlayMode.LOOP_PINGPONG).getAnimation();
+        mireilleBlink = new MireilleBlinkingAnimation(game, Animation.PlayMode.LOOP_PINGPONG).getAnimation();
         stateTime = 0f;
 
         /* ENDING */
