@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import gdx.kapotopia.DialogsScreen.DialogueElement;
 import gdx.kapotopia.DialogsScreen.FixedDialogueSequence;
+import gdx.kapotopia.Kapotopia;
 
 public class FixedDialogSeqBuilder {
 
@@ -33,7 +34,7 @@ public class FixedDialogSeqBuilder {
      * @param labelsBigList a matrix of Labels. Each row is a new SequenceElement, every Label for each row are displayed at the same time
      * @return a new FixedDialogueSequence built with these parameters
      */
-    public static FixedDialogueSequence buildSequence(Stage stage,
+    public static FixedDialogueSequence buildSequence(Kapotopia game, Stage stage,
                                                       Image[][] imagesBigList, Image[] images,
                                                       String[] imagesTexturePaths, Label[] labels,
                                                       Label[][] labelsBigList) {
@@ -66,11 +67,11 @@ public class FixedDialogSeqBuilder {
             }
         } else if(isImagesTexturePaths) {
             if(isBigLabelsList) {
-                newSeq = new FixedDialogueSequence(ImageBuilder.convert(imagesTexturePaths), labelsBigList);
+                newSeq = new FixedDialogueSequence(ImageBuilder.convert(game, imagesTexturePaths), labelsBigList);
             } else if (isLabels) {
-                newSeq = new FixedDialogueSequence(ImageBuilder.convert(imagesTexturePaths), LabelBuilder.convert(labels));
+                newSeq = new FixedDialogueSequence(ImageBuilder.convert(game, imagesTexturePaths), LabelBuilder.convert(labels));
             } else {
-                newSeq = new FixedDialogueSequence(ImageBuilder.convert(imagesTexturePaths), LabelBuilder.createEmptyMatrix(imagesTexturePaths.length));
+                newSeq = new FixedDialogueSequence(ImageBuilder.convert(game, imagesTexturePaths), LabelBuilder.createEmptyMatrix(imagesTexturePaths.length));
             }
         } else {
             return null;

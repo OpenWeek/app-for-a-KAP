@@ -1,11 +1,13 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.GameConfig;
@@ -41,8 +43,8 @@ public class mockupG2 extends CinematicScreen {
                         .isWrapped(true)
                         .build(),
         };
-        final Image back1 = ImageHelper.getBackground(game.viewport, "World1/Game2/20_board_0.png");
-        final Image back2 = ImageHelper.getBackground(game.viewport, "World1/Game2/20_board_1.png");
+        final Image back1 = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.I2_BACK1));
+        final Image back2 = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.I2_BACK2));
         final Image[] images = {
                 back1,
                 back2

@@ -26,6 +26,7 @@ import gdx.kapotopia.Animations.EyesBackgroundAnimation;
 import gdx.kapotopia.Animations.LeavesBackgroundAnimation;
 import gdx.kapotopia.Animations.LetsgoG1Animation;
 import gdx.kapotopia.Animations.SkyBackgroundAnimation;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
@@ -81,8 +82,6 @@ public class RenderController {
     private final String HIGHSCORE_TXT = "Highscore: ";
     private final String IST_CATCHED_TXT = "Ists attrapées: ";
 
-    private final String BTN_PATH = "ImagesGadgets/Bouton.png";
-
     public  RenderController(final Kapotopia game, final Game1 game1, Stage stage) {
         this.game = game;
         this.game1 = game1;
@@ -101,7 +100,7 @@ public class RenderController {
 
         // Graphisms and animations
         this.sky = new SkyBackgroundAnimation(game, Animation.PlayMode.LOOP_RANDOM).getAnimation();
-        this.trees = AssetsManager.getInstance().getTextureByPath("World1/Game1/Jungle.png");
+        this.trees = game.ass.get(AssetDescriptors.JUNGLE);
         this.eyes = new EyesBackgroundAnimation(game, Animation.PlayMode.LOOP).getAnimation();
         this.leaves = new LeavesBackgroundAnimation(game, Animation.PlayMode.LOOP_RANDOM).getAnimation();
 
@@ -112,7 +111,7 @@ public class RenderController {
         this.jojo = new MireilleJojo(game);
 
         // Buttons
-        this.pauseIcon = new ImageButtonBuilder().withImageUp("pause_logo_2.png")
+        this.pauseIcon = new ImageButtonBuilder().withImageUp(game.ass.get(AssetDescriptors.PAUSE_LOGO))
                 .withBounds(game1.getGameController().getBounds().width - (ww / 5f),
                         game1.getGameController().getBounds().height - (wh / 10f), ww / 7.2f, wh / 25f)
                 .withListener(new ClickListener() {
@@ -140,7 +139,7 @@ public class RenderController {
         quitBtn = new ImageTextButtonBuilder(game, loc.getString("quit_button_text"))
                 .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE).withAlignment(Alignement.CENTER)
                 .withY((game1.getGameController().getBounds().getHeight() / 2) - BTN_SPACING).withPadding(Padding.STANDARD)
-                .withListener(quitEvent).withImageStyle(BTN_PATH).isVisible(false).build();
+                .withListener(quitEvent).withImageStyle(game.ass.get(AssetDescriptors.BTN)).isVisible(false).build();
 
         stage.addActor(quitBtn);
 
@@ -280,38 +279,37 @@ public class RenderController {
         title.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+            // We hide what's left on the screen
+            lifeLabel.setVisible(false);
+            title.setVisible(false);
+            highscoreLabel.setVisible(false);
+            if(endScoreLabel != null)
+                endScoreLabel.setVisible(false);
 
-                // We hide what's left on the screen
-                lifeLabel.setVisible(false);
-                title.setVisible(false);
-                highscoreLabel.setVisible(false);
-                if(endScoreLabel != null)
-                    endScoreLabel.setVisible(false);
+            // If the player missed some STI's, the game will prompt it to the player and once the player
+            // come back here, we show the different options
+            if (!game1.getGameController().getMissedIsts().isEmpty()) {
+                game.changeScreen(ScreenType.BILANG1);
+            }
 
-                // If the player missed some STI's, the game will prompt it to the player and once the player
-                // come back here, we show the different options
-                if (!game1.getGameController().getMissedIsts().isEmpty()) {
-                    game.changeScreen(ScreenType.BILANG1);
-                }
-
-                // Only if the player won we display the continue button
-                if (game1.getGameController().isVictory()) {
-                    final ImageTextButton continueBtn = new ImageTextButtonBuilder(game, "Continuer")
-                            .withFontStyle(normalFont)
-                            .withY( (game1.getGameController().getBounds().getHeight() / 2) + BTN_SPACING )
-                            .withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
-                            .withListener(continueBtnEvent).withImageStyle(BTN_PATH).build();
-
-                    stage.addActor(continueBtn);
-                }
-                final ImageTextButton restartBtn = new ImageTextButtonBuilder(game, "Recommencer")
+            // Only if the player won we display the continue button
+            if (game1.getGameController().isVictory()) {
+                final ImageTextButton continueBtn = new ImageTextButtonBuilder(game, "Continuer")
                         .withFontStyle(normalFont)
-                        .withY((game1.getGameController().getBounds().getHeight() / 2))
+                        .withY( (game1.getGameController().getBounds().getHeight() / 2) + BTN_SPACING )
                         .withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
-                        .withListener(restartBtnEvent).withImageStyle(BTN_PATH).build();
+                        .withListener(continueBtnEvent).withImageStyle(game.ass.get(AssetDescriptors.BTN)).build();
 
-                stage.addActor(restartBtn);
-                quitBtn.setVisible(true);
+                stage.addActor(continueBtn);
+            }
+            final ImageTextButton restartBtn = new ImageTextButtonBuilder(game, "Recommencer")
+                    .withFontStyle(normalFont)
+                    .withY((game1.getGameController().getBounds().getHeight() / 2))
+                    .withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
+                    .withListener(restartBtnEvent).withImageStyle(game.ass.get(AssetDescriptors.BTN)).build();
+
+            stage.addActor(restartBtn);
+            quitBtn.setVisible(true);
             }
         });
         stage.addActor(title);

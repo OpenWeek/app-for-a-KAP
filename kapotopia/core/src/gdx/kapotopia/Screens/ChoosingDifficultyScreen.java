@@ -45,8 +45,6 @@ public class ChoosingDifficultyScreen implements Screen {
 
     private final ScreenType nextScreen;
 
-    private final String BTN_PATH = "ImagesGadgets/Bouton.png";
-
     private GameDifficulty choosenDifficulty;
 
     // Animation
@@ -116,6 +114,7 @@ public class ChoosingDifficultyScreen implements Screen {
         final float WH = game.viewport.getWorldHeight();
         final Localisation loc = Localisation.getInstance();
 
+        final Texture btnTexture = game.ass.get(AssetDescriptors.BTN);
         ImageTextButton infiniteBtn = new ImageTextButtonBuilder(game, loc.getString("infinite_button"))
                 .withY(WH * 0.1f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
                 .withListener(new ChangeListener() {
@@ -128,7 +127,7 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.INFINITE);
                         }
                     }
-                }).withFontStyle(infiniteBtnFont).withImageStyle(BTN_PATH).build();
+                }).withFontStyle(infiniteBtnFont).withImageStyle(btnTexture).build();
 
         ImageTextButton hardBtn = new ImageTextButtonBuilder(game, loc.getString("hard_button"))
                 .withY(WH * 0.3f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
@@ -142,7 +141,7 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.HARD);
                         }
                     }
-                }).withFontStyle(hardBtnFont).withImageStyle(BTN_PATH).build();
+                }).withFontStyle(hardBtnFont).withImageStyle(btnTexture).build();
 
         ImageTextButton mediumBtn = new ImageTextButtonBuilder(game, loc.getString("medium_button"))
                 .withY(WH * 0.5f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
@@ -156,7 +155,7 @@ public class ChoosingDifficultyScreen implements Screen {
                             goToNextScreen(GameDifficulty.MEDIUM);
                         }
                     }
-                }).withFontStyle(mediumBtnFont).withImageStyle(BTN_PATH).build();
+                }).withFontStyle(mediumBtnFont).withImageStyle(btnTexture).build();
 
         ImageTextButton easyBtn = new ImageTextButtonBuilder(game, loc.getString("easy_button"))
                 .withY(WH * 0.7f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
@@ -166,7 +165,7 @@ public class ChoosingDifficultyScreen implements Screen {
                         Gdx.input.vibrate(50);
                         goToNextScreen(GameDifficulty.EASY);
                     }
-                }).withFontStyle(fontNormal).withImageStyle(BTN_PATH).build();
+                }).withFontStyle(fontNormal).withImageStyle(btnTexture).build();
 
         stage.addActor(easyBtn);
         stage.addActor(mediumBtn);

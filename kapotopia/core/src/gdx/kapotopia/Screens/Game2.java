@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -73,9 +72,7 @@ public class Game2 implements Screen {
 
     final Ball[] sittingBalls = new Ball[STInbr];
 
-    private final String GAME_PATH = "World1/Game2/";
-
-    private static final String TAG = "Screens-Game2";
+    private final String TAG = this.getClass().getSimpleName();
 
     private ChangeListener[] ballClick = new ChangeListener[STInbr];
 
@@ -101,12 +98,12 @@ public class Game2 implements Screen {
 
         loadAssets();
 
-        Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Sable.png"));
-        Image imgBckground2 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Mer.png"));
-        Image imgBckground3 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"ciel.png"));
-        Image imgBckground4 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Palmier1.png"));
-        Image imgBckground5 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Filet.png"));
-        panneau = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"UnPANNAL.png"));
+        Image imgBckground = new Image(game.ass.get(AssetDescriptors.SABLE));
+        Image imgBckground2 = new Image(game.ass.get(AssetDescriptors.SEA));
+        Image imgBckground3 = new Image(game.ass.get(AssetDescriptors.SKY));
+        Image imgBckground4 = new Image(game.ass.get(AssetDescriptors.PALMIER));
+        Image imgBckground5 = new Image(game.ass.get(AssetDescriptors.BASKET));
+        panneau = new Image(game.ass.get(AssetDescriptors.PANNAL));
         this.stage = new Stage(game.viewport);
         this.stage.addActor(imgBckground);
         this.stage.addActor(imgBckground2);
@@ -120,13 +117,13 @@ public class Game2 implements Screen {
         this.musicOn = game.getSettings().isMusicOn();
 
         // Sounds and Music
-        this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
-        this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
+        this.successSound = game.ass.get(AssetDescriptors.SOUND_SUCCESS);
+        this.nextSound = game.ass.get(AssetDescriptors.SOUND_JUMP_V1);
         this.music = game.ass.get(AssetDescriptors.MUSIC_GAME2);
         this.music.setPosition(0f);
         this.music.setLooping(true);
 
-        final Image outro0 = new Image(new Texture(GAME_PATH + "20_board_1.png"));
+        final Image outro0 = new Image(game.ass.get(AssetDescriptors.OUTRO));
         prepareMockup(outro0);
 
         /*Creation of instances for game*/
@@ -144,7 +141,8 @@ public class Game2 implements Screen {
         ballSize = screenWidth/(STInbr-1);
         sympTextSize = screenWidth/2;
 
-        livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).withStyle(CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
+        livesLabel = new LabelBuilder(loc.getString("lives_label")+lives)
+                .withStyle(CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
         stage.addActor(livesLabel);
 
         //Symptoms creation and set up (representation of symptoms)
@@ -164,7 +162,7 @@ public class Game2 implements Screen {
 
         //STI's creation and set up (representation of STI)
         for(int i = 0; i < STInbr; i++) {
-            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY, ballSize, screenHeigth, screenWidth);
+            sittingBalls[i] = new Ball(game, i, sitBalX + i * ballDelta, sitBalY, ballSize, screenHeigth, screenWidth);
         }
         for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
@@ -195,6 +193,16 @@ public class Game2 implements Screen {
     }
 
     private void loadAssets() {
+        // Graphics
+        game.ass.load(AssetDescriptors.BALL);
+        game.ass.load(AssetDescriptors.SABLE);
+        game.ass.load(AssetDescriptors.SEA);
+        game.ass.load(AssetDescriptors.SKY);
+        game.ass.load(AssetDescriptors.PALMIER);
+        game.ass.load(AssetDescriptors.BASKET);
+        game.ass.load(AssetDescriptors.PANNAL);
+        game.ass.load(AssetDescriptors.OUTRO);
+        // Sounds
         game.ass.load(AssetDescriptors.MUSIC_GAME2);
 
         game.ass.finishLoading();

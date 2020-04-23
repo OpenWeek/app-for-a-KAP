@@ -2,6 +2,7 @@ package gdx.kapotopia;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Logger;
@@ -86,13 +87,51 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	}
 
 	private void loadInitialTextures() {
-		// Graphics
+		/* Graphics */
+		this.ass.load(AssetDescriptors.BLANK_BACK);
+		// Main Menu
 		this.ass.load(AssetDescriptors.MM_PART1);
 		this.ass.load(AssetDescriptors.ANIM_NEON_DOOR);
 		this.ass.load(AssetDescriptors.MM_PART3);
 		this.ass.load(AssetDescriptors.MM_PART4);
+		// Options
+		this.ass.load(AssetDescriptors.SKIN_COMIC_UI);
+		this.ass.load(AssetDescriptors.OP_BACK);
+		this.ass.load(AssetDescriptors.OP_MUTE);
+		this.ass.load(AssetDescriptors.OP_SPEAKER);
+		// Game 1
+		this.ass.load(AssetDescriptors.B1_BACK);
+		// IntroG1
 		this.ass.load(AssetDescriptors.DIF_PART1);
-		// Sounds
+        this.ass.load(AssetDescriptors.JUNGLE);
+        this.ass.load(AssetDescriptors.SKY);
+        this.ass.load(AssetDescriptors.LEAVES);
+        this.ass.load(AssetDescriptors.CROQUIS);
+        this.ass.load(AssetDescriptors.MM_W1);
+        // IntroG2
+		this.ass.load(AssetDescriptors.I2_BACK1);
+        this.ass.load(AssetDescriptors.I2_BACK2);
+        this.ass.load(AssetDescriptors.MM_W2);
+        // IntroG3
+		this.ass.load(AssetDescriptors.I3_HOUSE);
+		this.ass.load(AssetDescriptors.I3_INSIDE);
+        // Characters
+		this.ass.load(AssetDescriptors.MI_NORMAL);
+		this.ass.load(AssetDescriptors.MI_WORRIED);
+		this.ass.load(AssetDescriptors.MI_SURPRISED);
+		this.ass.load(AssetDescriptors.MI_SCARED);
+        this.ass.load(AssetDescriptors.MI_CRY);
+        this.ass.load(AssetDescriptors.MI_TIRED);
+        this.ass.load(AssetDescriptors.SERGENT1);
+        this.ass.load(AssetDescriptors.SERGENT2);
+        this.ass.load(AssetDescriptors.GODIVA);
+        // Gadgets
+		this.ass.load(AssetDescriptors.BTN);
+        this.ass.load(AssetDescriptors.BUBBLE_EXPL);
+        this.ass.load(AssetDescriptors.BUBBLE_LEFT);
+		this.ass.load(AssetDescriptors.BUBBLE_LEFT2);
+        this.ass.load(AssetDescriptors.BUBBLE_RIGHT);
+		/* Sounds */
 		this.ass.load(AssetDescriptors.MUSIC_MM);
 		this.ass.load(AssetDescriptors.SOUND_PAUSE);
 		this.ass.load(AssetDescriptors.SOUND_GAMESTART);

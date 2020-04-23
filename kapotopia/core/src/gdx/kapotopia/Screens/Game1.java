@@ -2,10 +2,13 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.HashSet;
+import java.util.List;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
@@ -45,10 +48,16 @@ public class Game1 implements Screen, MireilleListener {
         this.game = game;
         this.stage = new Stage(game.viewport);
 
-        loadAssets();
-
         this.gameController = new GameController(game, this);
+
+        /* We need to load asset after calling creating the gamecontroller because
+         * It's in that method where we load the texture paths of the viruses.
+         * Therefore, the init method must be called after loadAssets since it's set up Virus textures
+         */
+        loadAssets(this.gameController.getIst(), this.gameController.getFake(), this.gameController.getMaybeIst());
+
         this.gameController.init();
+
         this.renderController = new RenderController(game, this, stage);
         this.soundController = new SoundController(game,this);
 
@@ -58,7 +67,19 @@ public class Game1 implements Screen, MireilleListener {
         AssetsManager.getInstance().addStage(stage, TAG);
     }
 
-    private void loadAssets() {
+    private void loadAssets(List<VirusContainer> ist, List<VirusContainer> fake, List<VirusContainer> maybeist) {
+        // Graphics
+        game.ass.load(AssetDescriptors.MI_HAPPY);
+        game.ass.load(AssetDescriptors.MI_UNI);
+        for (VirusContainer v : ist) {
+            game.ass.load(v.getTexture());
+        }
+        for (VirusContainer v : fake) {
+            game.ass.load(v.getTexture());
+        }
+        for (VirusContainer v : maybeist) {
+            game.ass.load(v.getTexture());
+        }
         // Musics
         game.ass.load(AssetDescriptors.MUSIC_GAME1);
         game.ass.load(AssetDescriptors.MUSIC_J);
@@ -74,6 +95,10 @@ public class Game1 implements Screen, MireilleListener {
         game.ass.finishLoading();
         Gdx.app.log(TAG, game.ass.getDiagnostics());
     }
+
+    /* *******************************************************
+     *              S C R E E N   M E T H O D S              *
+     ******************************************************* */
 
     @Override
     public void show() {
@@ -170,7 +195,9 @@ public class Game1 implements Screen, MireilleListener {
         gameController.scoreChanged(score);
     }
 
-    // GETTERS
+    /* ********************************************
+     *       G E T   C O N T R O L L E R S        *
+     ******************************************** */
 
     public GameController getGameController() {
         return gameController;
@@ -182,5 +209,9 @@ public class Game1 implements Screen, MireilleListener {
 
     public SoundController getSoundController() {
         return soundController;
+    }
+
+    public Kapotopia getGame() {
+        return game;
     }
 }

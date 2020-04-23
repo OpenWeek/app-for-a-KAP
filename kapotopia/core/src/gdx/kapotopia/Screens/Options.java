@@ -53,8 +53,8 @@ public class Options implements Screen {
         this.stage = new Stage(game.viewport);
         settings = game.getSettings();
 
-        fond = new ImageBuilder().withTexture("EcranMenu/EcranOption.png").isVisible(true).build();
-        skin = AssetsManager.getInstance().getSkinByPath("skins/comic/skin/comic-ui.json");
+        fond = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.OP_BACK)).isVisible(true).build();
+        skin = game.ass.get(AssetDescriptors.SKIN_COMIC_UI);
 
         pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
         soundOnSound = game.ass.get(AssetDescriptors.SOUND_BOUP9);
@@ -74,11 +74,11 @@ public class Options implements Screen {
                 }).build();
 
         final float soundBtnWidth = game.viewport.getWorldWidth() / 4;
-        soundOnBtn = new ImageButtonBuilder().withImageUp("icons/speaker.png")
+        soundOnBtn = new ImageButtonBuilder().withImageUp(game.ass.get(AssetDescriptors.OP_SPEAKER))
                 .withListener(new toggleMusicListener()).withWidth(soundBtnWidth)
                 .withPosition(game.viewport.getWorldWidth() / 3, game.viewport.getWorldHeight() / 2)
                 .isVisible(settings.isMusicOn()).build();
-        soundOffBtn = new ImageButtonBuilder().withImageUp("icons/mute.png")
+        soundOffBtn = new ImageButtonBuilder().withImageUp(game.ass.get(AssetDescriptors.OP_MUTE))
                 .withListener(new toggleMusicListener()).withWidth(soundBtnWidth)
                 .withPosition(game.viewport.getWorldWidth() / 3, game.viewport.getWorldHeight() / 2)
                 .isVisible(!settings.isMusicOn()).build();

@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -73,7 +74,7 @@ public abstract class CinematicScreen implements Screen {
      * @param imagesTexturePaths the paths of the images shown, shown by increasing order
      * @param labels a list of labels to be displayed at the same time as the images
      * @param labelsBigList a matrix of labels to display multiple labels per Sequence Element.
-     * @param fondPath the path of the background shown when the finish button appear
+     * @param fond the AssetDescriptor of the background shown when the finish button appear
      * @param changeOfImageSoundDescr the path of the sound file that plays when screen is changed
      * @param endSoundDescr the path of the sound file that plays before the screen is changed to @nextScreen
      * @param pauseSoundDescr the path of the sound file that plays when the game is paused
@@ -87,17 +88,17 @@ public abstract class CinematicScreen implements Screen {
      */
     private void builder(final ScreenType nextScreen,
                          Image[] images, Image[][] imagesBigList, String[] imagesTexturePaths,
-                         Label[] labels, Label[][] labelsBigList, String fondPath,
+                         Label[] labels, Label[][] labelsBigList, AssetDescriptor<Texture> fond,
                          AssetDescriptor<Sound> changeOfImageSoundDescr, AssetDescriptor<Sound> endSoundDescr,
                          AssetDescriptor<Sound> pauseSoundDescr, String nextBtnLabel,
                          String finishBtnLabel, UseFont nextBtnFont, UseFont finishBtnFont,
                          final float timerScheduleTime, final int vibrationTime, final boolean withFinishBtn) {
         // Graphics
-        this.sequence = FixedDialogSeqBuilder.buildSequence(stage, imagesBigList, images, imagesTexturePaths,
+        this.sequence = FixedDialogSeqBuilder.buildSequence(game, stage, imagesBigList, images, imagesTexturePaths,
                 labels, labelsBigList);
 
         this.curImg = 0;
-        this.fond = new Image(AssetsManager.getInstance().getTextureByPath(fondPath));
+        this.fond = new Image(game.ass.get(fond));
         this.fond.setVisible(false);
         this.stage.addActor(this.fond);
         // Sounds
@@ -151,7 +152,6 @@ public abstract class CinematicScreen implements Screen {
 
     private void loadAssets(AssetDescriptor<Sound> changeOfImageSound, AssetDescriptor<Sound> endSound,
                             AssetDescriptor<Sound> pauseSound) {
-        boolean needToLoad = false;
         if (!game.ass.containsAsset(changeOfImageSound)) {
             game.ass.load(changeOfImageSound);
         }
@@ -196,7 +196,7 @@ public abstract class CinematicScreen implements Screen {
      */
     protected void applyBundle(ParameterBundleBuilder params) {
         builder(params.getNextScreen(), params.getImages(), params.getImagesBigList(), params.getImagesTexturePaths(),
-                params.getLabels(), params.getLabelsBigList(), params.getFondPath(), params.getChangeOfImageSound(),
+                params.getLabels(), params.getLabelsBigList(), params.getFond(), params.getChangeOfImageSound(),
                 params.getEndSound(), params.getPauseSound(), params.getNextBtnLabel(),
                 params.getFinishBtnLabel(), params.getNextBtnFont(), params.getFinishBtnFont(),
                 params.getTimerScheduleTime(), params.getVibrationTime(), params.getWithFinishBtn());
@@ -322,7 +322,7 @@ public abstract class CinematicScreen implements Screen {
         private String[] imagesTexturePaths;
         private Label[] labels;
         private Label[][] labelsBigList;
-        private String fondPath;
+        private AssetDescriptor<Texture> fond;
         private AssetDescriptor<Sound> changeOfImageSound;
         private AssetDescriptor<Sound> endSound;
         private AssetDescriptor<Sound> pauseSound;
@@ -340,7 +340,7 @@ public abstract class CinematicScreen implements Screen {
             this.imagesBigList = null;
             this.imagesTexturePaths = null;
             this.labels = null;
-            this.fondPath = "FondNiveauBlanc2.png";
+            this.fond = AssetDescriptors.BLANK_BACK;
             this.changeOfImageSound = AssetDescriptors.SOUND_JUMP_V1;
             this.endSound = AssetDescriptors.SOUND_GAMESTART;
             this.pauseSound = AssetDescriptors.SOUND_PAUSE;
@@ -378,8 +378,8 @@ public abstract class CinematicScreen implements Screen {
             return this;
         }
 
-        public ParameterBundleBuilder withFond(String fondPath) {
-            this.fondPath = fondPath;
+        public ParameterBundleBuilder withFond(AssetDescriptor<Texture> fond) {
+            this.fond = fond;
             return this;
         }
 
@@ -453,8 +453,8 @@ public abstract class CinematicScreen implements Screen {
             return labels;
         }
 
-        public String getFondPath() {
-            return fondPath;
+        public AssetDescriptor<Texture> getFond() {
+            return fond;
         }
 
         public AssetDescriptor<Sound> getChangeOfImageSound() {

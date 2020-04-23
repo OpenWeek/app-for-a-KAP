@@ -64,7 +64,7 @@ public class BilanController {
             final float xImg = initStiImgX;
             final float yImg = yName - (wHeight * 0.025f);
             final float scalling_factor = wHeight * 0.0002f;
-            final Sprite stiImg = new Sprite(AssetsManager.getInstance().getTextureByPath(ist.getTexturePath()));
+            final Sprite stiImg = new Sprite(game.ass.get(ist.getTexture()));
             stiImg.setPosition(xImg, yImg);
             stiImg.setScale(scalling_factor);
             initStiImgX += stiImg.getWidth() / 7;

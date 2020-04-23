@@ -15,11 +15,7 @@ public abstract class EntityAbstract extends Actor implements Entity {
     private float originalX, originalY;
 
     void builderHelper(Texture texture, float X, float Y) {
-        if(texture == null) {
-            this.texture = new TextureRegion(AssetsManager.getInstance().getTextureByPath("IST/Alternariose.png"));
-        }else{
-            this.texture = new TextureRegion(texture);
-        }
+        this.texture = new TextureRegion(texture);
         this.setHeight((float) this.texture.getRegionHeight() / SCALLING_FACTOR_ENTITY);
         this.setWidth((float) this.texture.getRegionWidth() / SCALLING_FACTOR_ENTITY);
         this.setX(X);

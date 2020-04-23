@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.Animations.MireilleBlinkingAnimation;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.Align;
@@ -98,35 +99,35 @@ public class mockupG1 extends CinematicScreen {
                                 .build()
                 }
         };
-        final Image jungle = ImageHelper.getBackground(game.viewport, "World1/Game1/Jungle.png");
-        final Image sky = ImageHelper.getBackground(game.viewport, "World1/Game1/Ciel.png");
-        final Image leaves = ImageHelper.getBackground(game.viewport, "World1/Game1/Feuilles.png");
+        final Image jungle = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.JUNGLE));
+        final Image sky = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.NIGHT_SKY));
+        final Image leaves = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.LEAVES));
 
-        final Image mireilleCrying = new ImageBuilder().withTexture("MireilleImages/MireillePleure.png").build();
+        final Image mireilleCrying = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_CRY)).build();
         mireilleCrying.setScale(scalling_factor);
         mireilleCrying.setPosition(ww / 4f, 0);
 
-        final Image mireilleTired = new ImageBuilder().withTexture("MireilleImages/MireilleAChaud.png").build();
+        final Image mireilleTired = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_TIRED)).build();
         mireilleTired.setScale(scalling_factor);
         mireilleTired.setPosition(ww / 4f, 0);
 
-        final Image dildo1 = new ImageBuilder().withTexture("World1/Game1/SergendDildo.png").build();
+        final Image dildo1 = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.SERGENT1)).build();
         dildo1.setScale(scalling_factor);
         dildo1.setPosition(ww / 8f, 0);
 
-        final Image dildo2 = new ImageBuilder().withTexture("World1/Game1/SergentDildo2.png").build();
+        final Image dildo2 = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.SERGENT2)).build();
         dildo2.setScale(scalling_factor);
         dildo2.setPosition(ww / 3, 0);
 
-        final Image croquis = new ImageBuilder().withTexture("World1/Game1/Croquis.png").build();
+        final Image croquis = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.CROQUIS)).build();
         //croquis.setScale(scalling_factor / 1.5f);
         croquis.setY(explicativeBubbleBounds.getTopPad() / 4);
         Gdx.app.log(TAG, "ww / 2 :" + (ww / 2) + " | croquis.getWidth() / 2 : " + ((croquis.getWidth() / 3) / 2));
         croquis.setX((ww / 2) + (croquis.getWidth() / 2));
 
-        final Image bigBubble = new ImageBuilder().withTexture("ImagesGadgets/BulleExplicative.png").build();
-        final Image bubbleLeft = new ImageBuilder().withTexture("ImagesGadgets/Bulle1.png").build();
-        final Image bubbleRight = new ImageBuilder().withTexture("ImagesGadgets/Bulle3.png").build();
+        final Image bigBubble = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_EXPL)).build();
+        final Image bubbleLeft = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_LEFT)).build();
+        final Image bubbleRight = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_RIGHT)).build();
         /* WE DEFINE THE IMAGES THAT WILL APPEAR HERE */
         final Image[][] images = new Image[][] {
                 {

@@ -17,16 +17,6 @@ public class DialogueElement {
         labelList = labSeq;
     }
 
-    public DialogueElement(int seqNumber, String[] imagePaths, Label[] labSeq) {
-        this.seqNumber = seqNumber;
-
-        imageList = new Image[imagePaths.length];
-        for (int i = 0; i < imagePaths.length; i++) {
-            imageList[i] = new Image(AssetsManager.getInstance().getTextureByPath(imagePaths[i]));
-        }
-        labelList = labSeq;
-    }
-
     public int getSeqNumber() {
         return seqNumber;
     }

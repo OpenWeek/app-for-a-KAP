@@ -183,38 +183,11 @@ public class ImageTextButtonBuilder {
         return this;
     }
 
-    public ImageTextButtonBuilder withImageStyle(String path) {
-        final Drawable image = new TextureRegionDrawable(new TextureRegion(
-                AssetsManager.getInstance().getTextureByPath(path)));
-        this.imageStyle = new Button.ButtonStyle(image, image, image);
-        return this;
-    }
-
     public ImageTextButtonBuilder withImageStyle(Texture texture) {
         final Drawable image = new TextureRegionDrawable(new TextureRegion(texture));
         this.imageStyle = new Button.ButtonStyle(image, image, image);
         return this;
     }
-
-    public ImageTextButtonBuilder withImageStyle(String pathImgUp, String pathImgDown, String pathImgChecked) {
-        final Drawable imageUp = new TextureRegionDrawable(new TextureRegion(AssetsManager.getInstance().getTextureByPath(pathImgUp)));
-        final Drawable imageDown = new TextureRegionDrawable(new TextureRegion(AssetsManager.getInstance().getTextureByPath(pathImgDown)));
-        final Drawable imageChecked = new TextureRegionDrawable(new TextureRegion(AssetsManager.getInstance().getTextureByPath(pathImgChecked)));
-
-        this.imageStyle = new Button.ButtonStyle(imageUp, imageDown, imageChecked);
-        return this;
-    }
-
-    public ImageTextButtonBuilder withImageStyle(Texture textureImgUp, Texture textureImgDown, Texture textureImgChecked) {
-        final Drawable imageUp = new TextureRegionDrawable(new TextureRegion(textureImgUp));
-        final Drawable imageDown = new TextureRegionDrawable(new TextureRegion(textureImgDown));
-        final Drawable imageChecked = new TextureRegionDrawable(new TextureRegion(textureImgChecked));
-
-        this.imageStyle = new Button.ButtonStyle(imageUp, imageDown, imageChecked);
-        return this;
-    }
-
-
 
     public ImageTextButton build() {
         final ImageTextButton imgTxtBtn;

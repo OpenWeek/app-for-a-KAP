@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Kapotopia;
 
 import static gdx.kapotopia.GameConfig.SCALLING_FACTOR_ENTITY;
 
@@ -37,40 +39,29 @@ public class MireilleBasic extends EntityAbstract {
     /*
      *  CONSTRUCTORS
      */
-    public MireilleBasic() {
-        this(25,25);
-    }
 
-    public MireilleBasic(float X, float Y) {
+    public MireilleBasic(Kapotopia game, float X, float Y) {
         super();
         /*
          *  CONSTANTES
          */
-        String NORMAL_TEXTURE_PATH = "MireilleImages/Mireille.png";
-        String SAD_TEXTURE_PATH = "MireilleImages/MireillePleure.png";
-        String MAD_TEXTURRE_PATH = "MireilleImages/MireilleAChaud.png";
-        String HAPPY_TEXTURE_PATH = "MireilleImages/MireilleBoucheOuverte.png";
-        String JOJO_FACE_TEXTURE_PATH = "MireilleImages/MireilleJojo.png";
-        String JOJO_POSE_TEXTURE_PATH = "MireilleImages/MireilleJojoPose.png";
-        String JOJO_KANJI_TEXTURE_PATH = "MireilleImages/MireilleJojoPoseKanji.png";
-        final AssetsManager man = AssetsManager.getInstance();
         /*
          *  INITIALIZATION
          */
-        builderHelper(man.getTextureByPath(NORMAL_TEXTURE_PATH), X, Y);
+        builderHelper(game.ass.get(AssetDescriptors.MI_NORMAL), X, Y);
         this.lifes = (byte) 3;
         this.score = 0;
         this.random = new Random();
         this.jojoActivated = false;
 
         // Differents textures
-        normalTexture = new TextureRegion(man.getTextureByPath(NORMAL_TEXTURE_PATH));
-        sadTexture = new TextureRegion(man.getTextureByPath(SAD_TEXTURE_PATH));
-        madTexture = new TextureRegion(man.getTextureByPath(MAD_TEXTURRE_PATH));
-        happyTexture = new TextureRegion(man.getTextureByPath(HAPPY_TEXTURE_PATH));
-        jojoFaceTexture = new TextureRegion(man.getTextureByPath(JOJO_FACE_TEXTURE_PATH));
-        jojoPoseTexture = new TextureRegion(man.getTextureByPath(JOJO_POSE_TEXTURE_PATH));
-        jojoKanjiTexture = new TextureRegion(man.getTextureByPath(JOJO_KANJI_TEXTURE_PATH));
+        normalTexture = new TextureRegion(game.ass.get(AssetDescriptors.MI_NORMAL));
+        sadTexture = new TextureRegion(game.ass.get(AssetDescriptors.MI_CRY));
+        madTexture = new TextureRegion(game.ass.get(AssetDescriptors.MI_TIRED));
+        happyTexture = new TextureRegion(game.ass.get(AssetDescriptors.MI_HAPPY));
+        jojoFaceTexture = new TextureRegion(game.ass.get(AssetDescriptors.MI_JOJO_FACE));
+        jojoPoseTexture = new TextureRegion(game.ass.get(AssetDescriptors.MI_JOJO_POSE));
+        jojoKanjiTexture = new TextureRegion(game.ass.get(AssetDescriptors.MI_JOJO_KANJI));
     }
 
     /*

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.Animations.EvilTomAnimation;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Align;
@@ -89,34 +90,34 @@ public class mockupG3 extends CinematicScreen {
         };
 
         // Backgrounds
-        final Image house = ImageHelper.getBackground(game.viewport, "game3/intro/Monde2Ecran1.png");
-        final Image inside = ImageHelper.getBackground(game.viewport, "game3/intro/Monde2Ecran2.png");
+        final Image house = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.I3_HOUSE));
+        final Image inside = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.I3_INSIDE));
         // Bubbles
-        final Image bigBubble = new ImageBuilder().withTexture("ImagesGadgets/BulleExplicative.png").build();
-        final Image bubbleLeft = new ImageBuilder().withTexture("ImagesGadgets/Bulle1.png").build();
-        final Image bubbleLeft2 = new ImageBuilder().withTexture("ImagesGadgets/Bulle1.png").build();
-        final Image bubbleRight = new ImageBuilder().withTexture("ImagesGadgets/Bulle2.png").build();
+        final Image bigBubble = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_EXPL)).build();
+        final Image bubbleLeft = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_LEFT)).build();
+        final Image bubbleLeft2 = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_LEFT2)).build();
+        final Image bubbleRight = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_RIGHT)).build();
         // Characters
-        final Image tom = new ImageBuilder().withTexture("game3/intro/Thomas Godiva.png")
+        final Image tom = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.GODIVA))
                 .withPosition(ww * 0.075f, wh * 0.04f)
                 .build();
         tom.setScale(scalling_factor);
-        final Image mireille = new ImageBuilder().withTexture("MireilleImages/Mireille.png")
+        final Image mireille = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_NORMAL))
                 .withPosition(ww / 4f, 0)
                 .build();
         mireille.setScale(scalling_factor);
 
-        final Image mireilleWorried = new ImageBuilder().withTexture("MireilleImages/MireilleWorried.png")
+        final Image mireilleWorried = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_WORRIED))
                 .withPosition(ww / 4f, 0)
                 .build();
         mireilleWorried.setScale(scalling_factor);
 
-        final Image mireilleScared = new ImageBuilder().withTexture("MireilleImages/MireilleScared.png")
+        final Image mireilleScared = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_SCARED))
                 .withPosition(ww / 4f, 0)
                 .build();
         mireilleScared.setScale(scalling_factor);
 
-        final Image mireilleSurprised = new ImageBuilder().withTexture("MireilleImages/MireilleSurprise.png")
+        final Image mireilleSurprised = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_SURPRISED))
                 .withPosition(ww / 4f, 0)
                 .build();
         mireilleSurprised.setScale(scalling_factor);
