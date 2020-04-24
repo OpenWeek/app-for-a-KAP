@@ -48,13 +48,15 @@ public class Game1 implements Screen, MireilleListener {
         this.game = game;
         this.stage = new Stage(game.viewport);
 
+        loadAssets();
+
         this.gameController = new GameController(game, this);
 
         /* We need to load asset after calling creating the gamecontroller because
          * It's in that method where we load the texture paths of the viruses.
          * Therefore, the init method must be called after loadAssets since it's set up Virus textures
          */
-        loadAssets(this.gameController.getIst(), this.gameController.getFake(), this.gameController.getMaybeIst());
+        loadSTIAssets(this.gameController.getIst(), this.gameController.getFake(), this.gameController.getMaybeIst());
 
         this.gameController.init();
 
@@ -67,19 +69,14 @@ public class Game1 implements Screen, MireilleListener {
         AssetsManager.getInstance().addStage(stage, TAG);
     }
 
-    private void loadAssets(List<VirusContainer> ist, List<VirusContainer> fake, List<VirusContainer> maybeist) {
+    private void loadAssets() {
         // Graphics
         game.ass.load(AssetDescriptors.MI_HAPPY);
         game.ass.load(AssetDescriptors.MI_UNI);
-        for (VirusContainer v : ist) {
-            game.ass.load(v.getTexture());
-        }
-        for (VirusContainer v : fake) {
-            game.ass.load(v.getTexture());
-        }
-        for (VirusContainer v : maybeist) {
-            game.ass.load(v.getTexture());
-        }
+        game.ass.load(AssetDescriptors.MI_JOJO_FACE);
+        game.ass.load(AssetDescriptors.MI_JOJO_POSE);
+        game.ass.load(AssetDescriptors.MI_JOJO_KANJI);
+        game.ass.load(AssetDescriptors.PAUSE_LOGO);
         // Musics
         game.ass.load(AssetDescriptors.MUSIC_GAME1);
         game.ass.load(AssetDescriptors.MUSIC_J);
@@ -92,6 +89,20 @@ public class Game1 implements Screen, MireilleListener {
         game.ass.load(AssetDescriptors.SOUND_COIN);
         game.ass.load(AssetDescriptors.SOUND_SUCCESS);
 
+        game.ass.finishLoading();
+        Gdx.app.log(TAG, game.ass.getDiagnostics());
+    }
+
+    private void loadSTIAssets(List<VirusContainer> ist, List<VirusContainer> fake, List<VirusContainer> maybeist) {
+        for (VirusContainer v : ist) {
+            game.ass.load(v.getTexture());
+        }
+        for (VirusContainer v : fake) {
+            game.ass.load(v.getTexture());
+        }
+        for (VirusContainer v : maybeist) {
+            game.ass.load(v.getTexture());
+        }
         game.ass.finishLoading();
         Gdx.app.log(TAG, game.ass.getDiagnostics());
     }
