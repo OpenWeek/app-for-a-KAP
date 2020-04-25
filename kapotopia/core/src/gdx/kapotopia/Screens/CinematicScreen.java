@@ -17,7 +17,6 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.Iterator;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.DialogsScreen.DialogueElement;
 import gdx.kapotopia.DialogsScreen.FixedDialogueSequence;
 import gdx.kapotopia.Fonts.Font;
@@ -37,7 +36,7 @@ import gdx.kapotopia.ScreenType;
 public abstract class CinematicScreen implements Screen {
     /* VARIABLES */
     protected Kapotopia game;
-    protected Stage stage;
+    private Stage stage;
     private String screenName;
     private boolean initialized; // Indicate if the applyBundle function has been called or not
     private final String TAG = this.getClass().getSimpleName();
@@ -185,8 +184,6 @@ public abstract class CinematicScreen implements Screen {
         this.pauseSound = null;
         this.next = null;
         this.finish = null;
-
-        AssetsManager.getInstance().addStage(stage, screenName);
     }
 
     /**
@@ -303,7 +300,7 @@ public abstract class CinematicScreen implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage(screenName);
+        stage.dispose();
     }
 
     public int getCurrentSeqIndex() {
@@ -312,6 +309,10 @@ public abstract class CinematicScreen implements Screen {
 
     public int getMaxSeqIndex() {
         return sequence.getSize() - 1;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 
     public class ParameterBundleBuilder {

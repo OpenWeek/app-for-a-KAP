@@ -3,10 +3,8 @@ package gdx.kapotopia.Helpers.Builders;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 
 public class ImageBuilder {

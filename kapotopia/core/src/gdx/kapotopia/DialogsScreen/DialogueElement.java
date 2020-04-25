@@ -3,8 +3,6 @@ package gdx.kapotopia.DialogsScreen;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-
 public class DialogueElement {
     private int seqNumber;
     private Image[] imageList;

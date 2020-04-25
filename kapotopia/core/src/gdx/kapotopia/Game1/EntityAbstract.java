@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-
 import static gdx.kapotopia.GameConfig.SCALLING_FACTOR_ENTITY;
 
 public abstract class EntityAbstract extends Actor implements Entity {

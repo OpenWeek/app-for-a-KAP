@@ -7,8 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-
 public class FixedDialogueSequence implements Iterable {
     private int size;
     private DialogueElement[] sequence;

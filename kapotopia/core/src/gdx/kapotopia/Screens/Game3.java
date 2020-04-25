@@ -21,7 +21,6 @@ import java.util.Random;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetPaths;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
@@ -91,8 +90,6 @@ public class Game3 implements Screen {
         stage.addActor(door);
         stage.addActor(lock);
         stage.addActor(neon);
-        AssetsManager.getInstance().addStage(stage, "game3");
-
     }
 
     private AssetDescriptor<Texture> chooseNeon() {
@@ -202,7 +199,7 @@ public class Game3 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("game3");
+        stage.dispose();
     }
 
     public void quitGameConfirm() {

@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.Animations.NeonDoorAnimation;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.GameConfig;
@@ -106,8 +105,6 @@ public class MainMenu implements Screen {
         stage.addActor(world4);
         stage.addActor(optionsBtn);
         stage.addActor(version);
-
-        AssetsManager.getInstance().addStage(stage, "mainmenu");
     }
 
     @Override
@@ -166,6 +163,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("mainmenu");
+        stage.dispose();
+        backgroundBatch.dispose();
     }
 }

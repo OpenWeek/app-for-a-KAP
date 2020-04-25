@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Queue;
 import java.util.Iterator;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Screens.BilanG1;
 

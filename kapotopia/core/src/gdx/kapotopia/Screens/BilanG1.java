@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Bilan1.BilanController;
 import gdx.kapotopia.Bilan1.RenderController;
 import gdx.kapotopia.Fonts.FontHelper;
@@ -51,7 +50,7 @@ public class BilanG1 implements Screen {
     private Sound openSound;
 
     // Constants
-    private final String TAG = "BilangG1";
+    private final String TAG = this.getClass().getSimpleName();
 
     public BilanG1(final Kapotopia game) {
         this.game = game;
@@ -130,8 +129,6 @@ public class BilanG1 implements Screen {
         this.fail = game.ass.get(AssetDescriptors.SOUND_FAIL);
         this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
         this.openSound = game.ass.get(AssetDescriptors.SOUND_JUMP_V1);
-
-        AssetsManager.getInstance().addStage(stage, TAG);
     }
 
     private void comeBackToG1() {
@@ -184,7 +181,7 @@ public class BilanG1 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage(TAG);
+        stage.dispose();
     }
 
     public RenderController getRenderController() {

@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-
 public class AnimationBuilder {
     private ArrayList<TextureRegion> framesArrayList;
     private Animation.PlayMode playMode;

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Random;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Kapotopia;
 
 import static gdx.kapotopia.GameConfig.SCALLING_FACTOR_ENTITY;

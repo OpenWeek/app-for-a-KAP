@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ImageHelper;
@@ -57,8 +56,6 @@ public class World2 implements Screen {
                 }).build();
 
         stage.addActor(play);
-
-        AssetsManager.getInstance().addStage(stage, "world2");
     }
 
     @Override
@@ -99,6 +96,6 @@ public class World2 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("world2");
+        stage.dispose();
     }
 }

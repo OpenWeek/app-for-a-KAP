@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import java.util.ArrayList;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
@@ -186,8 +185,6 @@ public class Game2 implements Screen {
         for(int i = 0; i < STInbr; i++) {
             stage.addActor(sittingBalls[i].getButton());
         }
-
-        AssetsManager.getInstance().addStage(stage, "game2");
     }
 
     private void loadAssets() {
@@ -266,7 +263,7 @@ public class Game2 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("game2");
+        stage.dispose();
     }
 
     /**

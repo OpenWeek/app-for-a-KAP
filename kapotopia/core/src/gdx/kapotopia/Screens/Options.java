@@ -130,7 +130,7 @@ public class Options implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 
     private void setUpInputProcessor() {

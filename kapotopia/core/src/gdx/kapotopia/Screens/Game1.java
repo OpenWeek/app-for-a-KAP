@@ -2,9 +2,7 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -12,7 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Game1.GameController;
 import gdx.kapotopia.Game1.MireilleListener;
 import gdx.kapotopia.Game1.RenderController;
@@ -66,13 +63,14 @@ public class Game1 implements Screen, MireilleListener {
 
         /* Setting up the stage */
         stateTime = 0f;
-
-        AssetsManager.getInstance().addStage(stage, TAG);
     }
 
     private void loadAssets() {
         long startTime = TimeUtils.millis();
         // Graphics
+        game.ass.load(AssetDescriptors.ANIM_ACTIONTEXT);
+        game.ass.load(AssetDescriptors.ANIM_SKY);
+        game.ass.load(AssetDescriptors.ANIM_MIREILLU);
         game.ass.load(AssetDescriptors.MI_HAPPY);
         game.ass.load(AssetDescriptors.MI_UNI);
         game.ass.load(AssetDescriptors.MI_JOJO_FACE);
@@ -174,7 +172,7 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage(TAG);
+        stage.dispose();
         renderController.dispose();
     }
 

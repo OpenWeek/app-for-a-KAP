@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import java.util.Random;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Screens.Game1;
 

@@ -221,8 +221,8 @@ public class mockupG1 extends CinematicScreen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+        getStage().act(Gdx.graphics.getDeltaTime());
+        getStage().draw();
 
         if (getCurrentSeqIndex() == 0 || getCurrentSeqIndex() == 1) {
             stateTime += delta;
@@ -232,5 +232,11 @@ public class mockupG1 extends CinematicScreen {
                     m.getRegionWidth(), m.getRegionHeight(), scalling_factor, scalling_factor, 0);
             batch.end();
         }
+    }
+
+    @Override
+    public void dispose() {
+        getStage().dispose();
+        batch.dispose();
     }
 }

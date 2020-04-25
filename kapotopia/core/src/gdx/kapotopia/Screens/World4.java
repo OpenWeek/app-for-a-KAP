@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Align;
@@ -175,8 +174,6 @@ public class World4 implements Screen {
                 //.withBounds(x1_x, x1_y, w1, h1)
                 .build();
         stage.addActor(descriptionLab);
-
-        AssetsManager.getInstance().addStage(stage, "world4");
     }
 
     private void updateSti(){
@@ -246,7 +243,7 @@ public class World4 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("world4");
+        stage.dispose();
     }
 
 

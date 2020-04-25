@@ -186,8 +186,8 @@ public class mockupG3 extends CinematicScreen {
 
 
 
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+        getStage().act(Gdx.graphics.getDeltaTime());
+        getStage().draw();
 
         if (getCurrentSeqIndex() == 4) {
             stateTime += delta;

@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
@@ -49,8 +48,6 @@ public class World1 implements Screen {
         stage.addActor(imgFond);
         stage.addActor(game1);
         stage.addActor(game2);
-
-        AssetsManager.getInstance().addStage(stage, "world1");
     }
 
     @Override
@@ -89,6 +86,6 @@ public class World1 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("world1");
+        stage.dispose();
     }
 }

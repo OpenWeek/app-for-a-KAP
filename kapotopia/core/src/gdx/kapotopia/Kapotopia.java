@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Screens.BilanG1;
 import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
@@ -95,7 +94,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	@Override
 	public void dispose () {
 	    Gdx.app.log(TAG, "Disposing every game resources");
-		AssetsManager.getInstance().disposeAllResources();
 		this.ass.dispose();
 	}
 

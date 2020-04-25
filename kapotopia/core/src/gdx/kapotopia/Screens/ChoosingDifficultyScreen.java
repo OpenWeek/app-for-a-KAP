@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.Timer;
 import gdx.kapotopia.Animations.DifficultyScreenHellAnimation;
 import gdx.kapotopia.Animations.DifficultyScreenInfinityAnimation;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.GameDifficulty;
@@ -173,8 +172,6 @@ public class ChoosingDifficultyScreen implements Screen {
 
         // Other variables
         choosenDifficulty = GameDifficulty.EASY;
-
-        AssetsManager.getInstance().addStage(stage, this.getClass().getName());
     }
 
     @Override
@@ -245,6 +242,7 @@ public class ChoosingDifficultyScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
         spriteBatch.dispose();
     }
 }
