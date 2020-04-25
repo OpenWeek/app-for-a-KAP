@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
 
 import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Fonts.UseFont;
 
 public class SelectBoxBuilder<T> {
     // Actor Common Attributes

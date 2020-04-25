@@ -17,7 +17,6 @@ import gdx.kapotopia.*;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 

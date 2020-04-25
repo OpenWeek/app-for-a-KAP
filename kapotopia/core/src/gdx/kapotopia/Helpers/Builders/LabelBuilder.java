@@ -1,18 +1,16 @@
 package gdx.kapotopia.Helpers.Builders;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
 import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Bounds;
+import gdx.kapotopia.Kapotopia;
 
 /**
  * A class to help build Labels. A mandatory argument is the text displayed in the label
@@ -20,6 +18,7 @@ import gdx.kapotopia.Helpers.Bounds;
  * provided methods and build it's label following these values with the build() method
  */
 public class LabelBuilder {
+    private Kapotopia game;
     // Actor common attributes
     private ArrayList<EventListener> eventListeners;
     private ArrayList<EventListener> captureListeners;
@@ -29,7 +28,6 @@ public class LabelBuilder {
     private Alignement alignment;
     private boolean visible;
     // Font style
-    private TextButton.TextButtonStyle style;
     private Font font;
     // Label
     private String text;
@@ -40,7 +38,8 @@ public class LabelBuilder {
      * Constructor of LabelBuilder, initialize variables
      * @param text the label text (mandatory)
      */
-    public LabelBuilder(String text) {
+    public LabelBuilder(Kapotopia game, String text) {
+        this.game = game;
         // Actor attributes
         this.eventListeners = new ArrayList<EventListener>();
         this.captureListeners = new ArrayList<EventListener>();
@@ -55,7 +54,6 @@ public class LabelBuilder {
         this.alignment = Alignement.NONE;
         this.visible = true;
         // Label attributes
-        this.style = null;
         this.font = null;
         this.text = text;
         this.textAlignement = Align.left;
@@ -151,18 +149,8 @@ public class LabelBuilder {
 
     // Font style
 
-    public LabelBuilder withStyle(TextButton.TextButtonStyle style) {
-        this.style = style;
-        return this;
-    }
-
     public LabelBuilder withStyle(Font font) {
         this.font = font;
-        return this;
-    }
-
-    public LabelBuilder withStyle(UseFont type) {
-        this.font = FontHelper.getFont(type);
         return this;
     }
 
@@ -188,21 +176,19 @@ public class LabelBuilder {
     /**
      * Call this function in last position to get your label
      * @return a label with all the specified options
+     * @throws IllegalArgumentException if no font are provided
      */
-    public Label build() {
+    public Label build() throws IllegalArgumentException {
         //final Label label = (Label) super.buildActor();
 
-        TextButton.TextButtonStyle theStyle;
-        Color theColor;
+        final Label l;
         if (font == null) {
-            theStyle = style;
-            theColor = style.fontColor;
+            throw new IllegalArgumentException("No font provided");
         } else {
-            theStyle = font.getStyle();
-            theColor = font.getColor();
+            Label.LabelStyle style = new Label.LabelStyle();
+            style.font = game.ass.get(font.getFont());
+            l = new Label(text, style);
         }
-
-        Label l = new Label(text, new Label.LabelStyle(theStyle.font, theColor));
 
         // Actor Attributes
 
@@ -263,11 +249,11 @@ public class LabelBuilder {
      * @param size the size of the new matrix
      * @return a new matrix of size Label[size][1]
      */
-    public static Label[][] createEmptyMatrix(int size) {
+    public static Label[][] createEmptyMatrix(Kapotopia game, int size) {
         if (size <= 0) throw new IllegalArgumentException("LabelBuilder - createEmptyMatrix(int)\nsize is equal or smaller than 0");
         Label[][] labelMatrix = new Label[size][1];
         for (int i=0; i<size; i++)
-            labelMatrix[i][0] = new LabelBuilder("").withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK).build();
+            labelMatrix[i][0] = new LabelBuilder(game, "").withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK).build();
         return labelMatrix;
     }
 }

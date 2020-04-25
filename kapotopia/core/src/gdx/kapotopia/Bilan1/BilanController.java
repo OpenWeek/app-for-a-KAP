@@ -9,9 +9,7 @@ import com.badlogic.gdx.utils.Align;
 import java.util.HashSet;
 import java.util.List;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Alignement;

@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 
-import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Kapotopia;
 
 public class PopUpBuilder {
@@ -23,6 +22,7 @@ public class PopUpBuilder {
         y = 0;
 
         // /////////////////
+        //TODO use assetmanager to stock the following skin
         Skin skinDialog = new Skin(Gdx.files.internal("defaultSkin/skin/uiskin.json"));
         dialog = new Dialog("", skinDialog) {
             @Override

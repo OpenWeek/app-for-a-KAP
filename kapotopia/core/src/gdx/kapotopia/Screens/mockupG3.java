@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.Animations.EvilTomAnimation;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;

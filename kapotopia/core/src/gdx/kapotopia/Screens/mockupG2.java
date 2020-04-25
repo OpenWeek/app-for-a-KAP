@@ -1,17 +1,13 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.GameConfig;
-import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Kapotopia;

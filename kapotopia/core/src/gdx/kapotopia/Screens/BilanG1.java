@@ -17,7 +17,6 @@ import java.util.LinkedList;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Bilan1.RenderController;
-import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Bilan1.BilanController;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;

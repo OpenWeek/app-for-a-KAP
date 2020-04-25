@@ -18,7 +18,6 @@ import gdx.kapotopia.*;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetPaths;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
 import gdx.kapotopia.Helpers.Builders.PopUpBuilder;
