@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
@@ -188,6 +189,7 @@ public class World4 implements Screen {
 
     private void preload(){
         Gdx.app.log(TAG, "Preloading stuff... ");
+        long startTime = TimeUtils.millis();
         this.data = STIData.getIstAndMaybeIsts();
         for (STI sti : data) {
             game.ass.load(sti.getTexture());
@@ -198,6 +200,7 @@ public class World4 implements Screen {
 
         game.ass.finishLoading();
         Gdx.app.log(TAG, game.ass.getDiagnostics());
+        Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
 
         for (STI sti : data) {
             Texture t = game.ass.get(sti.getTexture());

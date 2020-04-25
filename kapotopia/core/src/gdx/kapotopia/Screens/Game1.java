@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -70,6 +71,7 @@ public class Game1 implements Screen, MireilleListener {
     }
 
     private void loadAssets() {
+        long startTime = TimeUtils.millis();
         // Graphics
         game.ass.load(AssetDescriptors.MI_HAPPY);
         game.ass.load(AssetDescriptors.MI_UNI);
@@ -87,10 +89,10 @@ public class Game1 implements Screen, MireilleListener {
         game.ass.load(AssetDescriptors.SOUND_PUNCH);
         game.ass.load(AssetDescriptors.SOUND_FAIL);
         game.ass.load(AssetDescriptors.SOUND_COIN);
-        game.ass.load(AssetDescriptors.SOUND_SUCCESS);
 
         game.ass.finishLoading();
         Gdx.app.log(TAG, game.ass.getDiagnostics());
+        Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
     }
 
     private void loadSTIAssets(List<VirusContainer> ist, List<VirusContainer> fake, List<VirusContainer> maybeist) {

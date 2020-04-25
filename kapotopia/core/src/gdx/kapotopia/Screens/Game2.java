@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
 
@@ -190,6 +191,7 @@ public class Game2 implements Screen {
     }
 
     private void loadAssets() {
+        long startTime = TimeUtils.millis();
         // Graphics
         game.ass.load(AssetDescriptors.BALL);
         game.ass.load(AssetDescriptors.SABLE);
@@ -201,10 +203,10 @@ public class Game2 implements Screen {
         game.ass.load(AssetDescriptors.OUTRO);
         // Sounds
         game.ass.load(AssetDescriptors.MUSIC_GAME2);
-        game.ass.load(AssetDescriptors.SOUND_SUCCESS);
 
         game.ass.finishLoading();
         Gdx.app.log(TAG, game.ass.getDiagnostics());
+        Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
     }
 
     @Override

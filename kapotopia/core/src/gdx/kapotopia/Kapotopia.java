@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
@@ -99,6 +100,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	}
 
 	private void loadInitialTextures() {
+		long startTime = TimeUtils.millis();
 		/* Graphics */
 		this.ass.load(AssetDescriptors.BLANK_BACK);
 		// Main Menu
@@ -151,9 +153,11 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.ass.load(AssetDescriptors.SOUND_BOUP9);
 		this.ass.load(AssetDescriptors.SOUND_CLICKED_BTN);
 		this.ass.load(AssetDescriptors.SOUND_HINT);
+		this.ass.load(AssetDescriptors.SOUND_SUCCESS);
 
 		this.ass.finishLoading();
 		Gdx.app.log(TAG, this.ass.getDiagnostics());
+		Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
 	}
 
 	public ValueGateway getTheValueGateway() {
@@ -170,7 +174,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 * @return true if the operation succeeded, false otherwise
 	 */
 	public boolean changeScreen(ScreenType TYPE) {
-	    Gdx.app.debug(TAG, "Changing screen to ZA " + TYPE.name());
+	    Gdx.app.debug(TAG, "Changing screen to " + TYPE.name());
 		return selectScreen(ScreenAction.CHANGE, TYPE);
 	}
 

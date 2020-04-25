@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.Random;
 
@@ -102,6 +103,7 @@ public class Game3 implements Screen {
     }
 
     private void loadAssets() {
+        long startTime = TimeUtils.millis();
         // Graphics
         game.ass.load(AssetDescriptors.NEON_ROSE);
         game.ass.load(AssetDescriptors.NEON_RED);
@@ -125,6 +127,7 @@ public class Game3 implements Screen {
 
         game.ass.finishLoading();
         Gdx.app.log(TAG, game.ass.getDiagnostics());
+        Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
     }
 
     public Core getCore(){return core;}
