@@ -8,11 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Kapotopia;
-
-import static gdx.kapotopia.Fonts.UseFont.CLASSIC_SANS_SMALL_WHITE;
 
 //TODO: refactor variables ot better use screenHeight and screenWidth
 
@@ -95,6 +93,7 @@ public class Ball extends Button {
     }*/
 
     public Ball(Kapotopia game, int nbr, float x, float y, float size, float height, float width){
+        this.game = game;
         this.screenHeigth = height;
         this.screenWidth = width;
         this.STInbr = nbr;
@@ -205,7 +204,7 @@ public class Ball extends Button {
 
     public void setName(String name){
         this.STIname = name;
-        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(size/10,size/2.5f).build();
+        this.label = new LabelBuilder(game, name).withWidth(2).withStyle(FontHelper.CLASSIC_SANS_SMALL_WHITE).withPosition(size/10,size/2.5f).build();
     }
 
 

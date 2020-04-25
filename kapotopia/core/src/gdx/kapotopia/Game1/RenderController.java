@@ -89,8 +89,8 @@ public class RenderController {
 
         final Localisation loc = Localisation.getInstance();
 
-        this.normalFont = FontHelper.getFont(UseFont.CLASSIC_SANS_NORMAL_WHITE);
-        this.smallFont = FontHelper.getFont(UseFont.CLASSIC_SANS_SMALL_WHITE);
+        this.normalFont = FontHelper.CLASSIC_SANS_NORMAL_WHITE;
+        this.smallFont = FontHelper.CLASSIC_SANS_SMALL_WHITE;
 
         this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f,0);
@@ -135,23 +135,23 @@ public class RenderController {
         };
 
         quitBtn = new ImageTextButtonBuilder(game, loc.getString("quit_button_text"))
-                .withFontStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE).withAlignment(Alignement.CENTER)
+                .withFontStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE).withAlignment(Alignement.CENTER)
                 .withY((game1.getGameController().getBounds().getHeight() / 2) - BTN_SPACING).withPadding(Padding.STANDARD)
                 .withListener(quitEvent).withImageStyle(game.ass.get(AssetDescriptors.BTN)).isVisible(false).build();
 
         stage.addActor(quitBtn);
 
         // Labels
-        lifeLabel = new LabelBuilder(LIFE_TXT + game1.getGameController().getMireilleLife()).withStyle(normalFont)
+        lifeLabel = new LabelBuilder(game, LIFE_TXT + game1.getGameController().getMireilleLife()).withStyle(normalFont)
                 .withPosition(game1.getGameController().getBounds().width - (ww / 4.5f), game1.getGameController().getBounds().height - (ww / 10.8f)).build();
-        istCatchedLabel = new LabelBuilder(IST_CATCHED_TXT  + game1.getGameController().getIstsCatched()).withStyle(normalFont)
+        istCatchedLabel = new LabelBuilder(game, IST_CATCHED_TXT  + game1.getGameController().getIstsCatched()).withStyle(normalFont)
                 .withPosition(25, game1.getGameController().getBounds().height - (ww / 10.8f)).build();
-        scoreLabel = new LabelBuilder(SCORE_TXT  + game1.getGameController().getTotalScore()).withStyle(normalFont)
+        scoreLabel = new LabelBuilder(game, SCORE_TXT  + game1.getGameController().getTotalScore()).withStyle(normalFont)
                 .withPosition(25, game1.getGameController().getBounds().height - (ww / 5.4f)).build();
-        pauseLabel = new LabelBuilder(loc.getString("pause_label_text")).withStyle(normalFont).withAlignment(Alignement.CENTER) // faut rajouter le x
+        pauseLabel = new LabelBuilder(game, loc.getString("pause_label_text")).withStyle(normalFont).withAlignment(Alignement.CENTER) // faut rajouter le x
                 .withY(game1.getGameController().getBounds().height / 2).isVisible(false).build();
-        missedLabel = new LabelBuilder(loc.getString("missed_label_text")).withStyle(smallFont).isVisible(false).build();
-        ennemiNameLabel = new LabelBuilder(game1.getGameController().getEnnemi().getName()).withStyle(smallFont).withTextAlignement(Align.center)
+        missedLabel = new LabelBuilder(game, loc.getString("missed_label_text")).withStyle(smallFont).isVisible(false).build();
+        ennemiNameLabel = new LabelBuilder(game, game1.getGameController().getEnnemi().getName()).withStyle(smallFont).withTextAlignement(Align.center)
                 .withPosition(game1.getGameController().getEnnemi().getX() + (game1.getGameController().getEnnemi().getRealWidth() - game1.getGameController().getEnnemi().getName().length()) /2,
                         game1.getGameController().getEnnemi().getY() - (ww / 10.8f)).build();
 
@@ -248,7 +248,7 @@ public class RenderController {
             highscoreLabHead = Localisation.getInstance().getString("high_score_lab_head");
             highscoreLabTail = " !";
         } else {
-            endScoreLabel = new LabelBuilder(SCORE_TXT + game1.getGameController().getTotalScore())
+            endScoreLabel = new LabelBuilder(game, SCORE_TXT + game1.getGameController().getTotalScore())
                     .withStyle(normalFont)
                     .withPosition((game1.getGameController().getBounds().width / 2) - (game.viewport.getWorldWidth() / 8f),
                             (game1.getGameController().getBounds().height / 2) - (game.viewport.getWorldHeight() / 32))
@@ -260,8 +260,8 @@ public class RenderController {
         }
 
         final String highScoreLabelTxt = highscoreLabHead + HIGHSCORE_TXT + highscore + highscoreLabTail;
-        final Label highscoreLabel = new LabelBuilder(highScoreLabelTxt).withY(highScoreY)
-                .withAlignment(Alignement.CENTER).withStyle(UseFont.CLASSIC_BOLD_NORMAL_YELLOW).build();
+        final Label highscoreLabel = new LabelBuilder(game, highScoreLabelTxt).withY(highScoreY)
+                .withAlignment(Alignement.CENTER).withStyle(FontHelper.CLASSIC_BOLD_NORMAL_YELLOW).build();
         stage.addActor(highscoreLabel);
 
         final String titleText;
@@ -271,7 +271,7 @@ public class RenderController {
             titleText = Localisation.getInstance().getString("fail");
         }
 
-        final Button title = new TextButtonBuilder(titleText).withStyle(UseFont.CLASSIC_REG_BIG_WHITE)
+        final Button title = new TextButtonBuilder(game, titleText).withStyle(FontHelper.CLASSIC_REG_BIG_WHITE)
                 .withY((game1.getGameController().getBounds().getHeight() / 2) + (game.viewport.getWorldHeight() / 48f))
                 .withAlignment(Alignement.CENTER).build();
         title.addListener(new ChangeListener() {

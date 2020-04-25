@@ -13,17 +13,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import gdx.kapotopia.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+
+import java.util.Random;
+
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetPaths;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
 import gdx.kapotopia.Helpers.Builders.PopUpBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
-
-import java.util.Random;
+import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 
 public class Game3 implements Screen {
 
@@ -204,7 +208,7 @@ public class Game3 implements Screen {
 
         popup.setTitle("Congratulations!");
 
-        TextButton btnYes = new TextButtonBuilder("Exit").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
+        TextButton btnYes = new TextButtonBuilder(game, "Exit").withStyle(FontHelper.AESTHETIC_NORMAL_BLACK).build();
         btnYes.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
@@ -231,7 +235,7 @@ public class Game3 implements Screen {
 
         popup.setTitle(description);
 
-        TextButton btnYes = new TextButtonBuilder("back").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
+        TextButton btnYes = new TextButtonBuilder(game, "back").withStyle(FontHelper.AESTHETIC_NORMAL_BLACK).build();
         btnYes.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,

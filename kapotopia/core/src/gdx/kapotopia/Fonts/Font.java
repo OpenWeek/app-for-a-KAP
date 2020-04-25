@@ -3,7 +3,6 @@ package gdx.kapotopia.Fonts;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 /**
  * Wrapper class for a font object. Contains a TextButtonStyle, and the different characteristics of the font

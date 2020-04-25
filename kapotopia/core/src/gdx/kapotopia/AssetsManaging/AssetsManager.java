@@ -121,7 +121,7 @@ public final class AssetsManager {
             return (TextButton.TextButtonStyle) researchResult.getRessource();
         }
 
-        final TextButton.TextButtonStyle style = FontHelper.buildTextButtonStyle(path, size, color);
+        final TextButton.TextButtonStyle style = null;
         final RessourceHelper<TextButton.TextButtonStyle> newRessourceHelper = new RessourceHelper<TextButton.TextButtonStyle>(name, style);
         fontList.put(name, newRessourceHelper);
         return style;

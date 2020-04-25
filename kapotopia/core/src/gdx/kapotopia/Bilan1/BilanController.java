@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Align;
 import java.util.HashSet;
 import java.util.List;
 
+import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.GameConfig;
@@ -38,14 +39,14 @@ public class BilanController {
 
         final float wWidth = GameConfig.GAME_WIDTH;
         final float wHeight = GameConfig.GAME_HEIGHT;
-        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_BLACK);
+        Font style = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
 
         float initStiImgX = - (wWidth / 5);
         for (VirusContainer ist : missedIsts) {
 
             // Name
             final float yName = wHeight * 0.75f; // 960
-            final Label ln = new LabelBuilder(ist.getName()).withStyle(style).isVisible(false)
+            final Label ln = new LabelBuilder(game, ist.getName()).withStyle(style).isVisible(false)
                     .withAlignment(Alignement.CENTER).withY(yName)
                     .build();
 
@@ -54,7 +55,7 @@ public class BilanController {
             final float yDescr = yName - (wHeight * 0.35f); // 426.66
             final float wDescr = wWidth - 2 * (wWidth / 30f);
             final float hDescr = wHeight * 0.35f; //426.66
-            final Label ld = new LabelBuilder(ist.getDescription()).withStyle(style).isVisible(false)
+            final Label ld = new LabelBuilder(game, ist.getDescription()).withStyle(style).isVisible(false)
                     .withPosition(xDescr, yDescr).withTextAlignement(Align.left).withWidth(wDescr)
                     .withHeight(hDescr).isWrapped(true).build();
 

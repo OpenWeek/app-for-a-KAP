@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.Font;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.ImageHelper;
@@ -21,9 +23,9 @@ public class mockupG2 extends CinematicScreen {
     public mockupG2(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG2");
         final Localisation loc = Localisation.getInstance();
-        UseFont font = UseFont.CLASSIC_SANS_NORMAL_BLACK;
+        Font font = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
         Label[] labels = new Label[] {
-                new LabelBuilder(loc.getString("game2_diag1"))
+                new LabelBuilder(game, loc.getString("game2_diag1"))
                         .withStyle(font)
                         //.withBounds(60, 1030, 995,315)
                         .withWidth(game.viewport.getWorldWidth() - (2 * GameConfig.ONE_CHAR_STD_WIDTH))
@@ -31,7 +33,7 @@ public class mockupG2 extends CinematicScreen {
                         .withPosition(GameConfig.ONE_CHAR_STD_WIDTH, (game.viewport.getWorldHeight() /1.27f))
                         .isWrapped(true)
                         .build(),
-                new LabelBuilder(loc.getString("game2_rules"))
+                new LabelBuilder(game, loc.getString("game2_rules"))
                         .withStyle(font)
                         //.withBounds(80,800,920,500)
                         .withWidth(game.viewport.getWorldWidth() - (4 * GameConfig.ONE_CHAR_STD_WIDTH))
@@ -47,7 +49,7 @@ public class mockupG2 extends CinematicScreen {
         };
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME2)
                 .withImages(images)
-                .withNextBtnStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK)
+                .withNextBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK)
                 .withTimerScheduleTime(0)
                 .withLabels(labels)
                 .withFinishBtn(false));

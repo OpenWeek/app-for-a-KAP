@@ -2,20 +2,14 @@ package gdx.kapotopia;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
-import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
-import java.awt.font.TextHitInfo;
-import java.util.logging.FileHandler;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
@@ -29,8 +23,8 @@ import gdx.kapotopia.Screens.MainMenu;
 import gdx.kapotopia.Screens.Options;
 import gdx.kapotopia.Screens.World1;
 import gdx.kapotopia.Screens.World2;
-import gdx.kapotopia.Screens.World4;
 import gdx.kapotopia.Screens.World3;
+import gdx.kapotopia.Screens.World4;
 import gdx.kapotopia.Screens.mockupG1;
 import gdx.kapotopia.Screens.mockupG2;
 import gdx.kapotopia.Screens.mockupG3;
@@ -83,8 +77,10 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		FileHandleResolver resolver = new InternalFileHandleResolver();
 		this.ass.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		this.ass.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-		loadInitialTextures();
-		FontHelper.buildAllFonts(ass);
+
+        FontHelper.buildAllFonts(ass);
+		loadInitialTextures(); // Contains a call to "finishLoading", thus it need to be called AFTER every other asset load
+
 
 		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app

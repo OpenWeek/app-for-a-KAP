@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
@@ -84,10 +85,11 @@ public class World4 implements Screen {
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
 
-        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.CLASSIC_BOLD_BIG_BLACK);
+        Font style = FontHelper.CLASSIC_BOLD_BIG_BLACK;
 
-        final TextButton back = new TextButtonBuilder(Localisation.getInstance().getString("back_button")).withStyle(style)
-                .withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.WORLD4)).build();
+        final TextButton back = new TextButtonBuilder(game, Localisation.getInstance().getString("back_button"))
+                .withStyle(style).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.WORLD4))
+                .build();
         back.setPosition((game.viewport.getWorldWidth() / 2) - back.getWidth() / 2, 50);
         back.setVisible(true);
         stage.addActor(back);
@@ -160,14 +162,14 @@ public class World4 implements Screen {
         stage.addActor(leftArrow);
 
         // label containing STI name
-        nameLab = new LabelBuilder(data[istIndex].getName()).withY(wh * 0.625f)
-                .withStyle(UseFont.CLASSIC_SANS_MIDDLE_BLACK)
+        nameLab = new LabelBuilder(game, data[istIndex].getName()).withY(wh * 0.625f)
+                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
                 .withAlignment(Alignement.CENTER).build();
         stage.addActor(nameLab);
 
         // label containing the STI descriptionLab
-        descriptionLab = new LabelBuilder(data[istIndex].getDescription()).isWrapped(true)
-                .withStyle(UseFont.CLASSIC_SANS_MIDDLE_BLACK)
+        descriptionLab = new LabelBuilder(game, data[istIndex].getDescription()).isWrapped(true)
+                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
                 .withPosition(x1_x, x1_y).withWidth(w1)
                 //.withBounds(x1_x, x1_y, w1, h1)
                 .build();

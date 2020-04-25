@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
@@ -38,10 +39,10 @@ public class World1 implements Screen {
         final Localisation loc = Localisation.getInstance();
 
         final float y = game.viewport.getWorldHeight();
-        TextButton game1 = new TextButtonBuilder(loc.getString("game1_button")).withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
+        TextButton game1 = new TextButtonBuilder(game, loc.getString("game1_button")).withStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
                 .withY(y * 0.57f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG1)).build();
-        TextButton game2 = new TextButtonBuilder(loc.getString("game2_button")).withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
+        TextButton game2 = new TextButtonBuilder(game, loc.getString("game2_button")).withStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
                 .withY(y * 0.1f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG2)).build();
 

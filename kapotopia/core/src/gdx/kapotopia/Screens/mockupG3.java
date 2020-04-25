@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.Animations.EvilTomAnimation;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.Font;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
@@ -41,47 +43,47 @@ public class mockupG3 extends CinematicScreen {
 
         Localisation loc = Localisation.getInstance();
 
-        UseFont font = UseFont.CLASSIC_SANS_NORMAL_BLACK;
+        Font font = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
         Bounds dialogBubbleBounds = Align.getDialogBubbleBounds();
         Bounds explicativeBubbleBounds = Align.getExplicativeBubbleBounds();
 
         final Label[][] labels = new Label[][] {
                 {
-                        new LabelBuilder(loc.getString("game3_diag1"))
+                        new LabelBuilder(game, loc.getString("game3_diag1"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("game3_diag2"))
+                        new LabelBuilder(game, loc.getString("game3_diag2"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("game3_diag3"))
+                        new LabelBuilder(game, loc.getString("game3_diag3"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("game3_diag4"))
+                        new LabelBuilder(game, loc.getString("game3_diag4"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("game3_diag5"))
+                        new LabelBuilder(game, loc.getString("game3_diag5"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("rules_title"))
-                                .withStyle(UseFont.CLASSIC_BOLD_BIG_BLACK).withAlignment(Alignement.CENTER)
+                        new LabelBuilder(game, loc.getString("rules_title"))
+                                .withStyle(FontHelper.CLASSIC_BOLD_BIG_BLACK).withAlignment(Alignement.CENTER)
                                 .withY(wh - explicativeBubbleBounds.getTopPad())
                                 .build(),
-                        new LabelBuilder(loc.getString("game3_instr"))
+                        new LabelBuilder(game, loc.getString("game3_instr"))
                                 .withStyle(font).withBounds(explicativeBubbleBounds)
                                 .isWrapped(true)
                                 .build()
@@ -166,7 +168,7 @@ public class mockupG3 extends CinematicScreen {
         /* ENDING */
 
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME3)
-        .withImages(images).withLabels(labels).withFinishBtn(false).withNextBtnStyle(UseFont.CLASSIC_BOLD_NORMAL_WHITE));
+        .withImages(images).withLabels(labels).withFinishBtn(false).withNextBtnStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE));
     }
 
     @Override

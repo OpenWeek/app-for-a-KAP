@@ -55,7 +55,7 @@ public class FixedDialogSeqBuilder {
             } else if (isLabels) {
                 newSeq = new FixedDialogueSequence(imagesBigList, LabelBuilder.convert(labels));
             }else {
-                newSeq = new FixedDialogueSequence(imagesBigList, LabelBuilder.createEmptyMatrix(imagesBigList.length));
+                newSeq = new FixedDialogueSequence(imagesBigList, LabelBuilder.createEmptyMatrix(game, imagesBigList.length));
             }
         } else if(isImages) {
             if(isBigLabelsList) {
@@ -63,7 +63,7 @@ public class FixedDialogSeqBuilder {
             } else if (isLabels) {
                 newSeq = new FixedDialogueSequence(ImageBuilder.convert(images), LabelBuilder.convert(labels));
             } else {
-                newSeq = new FixedDialogueSequence(ImageBuilder.convert(images), LabelBuilder.createEmptyMatrix(images.length));
+                newSeq = new FixedDialogueSequence(ImageBuilder.convert(images), LabelBuilder.createEmptyMatrix(game, images.length));
             }
         } else if(isImagesTexturePaths) {
             if(isBigLabelsList) {
@@ -71,7 +71,7 @@ public class FixedDialogSeqBuilder {
             } else if (isLabels) {
                 newSeq = new FixedDialogueSequence(ImageBuilder.convert(game, imagesTexturePaths), LabelBuilder.convert(labels));
             } else {
-                newSeq = new FixedDialogueSequence(ImageBuilder.convert(game, imagesTexturePaths), LabelBuilder.createEmptyMatrix(imagesTexturePaths.length));
+                newSeq = new FixedDialogueSequence(ImageBuilder.convert(game, imagesTexturePaths), LabelBuilder.createEmptyMatrix(game, imagesTexturePaths.length));
             }
         } else {
             return null;

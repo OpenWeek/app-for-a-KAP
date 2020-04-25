@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
@@ -21,6 +20,7 @@ import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.DialogsScreen.DialogueElement;
 import gdx.kapotopia.DialogsScreen.FixedDialogueSequence;
+import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Builders.FixedDialogSeqBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
@@ -90,7 +90,7 @@ public abstract class CinematicScreen implements Screen {
                          Label[] labels, Label[][] labelsBigList, AssetDescriptor<Texture> fond,
                          AssetDescriptor<Sound> changeOfImageSoundDescr, AssetDescriptor<Sound> endSoundDescr,
                          AssetDescriptor<Sound> pauseSoundDescr, String nextBtnLabel,
-                         String finishBtnLabel, UseFont nextBtnFont, UseFont finishBtnFont,
+                         String finishBtnLabel, Font nextBtnFont, Font finishBtnFont,
                          final float timerScheduleTime, final int vibrationTime, final boolean withFinishBtn) {
         // Graphics
         this.sequence = FixedDialogSeqBuilder.buildSequence(game, stage, imagesBigList, images, imagesTexturePaths,
@@ -106,11 +106,11 @@ public abstract class CinematicScreen implements Screen {
         this.endSound = game.ass.get(endSoundDescr);
         this.pauseSound = game.ass.get(pauseSoundDescr);
         // Buttons
-        TextButton.TextButtonStyle styleNextBtn = FontHelper.getStyleFont(nextBtnFont);
-        TextButton.TextButtonStyle styleFinishBtn = FontHelper.getStyleFont(finishBtnFont);
+        Font styleNextBtn = nextBtnFont;
+        Font styleFinishBtn = finishBtnFont;
 
         final float xButton = this.game.viewport.getWorldWidth() / 2.5f;
-        this.next = new TextButtonBuilder(nextBtnLabel).withStyle(styleNextBtn).isVisible(true)
+        this.next = new TextButtonBuilder(game, nextBtnLabel).withStyle(styleNextBtn).isVisible(true)
                 .withPosition(xButton, this.game.viewport.getWorldHeight() / 30f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -129,7 +129,7 @@ public abstract class CinematicScreen implements Screen {
                         Gdx.input.vibrate(vibrationTime / 4);
                     }
                 }).build();
-        this.finish = new TextButtonBuilder(finishBtnLabel).withStyle(styleFinishBtn).isVisible(false)
+        this.finish = new TextButtonBuilder(game, finishBtnLabel).withStyle(styleFinishBtn).isVisible(false)
                 .withPosition(xButton, this.game.viewport.getWorldHeight() / 2f).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -327,8 +327,8 @@ public abstract class CinematicScreen implements Screen {
         private AssetDescriptor<Sound> pauseSound;
         private String nextBtnLabel;
         private String finishBtnLabel;
-        private UseFont nextBtnFont;
-        private UseFont finishBtnFont;
+        private Font nextBtnFont;
+        private Font finishBtnFont;
         private float timerScheduleTime;
         private int vibrationTime;
         private boolean withFinishBtn;
@@ -345,8 +345,8 @@ public abstract class CinematicScreen implements Screen {
             this.pauseSound = AssetDescriptors.SOUND_PAUSE;
             this.nextBtnLabel = "Next";
             this.finishBtnLabel = "Play";
-            this.nextBtnFont = UseFont.CLASSIC_SANS_NORMAL_BLACK;
-            this.finishBtnFont = UseFont.CLASSIC_SANS_NORMAL_BLACK;
+            this.nextBtnFont = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
+            this.finishBtnFont = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
             this.timerScheduleTime = 2f;
             this.vibrationTime = 200;
             this.withFinishBtn = true;
@@ -407,12 +407,12 @@ public abstract class CinematicScreen implements Screen {
             return this;
         }
 
-        public ParameterBundleBuilder withNextBtnStyle(UseFont nextBtnFont) {
+        public ParameterBundleBuilder withNextBtnStyle(Font nextBtnFont) {
             this.nextBtnFont = nextBtnFont;
             return this;
         }
 
-        public ParameterBundleBuilder withFinishBtnStyle(UseFont finishBtnFont) {
+        public ParameterBundleBuilder withFinishBtnStyle(Font finishBtnFont) {
             this.finishBtnFont = finishBtnFont;
             return this;
         }
@@ -476,11 +476,11 @@ public abstract class CinematicScreen implements Screen {
             return finishBtnLabel;
         }
 
-        public UseFont getNextBtnFont() {
+        public Font getNextBtnFont() {
             return nextBtnFont;
         }
 
-        public UseFont getFinishBtnFont() {
+        public Font getFinishBtnFont() {
             return finishBtnFont;
         }
 

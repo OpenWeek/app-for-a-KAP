@@ -1,29 +1,49 @@
 package gdx.kapotopia.Screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Game4.Mireille;
-import gdx.kapotopia.Game4.Question;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localisation;
-import gdx.kapotopia.ScreenType;
 
 public class World3 implements Screen {
 
+    public World3(Kapotopia game) {
+
+    }
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+    /*
     private Kapotopia game;
     private Texture fond;
     private Stage stage;
@@ -255,4 +275,6 @@ public class World3 implements Screen {
         fond.dispose();
         AssetsManager.getInstance().disposeStage("world4");
     }
+
+     */
 }

@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import gdx.kapotopia.Animations.MireilleBlinkingAnimation;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.Font;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Bounds;
@@ -40,58 +42,58 @@ public class mockupG1 extends CinematicScreen {
         final Localisation loc = Localisation.getInstance();
         final float ww = game.viewport.getWorldWidth();
         final float wh = game.viewport.getWorldHeight();
-        UseFont font = UseFont.CLASSIC_SANS_NORMAL_BLACK;
+        Font font = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
         Bounds dialogBubbleBounds = Align.getDialogBubbleBounds();
         Bounds explicativeBubbleBounds = Align.getExplicativeBubbleBounds();
         Label[][] labels = new Label[][] {
                 {
-                        new LabelBuilder(loc.getString("dialogG1_1"))
+                        new LabelBuilder(game, loc.getString("dialogG1_1"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("dialogG1_2"))
+                        new LabelBuilder(game, loc.getString("dialogG1_2"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("dialogG1_3"))
+                        new LabelBuilder(game, loc.getString("dialogG1_3"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("dialogG1_4"))
+                        new LabelBuilder(game, loc.getString("dialogG1_4"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("dialogG1_5"))
+                        new LabelBuilder(game, loc.getString("dialogG1_5"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("dialogG1_6"))
+                        new LabelBuilder(game, loc.getString("dialogG1_6"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("rules_title"))
-                                .withStyle(UseFont.CLASSIC_BOLD_BIG_BLACK).withAlignment(Alignement.CENTER)
+                        new LabelBuilder(game, loc.getString("rules_title"))
+                                .withStyle(FontHelper.CLASSIC_BOLD_BIG_BLACK).withAlignment(Alignement.CENTER)
                                 .withY(wh - explicativeBubbleBounds.getTopPad())
                                 .build(),
-                        new LabelBuilder(loc.getString("dialogG1_rules_1"))
+                        new LabelBuilder(game, loc.getString("dialogG1_rules_1"))
                                 .withStyle(font).withBounds(explicativeBubbleBounds)
                                 .isWrapped(true)
                                 .build()
                 },
                 {
-                        new LabelBuilder(loc.getString("dialogG1_7"))
+                        new LabelBuilder(game, loc.getString("dialogG1_7"))
                                 .withStyle(font).withBounds(dialogBubbleBounds)
                                 .isWrapped(true)
                                 .build()
@@ -200,7 +202,7 @@ public class mockupG1 extends CinematicScreen {
         /* ENDING */
         applyBundle(new ParameterBundleBuilder(ScreenType.DIF)
                 .withImages(images).withFinishBtn(false)
-                .withNextBtnStyle(UseFont.CLASSIC_SANS_NORMAL_WHITE).withTimerScheduleTime(0).withLabels(labels));
+                .withNextBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE).withTimerScheduleTime(0).withLabels(labels));
     }
 
     @Override

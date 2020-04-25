@@ -85,8 +85,8 @@ public class ChoosingDifficultyScreen implements Screen {
             unlockedLevel = ul_tmp;
 
         // Buttons configuration
-        Font fontNormal = FontHelper.getFont(UseFont.CLASSIC_SANS_NORMAL_WHITE);
-        Font fontGrey = FontHelper.getFont(UseFont.CLASSIC_SANS_NORMAL_GRAY);
+        Font fontNormal = FontHelper.CLASSIC_SANS_NORMAL_WHITE;
+        Font fontGrey = FontHelper.CLASSIC_SANS_NORMAL_GRAY;
         final Font mediumBtnFont;
         final Font hardBtnFont;
         final Font infiniteBtnFont;

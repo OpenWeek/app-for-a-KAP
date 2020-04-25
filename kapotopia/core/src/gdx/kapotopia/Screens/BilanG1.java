@@ -16,15 +16,16 @@ import java.util.LinkedList;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Bilan1.RenderController;
 import gdx.kapotopia.Bilan1.BilanController;
+import gdx.kapotopia.Bilan1.RenderController;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Game1.VirusContainer;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.Helpers.StandardInputAdapter;
 
 public class BilanG1 implements Screen {
     // Basic variables
@@ -84,15 +85,15 @@ public class BilanG1 implements Screen {
         pointeur = 0;
 
         // Intro text
-        intro = new LabelBuilder(Localisation.getInstance().getString("intro_text"))
-                .withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK).withPosition(wWidth / 9f,wHeight / 1.2f).isWrapped(true).withWidth(wWidth / 1.3f).build();
+        intro = new LabelBuilder(game, Localisation.getInstance().getString("intro_text"))
+                .withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK).withPosition(wWidth / 9f,wHeight / 1.2f).isWrapped(true).withWidth(wWidth / 1.3f).build();
         stage.addActor(intro);
 
         // Button
         final float xNext = wWidth * 0.4f;
         final float yNext = wHeight * 0.125f;
-        next = new TextButtonBuilder(Localisation.getInstance().getString("next_button"))
-                .withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK).withPosition(xNext, yNext)
+        next = new TextButtonBuilder(game, Localisation.getInstance().getString("next_button"))
+                .withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK).withPosition(xNext, yNext)
                 .withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
