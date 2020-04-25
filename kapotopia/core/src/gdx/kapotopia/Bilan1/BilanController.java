@@ -41,7 +41,7 @@ public class BilanController {
         final float wHeight = GameConfig.GAME_HEIGHT;
         Font style = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
 
-        float initStiImgX = - (wWidth / 5);
+        float initStiImgX = - (wWidth / 4f);
         for (VirusContainer ist : missedIsts) {
 
             // Name
@@ -62,11 +62,11 @@ public class BilanController {
             // Image
             final float xImg = initStiImgX;
             final float yImg = yName - (wHeight * 0.025f);
-            final float scalling_factor = wHeight * 0.0002f;
+            final float scalling_factor = wHeight * 0.0001f;
             final Sprite stiImg = new Sprite(game.ass.get(ist.getTexture()));
             stiImg.setPosition(xImg, yImg);
             stiImg.setScale(scalling_factor);
-            initStiImgX += stiImg.getWidth() / 7;
+            initStiImgX += stiImg.getWidth() / 12;
             bilan.getRenderController().enqueueStiSprite(stiImg);
             // General
             names.add(ln);

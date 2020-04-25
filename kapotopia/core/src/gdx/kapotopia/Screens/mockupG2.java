@@ -53,7 +53,6 @@ public class mockupG2 extends CinematicScreen {
                 .withTimerScheduleTime(0)
                 .withLabels(labels)
                 .withFinishBtn(false));
-        game.getTheValueGateway().addToTheStore("nextscreen",ScreenType.GAME2);
     }
 
     @Override

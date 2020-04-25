@@ -22,7 +22,6 @@ import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.UnlockedLevel;
-import gdx.kapotopia.Utils;
 
 import static gdx.kapotopia.GameDifficulty.HARD;
 import static gdx.kapotopia.GameDifficulty.MEDIUM;

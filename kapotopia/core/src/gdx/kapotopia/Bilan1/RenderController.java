@@ -41,9 +41,6 @@ public class RenderController {
 
         this.batch = new SpriteBatch();
 
-//        final float wWidth = game.viewport.getWorldWidth();
-//        final float wHeight = game.viewport.getWorldHeight();
-
         // Defining visual elements
 
         background = game.ass.get(AssetDescriptors.B1_BACK);
@@ -72,7 +69,7 @@ public class RenderController {
 
     private void prepareFirstStiSprite() {
         final Sprite sti = stiSprites.first();
-        sti.setScale(sti.getScaleX() + 0.05f);
+        sti.setScale(sti.getScaleX() + 0.07f);
     }
 
     public void update() {

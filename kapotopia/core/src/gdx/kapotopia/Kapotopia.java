@@ -43,7 +43,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
     public FitViewport viewport;
     // The value Gateway
-    private ValueGateway gate; 		//TODO remove this
 	public GlobalVariables vars;
     // Settings
     private Settings settings;
@@ -85,7 +84,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
-		this.gate = new ValueGateway();
 		this.vars = new GlobalVariables();
 		this.settings = new Settings();
 		changeScreen(ScreenType.MAINMENU);
@@ -156,10 +154,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.ass.finishLoading();
 		Gdx.app.log(TAG, this.ass.getDiagnostics());
 		Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
-	}
-
-	public ValueGateway getTheValueGateway() {
-		return this.gate;
 	}
 
 	public Settings getSettings() {

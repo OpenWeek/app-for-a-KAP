@@ -43,8 +43,6 @@ public class ChoosingDifficultyScreen implements Screen {
 
     private final ScreenType nextScreen;
 
-    private GameDifficulty choosenDifficulty;
-
     // Animation
     private Texture top;
     private Animation<TextureRegion> backgroundHell;
@@ -72,16 +70,8 @@ public class ChoosingDifficultyScreen implements Screen {
         this.clicBlockedSound = game.ass.get(AssetDescriptors.SOUND_HINT);
         this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
 
-        ScreenType nextScreen = (ScreenType) game.getTheValueGateway().removeFromTheStore("nextscreen");
-        if(nextScreen == null)
-            nextScreen = ScreenType.MAINMENU;
-        this.nextScreen = nextScreen;
-        UnlockedLevel ul_tmp = (UnlockedLevel) game.getTheValueGateway().removeFromTheStore("unlockedLevel");
-        final UnlockedLevel unlockedLevel;
-        if(ul_tmp == null)
-            unlockedLevel = UnlockedLevel.HARD_UNLOCKED;
-        else
-            unlockedLevel = ul_tmp;
+        this.nextScreen = game.vars.getNextScreenOfChoosingDifScreen();
+        final UnlockedLevel unlockedLevel = game.vars.getGame1UnlockedLevels();
 
         // Buttons configuration
         Font fontNormal = FontHelper.CLASSIC_SANS_NORMAL_WHITE;
@@ -169,9 +159,6 @@ public class ChoosingDifficultyScreen implements Screen {
         stage.addActor(mediumBtn);
         stage.addActor(hardBtn);
         stage.addActor(infiniteBtn);
-
-        // Other variables
-        choosenDifficulty = GameDifficulty.EASY;
     }
 
     @Override

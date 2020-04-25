@@ -208,9 +208,10 @@ public class mockupG1 extends CinematicScreen {
     @Override
     public void show() {
         setUpInputProcessor();
-        game.getTheValueGateway().addToTheStore("nextscreen", ScreenType.GAME1);
+
+        game.vars.setNextScreenOfChoosingDifScreen(ScreenType.GAME1);
         final UnlockedLevel level = game.getSettings().getG1UnlockedLvl();
-        game.getTheValueGateway().addToTheStore("unlockedLevel", level);
+        game.vars.setGame1UnlockedLevels(level);
     }
 
     @Override
