@@ -14,9 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.TimeUtils;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Fonts.UseFont;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.Font;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
@@ -28,7 +30,6 @@ import gdx.kapotopia.Localisation;
 import gdx.kapotopia.STIDex.STI;
 import gdx.kapotopia.STIDex.STIData;
 import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.Utils;
 
 
 public class World4 implements Screen {
@@ -74,26 +75,27 @@ public class World4 implements Screen {
     private STI[] data;
 
     public World4(final Kapotopia game) {
+        this.game = game;
 
         preload();
 
-        this.game = game;
-        Texture fond = AssetsManager.getInstance().getTextureByPath("Pokedex.png");
+        istIndex = 0;
+        Texture fond = game.ass.get(AssetDescriptors.DEX_BACK);
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
 
-        TextButton.TextButtonStyle style = Utils.getStyleFont("COMMS.ttf", 60);
+        Font style = FontHelper.CLASSIC_BOLD_BIG_BLACK;
 
-
-        final TextButton back = new TextButtonBuilder(Localisation.getInstance().getString("back_button")).withStyle(style)
-                .withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.WORLD4)).build();
+        final TextButton back = new TextButtonBuilder(game, Localisation.getInstance().getString("back_button"))
+                .withStyle(style).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.WORLD4))
+                .build();
         back.setPosition((game.viewport.getWorldWidth() / 2) - back.getWidth() / 2, 50);
         back.setVisible(true);
         stage.addActor(back);
 
         // Right Arrow texture loading (we need it's dimensions for computing certain coordinates)
-        Texture rightArrowT = AssetsManager.getInstance().getTextureByPath("ui_arrow.png");
+        Texture rightArrowT = game.ass.get(AssetDescriptors.ARROW);
 
         /* COMPUTING COORDINATES (for info about variable names, see the draw at the top of this file) */
         final float ww = game.viewport.getWorldWidth();
@@ -117,7 +119,7 @@ public class World4 implements Screen {
         final float h2 = wh * 0.25f;
 
         //this code is used to update the displayedIstSprite
-        displayedIstSprite = new Image(AssetsManager.getInstance().getTextureByPath(data[istIndex].getTexturePath()));
+        displayedIstSprite = new Image(game.ass.get(data[istIndex].getTexture()));
         displayedIstSprite.setBounds(x2_x, x2_y, w2, h2);
         displayedIstSprite.setVisible(true);
         displayedIstSprite.setTouchable(Touchable.enabled);
@@ -160,38 +162,45 @@ public class World4 implements Screen {
         stage.addActor(leftArrow);
 
         // label containing STI name
-        nameLab = new LabelBuilder(data[istIndex].getName()).withY(wh * 0.625f)
-                .withStyle(UseFont.CLASSIC_SANS_MIDDLE_BLACK)
+        nameLab = new LabelBuilder(game, data[istIndex].getName()).withY(wh * 0.625f)
+                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
                 .withAlignment(Alignement.CENTER).build();
         stage.addActor(nameLab);
 
         // label containing the STI descriptionLab
-        descriptionLab = new LabelBuilder(data[istIndex].getDescription()).isWrapped(true)
-                .withStyle(UseFont.CLASSIC_SANS_MIDDLE_BLACK)
+        descriptionLab = new LabelBuilder(game, data[istIndex].getDescription()).isWrapped(true)
+                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
                 .withPosition(x1_x, x1_y).withWidth(w1)
                 //.withBounds(x1_x, x1_y, w1, h1)
                 .build();
         stage.addActor(descriptionLab);
-
-        AssetsManager.getInstance().addStage(stage, "world4");
     }
 
     private void updateSti(){
         displayedIstSprite.setDrawable(
                 new TextureRegionDrawable(
-                        new TextureRegion(AssetsManager.getInstance().getTextureByPath(
-                                data[istIndex].getTexturePath())
-                        )
+                        new TextureRegion(game.ass.get(data[istIndex].getTexture()))
                 )
         );
     }
 
     private void preload(){
         Gdx.app.log(TAG, "Preloading stuff... ");
+        long startTime = TimeUtils.millis();
         this.data = STIData.getIstAndMaybeIsts();
         for (STI sti : data) {
-            istIndex = (istIndex + 1) % data.length;
-            Texture t = AssetsManager.getInstance().getTextureByPath(sti.getTexturePath());
+            game.ass.load(sti.getTexture());
+        }
+        // Preloading assets
+        game.ass.load(AssetDescriptors.DEX_BACK);
+        game.ass.load(AssetDescriptors.ARROW);
+
+        game.ass.finishLoading();
+        Gdx.app.log(TAG, game.ass.getDiagnostics());
+        Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
+
+        for (STI sti : data) {
+            Texture t = game.ass.get(sti.getTexture());
             // We imposed that every virus sprite texture has the same dimension, thus we can just take the last texture width/height
             istSpriteWidth = t.getWidth();
             istSpriteHeight = t.getHeight();
@@ -234,7 +243,7 @@ public class World4 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("world4");
+        stage.dispose();
     }
 
 

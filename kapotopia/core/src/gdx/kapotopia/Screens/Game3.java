@@ -5,24 +5,33 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import gdx.kapotopia.*;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Fonts.UseFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.TimeUtils;
+
+import java.util.Random;
+
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.AssetsManaging.AssetPaths;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Game3.Core;
 import gdx.kapotopia.Game3.EventHandlerGame3;
 import gdx.kapotopia.Helpers.Builders.PopUpBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
-
-import java.util.Random;
+import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.ScreenType;
 
 public class Game3 implements Screen {
+
+    private final String TAG = this.getClass().getSimpleName();
 
     private Kapotopia game;
     private Stage stage;
@@ -38,6 +47,9 @@ public class Game3 implements Screen {
     public Game3(final Kapotopia game) {
 
         this.game = game;
+
+        loadAssets();
+
         inGame = true;
         popStage = new Stage(game.viewport);
 
@@ -65,23 +77,54 @@ public class Game3 implements Screen {
         stage = new Stage(game.viewport);
 
         //stage.addActor(res);
-        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("game3/Porte.png"));
-        Image imgFond2 = new Image(AssetsManager.getInstance().getTextureByPath("game3/VerrouFerme.png"));
-        String[] neons = {"NeonsRoses", "NeonsRouges", "NeonsTurquoises", "NeonsVerts", "NeonsViolets"};
-        Random r = new Random();
-        Image imgFond3 = new Image(AssetsManager.getInstance().getTextureByPath("game3/"+neons[r.nextInt(neons.length)]+".png"));
+        final Image door = new Image(game.ass.get(AssetDescriptors.DOOR));
+        final Image lock = new Image(game.ass.get(AssetDescriptors.DOOR_LOCK));
+        final Image neon = new Image(game.ass.get(chooseNeon()));
 
         // Sounds and musics
         this.musicOn = game.getSettings().isMusicOn();
-        this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
-        this.music = AssetsManager.getInstance().getMusicByPath("sound/one_eyed_maestro.mp3");
+        this.successSound = game.ass.get(AssetDescriptors.SOUND_SUCCESS);
+        this.music = game.ass.get(AssetDescriptors.MUSIC_GAME3);
         this.music.setLooping(true);
 
-        stage.addActor(imgFond);
-        stage.addActor(imgFond2);
-        stage.addActor(imgFond3);
-        AssetsManager.getInstance().addStage(stage, "game3");
+        stage.addActor(door);
+        stage.addActor(lock);
+        stage.addActor(neon);
+    }
 
+    private AssetDescriptor<Texture> chooseNeon() {
+        Random r = new Random();
+        String[] neons = {AssetPaths.NEON_ROSE, AssetPaths.NEON_RED, AssetPaths.NEON_TURQUOISE,
+                AssetPaths.NEON_GREEN, AssetPaths.NEON_VIOLET};
+        return new AssetDescriptor<Texture>(neons[r.nextInt(neons.length)], Texture.class);
+    }
+
+    private void loadAssets() {
+        long startTime = TimeUtils.millis();
+        // Graphics
+        game.ass.load(AssetDescriptors.NEON_ROSE);
+        game.ass.load(AssetDescriptors.NEON_RED);
+        game.ass.load(AssetDescriptors.NEON_TURQUOISE);
+        game.ass.load(AssetDescriptors.NEON_GREEN);
+        game.ass.load(AssetDescriptors.NEON_VIOLET);
+        game.ass.load(AssetDescriptors.DOOR);
+        game.ass.load(AssetDescriptors.DOOR_LOCK);
+        game.ass.load(AssetDescriptors.BATTERY);
+        game.ass.load(AssetDescriptors.CLOSED_LOCK1);
+        game.ass.load(AssetDescriptors.CLOSED_LOCK2);
+        game.ass.load(AssetDescriptors.OPENED_LOCK1);
+        game.ass.load(AssetDescriptors.OPENED_LOCK2);
+        game.ass.load(AssetDescriptors.CROSS_T);
+        game.ass.load(AssetDescriptors.TCROSS_T);
+        game.ass.load(AssetDescriptors.LINE_T);
+        game.ass.load(AssetDescriptors.HALF_LINE_T);
+        game.ass.load(AssetDescriptors.TURN_T);
+        // Sounds
+        game.ass.load(AssetDescriptors.MUSIC_GAME3);
+
+        game.ass.finishLoading();
+        Gdx.app.log(TAG, game.ass.getDiagnostics());
+        Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
     }
 
     public Core getCore(){return core;}
@@ -156,7 +199,7 @@ public class Game3 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("game3");
+        stage.dispose();
     }
 
     public void quitGameConfirm() {
@@ -165,7 +208,7 @@ public class Game3 implements Screen {
 
         popup.setTitle("Congratulations!");
 
-        TextButton btnYes = new TextButtonBuilder("Exit").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
+        TextButton btnYes = new TextButtonBuilder(game, "Exit").withStyle(FontHelper.AESTHETIC_NORMAL_BLACK).build();
         btnYes.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
@@ -192,7 +235,7 @@ public class Game3 implements Screen {
 
         popup.setTitle(description);
 
-        TextButton btnYes = new TextButtonBuilder("back").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
+        TextButton btnYes = new TextButtonBuilder(game, "back").withStyle(FontHelper.AESTHETIC_NORMAL_BLACK).build();
         btnYes.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,

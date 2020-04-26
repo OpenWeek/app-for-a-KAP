@@ -1,20 +1,17 @@
 package gdx.kapotopia.Helpers.Builders;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Fonts.Font;
-import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Fonts.UseFont;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Pad;
@@ -43,7 +40,6 @@ public class ImageTextButtonBuilder {
     private boolean checked;
 
     private Font font;
-    private ImageTextButton.ImageTextButtonStyle fontStyle;
     private Button.ButtonStyle imageStyle;
 
 
@@ -68,7 +64,6 @@ public class ImageTextButtonBuilder {
         this.text = text;
         this.checked = false;
         this.font = null;
-        this.fontStyle = new ImageTextButton.ImageTextButtonStyle(FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_BLACK));
         this.imageStyle = null;
     }
 
@@ -168,25 +163,8 @@ public class ImageTextButtonBuilder {
         return this;
     }
 
-    public ImageTextButtonBuilder withFontStyle(UseFont font) {
-        this.font = FontHelper.getFont(font);
-        return this;
-    }
-
-    public ImageTextButtonBuilder withFontStyle(TextButton.TextButtonStyle fontStyle) {
-        this.fontStyle = new ImageTextButton.ImageTextButtonStyle(fontStyle);
-        return this;
-    }
-
     public ImageTextButtonBuilder withImageStyle(Button.ButtonStyle imageStyle) {
         this.imageStyle = imageStyle;
-        return this;
-    }
-
-    public ImageTextButtonBuilder withImageStyle(String path) {
-        final Drawable image = new TextureRegionDrawable(new TextureRegion(
-                AssetsManager.getInstance().getTextureByPath(path)));
-        this.imageStyle = new Button.ButtonStyle(image, image, image);
         return this;
     }
 
@@ -196,44 +174,23 @@ public class ImageTextButtonBuilder {
         return this;
     }
 
-    public ImageTextButtonBuilder withImageStyle(String pathImgUp, String pathImgDown, String pathImgChecked) {
-        final Drawable imageUp = new TextureRegionDrawable(new TextureRegion(AssetsManager.getInstance().getTextureByPath(pathImgUp)));
-        final Drawable imageDown = new TextureRegionDrawable(new TextureRegion(AssetsManager.getInstance().getTextureByPath(pathImgDown)));
-        final Drawable imageChecked = new TextureRegionDrawable(new TextureRegion(AssetsManager.getInstance().getTextureByPath(pathImgChecked)));
-
-        this.imageStyle = new Button.ButtonStyle(imageUp, imageDown, imageChecked);
-        return this;
-    }
-
-    public ImageTextButtonBuilder withImageStyle(Texture textureImgUp, Texture textureImgDown, Texture textureImgChecked) {
-        final Drawable imageUp = new TextureRegionDrawable(new TextureRegion(textureImgUp));
-        final Drawable imageDown = new TextureRegionDrawable(new TextureRegion(textureImgDown));
-        final Drawable imageChecked = new TextureRegionDrawable(new TextureRegion(textureImgChecked));
-
-        this.imageStyle = new Button.ButtonStyle(imageUp, imageDown, imageChecked);
-        return this;
-    }
-
-
-
-    public ImageTextButton build() {
+    public ImageTextButton build() throws IllegalArgumentException {
         final ImageTextButton imgTxtBtn;
         if (font != null) {
-            imgTxtBtn = new ImageTextButton(text, new ImageTextButton.ImageTextButtonStyle(font.getStyle()));
-        } else {
-            imgTxtBtn = new ImageTextButton(text, fontStyle);
-        }
-
-        if (imageStyle != null) {
             final ImageTextButton.ImageTextButtonStyle style;
-            if (font != null) {
+            // Either we have some images provided either we just have a font, in the last case, the imageTextButton
+            // will be similar to a TextButton
+            if (imageStyle != null) {
+                final BitmapFont bitmapFont = game.ass.get(font.getFont());
                 style = new ImageTextButton.ImageTextButtonStyle(imageStyle.up, imageStyle.down,
-                        imageStyle.checked, new ImageTextButton.ImageTextButtonStyle(font.getStyle()).font);
+                        imageStyle.checked, bitmapFont);
             } else {
-                style = new ImageTextButton.ImageTextButtonStyle(imageStyle.up, imageStyle.down,
-                        imageStyle.checked, fontStyle.font);
+                style = new ImageTextButton.ImageTextButtonStyle();
+                style.font = game.ass.get(font.getFont());
             }
-            imgTxtBtn.setStyle(style);
+            imgTxtBtn = new ImageTextButton(text, style);
+        } else {
+            throw new IllegalArgumentException("No font provided");
         }
 
         // Actor attributes

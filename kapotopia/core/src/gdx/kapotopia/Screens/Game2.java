@@ -6,16 +6,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
 import gdx.kapotopia.Helpers.Alignement;
@@ -25,10 +26,6 @@ import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 
-import static gdx.kapotopia.Fonts.UseFont.CLASSIC_BOLD_NORMAL_BLACK;
-import static gdx.kapotopia.Fonts.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
-import static gdx.kapotopia.Fonts.UseFont.CLASSIC_SANS_NORMAL_BLACK;
-import static gdx.kapotopia.Fonts.UseFont.CLASSIC_SANS_SMALL_BLACK;
 import static java.util.Collections.shuffle;
 
 
@@ -72,9 +69,7 @@ public class Game2 implements Screen {
 
     final Ball[] sittingBalls = new Ball[STInbr];
 
-    private final String GAME_PATH = "World1/Game2/";
-
-    private static final String TAG = "Screens-Game2";
+    private final String TAG = this.getClass().getSimpleName();
 
     private ChangeListener[] ballClick = new ChangeListener[STInbr];
 
@@ -97,12 +92,15 @@ public class Game2 implements Screen {
         screenWidth = game.viewport.getWorldWidth();
 
         this.game = game;
-        Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Sable.png"));
-        Image imgBckground2 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Mer.png"));
-        Image imgBckground3 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"ciel.png"));
-        Image imgBckground4 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Palmier1.png"));
-        Image imgBckground5 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Filet.png"));
-        panneau = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"UnPANNAL.png"));
+
+        loadAssets();
+
+        Image imgBckground = new Image(game.ass.get(AssetDescriptors.SABLE));
+        Image imgBckground2 = new Image(game.ass.get(AssetDescriptors.SEA));
+        Image imgBckground3 = new Image(game.ass.get(AssetDescriptors.SKY));
+        Image imgBckground4 = new Image(game.ass.get(AssetDescriptors.PALMIER));
+        Image imgBckground5 = new Image(game.ass.get(AssetDescriptors.BASKET));
+        panneau = new Image(game.ass.get(AssetDescriptors.PANNAL));
         this.stage = new Stage(game.viewport);
         this.stage.addActor(imgBckground);
         this.stage.addActor(imgBckground2);
@@ -116,13 +114,13 @@ public class Game2 implements Screen {
         this.musicOn = game.getSettings().isMusicOn();
 
         // Sounds and Music
-        this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
-        this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
-        this.music = AssetsManager.getInstance().getMusicByPath("sound/verano_sensual.mp3");
+        this.successSound = game.ass.get(AssetDescriptors.SOUND_SUCCESS);
+        this.nextSound = game.ass.get(AssetDescriptors.SOUND_JUMP_V1);
+        this.music = game.ass.get(AssetDescriptors.MUSIC_GAME2);
         this.music.setPosition(0f);
         this.music.setLooping(true);
 
-        final Image outro0 = new Image(new Texture(GAME_PATH + "20_board_1.png"));
+        final Image outro0 = new Image(game.ass.get(AssetDescriptors.OUTRO));
         prepareMockup(outro0);
 
         /*Creation of instances for game*/
@@ -140,14 +138,15 @@ public class Game2 implements Screen {
         ballSize = screenWidth/(STInbr-1);
         sympTextSize = screenWidth/2;
 
-        livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).withStyle(CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
+        livesLabel = new LabelBuilder(game, loc.getString("lives_label")+lives)
+                .withStyle(FontHelper.CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
         stage.addActor(livesLabel);
 
         //Symptoms creation and set up (representation of symptoms)
-        currentBasket = new Basket();
+        currentBasket = new Basket(game);
         currentBasket.setPosition(symptX,symptY);
         for(int i = 1; i< STInbr; i++){
-            Basket newBasket = new Basket();
+            Basket newBasket = new Basket(game);
             newBasket.setPosition(symptX,symptY);
             currentBasket.setNext(newBasket);
             Basket intermediate = currentBasket;
@@ -160,7 +159,7 @@ public class Game2 implements Screen {
 
         //STI's creation and set up (representation of STI)
         for(int i = 0; i < STInbr; i++) {
-            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY, ballSize, screenHeigth, screenWidth);
+            sittingBalls[i] = new Ball(game, i, sitBalX + i * ballDelta, sitBalY, ballSize, screenHeigth, screenWidth);
         }
         for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
@@ -186,8 +185,25 @@ public class Game2 implements Screen {
         for(int i = 0; i < STInbr; i++) {
             stage.addActor(sittingBalls[i].getButton());
         }
+    }
 
-        AssetsManager.getInstance().addStage(stage, "game2");
+    private void loadAssets() {
+        long startTime = TimeUtils.millis();
+        // Graphics
+        game.ass.load(AssetDescriptors.BALL);
+        game.ass.load(AssetDescriptors.SABLE);
+        game.ass.load(AssetDescriptors.SEA);
+        game.ass.load(AssetDescriptors.SKY);
+        game.ass.load(AssetDescriptors.PALMIER);
+        game.ass.load(AssetDescriptors.BASKET);
+        game.ass.load(AssetDescriptors.PANNAL);
+        game.ass.load(AssetDescriptors.OUTRO);
+        // Sounds
+        game.ass.load(AssetDescriptors.MUSIC_GAME2);
+
+        game.ass.finishLoading();
+        Gdx.app.log(TAG, game.ass.getDiagnostics());
+        Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
     }
 
     @Override
@@ -247,7 +263,7 @@ public class Game2 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("game2");
+        stage.dispose();
     }
 
     /**
@@ -404,7 +420,7 @@ public class Game2 implements Screen {
                         currentBall = null;
                         lives--;
                         livesLabel.setVisible(false);
-                        livesLabel = new LabelBuilder(loc.getString("lives_label") + lives).withStyle(CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX, livesY).build();
+                        livesLabel = new LabelBuilder(game, loc.getString("lives_label") + lives).withStyle(FontHelper.CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX, livesY).build();
                         stage.addActor(livesLabel);
                         if (lives == 0) {//Game is lost
                             //remove the listeners and hide the symptom
@@ -414,32 +430,32 @@ public class Game2 implements Screen {
                             currentBasket.hideLabel();
                             //Display losing message
                             if (STIfound >= (STInbr / 2)) {
-                                Label gameWon0 = new LabelBuilder(loc.getString("game2_badending1"))
-                                        .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+                                Label gameWon0 = new LabelBuilder(game, loc.getString("game2_badending1"))
+                                        .withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY)
                                         .build();
-                                Label gameWon1 = new LabelBuilder(loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3"))
-                                        .withStyle(CLASSIC_SANS_SMALL_BLACK)
+                                Label gameWon1 = new LabelBuilder(game, loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3"))
+                                        .withStyle(FontHelper.CLASSIC_SANS_SMALL_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY - 60)
                                         .build();
-                                Label gameWon2 = new LabelBuilder(loc.getString("game2_badending4"))
-                                        .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
+                                Label gameWon2 = new LabelBuilder(game, loc.getString("game2_badending4"))
+                                        .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY - 125)
                                         .build();
                                 stage.addActor(gameWon0);
                                 stage.addActor(gameWon1);
                                 stage.addActor(gameWon2);
                             } else {
-                                Label gameWon0 = new LabelBuilder(loc.getString("game2_badending5"))
-                                        .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+                                Label gameWon0 = new LabelBuilder(game, loc.getString("game2_badending5"))
+                                        .withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY)
                                         .build();
-                                Label gameWon1 = new LabelBuilder(loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3"))
-                                        .withStyle(CLASSIC_SANS_SMALL_BLACK)
+                                Label gameWon1 = new LabelBuilder(game, loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3"))
+                                        .withStyle(FontHelper.CLASSIC_SANS_SMALL_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY - 60)
                                         .build();
-                                Label gameWon2 = new LabelBuilder(loc.getString("game2_badending6"))
-                                        .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
+                                Label gameWon2 = new LabelBuilder(game, loc.getString("game2_badending6"))
+                                        .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
                                         .withAlignment(Alignement.CENTER).withY(middleY - 125)
                                         .build();
                                 stage.addActor(gameWon0);
@@ -457,17 +473,17 @@ public class Game2 implements Screen {
                             //IMPROVEMENT maybe add a success message (with a label) here
                         } else if (STIfound == STInbr) {//game has been won
                             currentBasket.hideLabel();
-                            Label gameWon0 = new LabelBuilder(loc.getString("game2_goodending1"))
+                            Label gameWon0 = new LabelBuilder(game, loc.getString("game2_goodending1"))
                                     .withAlignment(Alignement.CENTER).withY(middleY)
-                                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+                                    .withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK)
                                     .build();
-                            Label gameWon1 = new LabelBuilder(loc.getString("game2_goodending2"))
+                            Label gameWon1 = new LabelBuilder(game, loc.getString("game2_goodending2"))
                                     .withAlignment(Alignement.CENTER).withY(middleY - 60)
-                                    .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
+                                    .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
                                     .build();
-                            Label gameWon2 = new LabelBuilder(loc.getString("game2_goodending3"))
+                            Label gameWon2 = new LabelBuilder(game, loc.getString("game2_goodending3"))
                                     .withAlignment(Alignement.CENTER).withY(middleY - 120)
-                                    .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
+                                    .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
                                     .build();
 
                             stage.addActor(gameWon0);

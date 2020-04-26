@@ -5,11 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 
-import gdx.kapotopia.Fonts.UseFont;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Kapotopia;
 
 public class PopUpBuilder {
 
+    private Kapotopia game;
     private Stage stage;
     private final Dialog dialog;
     private float btnSize = 90f;
@@ -18,11 +19,13 @@ public class PopUpBuilder {
     private Label title;
 
     public PopUpBuilder(final Kapotopia game, Stage stage) {
+        this.game = game;
         this.stage = stage;
         x = 0;
         y = 0;
 
         // /////////////////
+        //TODO use assetmanager to stock the following skin
         Skin skinDialog = new Skin(Gdx.files.internal("defaultSkin/skin/uiskin.json"));
         dialog = new Dialog("", skinDialog) {
             @Override
@@ -60,7 +63,7 @@ public class PopUpBuilder {
         if(title != null){
             dialog.getContentTable().removeActor(this.title);
         }
-        this.title = new LabelBuilder(title).withStyle(UseFont.CLASSIC_BOLD_NORMAL_WHITE).build();
+        this.title = new LabelBuilder(game, title).withStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE).build();
         this.title.setAlignment(Align.center);
         dialog.getContentTable().add(this.title).padTop(40f);
     }

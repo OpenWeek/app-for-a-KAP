@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import java.util.Random;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Screens.Game1;
 
@@ -30,11 +29,7 @@ public class Virus extends VirusAbstract {
         this.game = game;
         this.random = new Random();
         this.setName("Tom");
-        if(game == null) {
-            builderHelper(null,50,bounds.getHeight());
-        }else{
-            builderHelper(updateNewVirus(),50,bounds.getHeight());
-        }
+        builderHelper(updateNewVirus(),50,bounds.getHeight());
         this.speed = 500;
         this.acceleration = 1.00f;
         this.accAddFactor = 0.08f;
@@ -100,7 +95,7 @@ public class Virus extends VirusAbstract {
         this.setName(v.getName());
         this.isIST = v.isIst();
         this.isMaybeIST = v.isMaybeIst();
-        return AssetsManager.getInstance().getTextureByPath(v.getTexturePath());
+        return game.getGame().ass.get(v.getTexture());
     }
 
     public boolean isIST() {

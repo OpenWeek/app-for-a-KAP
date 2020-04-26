@@ -7,16 +7,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
-
-import static gdx.kapotopia.Fonts.UseFont.CLASSIC_SANS_SMALL_WHITE;
+import gdx.kapotopia.Kapotopia;
 
 //TODO: refactor variables ot better use screenHeight and screenWidth
 
 public class Ball extends Button {
 
-    final private String TAG = "Ball class";
+    final private String TAG = this.getClass().getSimpleName();
+
+    private Kapotopia game;
 
     /*Characteristics of the STD represented by the ball*/
     private int STInbr; //Integer that is linked to an STD and permits connection with the correct STD basket
@@ -29,7 +31,6 @@ public class Ball extends Button {
     private float size; // = 200;
     private Label label;
     private ImageButton button;
-    private final String TEXTURE_PATH = "World1/Game2/Ballon.png";
 
     /*Variables related to movement of ball*/
     private boolean moving;
@@ -91,7 +92,8 @@ public class Ball extends Button {
         this.moving = false;
     }*/
 
-    public Ball(int nbr, float x, float y, float size, float height, float width){
+    public Ball(Kapotopia game, int nbr, float x, float y, float size, float height, float width){
+        this.game = game;
         this.screenHeigth = height;
         this.screenWidth = width;
         this.STInbr = nbr;
@@ -103,7 +105,7 @@ public class Ball extends Button {
         this.finishY = y;
         this.ground = screenHeigth/25;
         this.button = new ImageButton(new TextureRegionDrawable(new TextureRegion(
-                AssetsManager.getInstance().getTextureByPath(TEXTURE_PATH))));
+                game.ass.get(AssetDescriptors.BALL))));
         this.button.setBounds(x,y,size,size);
         this.moving = false;
         this.size = size;
@@ -202,7 +204,7 @@ public class Ball extends Button {
 
     public void setName(String name){
         this.STIname = name;
-        this.label = new LabelBuilder(name).withWidth(2).withStyle(CLASSIC_SANS_SMALL_WHITE).withPosition(size/10,size/2.5f).build();
+        this.label = new LabelBuilder(game, name).withWidth(2).withStyle(FontHelper.CLASSIC_SANS_SMALL_WHITE).withPosition(size/10,size/2.5f).build();
     }
 
 

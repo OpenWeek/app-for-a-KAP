@@ -22,7 +22,6 @@ import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.UnlockedLevel;
-import gdx.kapotopia.Utils;
 
 import static gdx.kapotopia.GameDifficulty.HARD;
 import static gdx.kapotopia.GameDifficulty.MEDIUM;
@@ -262,7 +261,7 @@ public class GameController {
     }
 
     private MireilleBasic prepareMireille() {
-        final MireilleBasic mireille = new MireilleBasic(MIN_X, MIN_Y);
+        final MireilleBasic mireille = new MireilleBasic(game, MIN_X, MIN_Y);
         mireille.updateCollision(MIN_X, MIN_Y);
         mireille.addListener(new ChangeListener() {
             @Override
@@ -572,5 +571,17 @@ public class GameController {
 
     public float getMOVE_VALUE_X() {
         return MOVE_VALUE_X;
+    }
+
+    public List<VirusContainer> getIst() {
+        return ist;
+    }
+
+    public List<VirusContainer> getFake() {
+        return fake;
+    }
+
+    public List<VirusContainer> getMaybeIst() {
+        return maybeIst;
     }
 }

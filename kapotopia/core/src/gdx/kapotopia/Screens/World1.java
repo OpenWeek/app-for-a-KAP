@@ -9,10 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.Sound.SoundHelper;
-import gdx.kapotopia.Fonts.UseFont;
-import gdx.kapotopia.Sound.UseSound;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
@@ -30,28 +28,26 @@ public class World1 implements Screen {
 
     public World1(final Kapotopia game) {
         this.game = game;
-        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath("EcranMenu/World1EcranMenu.png"));
+        Image imgFond = new Image(game.ass.get(AssetDescriptors.MM_W1));
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
 
         // Import sounds
-        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
+        this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
 
         final Localisation loc = Localisation.getInstance();
 
         final float y = game.viewport.getWorldHeight();
-        TextButton game1 = new TextButtonBuilder(loc.getString("game1_button")).withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
+        TextButton game1 = new TextButtonBuilder(game, loc.getString("game1_button")).withStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
                 .withY(y * 0.57f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG1)).build();
-        TextButton game2 = new TextButtonBuilder(loc.getString("game2_button")).withStyle(UseFont.AESTHETIC_NORMAL_WHITE)
+        TextButton game2 = new TextButtonBuilder(game, loc.getString("game2_button")).withStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
                 .withY(y * 0.1f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG2)).build();
 
         stage.addActor(imgFond);
         stage.addActor(game1);
         stage.addActor(game2);
-
-        AssetsManager.getInstance().addStage(stage, "world1");
     }
 
     @Override
@@ -90,6 +86,6 @@ public class World1 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("world1");
+        stage.dispose();
     }
 }

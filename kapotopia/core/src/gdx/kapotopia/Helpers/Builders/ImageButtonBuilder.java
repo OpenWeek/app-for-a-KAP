@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
 
@@ -49,8 +48,7 @@ public class ImageButtonBuilder {
 
         // ImageButton attributes
         this.style = null;
-        this.imageUp = new TextureRegionDrawable(new TextureRegion(
-                AssetsManager.getInstance().getTextureByPath("pause_logo.png")));
+        this.imageUp = null;
         this.imageDown = null;
         this.imageChecked = null;
     }
@@ -136,12 +134,6 @@ public class ImageButtonBuilder {
         return this;
     }
 
-    public ImageButtonBuilder withImageUp(String path) {
-        this.imageUp = new TextureRegionDrawable(new TextureRegion(
-                AssetsManager.getInstance().getTextureByPath(path)));
-        return this;
-    }
-
     public ImageButtonBuilder withImageUp(Texture texture) {
         this.imageUp = new TextureRegionDrawable(new TextureRegion(texture));
         return this;
@@ -157,20 +149,8 @@ public class ImageButtonBuilder {
         return this;
     }
 
-    public ImageButtonBuilder withImageDown(String path) {
-        this.imageDown = new TextureRegionDrawable(new TextureRegion(
-                AssetsManager.getInstance().getTextureByPath(path)));
-        return this;
-    }
-
     public ImageButtonBuilder withImageDown(Texture texture) {
         this.imageDown = new TextureRegionDrawable(new TextureRegion(texture));
-        return this;
-    }
-
-    public ImageButtonBuilder withImageChecked(String path) {
-        this.imageChecked = new TextureRegionDrawable(new TextureRegion(
-                AssetsManager.getInstance().getTextureByPath(path)));
         return this;
     }
 

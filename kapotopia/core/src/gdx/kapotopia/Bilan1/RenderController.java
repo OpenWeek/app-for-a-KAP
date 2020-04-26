@@ -9,17 +9,11 @@ import com.badlogic.gdx.utils.Queue;
 
 import java.util.Iterator;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Screens.BilanG1;
 
 public class RenderController {
-
-    /* Constants */
-
-    private final String IMGBACK_PATH = "World1/Game1/EcranTotal.png";
-    private final String BUBBLE_PATH = "ImagesGadgets/BulleExplicative.png";
-    private final String MIR_PATH = "MireilleImages/MireilleInstruit.png";
 
     /* Basic Variables */
 
@@ -47,15 +41,12 @@ public class RenderController {
 
         this.batch = new SpriteBatch();
 
-//        final float wWidth = game.viewport.getWorldWidth();
-//        final float wHeight = game.viewport.getWorldHeight();
-
         // Defining visual elements
 
-        background = AssetsManager.getInstance().getTextureByPath(IMGBACK_PATH);
-        bubble = AssetsManager.getInstance().getTextureByPath(BUBBLE_PATH);
+        background = game.ass.get(AssetDescriptors.B1_BACK);
+        bubble = game.ass.get(AssetDescriptors.BUBBLE_EXPL);
 
-        final Texture mireille = AssetsManager.getInstance().getTextureByPath(MIR_PATH);
+        final Texture mireille = game.ass.get(AssetDescriptors.MI_UNI);
         this.mireilleUni = new TextureRegion(mireille, 85, 105, 595, mireille.getHeight() - 200); // We leave out the blanks
         showStiSprites = false;
 
@@ -78,7 +69,7 @@ public class RenderController {
 
     private void prepareFirstStiSprite() {
         final Sprite sti = stiSprites.first();
-        sti.setScale(sti.getScaleX() + 0.05f);
+        sti.setScale(sti.getScaleX() + 0.07f);
     }
 
     public void update() {

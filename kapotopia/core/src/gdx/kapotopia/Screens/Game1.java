@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.HashSet;
+import java.util.List;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Game1.GameController;
 import gdx.kapotopia.Game1.MireilleListener;
 import gdx.kapotopia.Game1.RenderController;
@@ -44,16 +46,70 @@ public class Game1 implements Screen, MireilleListener {
         this.game = game;
         this.stage = new Stage(game.viewport);
 
+        loadAssets();
+
         this.gameController = new GameController(game, this);
+
+        /* We need to load asset after calling creating the gamecontroller because
+         * It's in that method where we load the texture paths of the viruses.
+         * Therefore, the init method must be called after loadAssets since it's set up Virus textures
+         */
+        loadSTIAssets(this.gameController.getIst(), this.gameController.getFake(), this.gameController.getMaybeIst());
+
         this.gameController.init();
+
         this.renderController = new RenderController(game, this, stage);
         this.soundController = new SoundController(game,this);
 
         /* Setting up the stage */
         stateTime = 0f;
-
-        AssetsManager.getInstance().addStage(stage, TAG);
     }
+
+    private void loadAssets() {
+        long startTime = TimeUtils.millis();
+        // Graphics
+        game.ass.load(AssetDescriptors.ANIM_ACTIONTEXT);
+        game.ass.load(AssetDescriptors.ANIM_SKY);
+        game.ass.load(AssetDescriptors.ANIM_MIREILLU);
+        game.ass.load(AssetDescriptors.MI_HAPPY);
+        game.ass.load(AssetDescriptors.MI_UNI);
+        game.ass.load(AssetDescriptors.MI_JOJO_FACE);
+        game.ass.load(AssetDescriptors.MI_JOJO_POSE);
+        game.ass.load(AssetDescriptors.MI_JOJO_KANJI);
+        game.ass.load(AssetDescriptors.PAUSE_LOGO);
+        // Musics
+        game.ass.load(AssetDescriptors.MUSIC_GAME1);
+        game.ass.load(AssetDescriptors.MUSIC_J);
+        // Sounds
+        game.ass.load(AssetDescriptors.SOUND_FAIL);
+        game.ass.load(AssetDescriptors.SOUND_JUMP_V1);
+        game.ass.load(AssetDescriptors.SOUND_JUMP_V2);
+        game.ass.load(AssetDescriptors.SOUND_PUNCH);
+        game.ass.load(AssetDescriptors.SOUND_FAIL);
+        game.ass.load(AssetDescriptors.SOUND_COIN);
+
+        game.ass.finishLoading();
+        Gdx.app.log(TAG, game.ass.getDiagnostics());
+        Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
+    }
+
+    private void loadSTIAssets(List<VirusContainer> ist, List<VirusContainer> fake, List<VirusContainer> maybeist) {
+        for (VirusContainer v : ist) {
+            game.ass.load(v.getTexture());
+        }
+        for (VirusContainer v : fake) {
+            game.ass.load(v.getTexture());
+        }
+        for (VirusContainer v : maybeist) {
+            game.ass.load(v.getTexture());
+        }
+        game.ass.finishLoading();
+        Gdx.app.log(TAG, game.ass.getDiagnostics());
+    }
+
+    /* *******************************************************
+     *              S C R E E N   M E T H O D S              *
+     ******************************************************* */
 
     @Override
     public void show() {
@@ -116,7 +172,7 @@ public class Game1 implements Screen, MireilleListener {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage(TAG);
+        stage.dispose();
         renderController.dispose();
     }
 
@@ -150,7 +206,9 @@ public class Game1 implements Screen, MireilleListener {
         gameController.scoreChanged(score);
     }
 
-    // GETTERS
+    /* ********************************************
+     *       G E T   C O N T R O L L E R S        *
+     ******************************************** */
 
     public GameController getGameController() {
         return gameController;
@@ -162,5 +220,9 @@ public class Game1 implements Screen, MireilleListener {
 
     public SoundController getSoundController() {
         return soundController;
+    }
+
+    public Kapotopia getGame() {
+        return game;
     }
 }

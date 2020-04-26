@@ -9,18 +9,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
-import gdx.kapotopia.*;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Sound.SoundHelper;
-import gdx.kapotopia.Fonts.UseFont;
-import gdx.kapotopia.Sound.UseSound;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
+import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localisation;
+import gdx.kapotopia.ScreenType;
 
 public class World2 implements Screen {
 
@@ -32,36 +31,31 @@ public class World2 implements Screen {
     public World2(final Kapotopia game) {
 
         this.game = game;
-        Image imgFond = ImageHelper.getBackground(game.viewport,"game3/intro/Monde2Ecran1.png");
+        Image imgFond = ImageHelper.getBackground(game.viewport,game.ass.get(AssetDescriptors.MM_W2));
         stage = new Stage(game.viewport);
 
         stage.addActor(imgFond);
 
-        this.gameStart = SoundHelper.getSound(UseSound.GAMESTART);
+        this.gameStart = game.ass.get(AssetDescriptors.SOUND_GAMESTART);
 
-        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
-
-        final Button play = new TextButton(Localisation.getInstance().getString("play_button"), style);
         float x = game.viewport.getWorldWidth() / 2.5f;
         float y = game.viewport.getWorldHeight() / 4;
-        play.setPosition(x,y);
-        play.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                gameStart.play();
-                Timer.schedule(new Timer.Task() {
+        final Button play = new TextButtonBuilder(game, Localisation.getInstance().getString("play_button"))
+                .withStyle(FontHelper.AESTHETIC_NORMAL_WHITE).withPosition(x,y).withListener(new ChangeListener() {
                     @Override
-                    public void run() {
-                        game.destroyScreen(ScreenType.WORLD2);
-                        game.changeScreen(ScreenType.MOCKUPG3);
+                    public void changed(ChangeEvent event, Actor actor) {
+                        gameStart.play();
+                        Timer.schedule(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                game.destroyScreen(ScreenType.WORLD2);
+                                game.changeScreen(ScreenType.MOCKUPG3);
+                            }
+                        },0.1f);
                     }
-                },0.1f);
-            }
-        });
+                }).build();
 
         stage.addActor(play);
-
-        AssetsManager.getInstance().addStage(stage, "world2");
     }
 
     @Override
@@ -102,6 +96,6 @@ public class World2 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("world2");
+        stage.dispose();
     }
 }

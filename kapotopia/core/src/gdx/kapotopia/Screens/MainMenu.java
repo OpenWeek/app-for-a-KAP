@@ -15,11 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import gdx.kapotopia.Animations.NeonDoorAnimation;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
-import gdx.kapotopia.Sound.SoundHelper;
-import gdx.kapotopia.Fonts.UseFont;
-import gdx.kapotopia.Sound.UseSound;
 import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
@@ -64,42 +62,41 @@ public class MainMenu implements Screen {
         this.backgroundBatch = new SpriteBatch();
         stateTime = 0f;
 
-        this.part_1 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre1.png");
-        this.part_2 = new NeonDoorAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
-        this.part_3 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre3.png");
-        this.part_4 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalBoutons.png");
+        this.part_1 = game.ass.get(AssetDescriptors.MM_PART1);
+        this.part_2 = new NeonDoorAnimation(game, Animation.PlayMode.LOOP_RANDOM).getAnimation();
+        this.part_3 = game.ass.get(AssetDescriptors.MM_PART3);
+        this.part_4 = game.ass.get(AssetDescriptors.MM_PART4);
 
         // Import sounds
-        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
-        //final Sound blocked = SoundHelper.getSound(UseSound.HINT);
-        this.music = AssetsManager.getInstance().getMusicByPath("sound/breaktime.mp3");
+        this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
+        this.music = game.ass.get(AssetDescriptors.MUSIC_MM);
         music.setPosition(0f);
         music.setLooping(true);
 
         //Import fonts
-        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
+        Font style = FontHelper.AESTHETIC_NORMAL_WHITE;
 
         //setup Button
         final float x = game.viewport.getWorldWidth() / 2.6f;
         final float y = game.viewport.getWorldHeight();
-        final TextButton world1 = new TextButtonBuilder(Localisation.getInstance().getString("text_world1"))
+        final TextButton world1 = new TextButtonBuilder(game, Localisation.getInstance().getString("text_world1"))
                 .withStyle(style)
                 .withY(y * 0.75f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD1)).build();
-        final TextButton world2 = new TextButtonBuilder(Localisation.getInstance().getString("text_world2"))
+        final TextButton world2 = new TextButtonBuilder(game, Localisation.getInstance().getString("text_world2"))
                 .withStyle(style)
                 .withY(y * 0.43f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
-        final TextButton world4 = new TextButtonBuilder(Localisation.getInstance().getString("text_istdex"))
+        final TextButton world4 = new TextButtonBuilder(game, Localisation.getInstance().getString("text_istdex"))
                 .withStyle(style)
                 .withY(y * 0.2f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD4))
                 .build();
-        final TextButton optionsBtn = new TextButtonBuilder("Options").withStyle(style).withPosition(x / 3, y * 0.01f)
+        final TextButton optionsBtn = new TextButtonBuilder(game, "Options").withStyle(style).withPosition(x / 3, y * 0.01f)
                 .withListener(new ChangeScreenListener(game, ScreenType.OPTIONS)).build();
 
-        Label version = new LabelBuilder("v:" + GameConfig.VERSION_NAME + " | code:" + GameConfig.VERSION_CODE)
-                .withStyle(UseFont.AESTHETIC_TINY_BLACK).withPosition(15, 0).build();
+        Label version = new LabelBuilder(game, "v:" + GameConfig.VERSION_NAME + " | code:" + GameConfig.VERSION_CODE)
+                .withStyle(FontHelper.AESTHETIC_TINY_BLACK).withPosition(15, 0).build();
 
         //stage.addActor(imgFond);
         //add button to the scene
@@ -108,8 +105,6 @@ public class MainMenu implements Screen {
         stage.addActor(world4);
         stage.addActor(optionsBtn);
         stage.addActor(version);
-
-        AssetsManager.getInstance().addStage(stage, "mainmenu");
     }
 
     @Override
@@ -168,6 +163,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("mainmenu");
+        stage.dispose();
+        backgroundBatch.dispose();
     }
 }

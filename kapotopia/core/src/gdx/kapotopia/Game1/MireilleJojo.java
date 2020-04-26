@@ -23,7 +23,7 @@ public class MireilleJojo {
         this.wW = game.viewport.getWorldWidth();
         this.wH = game.viewport.getWorldHeight();
         stateTime = 0;
-        this.animation = new MireilluAnimation(Animation.PlayMode.NORMAL).getAnimation();
+        this.animation = new MireilluAnimation(game, Animation.PlayMode.NORMAL).getAnimation();
         this.batch = new SpriteBatch();
     }
 

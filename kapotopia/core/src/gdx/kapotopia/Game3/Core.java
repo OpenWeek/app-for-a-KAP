@@ -1,6 +1,7 @@
 package gdx.kapotopia.Game3;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,7 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import gdx.kapotopia.Fonts.UseFont;
+
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Builders.PopUpBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
@@ -19,6 +22,8 @@ import gdx.kapotopia.Screens.Game3;
 import java.util.*;
 
 public class Core {
+
+    private final String TAG = this.getClass().getSimpleName();
 
     static int xOffSet = 0;
     static int yOffSet = 0;
@@ -43,7 +48,12 @@ public class Core {
     final int nbSafe = 5; //TODO make this dynamic without having to indicate the number of safe/unsafe practice manually
     final int nbUnSafe = 5;
 
-    private SpriteBatch batch;
+    private final Texture crossT;
+    private final Texture tcrossT;
+    private final Texture lineT;
+    private final Texture halflineT;
+    private final Texture turnT;
+    private final SpriteBatch batch;
 
     Sprite source ;
 
@@ -72,6 +82,14 @@ public class Core {
         stack = new Stack<Pair>();
         set = new HashSet<Tile>(sizex*sizey);
 
+        // Textures Used For tiles
+        final AssetManager ass = parent.getGame().ass;
+        crossT = ass.get(AssetDescriptors.CROSS_T);
+        tcrossT = ass.get(AssetDescriptors.TCROSS_T);
+        lineT = ass.get(AssetDescriptors.LINE_T);
+        halflineT = ass.get(AssetDescriptors.HALF_LINE_T);
+        turnT = ass.get(AssetDescriptors.TURN_T);
+
         batch = new SpriteBatch();
 
         setGoal(nbGoals, sizey);
@@ -95,7 +113,7 @@ public class Core {
             }
             createPath(goals[i].pos,sizey-1);
         }
-        source = new Sprite(new Texture("game3/Batterie.png"));
+        source = new Sprite(parent.getGame().ass.get(AssetDescriptors.BATTERY));
         source.setPosition(Core.xOffSet, Core.yOffSet - Pair.tile_size);
         source.setSize(Pair.tile_size, Pair.tile_size);
 
@@ -106,18 +124,18 @@ public class Core {
 
     private void addLine(int x, int y){
         if(tiles[x][y] == null){
-            tiles[x][y] = Pair.randomLine(x ,y);
+            tiles[x][y] = Pair.randomLine(lineT, halflineT, crossT, tcrossT, x ,y);
         }
         else if (!tiles[x][y].line){
-            tiles[x][y] = Pair.randomBoth(x,y);
+            tiles[x][y] = Pair.randomBoth(crossT, tcrossT, x,y);
         }
     }
     private void addTurn(int x, int y){
         if(tiles[x][y] == null){
-            tiles[x][y] = Pair.randomTurn(x, y);
+            tiles[x][y] = Pair.randomTurn(turnT, crossT, tcrossT, x, y);
         }
         else if (!tiles[x][y].turn){
-            tiles[x][y] = Pair.randomBoth(x, y);
+            tiles[x][y] = Pair.randomBoth(crossT, tcrossT, x, y);
         }
     }
     private void addTo(int to, int x, int y, int from){
@@ -129,12 +147,12 @@ public class Core {
         if((to+from)%2 == 0){//must add a line
             if(t != null){
                 if(!t.turn){//single line
-                    tiles[x][y] = Pair.dline(x,y);
+                    tiles[x][y] = Pair.dline(lineT, halflineT, x,y);
                 }
                 else if(!t.line){
                     if(t.t2 == null){//simple turn
                         int turnTo = t.t1.connection[(from+1)%4] ? (from+1)%4 : (from+3)%4;
-                        Pair p = Pair.tcross(x,y);
+                        Pair p = Pair.tcross(tcrossT, x,y);
                         Tile tcross = p.t1;
                         while (!(tcross.connection[from] && tcross.connection[to] && tcross.connection[turnTo])){
                             p.rotate(1);
@@ -142,15 +160,15 @@ public class Core {
                         tiles[x][y] = p;
                     }
                     else {//dturn
-                        tiles[x][y] = Pair.cross(x,y);
+                        tiles[x][y] = Pair.cross(crossT, x,y);
                     }
                 }
                 else { //tcross
-                    tiles[x][y] = Pair.cross(x,y);
+                    tiles[x][y] = Pair.cross(crossT, x,y);
                 }
             }
             else {
-                Pair p = Pair.line(x,y);
+                Pair p = Pair.line(lineT, x,y);
                 while (p.connection(from) == null){
                     p.rotate(1);
                 }
@@ -161,11 +179,11 @@ public class Core {
             if(t != null){
                 if(!t.turn){
                     if(t.t2 != null){//dline
-                        tiles[x][y] = Pair.cross(x,y);
+                        tiles[x][y] = Pair.cross(crossT, x,y);
                     }
                     else {//simple line
                         int lineTo = t.t1.connection[(from+1)%4] ? (from+1)%4 : (from+3)%4;
-                        Pair p = Pair.tcross(x,y);
+                        Pair p = Pair.tcross(tcrossT, x,y);
                         Tile tcross = p.t1;
                         while (!(tcross.connection[from] && tcross.connection[to] && tcross.connection[lineTo])){
                             p.rotate(1);
@@ -174,17 +192,17 @@ public class Core {
                     }
                 }
                 else if(t.line){//tcross
-                    tiles[x][y] = Pair.cross(x,y);
+                    tiles[x][y] = Pair.cross(crossT, x,y);
                 }
                 else {
                     if(t.t2 != null){//dturn
-                        tiles[x][y] = Pair.cross(x,y);
+                        tiles[x][y] = Pair.cross(crossT, x,y);
                     }
                     else {//turn
                         Tile tile = t.t1;
                         if(tile.connection[from] || tile.connection[to]){
                             int lineTo = t.t1.connection[(from+1)%4] ? (from+1)%4 : (from+3)%4;
-                            Pair p = Pair.tcross(x,y);
+                            Pair p = Pair.tcross(tcrossT, x,y);
                             Tile tcross = p.t1;
                             while (!(tcross.connection[from] && tcross.connection[to] && tcross.connection[lineTo])){
                                 p.rotate(1);
@@ -192,7 +210,7 @@ public class Core {
                             tiles[x][y] = p;
                         }
                         else {
-                            Pair p = Pair.dturn(x,y);
+                            Pair p = Pair.dturn(turnT, x,y);
                             while (!(p.t1.connection[from] && p.t1.connection[to])){
                                 p.rotate(1);
                             }
@@ -202,7 +220,7 @@ public class Core {
                 }
             }
             else {
-                Pair p = Pair.turn(x,y);
+                Pair p = Pair.turn(turnT, x,y);
                 while (p.connection(from) == null && p.connection(to) == null){
                     p.rotate(1);
                 }
@@ -336,11 +354,11 @@ public class Core {
      * @param y  vertical position, given in in-game coordinates
      */
     private void setGoal(int nbGoals, int y){
-        Texture closedTexture1 = new Texture("game3/Serrure1Fermee.png");
-        Texture closedTexture2 = new Texture("game3/Serrure2Fermee.png");
+        Texture closedTexture1 = parent.getGame().ass.get(AssetDescriptors.CLOSED_LOCK1);
+        Texture closedTexture2 = parent.getGame().ass.get(AssetDescriptors.CLOSED_LOCK2);
 
-        Texture openTexture1 = new Texture("game3/Serrure1Ouverte.png");
-        Texture openTexture2 = new Texture("game3/Serrure2Ouverte.png");
+        Texture openTexture1 = parent.getGame().ass.get(AssetDescriptors.OPENED_LOCK1);
+        Texture openTexture2 = parent.getGame().ass.get(AssetDescriptors.OPENED_LOCK2);
 
         Random r = new Random();
         goals = new Goal[nbGoals];
@@ -404,7 +422,7 @@ public class Core {
         while (!stack.isEmpty()){
             Pair p = stack.pop();
             if(p.line && !p.turn && p.t2 != null){
-                System.out.println("stap");
+                Gdx.app.log(TAG, "stap");
             }
             if(p.connection(0) != null && p.connection(0).isLit() && p.y < sizey-1){
                 Pair p2 =  tiles[p.x][p.y+1];
@@ -528,12 +546,6 @@ class Pair{
     public boolean line;
     public boolean turn;
 
-    private static Texture crossT = new Texture("game3/cross.png");
-    private static Texture tcrossT = new Texture("game3/tcross.png");
-    private static Texture lineT = new Texture("game3/line.png");
-    private static Texture halflineT = new Texture("game3/halfline.png");
-    private static Texture turnT = new Texture("game3/turn.png");
-
 
     public Pair(int x, int y){
         t1 = new Tile();
@@ -545,71 +557,75 @@ class Pair{
     }
 
     //N,W,S,E
-    static Pair line(int x, int y){
+    static Pair line(final Texture textureLineT, int x, int y){
         Pair p = new Pair(x, y);
-        p.t1 = new Tile(new boolean[]{false, true, false, true}, lineT, x, y);
+        p.t1 = new Tile(new boolean[]{false, true, false, true}, textureLineT, x, y);
         p.line = true;
         return p;
     }
-    static Pair dline(int x, int y){
+    static Pair dline(final Texture textureLineT, final Texture textureHalfLineT, int x, int y){
         Pair p = new Pair(x, y);
-        p.t1 = new Tile(new boolean[]{false, true, false, true}, lineT, x, y);
-        p.t2 = new Tile(new boolean[]{true, false, true, false}, halflineT, x, y);
+        p.t1 = new Tile(new boolean[]{false, true, false, true}, textureLineT, x, y);
+        p.t2 = new Tile(new boolean[]{true, false, true, false}, textureHalfLineT, x, y);
         p.line = true;
         return p;
     }
-    static Pair cross(int x, int y){
+    static Pair cross(final Texture textureCrossT, int x, int y){
         Pair p = new Pair(x, y);
-        p.t1 = new Tile(new boolean[]{true, true, true, true}, crossT, x, y);
-        p.line = true;
-        p.turn = true;
-        return p;
-    }
-    static Pair tcross(int x, int y){
-        Pair p = new Pair(x, y);
-        p.t1 = new Tile(new boolean[]{true, true, false, true}, tcrossT, x, y);
+        p.t1 = new Tile(new boolean[]{true, true, true, true}, textureCrossT, x, y);
         p.line = true;
         p.turn = true;
         return p;
     }
-    static Pair turn(int x, int y){
+    static Pair tcross(final Texture textureTCrossT, int x, int y){
         Pair p = new Pair(x, y);
-        p.t1 = new Tile(new boolean[]{true, false, false, true}, turnT, x, y);
+        p.t1 = new Tile(new boolean[]{true, true, false, true}, textureTCrossT, x, y);
+        p.line = true;
         p.turn = true;
         return p;
     }
-    static Pair dturn(int x, int y){
+    static Pair turn(final Texture textureTurnT, int x, int y){
         Pair p = new Pair(x, y);
-        p.t1 = new Tile(new boolean[]{true, false, false, true}, turnT, x, y);
-        p.t2 = new Tile(new boolean[]{true, false, false, true}, turnT, x, y);
+        p.t1 = new Tile(new boolean[]{true, false, false, true}, textureTurnT, x, y);
+        p.turn = true;
+        return p;
+    }
+    static Pair dturn(final Texture textureTurnT, int x, int y){
+        Pair p = new Pair(x, y);
+        p.t1 = new Tile(new boolean[]{true, false, false, true}, textureTurnT, x, y);
+        p.t2 = new Tile(new boolean[]{true, false, false, true}, textureTurnT, x, y);
         p.t2.rotate(2);
         p.turn = true;
         return p;
     }
 
-    static Pair randomLine(int x, int y){
+    static Pair randomLine(final Texture textureLineT, final Texture textureHalfLineT,
+                           final Texture textureCrossT, final Texture textureTCrossT,
+                           int x, int y){
         int i = r.nextInt(3);
         switch (i){
-            case 0: return line(x,y);
-            case 1: return dline(x,y);
-            default: return randomBoth(x,y);
+            case 0: return line(textureLineT, x,y);
+            case 1: return dline(textureLineT, textureHalfLineT, x,y);
+            default: return randomBoth(textureCrossT, textureTCrossT, x,y);
         }
     }
-    static Pair randomTurn(int x, int y){
+    static Pair randomTurn(final Texture turnT, final Texture textureCrossT, final Texture textureTCrossT,
+                           int x, int y){
         int i = r.nextInt(3);
         switch (i){
-            case 0: return turn(x,y);
-            case 1: return dturn(x,y);
-            default: return randomBoth(x,y);
+            case 0: return turn(turnT, x,y);
+            case 1: return dturn(turnT, x,y);
+            default: return randomBoth(textureCrossT, textureTCrossT, x,y);
         }
     }
-    public static Pair randomBoth(int x, int y){
+    public static Pair randomBoth(final Texture textureCrossT, final Texture textureTCrossT,
+                                  int x, int y){
         int i = r.nextInt(2);
         if (i == 0){
-            return cross(x,y);
+            return cross(textureCrossT, x,y);
         }
         else{
-            return  tcross(x,y);
+            return tcross(textureTCrossT, x,y);
         }
     }
 
@@ -740,7 +756,7 @@ class Goal{
 
         popup = new PopUpBuilder(game, stage);
         popup.setTitle("TEMPLATE");
-        TextButton btnYes = new TextButtonBuilder("CANCEL").withStyle(UseFont.AESTHETIC_NORMAL_BLACK).build();
+        TextButton btnYes = new TextButtonBuilder(game, "CANCEL").withStyle(FontHelper.AESTHETIC_NORMAL_BLACK).build();
         btnYes.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

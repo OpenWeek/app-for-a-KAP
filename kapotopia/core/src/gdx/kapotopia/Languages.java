@@ -51,8 +51,8 @@ public enum Languages {
      * @return the complete name of the language
      */
     public static String convertFromLocale(String lang) {
-        if (lang.equals(new Locale("fr"))) return convert(Languages.FRENCH);
-        if (lang.equals(new Locale("nl"))) return convert(Languages.DUTCH);
+        if (lang.equals(new Locale("fr").toString())) return convert(Languages.FRENCH);
+        if (lang.equals(new Locale("nl").toString())) return convert(Languages.DUTCH);
         return convert(Languages.ENGLISH);
     }
 }

@@ -11,7 +11,7 @@
                 Bactérie le plus souvent sans symptômes, elle se reconnait par des douleurs en urinant et des saignements irréguliers. Elle mène à des infections sérieuses et la stérilité.
             </explanation>
         </ist>
-        <ist texture="IST/Herpes.png" name=" Herpes">
+        <ist texture="IST/Herpes.png" name="Herpes">
             <explanation>
                 Virus causant des boutons et lésions très douloureuses lors de la primo-infection. Il provoque des récidives plus ou moins fréquentes et importantes.
             </explanation>

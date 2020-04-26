@@ -2,9 +2,18 @@ package gdx.kapotopia;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Screens.BilanG1;
 import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
 import gdx.kapotopia.Screens.Game1;
@@ -14,8 +23,8 @@ import gdx.kapotopia.Screens.MainMenu;
 import gdx.kapotopia.Screens.Options;
 import gdx.kapotopia.Screens.World1;
 import gdx.kapotopia.Screens.World2;
-import gdx.kapotopia.Screens.World4;
 import gdx.kapotopia.Screens.World3;
+import gdx.kapotopia.Screens.World4;
 import gdx.kapotopia.Screens.mockupG1;
 import gdx.kapotopia.Screens.mockupG2;
 import gdx.kapotopia.Screens.mockupG3;
@@ -30,9 +39,10 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	// COMPLEX OBJECTS
 
+	public final AssetManager ass = new AssetManager();
+
     public FitViewport viewport;
     // The value Gateway
-    private ValueGateway gate; 		//TODO remove this
 	public GlobalVariables vars;
     // Settings
     private Settings settings;
@@ -59,24 +69,91 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	@Override
 	public void create () {
+		Gdx.app.setLogLevel(GameConfig.debugLvl);
+
+		// AssetManager
+		// We set up the AssetManager so it accepts FreeType Fonts
+		FileHandleResolver resolver = new InternalFileHandleResolver();
+		this.ass.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+		this.ass.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        FontHelper.buildAllFonts(ass);
+		loadInitialTextures(); // Contains a call to "finishLoading", thus it need to be called AFTER every other asset load
+
+
 		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
-		this.gate = new ValueGateway();
 		this.vars = new GlobalVariables();
 		this.settings = new Settings();
 		changeScreen(ScreenType.MAINMENU);
-		Gdx.app.setLogLevel(GameConfig.debugLvl);
 	}
 
 	@Override
 	public void dispose () {
 	    Gdx.app.log(TAG, "Disposing every game resources");
-		AssetsManager.getInstance().disposeAllResources();
+		this.ass.dispose();
 	}
 
-	public ValueGateway getTheValueGateway() {
-		return this.gate;
+	private void loadInitialTextures() {
+		long startTime = TimeUtils.millis();
+		/* Graphics */
+		this.ass.load(AssetDescriptors.BLANK_BACK);
+		// Main Menu
+		this.ass.load(AssetDescriptors.MM_PART1);
+		this.ass.load(AssetDescriptors.ANIM_NEON_DOOR);
+		this.ass.load(AssetDescriptors.MM_PART3);
+		this.ass.load(AssetDescriptors.MM_PART4);
+		// Options
+		this.ass.load(AssetDescriptors.SKIN_COMIC_UI);
+		this.ass.load(AssetDescriptors.OP_BACK);
+		this.ass.load(AssetDescriptors.OP_MUTE);
+		this.ass.load(AssetDescriptors.OP_SPEAKER);
+		// Game 1
+		this.ass.load(AssetDescriptors.B1_BACK);
+		// IntroG1
+		this.ass.load(AssetDescriptors.DIF_PART1);
+        this.ass.load(AssetDescriptors.JUNGLE);
+        this.ass.load(AssetDescriptors.NIGHT_SKY);
+        this.ass.load(AssetDescriptors.LEAVES);
+        this.ass.load(AssetDescriptors.CROQUIS);
+        this.ass.load(AssetDescriptors.MM_W1);
+        // IntroG2
+		this.ass.load(AssetDescriptors.I2_BACK1);
+        this.ass.load(AssetDescriptors.I2_BACK2);
+        this.ass.load(AssetDescriptors.MM_W2);
+        // IntroG3
+		this.ass.load(AssetDescriptors.I3_HOUSE);
+		this.ass.load(AssetDescriptors.I3_INSIDE);
+        // Characters
+		this.ass.load(AssetDescriptors.MI_NORMAL);
+		this.ass.load(AssetDescriptors.MI_WORRIED);
+		this.ass.load(AssetDescriptors.MI_SURPRISED);
+		this.ass.load(AssetDescriptors.MI_SCARED);
+        this.ass.load(AssetDescriptors.MI_CRY);
+        this.ass.load(AssetDescriptors.MI_TIRED);
+        this.ass.load(AssetDescriptors.SERGENT1);
+        this.ass.load(AssetDescriptors.SERGENT2);
+        this.ass.load(AssetDescriptors.GODIVA);
+        // Gadgets
+		this.ass.load(AssetDescriptors.BTN);
+        this.ass.load(AssetDescriptors.BUBBLE_EXPL);
+        this.ass.load(AssetDescriptors.BUBBLE_LEFT);
+		this.ass.load(AssetDescriptors.BUBBLE_LEFT2);
+        this.ass.load(AssetDescriptors.BUBBLE_RIGHT);
+		/* Sounds */
+		this.ass.load(AssetDescriptors.MUSIC_MM);
+		this.ass.load(AssetDescriptors.SOUND_PAUSE);
+		this.ass.load(AssetDescriptors.SOUND_GAMESTART);
+		this.ass.load(AssetDescriptors.SOUND_BOUP1);
+		this.ass.load(AssetDescriptors.SOUND_BOUP9);
+		this.ass.load(AssetDescriptors.SOUND_CLICKED_BTN);
+		this.ass.load(AssetDescriptors.SOUND_HINT);
+		this.ass.load(AssetDescriptors.SOUND_SUCCESS);
+
+		this.ass.finishLoading();
+		Gdx.app.log(TAG, this.ass.getDiagnostics());
+		Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
 	}
 
 	public Settings getSettings() {
@@ -89,7 +166,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 * @return true if the operation succeeded, false otherwise
 	 */
 	public boolean changeScreen(ScreenType TYPE) {
-	    Gdx.app.debug(TAG, "Changing screen to ZA " + TYPE.name());
+	    Gdx.app.debug(TAG, "Changing screen to " + TYPE.name());
 		return selectScreen(ScreenAction.CHANGE, TYPE);
 	}
 
