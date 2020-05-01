@@ -41,7 +41,7 @@ public class mockupG3 extends CinematicScreen {
         final float ww = GameConfig.GAME_WIDTH;
         final float wh = GameConfig.GAME_HEIGHT;
 
-        Localisation loc = Localisation.getInstance();
+        Localisation loc = game.loc;
 
         Font font = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
         Bounds dialogBubbleBounds = Align.getDialogBubbleBounds();

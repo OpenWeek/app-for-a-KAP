@@ -2,6 +2,8 @@ package gdx.kapotopia.AssetsManaging;
 
 public class AssetPaths {
 
+    public static final String I18N_BUNDLE = "strings/strings";
+
     /* ********** *
      *  TEXTURES  *
      * ********** */

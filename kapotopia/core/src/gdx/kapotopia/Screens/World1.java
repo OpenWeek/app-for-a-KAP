@@ -35,7 +35,7 @@ public class World1 implements Screen {
         // Import sounds
         this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
 
-        final Localisation loc = Localisation.getInstance();
+        final Localisation loc = game.loc;
 
         final float y = game.viewport.getWorldHeight();
         TextButton game1 = new TextButtonBuilder(game, loc.getString("game1_button")).withStyle(FontHelper.AESTHETIC_NORMAL_WHITE)

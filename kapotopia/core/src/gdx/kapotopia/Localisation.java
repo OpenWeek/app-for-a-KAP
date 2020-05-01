@@ -1,40 +1,37 @@
 package gdx.kapotopia;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.badlogic.gdx.Gdx;
+
+import java.util.Locale;
+
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 
 
 public class Localisation {
 
-    private I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
-    private I18NBundle stiStrings = I18NBundle.createBundle(Gdx.files.internal("strings/stiNames"));
-    private I18NBundle symptomsStrings = I18NBundle.createBundle(Gdx.files.internal("strings/stiSymptoms"));
-    private I18NBundle practices = I18NBundle.createBundle(Gdx.files.internal("strings/practices"));
-    private static Localisation instance = new Localisation();
-    public Localisation()
-    {
+    private I18NBundle bundleDefault;
+    private I18NBundle bundleFrench;
 
+    private Languages choosenLanguage;
+
+    public Localisation(AssetManager ass) {
+        this.bundleDefault = ass.get(AssetDescriptors.I18N_BUNDLE_ROOT);
+        this.bundleFrench = ass.get(AssetDescriptors.I18N_BUNDLE_FR);
+        if(Locale.getDefault().equals(Locale.FRENCH)) {
+            choosenLanguage = Languages.FRENCH;
+        } else {
+            choosenLanguage = Languages.ENGLISH;
+        }
     }
 
-    public static Localisation getInstance()
-    {
-        return instance;
+    public String getString(String key) {
+        switch (choosenLanguage) {
+            case FRENCH:
+                return bundleFrench.get(key);
+            default:
+                return bundleDefault.get(key);
+        }
     }
 
-    public String getString(String key)
-    {
-        return languageStrings.get(key);
-    }
-
-    public String getStiName(String key){
-        return stiStrings.get(key);
-    }
-
-    public String getStiSymptom(String key){
-        return symptomsStrings.get(key);
-    }
-
-    public String getPractice(String key){
-        return practices.get(key);
-    }
 }

@@ -40,7 +40,7 @@ public class World2 implements Screen {
 
         float x = game.viewport.getWorldWidth() / 2.5f;
         float y = game.viewport.getWorldHeight() / 4;
-        final Button play = new TextButtonBuilder(game, Localisation.getInstance().getString("play_button"))
+        final Button play = new TextButtonBuilder(game, game.loc.getString("play_button"))
                 .withStyle(FontHelper.AESTHETIC_NORMAL_WHITE).withPosition(x,y).withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {

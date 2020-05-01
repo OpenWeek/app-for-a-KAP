@@ -73,7 +73,7 @@ public class Game2 implements Screen {
 
     private ChangeListener[] ballClick = new ChangeListener[STInbr];
 
-    private final Localisation loc = Localisation.getInstance();
+    private final Localisation loc = game.loc;
 
     /**
      * Prepare images to fullScreen and hidden
@@ -311,19 +311,19 @@ public class Game2 implements Screen {
      */
     private void setUpSTI(Basket firstbasket){
         String[] stiNames = {
-                loc.getStiName("hiv"),
-                loc.getStiName("c_hepatitis"),
-                loc.getStiName("hpv"),
-                loc.getStiName("gonorrhea"),
-                loc.getStiName("chlamydia"),
-                loc.getStiName("herpes")};
+                loc.getString("hiv_name"),
+                loc.getString("c_hepatitis_name"),
+                loc.getString("hpv_name"),
+                loc.getString("gonorrhea_name"),
+                loc.getString("chlamydia_name"),
+                loc.getString("herpes_name")};
         String[] symptoms = {
-                loc.getStiSymptom("hiv"),
-                loc.getStiSymptom("c_hepatitis"),
-                loc.getStiSymptom("hpv"),
-                loc.getStiSymptom("gonorrhea"),
-                loc.getStiSymptom("chlamydia"),
-                loc.getStiSymptom("herpes")};
+                loc.getString("hiv_symp"),
+                loc.getString("c_hepatitis_symp"),
+                loc.getString("hpv_symp"),
+                loc.getString("gonorrhea_symp"),
+                loc.getString("chlamydia_symp"),
+                loc.getString("herpes_symp")};
         ArrayList<Integer>numbers = new ArrayList<Integer>();
         ArrayList<Integer>ids = new ArrayList<Integer>();
         for(int i = 0; i < STInbr; i++){

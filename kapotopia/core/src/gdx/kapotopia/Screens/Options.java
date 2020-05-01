@@ -82,7 +82,7 @@ public class Options implements Screen {
                 .withPosition(game.viewport.getWorldWidth() / 3, game.viewport.getWorldHeight() / 2)
                 .isVisible(!settings.isMusicOn()).build();
 
-        backBtn = new TextButtonBuilder(game, Localisation.getInstance().getString("back_button"))
+        backBtn = new TextButtonBuilder(game, game.loc.getString("back_button"))
                 .withY(50).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU)).isVisible(true)
                 .withStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE).withAlignment(Alignement.CENTER).build();
 

@@ -1,13 +1,27 @@
 package gdx.kapotopia.AssetsManaging;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.I18NBundle;
+
+import java.util.Locale;
 
 public class AssetDescriptors {
+
+    /* ************ *
+     *  I18NBUNDLE  *
+     * ************ */
+    public static final AssetDescriptor<I18NBundle> I18N_BUNDLE_ROOT =
+            new AssetDescriptor<I18NBundle>(AssetPaths.I18N_BUNDLE, I18NBundle.class,
+                    new I18NBundleLoader.I18NBundleParameter(Locale.ROOT));
+    public static final AssetDescriptor<I18NBundle> I18N_BUNDLE_FR =
+            new AssetDescriptor<I18NBundle>(AssetPaths.I18N_BUNDLE, I18NBundle.class,
+                    new I18NBundleLoader.I18NBundleParameter(Locale.FRENCH));
 
     /* ********** *
      *  TEXTURES  *

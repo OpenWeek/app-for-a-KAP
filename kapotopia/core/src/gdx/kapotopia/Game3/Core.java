@@ -44,9 +44,9 @@ public class Core {
     private HashSet<Tile> set;
     private Random random;
 
-    final Localisation loc = Localisation.getInstance();
-    final int nbSafe = 5; //TODO make this dynamic without having to indicate the number of safe/unsafe practice manually
-    final int nbUnSafe = 5;
+    private final Localisation loc;
+    private final int nbSafe = 5; //TODO make this dynamic without having to indicate the number of safe/unsafe practice manually
+    private final int nbUnSafe = 5;
 
     private final Texture crossT;
     private final Texture tcrossT;
@@ -64,6 +64,7 @@ public class Core {
 
     public Core(Game3 parent, int sizex, int sizey, int nbGoals){
         this.parent = parent;
+        this.loc = parent.getGame().loc;
         this.succeeded = false;
         this.sizex = sizex;
         this.sizey = sizey;
@@ -101,10 +102,10 @@ public class Core {
         }
         Collections.shuffle(names);
         for (int i = 0; i < nbGoals; i++){
-            goals[i].popup.setTitle(loc.getPractice(names.get(i)));
+            goals[i].popup.setTitle(loc.getString(names.get(i)));
         }
         correct = r.nextInt(nbGoals);
-        goals[correct].popup.setTitle( loc.getPractice("safe"+(r.nextInt(nbSafe)+1)) );
+        goals[correct].popup.setTitle( loc.getString("safe"+(r.nextInt(nbSafe)+1)) );
         correctGoal = goals[correct].pos;
 
         for (int i = 0; i < nbGoals; i++){

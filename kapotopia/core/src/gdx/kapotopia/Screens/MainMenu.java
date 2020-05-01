@@ -79,15 +79,15 @@ public class MainMenu implements Screen {
         //setup Button
         final float x = game.viewport.getWorldWidth() / 2.6f;
         final float y = game.viewport.getWorldHeight();
-        final TextButton world1 = new TextButtonBuilder(game, Localisation.getInstance().getString("text_world1"))
+        final TextButton world1 = new TextButtonBuilder(game, game.loc.getString("text_world1"))
                 .withStyle(style)
                 .withY(y * 0.75f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD1)).build();
-        final TextButton world2 = new TextButtonBuilder(game, Localisation.getInstance().getString("text_world2"))
+        final TextButton world2 = new TextButtonBuilder(game, game.loc.getString("text_world2"))
                 .withStyle(style)
                 .withY(y * 0.43f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
-        final TextButton world4 = new TextButtonBuilder(game, Localisation.getInstance().getString("text_istdex"))
+        final TextButton world4 = new TextButtonBuilder(game, game.loc.getString("text_istdex"))
                 .withStyle(style)
                 .withY(y * 0.2f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD4))

@@ -22,7 +22,7 @@ public class mockupG2 extends CinematicScreen {
 
     public mockupG2(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG2");
-        final Localisation loc = Localisation.getInstance();
+        final Localisation loc = game.loc;
         Font font = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
         Label[] labels = new Label[] {
                 new LabelBuilder(game, loc.getString("game2_diag1"))

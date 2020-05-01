@@ -29,6 +29,9 @@ import gdx.kapotopia.Screens.mockupG1;
 import gdx.kapotopia.Screens.mockupG2;
 import gdx.kapotopia.Screens.mockupG3;
 
+import static gdx.kapotopia.AssetsManaging.AssetDescriptors.I18N_BUNDLE_ROOT;
+import static gdx.kapotopia.AssetsManaging.AssetDescriptors.I18N_BUNDLE_FR;
+
 public class Kapotopia extends com.badlogic.gdx.Game {
 
 	/* APP-WIDE VARIABLES */
@@ -40,6 +43,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	// COMPLEX OBJECTS
 
 	public final AssetManager ass = new AssetManager();
+	public Localisation loc;
 
     public FitViewport viewport;
     // The value Gateway
@@ -80,7 +84,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
         FontHelper.buildAllFonts(ass);
 		loadInitialTextures(); // Contains a call to "finishLoading", thus it need to be called AFTER every other asset load
 
-
+		loc = new Localisation(ass);
 		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
@@ -97,6 +101,9 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	private void loadInitialTextures() {
 		long startTime = TimeUtils.millis();
+		/* I18NBundles */
+		this.ass.load(I18N_BUNDLE_ROOT);
+		this.ass.load(I18N_BUNDLE_FR);
 		/* Graphics */
 		this.ass.load(AssetDescriptors.BLANK_BACK);
 		// Main Menu

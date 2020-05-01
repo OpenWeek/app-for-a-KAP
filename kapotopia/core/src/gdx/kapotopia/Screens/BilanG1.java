@@ -84,14 +84,14 @@ public class BilanG1 implements Screen {
         pointeur = 0;
 
         // Intro text
-        intro = new LabelBuilder(game, Localisation.getInstance().getString("intro_text"))
+        intro = new LabelBuilder(game, game.loc.getString("intro_text"))
                 .withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK).withPosition(wWidth / 9f,wHeight / 1.2f).isWrapped(true).withWidth(wWidth / 1.3f).build();
         stage.addActor(intro);
 
         // Button
         final float xNext = wWidth * 0.4f;
         final float yNext = wHeight * 0.125f;
-        next = new TextButtonBuilder(game, Localisation.getInstance().getString("next_button"))
+        next = new TextButtonBuilder(game, game.loc.getString("next_button"))
                 .withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK).withPosition(xNext, yNext)
                 .withListener(new ChangeListener() {
                     @Override

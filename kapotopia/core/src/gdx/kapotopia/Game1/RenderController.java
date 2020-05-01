@@ -87,7 +87,7 @@ public class RenderController {
         final float ww = game.viewport.getWorldWidth();
         final float wh = game.viewport.getWorldHeight();
 
-        final Localisation loc = Localisation.getInstance();
+        final Localisation loc = game.loc;
 
         this.normalFont = FontHelper.CLASSIC_SANS_NORMAL_WHITE;
         this.smallFont = FontHelper.CLASSIC_SANS_SMALL_WHITE;
@@ -245,7 +245,7 @@ public class RenderController {
             game.getSettings().setG1Highscore(game1.getGameController().getTotalScore());
             highscore = game1.getGameController().getTotalScore();
             highScoreY = (game1.getGameController().getBounds().height / 2) - (game.viewport.getWorldHeight() / 38.4f);
-            highscoreLabHead = Localisation.getInstance().getString("high_score_lab_head");
+            highscoreLabHead = game.loc.getString("high_score_lab_head");
             highscoreLabTail = " !";
         } else {
             endScoreLabel = new LabelBuilder(game, SCORE_TXT + game1.getGameController().getTotalScore())
@@ -266,9 +266,9 @@ public class RenderController {
 
         final String titleText;
         if (game1.getGameController().isVictory()) {
-            titleText = Localisation.getInstance().getString("success");
+            titleText = game.loc.getString("success");
         } else {
-            titleText = Localisation.getInstance().getString("fail");
+            titleText = game.loc.getString("fail");
         }
 
         final Button title = new TextButtonBuilder(game, titleText).withStyle(FontHelper.CLASSIC_REG_BIG_WHITE)

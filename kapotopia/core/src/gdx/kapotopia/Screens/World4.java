@@ -87,7 +87,7 @@ public class World4 implements Screen {
 
         Font style = FontHelper.CLASSIC_BOLD_BIG_BLACK;
 
-        final TextButton back = new TextButtonBuilder(game, Localisation.getInstance().getString("back_button"))
+        final TextButton back = new TextButtonBuilder(game, game.loc.getString("back_button"))
                 .withStyle(style).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.WORLD4))
                 .build();
         back.setPosition((game.viewport.getWorldWidth() / 2) - back.getWidth() / 2, 50);

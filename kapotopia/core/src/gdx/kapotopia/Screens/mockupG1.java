@@ -39,7 +39,7 @@ public class mockupG1 extends CinematicScreen {
 
     public mockupG1(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG1");
-        final Localisation loc = Localisation.getInstance();
+        final Localisation loc = game.loc;
         final float ww = game.viewport.getWorldWidth();
         final float wh = game.viewport.getWorldHeight();
         Font font = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
