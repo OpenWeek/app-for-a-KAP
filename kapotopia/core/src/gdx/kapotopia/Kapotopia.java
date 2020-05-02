@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.util.Locale;
+
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Screens.BilanG1;
@@ -84,12 +86,12 @@ public class Kapotopia extends com.badlogic.gdx.Game {
         FontHelper.buildAllFonts(ass);
 		loadInitialTextures(); // Contains a call to "finishLoading", thus it need to be called AFTER every other asset load
 
-		loc = new Localisation(ass);
 		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
 		this.vars = new GlobalVariables();
-		this.settings = new Settings();
+		this.loc = new Localisation(ass);
+		this.settings = new Settings(loc);
 		changeScreen(ScreenType.MAINMENU);
 	}
 
@@ -101,9 +103,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	private void loadInitialTextures() {
 		long startTime = TimeUtils.millis();
-		/* I18NBundles */
-		this.ass.load(I18N_BUNDLE_ROOT);
-		this.ass.load(I18N_BUNDLE_FR);
 		/* Graphics */
 		this.ass.load(AssetDescriptors.BLANK_BACK);
 		// Main Menu
@@ -222,6 +221,28 @@ public class Kapotopia extends com.badlogic.gdx.Game {
         }
 
 		return false;
+	}
+
+	/**
+	 * This method will reset everyScreen, so setting their reference to null and dispose every ressources
+	 * (beside AssetManager ones) and will redirect to
+	 * @param nextScreen
+	 */
+	public void resetEveryScreen(ScreenType nextScreen) {
+		destroyScreen(ScreenType.GAME1);
+		destroyScreen(ScreenType.GAME2);
+		destroyScreen(ScreenType.GAME3);
+		destroyScreen(ScreenType.MAINMENU);
+		destroyScreen(ScreenType.MOCKUPG1);
+		destroyScreen(ScreenType.MOCKUPG2);
+		destroyScreen(ScreenType.BILANG1);
+		destroyScreen(ScreenType.WORLD1);
+		destroyScreen(ScreenType.WORLD2);
+		destroyScreen(ScreenType.WORLD3);
+		destroyScreen(ScreenType.WORLD4);
+		destroyScreen(ScreenType.DIF);
+		destroyScreen(ScreenType.OPTIONS);
+		changeScreen(nextScreen);
 	}
 
 	/**

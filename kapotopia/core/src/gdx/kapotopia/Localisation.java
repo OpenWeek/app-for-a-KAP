@@ -1,37 +1,56 @@
 package gdx.kapotopia;
 
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.I18NBundle;
 
-import java.util.Locale;
+import gdx.kapotopia.AssetsManaging.AssetPaths;
 
-import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import static gdx.kapotopia.AssetsManaging.AssetDescriptors.I18N_BUNDLE_FR;
+import static gdx.kapotopia.AssetsManaging.AssetDescriptors.I18N_BUNDLE_ROOT;
 
 
 public class Localisation {
 
-    private I18NBundle bundleDefault;
-    private I18NBundle bundleFrench;
+    private final String TAG = this.getClass().getSimpleName();
 
-    private Languages choosenLanguage;
+    private AssetManager ass;
+
+    private I18NBundle bundle;
+
+    private Languages chosenLanguage;
 
     public Localisation(AssetManager ass) {
-        this.bundleDefault = ass.get(AssetDescriptors.I18N_BUNDLE_ROOT);
-        this.bundleFrench = ass.get(AssetDescriptors.I18N_BUNDLE_FR);
-        if(Locale.getDefault().equals(Locale.FRENCH)) {
-            choosenLanguage = Languages.FRENCH;
-        } else {
-            choosenLanguage = Languages.ENGLISH;
+        this.ass = ass;
+    }
+
+    private void setBundle(AssetDescriptor<I18NBundle> assetDescriptor) {
+        this.ass.load(assetDescriptor);
+        this.ass.finishLoadingAsset(assetDescriptor);
+        this.bundle = this.ass.get(assetDescriptor);
+    }
+
+    public void changeLanguage(Languages newLang) {
+        // Why do we have to unload the previous bundle ? Here is the explanation : https://javadoc.io/static/com.badlogicgames.gdx/gdx/1.2.0/com/badlogic/gdx/assets/loaders/I18NBundleLoader.html
+        if (ass.contains(AssetPaths.I18N_BUNDLE))
+            ass.unload(AssetPaths.I18N_BUNDLE);
+
+        switch (newLang) {
+            case FRENCH:
+                chosenLanguage = Languages.FRENCH;
+                setBundle(I18N_BUNDLE_FR);
+                break;
+            default:
+                chosenLanguage = Languages.ENGLISH;
+                setBundle(I18N_BUNDLE_ROOT);
         }
     }
 
     public String getString(String key) {
-        switch (choosenLanguage) {
-            case FRENCH:
-                return bundleFrench.get(key);
-            default:
-                return bundleDefault.get(key);
-        }
+        return this.bundle.get(key);
     }
 
+    public Languages getChosenLanguage() {
+        return chosenLanguage;
+    }
 }

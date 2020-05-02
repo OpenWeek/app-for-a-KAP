@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.FontHelper;
@@ -25,11 +26,12 @@ import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Languages;
-import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Settings;
 
 public class Options implements Screen {
+
+    private final String TAG = this.getClass().getSimpleName();
 
     private Kapotopia game;
     private Stage stage;
@@ -59,18 +61,25 @@ public class Options implements Screen {
         soundOnSound = game.ass.get(AssetDescriptors.SOUND_BOUP9);
         soundOffSound = game.ass.get(AssetDescriptors.SOUND_BOUP1);
 
+        Array<String> supportedLangs = settings.getSupportedLangsText();
+
         languageSelect = new SelectBoxBuilder<String>(game).withSkin(skin).withItems(settings.getSupportedLangsText())
                 .withPosition(game.viewport.getWorldWidth() / 4, 300)
                 .withSize(game.viewport.getWorldWidth() / 2, 60)
                 .withTitleFont(FontHelper.CLASSIC_BOLD_NORMAL_BLACK).withElemsFont(FontHelper.CLASSIC_BOLD_NORMAL_BLACK)
-                .withSelectedItem(Languages.convertFromLocale(settings.getLanguage()))
+                .withSelectedItemIndex(supportedLangs.indexOf(Languages.convert(game.loc.getChosenLanguage()), false))
                 .addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        String selectedLang = (String) languageSelect.getSelected();
-                        settings.setLanguage(selectedLang);
+                        final String selectedLang = (String) languageSelect.getSelected();
+                        Gdx.app.log(TAG, "Selected language : " + selectedLang);
+                        final Languages lang = Languages.convert(selectedLang);
+                        settings.setPrefLanguage(lang);
+                        // We have to reset every screen still in memory to update the text
+                        game.resetEveryScreen(ScreenType.MAINMENU);
                     }
-                }).build();
+                })
+                .build();
 
         final float soundBtnWidth = game.viewport.getWorldWidth() / 4;
         soundOnBtn = new ImageButtonBuilder().withImageUp(game.ass.get(AssetDescriptors.OP_SPEAKER))
@@ -87,7 +96,7 @@ public class Options implements Screen {
                 .withStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE).withAlignment(Alignement.CENTER).build();
 
         stage.addActor(fond);
-        //stage.addActor(languageSelect);
+        stage.addActor(languageSelect);
         stage.addActor(soundOnBtn);
         stage.addActor(soundOffBtn);
         stage.addActor(backBtn);

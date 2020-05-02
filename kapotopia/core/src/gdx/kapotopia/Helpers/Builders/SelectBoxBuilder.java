@@ -26,6 +26,7 @@ public class SelectBoxBuilder<T> {
     private Font titleFont;
     private Font elemsFont;
     private T selectedItem;
+    private int selectedItemIndex;
     private Array<T> items;
     private ArrayList<EventListener> eventListeners;
 
@@ -36,7 +37,7 @@ public class SelectBoxBuilder<T> {
         width = -1; height = -1;
         isVisible = true;
         titleFont = null; elemsFont = null;
-        selectedItem = null;
+        selectedItem = null; selectedItemIndex = -1;
         items = null;
         eventListeners = new ArrayList<EventListener>();
     }
@@ -89,6 +90,11 @@ public class SelectBoxBuilder<T> {
         return this;
     }
 
+    public SelectBoxBuilder withSelectedItemIndex(int index) {
+        this.selectedItemIndex = index;
+        return this;
+    }
+
     public SelectBoxBuilder withItems(Array<T> items) {
         this.items = items;
         return this;
@@ -119,10 +125,12 @@ public class SelectBoxBuilder<T> {
         if (elemsFont != null) {
             selectBox.getStyle().listStyle.font = game.ass.get(elemsFont.getFont());
         }
-        if (selectedItem != null) selectBox.setSelected(selectedItem);
 
         if (items != null)
             selectBox.setItems(items);
+
+        if (selectedItem != null) selectBox.setSelected(selectedItem);
+        if (selectedItemIndex >= 0) selectBox.setSelectedIndex(selectedItemIndex);
 
         for (EventListener listener : eventListeners)
             selectBox.addListener(listener);
