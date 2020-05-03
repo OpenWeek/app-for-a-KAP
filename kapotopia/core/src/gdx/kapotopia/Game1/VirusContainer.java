@@ -10,8 +10,8 @@ public class VirusContainer {
     private boolean isIst;
     private boolean isMaybeIst;
 
-    public VirusContainer(String texturePath, String name, boolean isIst, boolean isMaybeIst, String description) {
-        this.texture = new AssetDescriptor<Texture>(texturePath, Texture.class);
+    public VirusContainer(AssetDescriptor<Texture> texture, String name, boolean isIst, boolean isMaybeIst, String description) {
+        this.texture = texture;
         this.name = name;
         this.description = description;
         this.isIst = isIst;

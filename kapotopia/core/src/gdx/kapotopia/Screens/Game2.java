@@ -73,7 +73,7 @@ public class Game2 implements Screen {
 
     private ChangeListener[] ballClick = new ChangeListener[STInbr];
 
-    private final Localisation loc = game.loc;
+    private Localisation loc;
 
     /**
      * Prepare images to fullScreen and hidden
@@ -88,6 +88,7 @@ public class Game2 implements Screen {
     public Game2(final Kapotopia game){
 
         Gdx.app.log(TAG,"Entering Game2 function");
+        this.loc = game.loc;
         screenHeigth = game.viewport.getWorldHeight();
         screenWidth = game.viewport.getWorldWidth();
 
@@ -313,10 +314,11 @@ public class Game2 implements Screen {
         String[] stiNames = {
                 loc.getString("hiv_name"),
                 loc.getString("c_hepatitis_name"),
-                loc.getString("hpv_name"),
+                loc.getString("hpv_name").replaceAll("\\s","\n"),
                 loc.getString("gonorrhea_name"),
                 loc.getString("chlamydia_name"),
-                loc.getString("herpes_name")};
+                loc.getString("herpes_name").replaceAll("\\s","\n")
+        };
         String[] symptoms = {
                 loc.getString("hiv_symp"),
                 loc.getString("c_hepatitis_symp"),

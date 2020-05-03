@@ -19,6 +19,7 @@ import gdx.kapotopia.GameDifficulty;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.STIDex.STI;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.UnlockedLevel;
@@ -364,28 +365,24 @@ public class GameController {
      * and by saving them into ArrayLists
      */
     private void initVirusTextures() {
-        XmlReader xml = new XmlReader();
-        XmlReader.Element root = xml.parse(Gdx.files.internal("sprite.xml"));
-        XmlReader.Element ist_xml = root.getChildByName("ist-l");
-        XmlReader.Element fake_xml = root.getChildByName("fakeist-l");
-        XmlReader.Element maybe_xml = root.getChildByName("maybeist-l");
+        STI[] s1 = game.vars.getStiData().getIsts();
+        STI[] s2 = game.vars.getStiData().getFakeists();
+        STI[] s3 = game.vars.getStiData().getMaybeists();
 
         List<VirusContainer> ist = new ArrayList<VirusContainer>();
         List<VirusContainer> fake = new ArrayList<VirusContainer>();
         List<VirusContainer> maybe = new ArrayList<VirusContainer>();
 
-        for (XmlReader.Element el : ist_xml.getChildrenByName("ist")) {
-            final String description = el.getChildByName("explanation").getText();
-            ist.add(new VirusContainer(el.get("texture"),el.get("name"), true, false, description));
+        for (STI sti : s1) {
+            ist.add(new VirusContainer(sti.getTexture(), sti.getName(), true, false, sti.getDescription()));
         }
 
-        for (XmlReader.Element el : fake_xml.getChildrenByName("fakeist")) {
-            fake.add(new VirusContainer(el.get("texture"),el.get("name"), false, false, ""));
+        for (STI sti : s2) {
+            fake.add(new VirusContainer(sti.getTexture(), sti.getName(), false, false, sti.getDescription()));
         }
 
-        for (XmlReader.Element el : maybe_xml.getChildrenByName("maybeist")) {
-            final String description = el.getChildByName("explanation").getText();
-            maybe.add(new VirusContainer(el.get("texture"), el.get("name"),true, true, description));
+        for (STI sti : s3) {
+            maybe.add(new VirusContainer(sti.getTexture(), sti.getName(),true, true, sti.getDescription()));
         }
 
         this.ist = ist;

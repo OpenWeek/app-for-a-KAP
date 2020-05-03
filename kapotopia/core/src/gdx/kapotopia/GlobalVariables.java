@@ -1,16 +1,20 @@
 package gdx.kapotopia;
 
+import gdx.kapotopia.STIDex.STIData;
+
 /**
  * Utility class for holding variables that have to be passed from one screen to another
  */
 public class GlobalVariables {
 
+    private STIData stiData;
     private GameDifficulty choosenDifficultyG1;
     private UnlockedLevel game1UnlockedLevels;
     private ScreenType nextScreenOfChoosingDifScreen;
 
-    public GlobalVariables() {
+    public GlobalVariables(Localisation loc) {
         // We define the default value of variables
+        stiData = new STIData(loc);
         choosenDifficultyG1 = GameDifficulty.EASY;
         game1UnlockedLevels = UnlockedLevel.EASY_UNLOCKED;
         nextScreenOfChoosingDifScreen = ScreenType.MAINMENU;
@@ -38,5 +42,9 @@ public class GlobalVariables {
 
     public void setNextScreenOfChoosingDifScreen(ScreenType nextScreenOfChoosingDifScreen) {
         this.nextScreenOfChoosingDifScreen = nextScreenOfChoosingDifScreen;
+    }
+
+    public STIData getStiData() {
+        return stiData;
     }
 }

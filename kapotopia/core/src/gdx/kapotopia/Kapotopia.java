@@ -31,9 +31,6 @@ import gdx.kapotopia.Screens.mockupG1;
 import gdx.kapotopia.Screens.mockupG2;
 import gdx.kapotopia.Screens.mockupG3;
 
-import static gdx.kapotopia.AssetsManaging.AssetDescriptors.I18N_BUNDLE_ROOT;
-import static gdx.kapotopia.AssetsManaging.AssetDescriptors.I18N_BUNDLE_FR;
-
 public class Kapotopia extends com.badlogic.gdx.Game {
 
 	/* APP-WIDE VARIABLES */
@@ -48,7 +45,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	public Localisation loc;
 
     public FitViewport viewport;
-    // The value Gateway
+    // GlobalVariables
 	public GlobalVariables vars;
     // Settings
     private Settings settings;
@@ -89,9 +86,9 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
-		this.vars = new GlobalVariables();
 		this.loc = new Localisation(ass);
-		this.settings = new Settings(loc);
+		this.settings = new Settings(this);
+		this.vars = new GlobalVariables(loc);
 		changeScreen(ScreenType.MAINMENU);
 	}
 

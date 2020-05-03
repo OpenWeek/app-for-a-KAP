@@ -187,7 +187,7 @@ public class World4 implements Screen {
     private void preload(){
         Gdx.app.log(TAG, "Preloading stuff... ");
         long startTime = TimeUtils.millis();
-        this.data = STIData.getIstAndMaybeIsts();
+        this.data = game.vars.getStiData().getIstAndMaybeIsts();
         for (STI sti : data) {
             game.ass.load(sti.getTexture());
         }

@@ -6,16 +6,36 @@ import com.badlogic.gdx.graphics.Texture;
 import org.jetbrains.annotations.NotNull;
 
 public class STI implements Comparable {
+    private String nameKey;
+    private String descriptionKey;
     private String name;
     private String description;
     private AssetDescriptor<Texture> texture;
     private String type;
 
-    public STI(String name, String description, String texturePath, String type) {
+    public STI(String nameKey, String descriptionKey, String name, String description, String texturePath, String type) {
+        this.nameKey = nameKey;
         this.name = name;
+        this.descriptionKey = descriptionKey;
         this.description = description;
         this.texture = new AssetDescriptor<Texture>(texturePath, Texture.class);
         this.type = type;
+    }
+
+    public String getNameKey() {
+        return nameKey;
+    }
+
+    public void setNameKey(String nameKey) {
+        this.nameKey = nameKey;
+    }
+
+    public String getDescriptionKey() {
+        return descriptionKey;
+    }
+
+    public void setDescriptionKey(String descriptionKey) {
+        this.descriptionKey = descriptionKey;
     }
 
     public String getName() {

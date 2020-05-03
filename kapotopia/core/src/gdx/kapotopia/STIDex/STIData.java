@@ -7,90 +7,110 @@ import com.badlogic.gdx.utils.XmlReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Localisation;
+
 public class STIData {
-    private static XmlReader.Element root;
-    private static ArrayList<STI> data;
-    private static ArrayList<STI> ists;
-    private static ArrayList<STI> fakeists;
-    private static ArrayList<STI> maybeists;
+    private Localisation loc;
+    private XmlReader.Element root;
+    private ArrayList<STI> data;
+    private ArrayList<STI> ists;
+    private ArrayList<STI> fakeists;
+    private ArrayList<STI> maybeists;
 
     /**
      * This function reads the data if needed and puts it in root.
      * It also builds all sti related arrays.
      */
-    private static void ensureData() {
-
-        if(root != null) return;//data not loaded yet, load it
-
-        data = new ArrayList<STI>();
-        ists = new ArrayList<STI>();
-        fakeists = new ArrayList<STI>();
-        maybeists = new ArrayList<STI>();
+    public STIData(Localisation loc) {
+        this.loc = loc;
+        this.data = new ArrayList<STI>();
+        this.ists = new ArrayList<STI>();
+        this.fakeists = new ArrayList<STI>();
+        this.maybeists = new ArrayList<STI>();
         XmlReader xml = new XmlReader();
-        root = xml.parse(Gdx.files.internal("sprite.xml"));
+        this.root = xml.parse(Gdx.files.internal("sprite.xml"));
 
         Array<XmlReader.Element> ist = root.getChildByName("ist-l").getChildrenByName("ist");
         Array<XmlReader.Element> fakeIst = root.getChildByName("fakeist-l").getChildrenByName("fakeist");
         Array<XmlReader.Element> maybeIst = root.getChildByName("maybeist-l").getChildrenByName("maybeist");
 
+        String tag = "ist";
         for(XmlReader.Element e : ist){
 
-            String tag = "ist";
-            String name = e.getAttribute("name");
-            String texturePath = e.getAttribute("texture");
-            String desc = e.getChildByName("explanation").getText();
+            final String nameKey = e.getAttribute("name");
+            final String name = loc.getString(nameKey);
+            final String texturePath = e.getAttribute("texture");
+            final String descKey = e.getChildByName("explanation").getText();
+            final String desc = loc.getString(descKey);
 
-            data.add(new STI(name, desc, texturePath, tag));
-            ists.add(new STI(name, desc, texturePath, tag));
+            data.add(new STI(nameKey, descKey, name, desc, texturePath, tag));
+            ists.add(new STI(nameKey, descKey, name, desc, texturePath, tag));
         }
 
+        tag = "fakeist";
         for(XmlReader.Element e : fakeIst){
 
-            String tag = "fakeist";
-            String name = e.getAttribute("name");
-            String texturePath = e.getAttribute("texture");
-            //TODO Add descriptions for fakeists?
-            String desc = "";
+            final String nameKey = e.getAttribute("name");
+            final String name = loc.getString(nameKey);
+            final String texturePath = e.getAttribute("texture");
+            final String descKey = e.getChildByName("explanation").getText();
+            final String desc = loc.getString(descKey);
 
-            data.add(new STI(name, desc, texturePath, tag));
-            fakeists.add(new STI(name, desc, texturePath, tag));
+            data.add(new STI(nameKey, descKey, name, desc, texturePath, tag));
+            fakeists.add(new STI(nameKey, descKey, name, desc, texturePath, tag));
         }
 
+        tag = "maybeist";
         for(XmlReader.Element e : maybeIst){
 
-            String tag = "maybeist";
-            String name = e.getAttribute("name");
-            String texturePath = e.getAttribute("texture");
-            String desc = e.getChildByName("explanation").getText();
+            final String nameKey = e.getAttribute("name");
+            final String name = loc.getString(nameKey);
+            final String texturePath = e.getAttribute("texture");
+            final String descKey = e.getChildByName("explanation").getText();
+            final String desc = loc.getString(descKey);
 
-            data.add(new STI(name, desc, texturePath, tag));
-            maybeists.add(new STI(name, desc, texturePath, tag));
+            data.add(new STI(nameKey, descKey, name, desc, texturePath, tag));
+            maybeists.add(new STI(nameKey, descKey, name, desc, texturePath, tag));
         }
-
     }
 
-    public static STI[] getData() {
-        ensureData();
+    public void updateLists() {
+        for (STI sti : data) {
+            sti.setName(loc.getString(sti.getNameKey()));
+            sti.setDescription(loc.getString(sti.getDescriptionKey()));
+        }
+        for (STI sti : ists) {
+            sti.setName(loc.getString(sti.getNameKey()));
+            sti.setDescription(loc.getString(sti.getDescriptionKey()));
+        }
+        for (STI sti : fakeists) {
+            sti.setName(loc.getString(sti.getNameKey()));
+            sti.setDescription(loc.getString(sti.getDescriptionKey()));
+        }
+        for (STI sti : maybeists) {
+            sti.setName(loc.getString(sti.getNameKey()));
+            sti.setDescription(loc.getString(sti.getDescriptionKey()));
+        }
+    }
+
+    public STI[] getData() {
         return data.toArray(new STI[0]);
     }
 
-    public static STI[] getIsts() {
-        ensureData();
+    public STI[] getIsts() {
         return ists.toArray(new STI[0]);
     }
 
-    public static STI[] getFakeists() {
-        ensureData();
+    public STI[] getFakeists() {
         return fakeists.toArray(new STI[0]);
     }
 
-    public static STI[] getMaybeists() {
-        ensureData();
+    public STI[] getMaybeists() {
         return maybeists.toArray(new STI[0]);
     }
 
-    public static STI[] getIstAndMaybeIsts() {
-        ensureData();
+    public STI[] getIstAndMaybeIsts() {
         ArrayList<STI> tmp = new ArrayList<STI>();
         tmp.addAll(maybeists);
         tmp.addAll(ists);

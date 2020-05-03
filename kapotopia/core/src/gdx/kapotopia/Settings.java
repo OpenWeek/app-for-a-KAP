@@ -11,6 +11,7 @@ public class Settings {
     /*******************************
      *          ATTRIBUTES         *
      *******************************/
+    private Kapotopia game;
     private Localisation localisation;
 
     /* THE STORES */
@@ -36,8 +37,9 @@ public class Settings {
      *            METHODS          *
      *******************************/
 
-    public Settings(Localisation localisation) {
-        this.localisation = localisation;
+    public Settings(Kapotopia game) {
+        this.game = game;
+        this.localisation = game.loc;
         prefs_gen = Gdx.app.getPreferences(GENERAL_SETTINGS_NAME);
         prefs_game1 = Gdx.app.getPreferences(GAME1_SETTINGS_NAME);
 
@@ -122,6 +124,7 @@ public class Settings {
         prefs_gen.putString(PREF_LOCALE, locale.toString());
         prefs_gen.flush();
         localisation.changeLanguage(lang);
+        game.vars.getStiData().updateLists();
     }
 
     public void toggleMusic() {

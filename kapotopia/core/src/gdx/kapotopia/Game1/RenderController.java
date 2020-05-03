@@ -75,10 +75,6 @@ public class RenderController {
     private final String TAG = this.getClass().getSimpleName();
 
     private final float BTN_SPACING = 90f;
-    private final String LIFE_TXT = "Vies: ";
-    private final String SCORE_TXT = "Score: ";
-    private final String HIGHSCORE_TXT = "Highscore: ";
-    private final String IST_CATCHED_TXT = "Ists attrapées: ";
 
     public  RenderController(final Kapotopia game, final Game1 game1, Stage stage) {
         this.game = game;
@@ -142,11 +138,11 @@ public class RenderController {
         stage.addActor(quitBtn);
 
         // Labels
-        lifeLabel = new LabelBuilder(game, LIFE_TXT + game1.getGameController().getMireilleLife()).withStyle(normalFont)
+        lifeLabel = new LabelBuilder(game, game.loc.getString("lives_label") + game1.getGameController().getMireilleLife()).withStyle(normalFont)
                 .withPosition(game1.getGameController().getBounds().width - (ww / 4.5f), game1.getGameController().getBounds().height - (ww / 10.8f)).build();
-        istCatchedLabel = new LabelBuilder(game, IST_CATCHED_TXT  + game1.getGameController().getIstsCatched()).withStyle(normalFont)
+        istCatchedLabel = new LabelBuilder(game, game.loc.getString("istattrapees")  + game1.getGameController().getIstsCatched()).withStyle(normalFont)
                 .withPosition(25, game1.getGameController().getBounds().height - (ww / 10.8f)).build();
-        scoreLabel = new LabelBuilder(game, SCORE_TXT  + game1.getGameController().getTotalScore()).withStyle(normalFont)
+        scoreLabel = new LabelBuilder(game, game.loc.getString("score2_label")  + game1.getGameController().getTotalScore()).withStyle(normalFont)
                 .withPosition(25, game1.getGameController().getBounds().height - (ww / 5.4f)).build();
         pauseLabel = new LabelBuilder(game, loc.getString("pause_label_text")).withStyle(normalFont).withAlignment(Alignement.CENTER) // faut rajouter le x
                 .withY(game1.getGameController().getBounds().height / 2).isVisible(false).build();
@@ -183,9 +179,9 @@ public class RenderController {
 
         renderBackground(stateTime);
 
-        lifeLabel.setText(LIFE_TXT + game1.getGameController().getMireilleLife());
-        scoreLabel.setText(SCORE_TXT + game1.getGameController().getTotalScore());
-        istCatchedLabel.setText(IST_CATCHED_TXT + game1.getGameController().getIstsCatched());
+        lifeLabel.setText(game.loc.getString("lives_label") + game1.getGameController().getMireilleLife());
+        scoreLabel.setText(game.loc.getString("score2_label") + game1.getGameController().getTotalScore());
+        istCatchedLabel.setText(game.loc.getString("istattrapees") + game1.getGameController().getIstsCatched());
     }
 
     private void renderBackground(float stateTime) {
@@ -248,7 +244,7 @@ public class RenderController {
             highscoreLabHead = game.loc.getString("high_score_lab_head");
             highscoreLabTail = " !";
         } else {
-            endScoreLabel = new LabelBuilder(game, SCORE_TXT + game1.getGameController().getTotalScore())
+            endScoreLabel = new LabelBuilder(game, game.loc.getString("score2_label") + game1.getGameController().getTotalScore())
                     .withStyle(normalFont)
                     .withPosition((game1.getGameController().getBounds().width / 2) - (game.viewport.getWorldWidth() / 8f),
                             (game1.getGameController().getBounds().height / 2) - (game.viewport.getWorldHeight() / 32))
@@ -259,7 +255,7 @@ public class RenderController {
             highscoreLabTail = "";
         }
 
-        final String highScoreLabelTxt = highscoreLabHead + HIGHSCORE_TXT + highscore + highscoreLabTail;
+        final String highScoreLabelTxt = highscoreLabHead + game.loc.getString("highscore") + highscore + highscoreLabTail;
         final Label highscoreLabel = new LabelBuilder(game, highScoreLabelTxt).withY(highScoreY)
                 .withAlignment(Alignement.CENTER).withStyle(FontHelper.CLASSIC_BOLD_NORMAL_YELLOW).build();
         stage.addActor(highscoreLabel);
