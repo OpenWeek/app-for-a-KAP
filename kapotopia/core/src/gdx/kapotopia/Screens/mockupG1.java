@@ -1,25 +1,34 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 
 import gdx.kapotopia.Animations.MireilleBlinkingAnimation;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Bounds;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
+import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.ImageHelper;
+import gdx.kapotopia.Helpers.Padding;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
@@ -32,9 +41,10 @@ public class mockupG1 extends CinematicScreen {
     private final float scalling_factor = 0.6f;
 
     private OrthographicCamera camera;
-    private SpriteBatch batch;
+    private SpriteBatch mireilleBatch;
 
     private Animation<TextureRegion> mireilleBlink;
+    private ImageTextButton skipBtn;
     private float stateTime;
 
     public mockupG1(final Kapotopia game) {
@@ -126,8 +136,8 @@ public class mockupG1 extends CinematicScreen {
         croquis.setX((ww / 2) + (croquis.getWidth() / 2));
 
         final Image bigBubble = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_EXPL)).build();
-        final Image bubbleLeft = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_LEFT)).build();
-        final Image bubbleRight = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_RIGHT)).build();
+        final Image bubbleLeft = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_MID_LEFT)).build();
+        final Image bubbleRight = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_MID_RIGHT)).build();
         /* WE DEFINE THE IMAGES THAT WILL APPEAR HERE */
         final Image[][] images = new Image[][] {
                 {
@@ -195,14 +205,31 @@ public class mockupG1 extends CinematicScreen {
         this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         game.viewport.setCamera(camera);
         // Making Animations
-        batch = new SpriteBatch();
+        mireilleBatch = new SpriteBatch();
         mireilleBlink = new MireilleBlinkingAnimation(game, Animation.PlayMode.LOOP_PINGPONG).getAnimation();
         stateTime = 0f;
+        // Skip Button
+
+        skipBtn = new ImageTextButtonBuilder(game, game.loc.getString("skip_button"))
+                .withFontStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
+                .withPosition(game.viewport.getWorldWidth() * 0.75f, this.game.viewport.getWorldHeight() / 30f)
+                .withImageStyle(game.ass.get(AssetDescriptors.BTN_WOOD)).isVisible(true)
+                .withPadding(Padding.STANDARD)
+                .withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        resetScreen();
+                        game.changeScreen(ScreenType.DIF);
+                    }
+                })
+                .build();
+
 
         /* ENDING */
         applyBundle(new ParameterBundleBuilder(ScreenType.DIF)
                 .withImages(images).withFinishBtn(false)
                 .withNextBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE).withTimerScheduleTime(0).withLabels(labels));
+        getStage().addActor(skipBtn);
     }
 
     @Override
@@ -212,6 +239,8 @@ public class mockupG1 extends CinematicScreen {
         game.vars.setNextScreenOfChoosingDifScreen(ScreenType.GAME1);
         final UnlockedLevel level = game.getSettings().getG1UnlockedLvl();
         game.vars.setGame1UnlockedLevels(level);
+
+        skipBtn.setVisible(game.getSettings().isIntro_1_skip());
     }
 
     @Override
@@ -220,24 +249,24 @@ public class mockupG1 extends CinematicScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
+        mireilleBatch.setProjectionMatrix(camera.combined);
 
         getStage().act(Gdx.graphics.getDeltaTime());
         getStage().draw();
 
         if (getCurrentSeqIndex() == 0 || getCurrentSeqIndex() == 1) {
             stateTime += delta;
-            batch.begin();
+            mireilleBatch.begin();
             final TextureRegion m = mireilleBlink.getKeyFrame(stateTime, true);
-            batch.draw(m, camera.viewportWidth / 4f, 0, 0, 0,
+            mireilleBatch.draw(m, camera.viewportWidth / 4f, 0, 0, 0,
                     m.getRegionWidth(), m.getRegionHeight(), scalling_factor, scalling_factor, 0);
-            batch.end();
+            mireilleBatch.end();
         }
     }
 
     @Override
     public void dispose() {
         getStage().dispose();
-        batch.dispose();
+        mireilleBatch.dispose();
     }
 }

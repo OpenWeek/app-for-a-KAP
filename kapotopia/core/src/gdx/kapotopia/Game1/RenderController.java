@@ -133,7 +133,7 @@ public class RenderController {
         quitBtn = new ImageTextButtonBuilder(game, loc.getString("quit_button_text"))
                 .withFontStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE).withAlignment(Alignement.CENTER)
                 .withY((game1.getGameController().getBounds().getHeight() / 2) - BTN_SPACING).withPadding(Padding.STANDARD)
-                .withListener(quitEvent).withImageStyle(game.ass.get(AssetDescriptors.BTN)).isVisible(false).build();
+                .withListener(quitEvent).withImageStyle(game.ass.get(AssetDescriptors.BTN_LEAF)).isVisible(false).build();
 
         stage.addActor(quitBtn);
 
@@ -292,7 +292,7 @@ public class RenderController {
                         .withFontStyle(normalFont)
                         .withY( (game1.getGameController().getBounds().getHeight() / 2) + BTN_SPACING )
                         .withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
-                        .withListener(continueBtnEvent).withImageStyle(game.ass.get(AssetDescriptors.BTN)).build();
+                        .withListener(continueBtnEvent).withImageStyle(game.ass.get(AssetDescriptors.BTN_LEAF)).build();
 
                 stage.addActor(continueBtn);
             }
@@ -300,7 +300,7 @@ public class RenderController {
                     .withFontStyle(normalFont)
                     .withY((game1.getGameController().getBounds().getHeight() / 2))
                     .withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
-                    .withListener(restartBtnEvent).withImageStyle(game.ass.get(AssetDescriptors.BTN)).build();
+                    .withListener(restartBtnEvent).withImageStyle(game.ass.get(AssetDescriptors.BTN_LEAF)).build();
 
             stage.addActor(restartBtn);
             quitBtn.setVisible(true);

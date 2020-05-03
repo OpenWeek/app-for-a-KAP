@@ -2,6 +2,7 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Sound;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.Iterator;
@@ -267,9 +269,18 @@ public abstract class CinematicScreen implements Screen {
      * Set up the input processor with the StandardInputAdapter
      */
     protected void setUpInputProcessor() {
+        setUpInputProcessor(null);
+    }
+
+    protected void setUpInputProcessor(Array<InputProcessor> procs) {
         InputMultiplexer im = new InputMultiplexer();
         im.addProcessor(new StandardInputAdapter(this, game));
         im.addProcessor(stage);
+        if (procs != null) {
+            for (InputProcessor proc : procs) {
+                im.addProcessor(proc);
+            }
+        }
         Gdx.input.setInputProcessor(im);
     }
 

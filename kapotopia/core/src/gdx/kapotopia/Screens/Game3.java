@@ -48,6 +48,9 @@ public class Game3 implements Screen {
 
         this.game = game;
 
+        // Allowing that the game intro can be skipped
+        game.getSettings().setIntro_3_skip(true);
+
         loadAssets();
 
         inGame = true;

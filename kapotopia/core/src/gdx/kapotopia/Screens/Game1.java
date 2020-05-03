@@ -46,6 +46,9 @@ public class Game1 implements Screen, MireilleListener {
         this.game = game;
         this.stage = new Stage(game.viewport);
 
+        // Allowing that the game intro can be skipped
+        game.getSettings().setIntro_1_skip(true);
+
         loadAssets();
 
         this.gameController = new GameController(game, this);

@@ -12,8 +12,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import java.util.Locale;
-
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Screens.BilanG1;
@@ -80,8 +78,9 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.ass.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		this.ass.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
+		// Loading every assets here, loadInitialTextures must come AFTER every call
         FontHelper.buildAllFonts(ass);
-		loadInitialTextures(); // Contains a call to "finishLoading", thus it need to be called AFTER every other asset load
+		loadInitialTextures();
 
 		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app
@@ -139,11 +138,14 @@ public class Kapotopia extends com.badlogic.gdx.Game {
         this.ass.load(AssetDescriptors.SERGENT2);
         this.ass.load(AssetDescriptors.GODIVA);
         // Gadgets
-		this.ass.load(AssetDescriptors.BTN);
+		this.ass.load(AssetDescriptors.BTN_LEAF);
+		this.ass.load(AssetDescriptors.BTN_ROCK);
+		this.ass.load(AssetDescriptors.BTN_SAND);
+		this.ass.load(AssetDescriptors.BTN_WOOD);
         this.ass.load(AssetDescriptors.BUBBLE_EXPL);
-        this.ass.load(AssetDescriptors.BUBBLE_LEFT);
-		this.ass.load(AssetDescriptors.BUBBLE_LEFT2);
-        this.ass.load(AssetDescriptors.BUBBLE_RIGHT);
+        this.ass.load(AssetDescriptors.BUBBLE_MID_LEFT);
+		this.ass.load(AssetDescriptors.BUBBLE_RIGHT);
+        this.ass.load(AssetDescriptors.BUBBLE_MID_RIGHT);
 		/* Sounds */
 		this.ass.load(AssetDescriptors.MUSIC_MM);
 		this.ass.load(AssetDescriptors.SOUND_PAUSE);

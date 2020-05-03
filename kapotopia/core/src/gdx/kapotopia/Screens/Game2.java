@@ -94,6 +94,9 @@ public class Game2 implements Screen {
 
         this.game = game;
 
+        // Allowing that the game intro can be skipped
+        game.getSettings().setIntro_2_skip(true);
+
         loadAssets();
 
         Image imgBckground = new Image(game.ass.get(AssetDescriptors.SABLE));

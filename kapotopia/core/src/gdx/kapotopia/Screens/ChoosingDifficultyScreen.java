@@ -102,7 +102,7 @@ public class ChoosingDifficultyScreen implements Screen {
         final float WH = game.viewport.getWorldHeight();
         final Localisation loc = game.loc;
 
-        final Texture btnTexture = game.ass.get(AssetDescriptors.BTN);
+        final Texture btnTexture = game.ass.get(AssetDescriptors.BTN_LEAF);
         ImageTextButton infiniteBtn = new ImageTextButtonBuilder(game, loc.getString("infinite_button"))
                 .withY(WH * 0.1f).withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
                 .withListener(new ChangeListener() {

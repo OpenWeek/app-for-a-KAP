@@ -6,9 +6,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.Animations.EvilTomAnimation;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
@@ -19,8 +22,10 @@ import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Bounds;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
+import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.ImageHelper;
+import gdx.kapotopia.Helpers.Padding;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
@@ -34,6 +39,8 @@ public class mockupG3 extends CinematicScreen {
 
     private Animation<TextureRegion> evilTom;
     private float stateTime;
+
+    private ImageTextButton skipBtn;
 
     public mockupG3(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG3");
@@ -95,9 +102,9 @@ public class mockupG3 extends CinematicScreen {
         final Image inside = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.I3_INSIDE));
         // Bubbles
         final Image bigBubble = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_EXPL)).build();
-        final Image bubbleLeft = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_LEFT)).build();
-        final Image bubbleLeft2 = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_LEFT2)).build();
-        final Image bubbleRight = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_RIGHT)).build();
+        final Image bubbleLeft = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_MID_LEFT)).build();
+        final Image bubbleLeft2 = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_RIGHT)).build();
+        final Image bubbleRight = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_MID_RIGHT)).build();
         // Characters
         final Image tom = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.GODIVA))
                 .withPosition(ww * 0.075f, wh * 0.04f)
@@ -164,16 +171,34 @@ public class mockupG3 extends CinematicScreen {
         batch = new SpriteBatch();
         evilTom = new EvilTomAnimation(game, Animation.PlayMode.NORMAL).getAnimation();
         stateTime = 0f;
+        // Skip Button
+        skipBtn = new ImageTextButtonBuilder(game, game.loc.getString("skip_button"))
+                .withFontStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
+                .withPosition(game.viewport.getWorldWidth() * 0.75f, this.game.viewport.getWorldHeight() / 30f)
+                .withImageStyle(game.ass.get(AssetDescriptors.BTN_ROCK)).isVisible(true)
+                .withPadding(Padding.STANDARD)
+                .withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        resetScreen();
+                        game.changeScreen(ScreenType.GAME3);
+                    }
+                })
+                .build();
 
         /* ENDING */
 
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME3)
         .withImages(images).withLabels(labels).withFinishBtn(false).withNextBtnStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE));
+
+        getStage().addActor(skipBtn);
     }
 
     @Override
     public void show() {
         setUpInputProcessor();
+
+        skipBtn.setVisible(game.getSettings().isIntro_3_skip());
     }
 
     @Override

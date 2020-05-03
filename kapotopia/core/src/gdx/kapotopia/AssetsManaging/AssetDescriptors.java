@@ -156,17 +156,34 @@ public class AssetDescriptors {
             new AssetDescriptor<Texture>(AssetPaths.SERGENT2, Texture.class);
     public static final AssetDescriptor<Texture> GODIVA =
             new AssetDescriptor<Texture>(AssetPaths.GODIVA, Texture.class);
-    // Gadgets
-    public static final AssetDescriptor<Texture> BTN =
-            new AssetDescriptor<Texture>(AssetPaths.BTN, Texture.class);
+    /*------------------
+            Gadgets
+     -------------------*/
+    // Buttons
+    public static final AssetDescriptor<Texture> BTN_CLOUD =
+            new AssetDescriptor<Texture>(AssetPaths.BTN_CLOUD, Texture.class);
+    public static final AssetDescriptor<Texture> BTN_LEAF =
+            new AssetDescriptor<Texture>(AssetPaths.BTN_LEAF, Texture.class);
+    public static final AssetDescriptor<Texture> BTN_ROCK =
+            new AssetDescriptor<Texture>(AssetPaths.BTN_ROCK, Texture.class);
+    public static final AssetDescriptor<Texture> BTN_SAND =
+            new AssetDescriptor<Texture>(AssetPaths.BTN_SAND, Texture.class);
+    public static final AssetDescriptor<Texture> BTN_VIRUS =
+            new AssetDescriptor<Texture>(AssetPaths.BTN_VIRUS, Texture.class);
+    public static final AssetDescriptor<Texture> BTN_WOOD =
+            new AssetDescriptor<Texture>(AssetPaths.BTN_WOOD, Texture.class);
+    // Bubbles
     public static final AssetDescriptor<Texture> BUBBLE_EXPL =
             new AssetDescriptor<Texture>(AssetPaths.BUBBLE_EXPL, Texture.class);
     public static final AssetDescriptor<Texture> BUBBLE_LEFT =
             new AssetDescriptor<Texture>(AssetPaths.BUBBLE_LEFT, Texture.class);
-    public static final AssetDescriptor<Texture> BUBBLE_LEFT2 =
-            new AssetDescriptor<Texture>(AssetPaths.BUBBLE_LEFT2, Texture.class);
+    public static final AssetDescriptor<Texture> BUBBLE_MID_LEFT =
+            new AssetDescriptor<Texture>(AssetPaths.BUBBLE_MID_LEFT, Texture.class);
+    public static final AssetDescriptor<Texture> BUBBLE_MID_RIGHT =
+            new AssetDescriptor<Texture>(AssetPaths.BUBBLE_MID_RIGHT, Texture.class);
     public static final AssetDescriptor<Texture> BUBBLE_RIGHT =
             new AssetDescriptor<Texture>(AssetPaths.BUBBLE_RIGHT, Texture.class);
+    // Others
     public static final AssetDescriptor<Texture> PAUSE_LOGO =
             new AssetDescriptor<Texture>(AssetPaths.PAUSE_LOGO, Texture.class);
 

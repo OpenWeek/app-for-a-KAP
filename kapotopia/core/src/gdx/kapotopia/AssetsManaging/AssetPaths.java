@@ -77,12 +77,23 @@ public class AssetPaths {
     public static final String SERGENT1 = "World1/Game1/SergendDildo.png";
     public static final String SERGENT2 = "World1/Game1/SergentDildo2.png";
     public static final String GODIVA = "game3/intro/Thomas Godiva.png";
-    // Gadgets
-    public static final String BTN = "ImagesGadgets/Bouton.png";
-    public static final String BUBBLE_EXPL = "ImagesGadgets/BulleExplicative.png";
-    public static final String BUBBLE_LEFT = "ImagesGadgets/Bulle1.png";
-    public static final String BUBBLE_LEFT2 = "ImagesGadgets/Bulle2.png";
-    public static final String BUBBLE_RIGHT = "ImagesGadgets/Bulle3.png";
+    /*------------------
+            Gadgets
+     -------------------*/
+    // Buttons
+    public static final String BTN_CLOUD = "ImagesGadgets/buttons/button_cloud.png";
+    public static final String BTN_LEAF = "ImagesGadgets/buttons/button_leaf.png";
+    public static final String BTN_ROCK = "ImagesGadgets/buttons/button_rock.png";
+    public static final String BTN_SAND = "ImagesGadgets/buttons/button_sand.png";
+    public static final String BTN_VIRUS = "ImagesGadgets/buttons/button_virus.png";
+    public static final String BTN_WOOD = "ImagesGadgets/buttons/button_wood.png";
+    // Bubbles
+    public static final String BUBBLE_EXPL = "ImagesGadgets/dialog/bubble_explicative.png";
+    public static final String BUBBLE_LEFT = "ImagesGadgets/dialog/bubble_left.png";
+    public static final String BUBBLE_MID_LEFT = "ImagesGadgets/dialog/bubble_middle_left.png";
+    public static final String BUBBLE_MID_RIGHT = "ImagesGadgets/dialog/bubble_middle_right.png";
+    public static final String BUBBLE_RIGHT = "ImagesGadgets/dialog/bubble_right.png";
+    // Others
     public static final String PAUSE_LOGO = "pause_logo_2.png";
 
     /* ************ *

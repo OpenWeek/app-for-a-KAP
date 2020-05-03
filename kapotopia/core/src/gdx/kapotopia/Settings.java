@@ -22,6 +22,9 @@ public class Settings {
     private UnlockedLevel unlockedLevel;
     private int G1Highscore;
     private Array<Languages> supportedLangs;
+    private boolean intro_1_skip;
+    private boolean intro_2_skip;
+    private boolean intro_3_skip;
     /* CONSTANTES */
     private final String TAG = "k" + this.getClass().getSimpleName();
     private final String GENERAL_SETTINGS_NAME = "general_settings";
@@ -29,6 +32,10 @@ public class Settings {
     // General
     private final String PREF_LOCALE = "language";
     private final String PREF_MUSIC_ON = "music_on";
+    //      Skip buttons
+    private final String PREF_INTRO_1_SKIP = "intro_1_skip";
+    private final String PREF_INTRO_2_SKIP = "intro_2_skip";
+    private final String PREF_INTRO_3_SKIP = "intro_3_skip";
     // Game 1
     private final String PREF_UNLOCKED_LEVEL = "lvl-unlocked";
     private final String PREF_HIGHSCORE = "highscore"; //TODO make an elaborate highscore system that can save and load multiple highscores instead of a single one
@@ -77,6 +84,32 @@ public class Settings {
             needChange = true;
         } else {
             this.isMusicOn = prefs_gen.getBoolean(PREF_MUSIC_ON, true);
+        }
+
+        // SKIP BUTTONS
+
+        if (!prefs_gen.contains(PREF_INTRO_1_SKIP)) {
+            prefs_gen.putBoolean(PREF_INTRO_1_SKIP, false);
+            intro_1_skip = false;
+            needChange = true;
+        } else {
+            this.intro_1_skip = prefs_gen.getBoolean(PREF_INTRO_1_SKIP, false);
+        }
+
+        if (!prefs_gen.contains(PREF_INTRO_2_SKIP)) {
+            prefs_gen.putBoolean(PREF_INTRO_2_SKIP, false);
+            intro_2_skip = false;
+            needChange = true;
+        } else {
+            this.intro_2_skip = prefs_gen.getBoolean(PREF_INTRO_2_SKIP, false);
+        }
+
+        if (!prefs_gen.contains(PREF_INTRO_3_SKIP)) {
+            prefs_gen.putBoolean(PREF_INTRO_3_SKIP, false);
+            intro_3_skip = false;
+            needChange = true;
+        } else {
+            this.intro_3_skip = prefs_gen.getBoolean(PREF_INTRO_3_SKIP, false);
         }
 
         if(needChange) {
@@ -173,7 +206,7 @@ public class Settings {
         languages.add(Languages.FRENCH);
         // If we translate the app in other languages, lines should be added down here
         languages.add(Languages.ENGLISH);
-        languages.add(Languages.DUTCH);
+        //languages.add(Languages.DUTCH);
         return languages;
     }
 
@@ -193,5 +226,35 @@ public class Settings {
         }
 
         return ans;
+    }
+
+    public boolean isIntro_1_skip() {
+        return intro_1_skip;
+    }
+
+    public void setIntro_1_skip(boolean intro_1_skip) {
+        prefs_gen.putBoolean(PREF_INTRO_1_SKIP, intro_1_skip);
+        prefs_gen.flush();
+        this.intro_1_skip = intro_1_skip;
+    }
+
+    public boolean isIntro_2_skip() {
+        return intro_2_skip;
+    }
+
+    public void setIntro_2_skip(boolean intro_2_skip) {
+        prefs_gen.putBoolean(PREF_INTRO_2_SKIP, intro_2_skip);
+        prefs_gen.flush();
+        this.intro_2_skip = intro_2_skip;
+    }
+
+    public boolean isIntro_3_skip() {
+        return intro_3_skip;
+    }
+
+    public void setIntro_3_skip(boolean intro_3_skip) {
+        prefs_gen.putBoolean(PREF_INTRO_3_SKIP, intro_3_skip);
+        prefs_gen.flush();
+        this.intro_3_skip = intro_3_skip;
     }
 }
