@@ -1,6 +1,7 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,6 +26,7 @@ import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.STIDex.STI;
 import gdx.kapotopia.ScreenType;
@@ -82,15 +84,6 @@ public class STIDex implements Screen {
         Image imgFond = new Image(fond);
         stage = new Stage(game.viewport);
         stage.addActor(imgFond);
-
-        Font style = FontHelper.CLASSIC_BOLD_BIG_BLACK;
-
-        final TextButton back = new TextButtonBuilder(game, game.loc.getString("back_button"))
-                .withStyle(style).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.STIDEX))
-                .build();
-        back.setPosition((game.viewport.getWorldWidth() / 2) - back.getWidth() / 2, 50);
-        back.setVisible(true);
-        stage.addActor(back);
 
         // Right Arrow texture loading (we need it's dimensions for computing certain coordinates)
         Texture rightArrowT = game.ass.get(AssetDescriptors.ARROW);
@@ -207,7 +200,7 @@ public class STIDex implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        setUpInputProcessor();
     }
 
     @Override
@@ -244,6 +237,11 @@ public class STIDex implements Screen {
         stage.dispose();
     }
 
-
+    private void setUpInputProcessor() {
+        InputMultiplexer im = new InputMultiplexer();
+        im.addProcessor(new StandardInputAdapter(this, game));
+        im.addProcessor(stage);
+        Gdx.input.setInputProcessor(im);
+    }
 
 }
