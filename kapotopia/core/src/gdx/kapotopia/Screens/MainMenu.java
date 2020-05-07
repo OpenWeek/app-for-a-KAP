@@ -24,7 +24,6 @@ import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 
 public class MainMenu implements Screen {
@@ -90,7 +89,7 @@ public class MainMenu implements Screen {
         final TextButton world4 = new TextButtonBuilder(game, game.loc.getString("text_istdex"))
                 .withStyle(style)
                 .withY(y * 0.2f).withAlignment(Alignement.CENTER)
-                .withListener(new ChangeScreenListener(game, ScreenType.WORLD4))
+                .withListener(new ChangeScreenListener(game, ScreenType.STIDEX))
                 .build();
         final TextButton optionsBtn = new TextButtonBuilder(game, "Options").withStyle(style).withPosition(x / 3, y * 0.01f)
                 .withListener(new ChangeScreenListener(game, ScreenType.OPTIONS)).build();

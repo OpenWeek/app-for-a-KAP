@@ -12,7 +12,7 @@ public enum ScreenType {
     WORLD1,
     WORLD2,
     WORLD3,
-    WORLD4,
+    STIDEX,
     DIF,
     OPTIONS
 }

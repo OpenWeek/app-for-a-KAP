@@ -24,7 +24,7 @@ import gdx.kapotopia.Screens.Options;
 import gdx.kapotopia.Screens.World1;
 import gdx.kapotopia.Screens.World2;
 import gdx.kapotopia.Screens.World3;
-import gdx.kapotopia.Screens.World4;
+import gdx.kapotopia.Screens.STIDex;
 import gdx.kapotopia.Screens.mockupG1;
 import gdx.kapotopia.Screens.mockupG2;
 import gdx.kapotopia.Screens.mockupG3;
@@ -62,7 +62,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private World1 world1;
 	private World2 world2;
 	private World3 world3;
-	private World4 world4;
+	private STIDex STIDex;
 	private ChoosingDifficultyScreen dif;
 	private Options options;
 
@@ -211,8 +211,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 			return destroyScreen(ScreenType.WORLD2);
 		} else if(sc == world3) {
 			return destroyScreen(ScreenType.WORLD3);
-		} else if(sc == world4) {
-			return destroyScreen(ScreenType.WORLD4);
+		} else if(sc == STIDex) {
+			return destroyScreen(ScreenType.STIDEX);
 		} else if(sc == dif) {
 			return destroyScreen(ScreenType.DIF);
 		} else if(sc == options) {
@@ -238,7 +238,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		destroyScreen(ScreenType.WORLD1);
 		destroyScreen(ScreenType.WORLD2);
 		destroyScreen(ScreenType.WORLD3);
-		destroyScreen(ScreenType.WORLD4);
+		destroyScreen(ScreenType.STIDEX);
 		destroyScreen(ScreenType.DIF);
 		destroyScreen(ScreenType.OPTIONS);
 		changeScreen(nextScreen);
@@ -349,17 +349,17 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 						break;
 				}
 				break;
-			case WORLD4:
+			case STIDEX:
 				switch (ACTION) {
 					case CHANGE:
-						if (world4 == null) world4 = new World4(this);
-						setScreen(world4);
+						if (STIDex == null) STIDex = new STIDex(this);
+						setScreen(STIDex);
 						succeeded = true;
 						break;
 					case DESTROY:
-						if (world4 != null) {
-							world4.dispose();
-							world4 = null;
+						if (STIDex != null) {
+							STIDex.dispose();
+							STIDex = null;
 							succeeded = true;
 						}
 						break;
@@ -525,8 +525,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		return world3;
 	}
 
-	public World4 getWorld4() {
-		return world4;
+	public STIDex getSTIDex() {
+		return STIDex;
 	}
 
 	public ChoosingDifficultyScreen getDif() {

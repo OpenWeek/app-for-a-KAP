@@ -26,13 +26,11 @@ import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localisation;
 import gdx.kapotopia.STIDex.STI;
-import gdx.kapotopia.STIDex.STIData;
 import gdx.kapotopia.ScreenType;
 
 
-public class World4 implements Screen {
+public class STIDex implements Screen {
 
     /*
      *
@@ -74,7 +72,7 @@ public class World4 implements Screen {
 
     private STI[] data;
 
-    public World4(final Kapotopia game) {
+    public STIDex(final Kapotopia game) {
         this.game = game;
 
         preload();
@@ -88,7 +86,7 @@ public class World4 implements Screen {
         Font style = FontHelper.CLASSIC_BOLD_BIG_BLACK;
 
         final TextButton back = new TextButtonBuilder(game, game.loc.getString("back_button"))
-                .withStyle(style).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.WORLD4))
+                .withStyle(style).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU, ScreenType.STIDEX))
                 .build();
         back.setPosition((game.viewport.getWorldWidth() / 2) - back.getWidth() / 2, 50);
         back.setVisible(true);
