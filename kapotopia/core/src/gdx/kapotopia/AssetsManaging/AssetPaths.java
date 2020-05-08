@@ -28,7 +28,6 @@ public class AssetPaths {
     public static final String PALMIER = "World1/Game2/Palmier1.png";
     public static final String BASKET = "World1/Game2/Filet.png";
     public static final String PANNAL = "World1/Game2/UnPANNAL.png";
-    public static final String OUTRO = "World1/Game2/20_board_1.png";
     // Game3
     public static final String DOOR = "game3/Porte.png";
     public static final String DOOR_LOCK = "game3/VerrouFerme.png";
@@ -56,9 +55,6 @@ public class AssetPaths {
     public static final String NIGHT_SKY = "World1/Game1/Ciel.png";
     public static final String LEAVES = "World1/Game1/Feuilles.png";
     public static final String CROQUIS = "World1/Game1/Croquis.png";
-    // IntroG2
-    public static final String I2_BACK1 = "World1/Game2/20_board_0.png";
-    public static final String I2_BACK2 = "World1/Game2/20_board_1.png";
     // IntroG3
     public static final String I3_HOUSE = "game3/intro/Monde2Ecran1.png";
     public static final String I3_INSIDE = "game3/intro/Monde2Ecran2.png";
@@ -77,6 +73,8 @@ public class AssetPaths {
     public static final String SERGENT1 = "World1/Game1/SergendDildo.png";
     public static final String SERGENT2 = "World1/Game1/SergentDildo2.png";
     public static final String GODIVA = "game3/intro/Thomas Godiva.png";
+    public static final String ALYX_OPEN = "World1/Game2/DigueDentaire.png";
+    public static final String ALYX_NORMAL = "World1/Game2/DigueDentaire2.png";
     /*------------------
             Gadgets
      -------------------*/

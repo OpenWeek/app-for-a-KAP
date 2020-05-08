@@ -121,13 +121,17 @@ public class Kapotopia extends com.badlogic.gdx.Game {
         this.ass.load(AssetDescriptors.CROQUIS);
         this.ass.load(AssetDescriptors.MM_W1);
         // IntroG2
-		this.ass.load(AssetDescriptors.I2_BACK1);
-        this.ass.load(AssetDescriptors.I2_BACK2);
+		this.ass.load(AssetDescriptors.SABLE);
+		this.ass.load(AssetDescriptors.SEA);
+		this.ass.load(AssetDescriptors.SKY);
+		this.ass.load(AssetDescriptors.ALYX_OPEN);
+		this.ass.load(AssetDescriptors.ALYX_NORMAL);
         this.ass.load(AssetDescriptors.MM_W2);
         // IntroG3
 		this.ass.load(AssetDescriptors.I3_HOUSE);
 		this.ass.load(AssetDescriptors.I3_INSIDE);
         // Characters
+        this.ass.load(AssetDescriptors.MI_HAPPY);
 		this.ass.load(AssetDescriptors.MI_NORMAL);
 		this.ass.load(AssetDescriptors.MI_WORRIED);
 		this.ass.load(AssetDescriptors.MI_SURPRISED);
@@ -143,6 +147,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.ass.load(AssetDescriptors.BTN_SAND);
 		this.ass.load(AssetDescriptors.BTN_WOOD);
         this.ass.load(AssetDescriptors.BUBBLE_EXPL);
+		this.ass.load(AssetDescriptors.BUBBLE_LEFT);
         this.ass.load(AssetDescriptors.BUBBLE_MID_LEFT);
 		this.ass.load(AssetDescriptors.BUBBLE_RIGHT);
         this.ass.load(AssetDescriptors.BUBBLE_MID_RIGHT);

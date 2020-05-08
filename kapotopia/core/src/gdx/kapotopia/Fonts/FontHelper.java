@@ -31,9 +31,10 @@ public class FontHelper {
     public static Font CLASSIC_REG_BIG_WHITE;
     public static Font CLASSIC_REG_NORMAL_BLACK;
     public static Font CLASSIC_REG_NORMAL_WHITE;
-    public static Font CLASSIC_SANS_MIDDLE_BLACK;
     public static Font CLASSIC_SANS_SMALL_BLACK;
     public static Font CLASSIC_SANS_SMALL_WHITE;
+    public static Font CLASSIC_SANS_MIDDLE_WHITE;
+    public static Font CLASSIC_SANS_MIDDLE_BLACK;
     public static Font CLASSIC_SANS_NORMAL_BLACK;
     public static Font CLASSIC_SANS_NORMAL_WHITE;
     public static Font CLASSIC_SANS_NORMAL_GRAY;
@@ -162,15 +163,6 @@ public class FontHelper {
                 "CLASSIC_REG_NORMAL_WHITE", FontType.CLASSIC, FontFamily.REG, FontSize.NORMAL, white);
         ass.load(CLASSIC_REG_NORMAL_WHITE.getFont());
 
-        // CLASSIC_SANS_MIDDLE_BLACK
-        FreetypeFontLoader.FreeTypeFontLoaderParameter classicSansMiddleBlackFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        classicSansMiddleBlackFont.fontFileName = sans;
-        classicSansMiddleBlackFont.fontParameters.size = middle;
-        classicSansMiddleBlackFont.fontParameters.color = black;
-        CLASSIC_SANS_MIDDLE_BLACK = new Font(new AssetDescriptor<BitmapFont>("CLASSIC_SANS_MIDDLE_BLACK.ttf", BitmapFont.class, classicSansMiddleBlackFont),
-                "CLASSIC_SANS_MIDDLE_BLACK", FontType.CLASSIC, FontFamily.SANS, FontSize.MIDDLE, black);
-        ass.load(CLASSIC_SANS_MIDDLE_BLACK.getFont());
-
         // CLASSIC_SANS_SMALL_BLACK
         FreetypeFontLoader.FreeTypeFontLoaderParameter classicSansSmallBlackFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         classicSansSmallBlackFont.fontFileName = sans;
@@ -188,6 +180,24 @@ public class FontHelper {
         CLASSIC_SANS_SMALL_WHITE = new Font(new AssetDescriptor<BitmapFont>("CLASSIC_SANS_SMALL_WHITE.ttf", BitmapFont.class, classicSansSmallWhiteFont),
                 "CLASSIC_SANS_SMALL_WHITE", FontType.CLASSIC, FontFamily.SANS, FontSize.SMALL, white);
         ass.load(CLASSIC_SANS_SMALL_WHITE.getFont());
+
+        // CLASSIC_SANS_MIDDLE_WHITE
+        FreetypeFontLoader.FreeTypeFontLoaderParameter classicSansMiddleWhiteFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        classicSansMiddleWhiteFont.fontFileName = sans;
+        classicSansMiddleWhiteFont.fontParameters.size = middle;
+        classicSansMiddleWhiteFont.fontParameters.color = white;
+        CLASSIC_SANS_MIDDLE_WHITE = new Font(new AssetDescriptor<BitmapFont>("CLASSIC_SANS_MIDDLE_WHITE.ttf", BitmapFont.class, classicSansMiddleWhiteFont),
+                "CLASSIC_SANS_MIDDLE_WHITE", FontType.CLASSIC, FontFamily.SANS, FontSize.MIDDLE, white);
+        ass.load(CLASSIC_SANS_MIDDLE_WHITE.getFont());
+
+        // CLASSIC_SANS_MIDDLE_BLACK
+        FreetypeFontLoader.FreeTypeFontLoaderParameter classicSansMiddleBlackFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        classicSansMiddleBlackFont.fontFileName = sans;
+        classicSansMiddleBlackFont.fontParameters.size = middle;
+        classicSansMiddleBlackFont.fontParameters.color = black;
+        CLASSIC_SANS_MIDDLE_BLACK = new Font(new AssetDescriptor<BitmapFont>("CLASSIC_SANS_MIDDLE_BLACK.ttf", BitmapFont.class, classicSansMiddleBlackFont),
+                "CLASSIC_SANS_MIDDLE_BLACK", FontType.CLASSIC, FontFamily.SANS, FontSize.MIDDLE, black);
+        ass.load(CLASSIC_SANS_MIDDLE_BLACK.getFont());
 
         // CLASSIC_SANS_NORMAL_BLACK
         FreetypeFontLoader.FreeTypeFontLoaderParameter classicSansNormalBlackFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();

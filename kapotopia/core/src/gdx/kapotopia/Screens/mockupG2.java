@@ -13,6 +13,9 @@ import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.GameConfig;
+import gdx.kapotopia.Helpers.Align;
+import gdx.kapotopia.Helpers.Alignement;
+import gdx.kapotopia.Helpers.Bounds;
 import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.ImageHelper;
@@ -29,30 +32,86 @@ public class mockupG2 extends CinematicScreen {
 
     public mockupG2(final Kapotopia game) {
         super(game, new Stage(game.viewport), "mockupG2");
+        final float ww = game.viewport.getWorldWidth();
+        final float wh = game.viewport.getWorldHeight();
         final Localisation loc = game.loc;
         Font font = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
-        Label[] labels = new Label[] {
-                new LabelBuilder(game, loc.getString("game2_diag1"))
-                        .withStyle(font)
-                        //.withBounds(60, 1030, 995,315)
-                        .withWidth(game.viewport.getWorldWidth() - (2 * GameConfig.ONE_CHAR_STD_WIDTH))
-                        //.withHeight(GameConfig.ONE_CHAR_STD_HEIGHT * 10)
-                        .withPosition(GameConfig.ONE_CHAR_STD_WIDTH, (game.viewport.getWorldHeight() /1.27f))
-                        .isWrapped(true)
-                        .build(),
-                new LabelBuilder(game, loc.getString("game2_rules"))
-                        .withStyle(font)
-                        //.withBounds(80,800,920,500)
-                        .withWidth(game.viewport.getWorldWidth() - (4 * GameConfig.ONE_CHAR_STD_WIDTH))
-                        .withPosition(2* GameConfig.ONE_CHAR_STD_WIDTH, (game.viewport.getWorldHeight() /1.55f))
-                        .isWrapped(true)
-                        .build(),
+        Bounds dialogBubbleBounds = Align.getDialogBubbleBounds();
+        Bounds explicativeBubbleBounds = Align.getExplicativeBubbleBounds();
+        Label[][] labels = new Label[][] {
+                {
+                        new LabelBuilder(game, loc.getString("game2_diag1"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(game, loc.getString("game2_diag2"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(game, loc.getString("game2_diag3"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(game, loc.getString("rules_title"))
+                                .withStyle(FontHelper.CLASSIC_BOLD_BIG_BLACK).withAlignment(Alignement.CENTER)
+                                .withY(wh - explicativeBubbleBounds.getTopPad())
+                                .build(),
+                        new LabelBuilder(game, loc.getString("game2_rules"))
+                                .withStyle(font).withBounds(explicativeBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                }
         };
-        final Image back1 = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.I2_BACK1));
-        final Image back2 = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.I2_BACK2));
-        final Image[] images = {
-                back1,
-                back2
+        final Image sky = new Image(game.ass.get(AssetDescriptors.SKY));
+        final Image sea = new Image(game.ass.get(AssetDescriptors.SEA));
+        final Image sand = new Image(game.ass.get(AssetDescriptors.SABLE));
+        final Image mireilleHappy = new Image(game.ass.get(AssetDescriptors.MI_HAPPY));
+        mireilleHappy.setScale(GameConfig.SCALLING_FACTOR_INTROS);
+        mireilleHappy.setPosition(ww / 4f, 0);
+        final Image mireilleSurprise = new Image(game.ass.get(AssetDescriptors.MI_SURPRISED));
+        mireilleSurprise.setScale(GameConfig.SCALLING_FACTOR_INTROS);
+        mireilleSurprise.setPosition(ww / 4f, 0);
+        final Image alyxOpen = new Image(game.ass.get(AssetDescriptors.ALYX_OPEN));
+        alyxOpen.setPosition(ww / 5f, 0);
+        final Image alyxNorm = new Image(game.ass.get(AssetDescriptors.ALYX_NORMAL));
+        alyxNorm.setPosition(ww / 5f, 0);
+
+        final Image[][] images = {
+                {
+                    sand,
+                    sky,
+                    sea,
+                    mireilleHappy,
+                    new Image(game.ass.get(AssetDescriptors.BUBBLE_RIGHT))
+                },
+                {
+                    sand,
+                    sky,
+                    sea,
+                    mireilleSurprise,
+                    new Image(game.ass.get(AssetDescriptors.BUBBLE_RIGHT))
+                },
+                {
+                    sand,
+                    sky,
+                    sea,
+                    sand,
+                    alyxOpen,
+                    new Image(game.ass.get(AssetDescriptors.BUBBLE_LEFT))
+                },
+                {
+                    sand,
+                    sky,
+                    sea,
+                    alyxNorm,
+                    new Image(game.ass.get(AssetDescriptors.BUBBLE_EXPL))
+                }
         };
         // Skip button
         skipBtn = new ImageTextButtonBuilder(game, game.loc.getString("skip_button"))

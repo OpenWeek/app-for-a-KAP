@@ -38,8 +38,6 @@ public class mockupG1 extends CinematicScreen {
 
     private final String TAG = this.getClass().getSimpleName();
 
-    private final float scalling_factor = 0.6f;
-
     private OrthographicCamera camera;
     private SpriteBatch mireilleBatch;
 
@@ -114,19 +112,19 @@ public class mockupG1 extends CinematicScreen {
         final Image leaves = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.LEAVES));
 
         final Image mireilleCrying = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_CRY)).build();
-        mireilleCrying.setScale(scalling_factor);
+        mireilleCrying.setScale(GameConfig.SCALLING_FACTOR_INTROS);
         mireilleCrying.setPosition(ww / 4f, 0);
 
         final Image mireilleTired = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_TIRED)).build();
-        mireilleTired.setScale(scalling_factor);
+        mireilleTired.setScale(GameConfig.SCALLING_FACTOR_INTROS);
         mireilleTired.setPosition(ww / 4f, 0);
 
         final Image dildo1 = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.SERGENT1)).build();
-        dildo1.setScale(scalling_factor);
+        dildo1.setScale(GameConfig.SCALLING_FACTOR_INTROS);
         dildo1.setPosition(ww / 8f, 0);
 
         final Image dildo2 = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.SERGENT2)).build();
-        dildo2.setScale(scalling_factor);
+        dildo2.setScale(GameConfig.SCALLING_FACTOR_INTROS);
         dildo2.setPosition(ww / 3, 0);
 
         final Image croquis = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.CROQUIS)).build();
@@ -259,7 +257,7 @@ public class mockupG1 extends CinematicScreen {
             mireilleBatch.begin();
             final TextureRegion m = mireilleBlink.getKeyFrame(stateTime, true);
             mireilleBatch.draw(m, camera.viewportWidth / 4f, 0, 0, 0,
-                    m.getRegionWidth(), m.getRegionHeight(), scalling_factor, scalling_factor, 0);
+                    m.getRegionWidth(), m.getRegionHeight(), GameConfig.SCALLING_FACTOR_INTROS, GameConfig.SCALLING_FACTOR_INTROS, 0);
             mireilleBatch.end();
         }
     }

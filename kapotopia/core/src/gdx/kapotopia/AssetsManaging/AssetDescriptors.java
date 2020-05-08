@@ -64,8 +64,6 @@ public class AssetDescriptors {
             new AssetDescriptor<Texture>(AssetPaths.BASKET, Texture.class);
     public static final AssetDescriptor<Texture> PANNAL =
             new AssetDescriptor<Texture>(AssetPaths.PANNAL, Texture.class);
-    public static final AssetDescriptor<Texture> OUTRO =
-            new AssetDescriptor<Texture>(AssetPaths.OUTRO, Texture.class);
     // Game3
     public static final AssetDescriptor<Texture> DOOR =
             new AssetDescriptor<Texture>(AssetPaths.DOOR, Texture.class);
@@ -117,11 +115,6 @@ public class AssetDescriptors {
             new AssetDescriptor<Texture>(AssetPaths.LEAVES, Texture.class);
     public static final AssetDescriptor<Texture> CROQUIS =
             new AssetDescriptor<Texture>(AssetPaths.CROQUIS, Texture.class);
-    // IntroG2
-    public static final AssetDescriptor<Texture> I2_BACK1 =
-            new AssetDescriptor<Texture>(AssetPaths.I2_BACK1, Texture.class);
-    public static final AssetDescriptor<Texture> I2_BACK2 =
-            new AssetDescriptor<Texture>(AssetPaths.I2_BACK2, Texture.class);
     // IntroG3
     public static final AssetDescriptor<Texture> I3_HOUSE =
             new AssetDescriptor<Texture>(AssetPaths.I3_HOUSE, Texture.class);
@@ -156,6 +149,10 @@ public class AssetDescriptors {
             new AssetDescriptor<Texture>(AssetPaths.SERGENT2, Texture.class);
     public static final AssetDescriptor<Texture> GODIVA =
             new AssetDescriptor<Texture>(AssetPaths.GODIVA, Texture.class);
+    public static final AssetDescriptor<Texture> ALYX_OPEN =
+            new AssetDescriptor<Texture>(AssetPaths.ALYX_OPEN, Texture.class);
+    public static final AssetDescriptor<Texture> ALYX_NORMAL =
+            new AssetDescriptor<Texture>(AssetPaths.ALYX_NORMAL, Texture.class);
     /*------------------
             Gadgets
      -------------------*/
