@@ -39,7 +39,6 @@ public abstract class CinematicScreen implements Screen {
     /* VARIABLES */
     protected Kapotopia game;
     private Stage stage;
-    private String screenName;
     private boolean initialized; // Indicate if the applyBundle function has been called or not
     private final String TAG = this.getClass().getSimpleName();
     // Graphics
@@ -169,12 +168,10 @@ public abstract class CinematicScreen implements Screen {
      * ATTENTION : the method *applyBundle* MUST come after this call ! Or nothing will appear on the screen
      * @param game the Kapotopia game
      * @param stage a stage that has been instancied beforehand
-     * @param screenName the name of the screen, e.g. "mockupG1"
      */
-    public CinematicScreen(final Kapotopia game, Stage stage, String screenName) {
+    public CinematicScreen(final Kapotopia game, Stage stage) {
         this.game = game;
         this.stage = stage;
-        this.screenName = screenName;
         this.initialized = false;
 
         //We set elements to null because they MUST be initialized beforehand

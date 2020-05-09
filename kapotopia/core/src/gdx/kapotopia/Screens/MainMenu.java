@@ -53,6 +53,10 @@ public class MainMenu implements Screen {
         stage = new Stage(game.viewport);
 
         this.musicOn = game.getSettings().isMusicOn();
+        // If we're here, it means that the player already saw the intro
+        if (!game.getSettings().isFirstCinematicShowed()) {
+            game.getSettings().setFirstCinematicShowed(true);
+        }
 
         // Background
         this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());

@@ -18,6 +18,7 @@ public class Settings {
     private Preferences prefs_gen;
     private Preferences prefs_game1;
     /* MEMORIZED VARIABLES */
+    private boolean firstCinematicShowed;
     private boolean isMusicOn;
     private UnlockedLevel unlockedLevel;
     private int G1Highscore;
@@ -32,7 +33,8 @@ public class Settings {
     // General
     private final String PREF_LOCALE = "language";
     private final String PREF_MUSIC_ON = "music_on";
-    //      Skip buttons
+    private final String PREF_FIRST_CINEMATIC_SHOWED = "first_cinematic_showed";
+    // Skip buttons
     private final String PREF_INTRO_1_SKIP = "intro_1_skip";
     private final String PREF_INTRO_2_SKIP = "intro_2_skip";
     private final String PREF_INTRO_3_SKIP = "intro_3_skip";
@@ -59,8 +61,11 @@ public class Settings {
     private void initialize() {
         boolean needChange = false;
 
-        // GENERAL
+        /* *****************
+         *  G E N E R A L  *
+         ***************** */
 
+        // LANGUAGE
         final Languages prefLang;
         if (!prefs_gen.contains(PREF_LOCALE)) {
             final Locale defaultLoc = Locale.getDefault();
@@ -78,6 +83,7 @@ public class Settings {
         Gdx.app.log(TAG, "The choosen language is : " + Languages.convert(prefLang));
         localisation.changeLanguage(prefLang);
 
+        // MUSIC ON
         if (!prefs_gen.contains(PREF_MUSIC_ON)) {
             prefs_gen.putBoolean(PREF_MUSIC_ON, true);
             this.isMusicOn = true;
@@ -86,7 +92,18 @@ public class Settings {
             this.isMusicOn = prefs_gen.getBoolean(PREF_MUSIC_ON, true);
         }
 
-        // SKIP BUTTONS
+        // FIRST CINEMATIC
+        if (!prefs_gen.contains(PREF_FIRST_CINEMATIC_SHOWED)) {
+            prefs_gen.putBoolean(PREF_FIRST_CINEMATIC_SHOWED, false);
+            this.firstCinematicShowed = false;
+            needChange = true;
+        } else {
+            this.firstCinematicShowed = prefs_gen.getBoolean(PREF_FIRST_CINEMATIC_SHOWED, false);
+        }
+
+        /* ***************************
+         *  S K I P   B U T T O N S  *
+         *************************** */
 
         if (!prefs_gen.contains(PREF_INTRO_1_SKIP)) {
             prefs_gen.putBoolean(PREF_INTRO_1_SKIP, false);
@@ -116,7 +133,9 @@ public class Settings {
             prefs_gen.flush();
         }
 
-        // GAME 1
+        /* **************
+         *  G A M E  1  *
+         ************** */
 
         if (!prefs_game1.contains(PREF_UNLOCKED_LEVEL)) {
             // We set difficulty to easy per default
@@ -256,5 +275,15 @@ public class Settings {
         prefs_gen.putBoolean(PREF_INTRO_3_SKIP, intro_3_skip);
         prefs_gen.flush();
         this.intro_3_skip = intro_3_skip;
+    }
+
+    public boolean isFirstCinematicShowed() {
+        return firstCinematicShowed;
+    }
+
+    public void setFirstCinematicShowed(boolean firstCinematicShowed) {
+        prefs_gen.putBoolean(PREF_FIRST_CINEMATIC_SHOWED, firstCinematicShowed);
+        prefs_gen.flush();
+        this.firstCinematicShowed = firstCinematicShowed;
     }
 }

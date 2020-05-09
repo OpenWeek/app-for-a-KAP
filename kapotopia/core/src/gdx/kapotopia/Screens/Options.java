@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
@@ -47,6 +48,7 @@ public class Options implements Screen {
     private SelectBox languageSelect;
     private ImageButton soundOnBtn;
     private ImageButton soundOffBtn;
+    private TextButton watchFirstCutsceneBtn;
     private TextButton backBtn;
 
     public Options(final Kapotopia game) {
@@ -64,7 +66,7 @@ public class Options implements Screen {
         Array<String> supportedLangs = settings.getSupportedLangsText();
 
         languageSelect = new SelectBoxBuilder<String>(game).withSkin(skin).withItems(settings.getSupportedLangsText())
-                .withPosition(game.viewport.getWorldWidth() / 4, 300)
+                .withPosition(game.viewport.getWorldWidth() / 4, this.game.viewport.getWorldHeight() / 5f)
                 .withSize(game.viewport.getWorldWidth() / 2, 60)
                 .withTitleFont(FontHelper.CLASSIC_BOLD_NORMAL_BLACK).withElemsFont(FontHelper.CLASSIC_BOLD_NORMAL_BLACK)
                 .withSelectedItemIndex(supportedLangs.indexOf(Languages.convert(game.loc.getChosenLanguage()), false))
@@ -90,15 +92,21 @@ public class Options implements Screen {
                 .withListener(new toggleMusicListener()).withWidth(soundBtnWidth)
                 .withPosition(game.viewport.getWorldWidth() / 3, game.viewport.getWorldHeight() / 2)
                 .isVisible(!settings.isMusicOn()).build();
-
+        watchFirstCutsceneBtn = new TextButtonBuilder(game, game.loc.getString("showfirstcutscene"))
+                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
+                .withY(this.game.viewport.getWorldHeight() / 8f).withAlignment(Alignement.CENTER)
+                .withListener(new ChangeScreenListener(game, ScreenType.INTROCUTSCENE))
+                .isVisible(true)
+                .build();
         backBtn = new TextButtonBuilder(game, game.loc.getString("back_button"))
-                .withY(50).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU)).isVisible(true)
+                .withY(this.game.viewport.getWorldHeight() / 30f).withListener(new ChangeScreenListener(game, ScreenType.MAINMENU)).isVisible(true)
                 .withStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE).withAlignment(Alignement.CENTER).build();
 
         stage.addActor(fond);
         stage.addActor(languageSelect);
         stage.addActor(soundOnBtn);
         stage.addActor(soundOffBtn);
+        stage.addActor(watchFirstCutsceneBtn);
         stage.addActor(backBtn);
     }
 

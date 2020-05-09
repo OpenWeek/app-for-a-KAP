@@ -42,17 +42,20 @@ public class mockupG1 extends CinematicScreen {
     private SpriteBatch mireilleBatch;
 
     private Animation<TextureRegion> mireilleBlink;
-    private ImageTextButton skipBtn;
     private float stateTime;
+    private ImageTextButton skipBtn;
 
     public mockupG1(final Kapotopia game) {
-        super(game, new Stage(game.viewport), "mockupG1");
+        super(game, new Stage(game.viewport));
         final Localisation loc = game.loc;
+
         final float ww = game.viewport.getWorldWidth();
         final float wh = game.viewport.getWorldHeight();
+
         Font font = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
         Bounds dialogBubbleBounds = Align.getDialogBubbleBounds();
         Bounds explicativeBubbleBounds = Align.getExplicativeBubbleBounds();
+
         Label[][] labels = new Label[][] {
                 {
                         new LabelBuilder(game, loc.getString("dialogG1_1"))
@@ -249,7 +252,7 @@ public class mockupG1 extends CinematicScreen {
         camera.update();
         mireilleBatch.setProjectionMatrix(camera.combined);
 
-        getStage().act(Gdx.graphics.getDeltaTime());
+        getStage().act(delta);
         getStage().draw();
 
         if (getCurrentSeqIndex() == 0 || getCurrentSeqIndex() == 1) {

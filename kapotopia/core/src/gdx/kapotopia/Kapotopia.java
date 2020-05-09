@@ -19,6 +19,7 @@ import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
 import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.Screens.Game2;
 import gdx.kapotopia.Screens.Game3;
+import gdx.kapotopia.Screens.IntroCutscene;
 import gdx.kapotopia.Screens.MainMenu;
 import gdx.kapotopia.Screens.Options;
 import gdx.kapotopia.Screens.World1;
@@ -65,7 +66,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private STIDex STIDex;
 	private ChoosingDifficultyScreen dif;
 	private Options options;
-
+	private IntroCutscene introCutscene;
 
 
 	@Override
@@ -88,7 +89,13 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.loc = new Localisation(ass);
 		this.settings = new Settings(this);
 		this.vars = new GlobalVariables(loc);
-		changeScreen(ScreenType.MAINMENU);
+
+		// If the first cutscene has already been showed, we go to the main menu directly
+		if (settings.isFirstCinematicShowed()) {
+			changeScreen(ScreenType.MAINMENU);
+		} else {
+			changeScreen(ScreenType.INTROCUTSCENE);
+		}
 	}
 
 	@Override
@@ -222,7 +229,9 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 			return destroyScreen(ScreenType.DIF);
 		} else if(sc == options) {
 		    return destroyScreen(ScreenType.OPTIONS);
-        }
+        } else if(sc == introCutscene) {
+			return destroyScreen(ScreenType.INTROCUTSCENE);
+		}
 
 		return false;
 	}
@@ -246,6 +255,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		destroyScreen(ScreenType.STIDEX);
 		destroyScreen(ScreenType.DIF);
 		destroyScreen(ScreenType.OPTIONS);
+		destroyScreen(ScreenType.INTROCUTSCENE);
 		changeScreen(nextScreen);
 	}
 
@@ -482,6 +492,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
                         break;
                 }
                 break;
+			case INTROCUTSCENE:
+				switch (ACTION) {
+					case CHANGE:
+						if (introCutscene == null) introCutscene = new IntroCutscene(this);
+						setScreen(introCutscene);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (introCutscene != null) {
+							introCutscene.dispose();
+							introCutscene = null;
+							succeeded = true;
+						}
+						break;
+				}
+				break;
 		}
 		return succeeded;
 	}
@@ -540,6 +566,10 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	public Options getOptions() {
 		return options;
+	}
+
+	public IntroCutscene getIntroCutscene() {
+		return introCutscene;
 	}
 
 	private enum ScreenAction {

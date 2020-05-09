@@ -31,7 +31,7 @@ public class mockupG2 extends CinematicScreen {
     private ImageTextButton skipBtn;
 
     public mockupG2(final Kapotopia game) {
-        super(game, new Stage(game.viewport), "mockupG2");
+        super(game, new Stage(game.viewport));
         final float ww = game.viewport.getWorldWidth();
         final float wh = game.viewport.getWorldHeight();
         final Localisation loc = game.loc;
