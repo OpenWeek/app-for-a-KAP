@@ -91,6 +91,7 @@ public class Settings {
         } else {
             this.isMusicOn = prefs_gen.getBoolean(PREF_MUSIC_ON, true);
         }
+        game.getMusicControl().setMusicOn(isMusicOn);
 
         // FIRST CINEMATIC
         if (!prefs_gen.contains(PREF_FIRST_CINEMATIC_SHOWED)) {
@@ -183,6 +184,7 @@ public class Settings {
         prefs_gen.putBoolean(PREF_MUSIC_ON, !isMusicOn());
         prefs_gen.flush();
         this.isMusicOn = !isMusicOn();
+        game.getMusicControl().setMusicOn(isMusicOn);
     }
 
     public boolean isMusicOn() {

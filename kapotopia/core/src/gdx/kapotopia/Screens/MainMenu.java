@@ -32,9 +32,6 @@ public class MainMenu implements Screen {
     private Stage stage;
 
     private Sound pauseSound;
-    private Music music;
-
-    private boolean musicOn;
 
     // Background
     private OrthographicCamera camera;
@@ -52,7 +49,6 @@ public class MainMenu implements Screen {
         this.game = game;
         stage = new Stage(game.viewport);
 
-        this.musicOn = game.getSettings().isMusicOn();
         // If we're here, it means that the player already saw the intro
         if (!game.getSettings().isFirstCinematicShowed()) {
             game.getSettings().setFirstCinematicShowed(true);
@@ -72,9 +68,6 @@ public class MainMenu implements Screen {
 
         // Import sounds
         this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
-        this.music = game.ass.get(AssetDescriptors.MUSIC_MM);
-        music.setPosition(0f);
-        music.setLooping(true);
 
         //Import fonts
         Font style = FontHelper.AESTHETIC_NORMAL_WHITE;
@@ -115,8 +108,11 @@ public class MainMenu implements Screen {
         Gdx.app.log(TAG,"Entering show function");
         Gdx.input.setInputProcessor(stage);
 
-        if (musicOn)
-            music.play();
+        Music music = game.ass.get(AssetDescriptors.MUSIC_MM);
+        if (!game.getMusicControl().musicIsEquals(music)) {
+            game.getMusicControl().changeMusic(music, 0f, true);
+        }
+        game.getMusicControl().playMusic();
     }
 
     @Override
@@ -148,21 +144,16 @@ public class MainMenu implements Screen {
     @Override
     public void pause() {
         this.pauseSound.play();
-        if (musicOn)
-            this.music.pause();
+        game.getMusicControl().pauseMusic();
     }
 
     @Override
     public void resume() {
-        if (musicOn)
-            this.music.play();
+        game.getMusicControl().playMusic();
     }
 
     @Override
-    public void hide() {
-        if (musicOn)
-            this.music.stop();
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {

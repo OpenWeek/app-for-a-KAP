@@ -52,8 +52,6 @@ public class GameController {
     private boolean isFinish;
     private boolean didGameOverScreenAppeared;
     private boolean isPaused;   // To check if the game is paused or not
-    private boolean musicOn;    // If this is true, the music will play
-    private boolean musicJOn;
     private boolean victory;
     private byte mireilleLife;
     private int totalScore;
@@ -93,19 +91,16 @@ public class GameController {
         this.isFinish = false;
         this.didGameOverScreenAppeared = false;
         this.isPaused = true;
-        this.musicOn = game.getSettings().isMusicOn();
         this.victory = false;
         this.totalScore = 0;
         this.istsCatched = 0;
         this.bounds = new Rectangle(0,0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
-        this.musicOn = game.getSettings().isMusicOn();
 
         // JOJO
         Jcount = 0;
         jojoAppears = false;
         jojoHasAppeared = false;
         jojoTimerLaunched = false;
-        musicJOn = false;
 
 
         // Lists
@@ -143,8 +138,6 @@ public class GameController {
      * Method called when show() method is called in the base screen
      */
     public void updateOnShow(Stage stage) {
-        // in the case when the player come back after changed preferences by using back button
-        this.musicOn = game.getSettings().isMusicOn();
 
         //In case there are problems to restart the game where it was left after going to another screen and returning, it could maybe be solved by setting the Input Processor (Gdx.input.setInputProcessor(im);) here and not when the game is first created
         // We ensure that after the animation has played, the game really start
@@ -206,7 +199,6 @@ public class GameController {
             game1.getRenderController().jojo(delta);
             if (!jojoTimerLaunched) {
                 game1.getSoundController().startJojo();
-                musicJOn = true;
                 // We upgrade the difficulty => NIGHTMARE MODE
                 ennemi.setAccAddFactor(0.09f);
                 ennemi.setAccMaxLim(12f);
@@ -301,7 +293,7 @@ public class GameController {
     private void gameOver(Stage stage) {
         game1.getSoundController().playAtGameOver();
 
-        EventListener continueEvent = new ChangeListener() {
+        final EventListener continueEvent = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game1.getSoundController().stopMusics();
@@ -323,7 +315,7 @@ public class GameController {
             }
         };
 
-        EventListener restartEvent = new ChangeListener() {
+        final EventListener restartEvent = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game1.getSoundController().stopMusics();
@@ -522,10 +514,6 @@ public class GameController {
         return difficulty;
     }
 
-    public boolean isMusicOn() {
-        return musicOn;
-    }
-
     public boolean isFinish() {
         return isFinish;
     }
@@ -544,10 +532,6 @@ public class GameController {
 
     public HashSet<VirusContainer> getMissedIsts() {
         return missedIsts;
-    }
-
-    public boolean isMusicJOn() {
-        return musicJOn;
     }
 
     public boolean isVictory() {

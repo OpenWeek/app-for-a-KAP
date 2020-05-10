@@ -192,6 +192,10 @@ public class mockupG3 extends CinematicScreen {
         .withImages(images).withLabels(labels).withFinishBtn(false).withNextBtnStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE));
 
         getStage().addActor(skipBtn);
+
+        // Music
+        game.getMusicControl().changeMusic(game.ass.get(AssetDescriptors.MUSIC_GAME3), 0f, true);
+        game.getMusicControl().playMusic();
     }
 
     @Override

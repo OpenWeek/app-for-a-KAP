@@ -43,11 +43,8 @@ public class Game2 implements Screen {
 
     private Sound successSound;
     private Sound nextSound;
-    private Music music;
     private Image panneau;
     private Sprite basket;
-
-    private boolean musicOn;
 
     private Basket currentBasket;
     private Ball currentBall;
@@ -117,14 +114,9 @@ public class Game2 implements Screen {
         middleX = screenWidth/3;
         middleY = screenHeight /2;
 
-        this.musicOn = game.getSettings().isMusicOn();
-
-        // Sounds and Music
+        // Sounds
         this.successSound = game.ass.get(AssetDescriptors.SOUND_SUCCESS);
         this.nextSound = game.ass.get(AssetDescriptors.SOUND_JUMP_V1);
-        this.music = game.ass.get(AssetDescriptors.MUSIC_GAME2);
-        this.music.setPosition(0f);
-        this.music.setLooping(true);
 
         /*Creation of instances for game*/
         final float symptX = screenWidth/3.5f;
@@ -209,7 +201,7 @@ public class Game2 implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         setUpInputProcessor(); //Custom Input processor that allows to detect swipes
-        if (musicOn) music.play();
+        game.getMusicControl().playMusic();
     }
 
     @Override
@@ -250,21 +242,16 @@ public class Game2 implements Screen {
 
     @Override
     public void pause() {
-        if (musicOn)
-            music.pause();
+        game.getMusicControl().pauseMusic();
     }
 
     @Override
     public void resume() {
-        if (musicOn)
-            this.music.play();
+        game.getMusicControl().playMusic();
     }
 
     @Override
-    public void hide() {
-        if (musicOn)
-            this.music.stop();
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {

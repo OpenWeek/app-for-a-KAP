@@ -137,6 +137,10 @@ public class mockupG2 extends CinematicScreen {
                 .withFinishBtn(false));
 
         getStage().addActor(skipBtn);
+
+        // Setting up the music
+        game.getMusicControl().changeMusic(game.ass.get(AssetDescriptors.MUSIC_GAME2), 0, true);
+        game.getMusicControl().playMusic();
     }
 
     @Override

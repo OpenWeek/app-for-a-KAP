@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Music.MusicController;
 import gdx.kapotopia.Screens.BilanG1;
 import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
 import gdx.kapotopia.Screens.Game1;
@@ -48,6 +49,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	public GlobalVariables vars;
     // Settings
     private Settings settings;
+    // Music Controller
+	private MusicController musicControl;
 
     /* INNER VARIABLES */
 
@@ -81,6 +84,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 		// Loading every assets here, loadInitialTextures must come AFTER every call
         FontHelper.buildAllFonts(ass);
+        this.musicControl = new MusicController(this);
 		loadInitialTextures();
 
 		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
@@ -159,7 +163,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.ass.load(AssetDescriptors.BUBBLE_RIGHT);
         this.ass.load(AssetDescriptors.BUBBLE_MID_RIGHT);
 		/* Sounds */
-		this.ass.load(AssetDescriptors.MUSIC_MM);
 		this.ass.load(AssetDescriptors.SOUND_PAUSE);
 		this.ass.load(AssetDescriptors.SOUND_GAMESTART);
 		this.ass.load(AssetDescriptors.SOUND_BOUP1);
@@ -570,6 +573,10 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	public IntroCutscene getIntroCutscene() {
 		return introCutscene;
+	}
+
+	public MusicController getMusicControl() {
+		return musicControl;
 	}
 
 	private enum ScreenAction {

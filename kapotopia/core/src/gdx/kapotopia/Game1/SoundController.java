@@ -20,8 +20,6 @@ public class SoundController {
     private Sound jumpSound;
     private Sound pauseSound;
     private Sound istTouchedSound;
-    private Music music;
-    private Music musicJ;
 
     // Constants
     private final String TAG = this.getClass().getSimpleName();
@@ -31,10 +29,15 @@ public class SoundController {
         this.game1 = game1;
 
         // Musicsthis.music = prepareMusic();
-        this.music = prepareMusic();
-        this.musicJ = game.ass.get(AssetDescriptors.MUSIC_J);
-        this.musicJ.setLooping(true);
-        this.musicJ.setPosition(0);
+        game.getMusicControl().changeMusic(game.ass.get(AssetDescriptors.MUSIC_GAME1), 0.66f,
+                0, false, new Music.OnCompletionListener() {
+            @Override
+            public void onCompletion(Music music) {
+                music.setPosition(11.5f);
+                music.play();
+                Gdx.app.log(TAG, "Music stopped");
+            }
+        });
         // Sounds
         this.touchedSound = game.ass.get(AssetDescriptors.SOUND_PUNCH);
         this.failSound = game.ass.get(AssetDescriptors.SOUND_FAIL);
@@ -44,25 +47,8 @@ public class SoundController {
         this.successSound = game.ass.get(AssetDescriptors.SOUND_SUCCESS);
     }
 
-    private Music prepareMusic() {
-        Music music = game.ass.get(AssetDescriptors.MUSIC_GAME1);
-        music.setPosition(0f);
-        music.setLooping(false);
-        music.setVolume(0.66f);
-        music.setOnCompletionListener(new Music.OnCompletionListener() {
-            @Override
-            public void onCompletion(Music music) {
-                music.setPosition(11.5f);
-                music.play();
-                Gdx.app.log(TAG, "Music stopped");
-            }
-        });
-        return music;
-    }
-
     public void stopMusics() {
-        music.stop();
-        musicJ.stop();
+        game.getMusicControl().stopMusic();
     }
 
     /**
@@ -70,55 +56,26 @@ public class SoundController {
      * Note: This method is called from GameController and not from Game1
      */
     public void startJojo() {
-        if (game1.getGameController().isMusicOn()) {
-            music.stop();
-            musicJ.play();
-        }
+        game.getMusicControl().stopMusic();
+        game.getMusicControl().changeMusic(game.ass.get(AssetDescriptors.MUSIC_J), 0, true);
+        game.getMusicControl().playMusic();
     }
 
     // STANDARD SCREEN CALLS
 
     public void playAtPause() {
         pauseSound.play();
-        if (game1.getGameController().isMusicOn()) {
-            if (game1.getGameController().isMusicJOn()) {
-                musicJ.pause();
-            } else {
-                music.pause();
-            }
-        }
+        game.getMusicControl().pauseMusic();
     }
 
-    public void playAtHide() {
-        if(game1.getGameController().isMusicOn()) {
-            if (game1.getGameController().isMusicJOn()) {
-                musicJ.pause();
-            } else {
-                music.pause();
-            }
-        }
-    }
+    public void playAtHide() {}
 
     public void playAtShow() {
-        if(game1.getGameController().isMusicOn()) {
-            if (game1.getGameController().isMusicJOn()) {
-                musicJ.play();
-            } else {
-                music.play();
-            }
-        }
+        game.getMusicControl().playMusic();
     }
 
-    //
-
     public void playAtResumeFromPause() {
-        if (game1.getGameController().isMusicOn()) {
-            if (game1.getGameController().isMusicJOn()) {
-                musicJ.play();
-            } else {
-                music.play();
-            }
-        }
+        game.getMusicControl().playMusic();
     }
 
     public void playWhenLifeChange() {
@@ -126,13 +83,7 @@ public class SoundController {
     }
 
     public void playAtGameOver() {
-        if(game1.getGameController().isMusicOn()) {
-            if (game1.getGameController().isMusicJOn()) {
-                musicJ.setVolume(0.1f);
-            } else {
-                this.music.setVolume(0.1f);
-            }
-        }
+        game.getMusicControl().changeVolume(0.1f);
     }
 
     public void playSuccessSound() {

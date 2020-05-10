@@ -37,10 +37,8 @@ public class Game3 implements Screen {
     private Stage stage;
     private Stage popStage;
     private boolean inGame;
-    private boolean musicOn;
 
     private Sound successSound;
-    private Music music;
 
     private Core core;
 
@@ -84,11 +82,8 @@ public class Game3 implements Screen {
         final Image lock = new Image(game.ass.get(AssetDescriptors.DOOR_LOCK));
         final Image neon = new Image(game.ass.get(chooseNeon()));
 
-        // Sounds and musics
-        this.musicOn = game.getSettings().isMusicOn();
+        // Sounds
         this.successSound = game.ass.get(AssetDescriptors.SOUND_SUCCESS);
-        this.music = game.ass.get(AssetDescriptors.MUSIC_GAME3);
-        this.music.setLooping(true);
 
         stage.addActor(door);
         stage.addActor(lock);
@@ -163,8 +158,7 @@ public class Game3 implements Screen {
         iM.addProcessor(popStage);
         iM.addProcessor(new EventHandlerGame3(core));
         Gdx.input.setInputProcessor(iM);
-        if (musicOn)
-            music.play();
+        game.getMusicControl().playMusic();
     }
 
     @Override
@@ -184,21 +178,16 @@ public class Game3 implements Screen {
 
     @Override
     public void pause() {
-        if (musicOn)
-            this.music.pause();
+        game.getMusicControl().pauseMusic();
     }
 
     @Override
     public void resume() {
-        if (musicOn)
-            this.music.play();
+        game.getMusicControl().playMusic();
     }
 
     @Override
-    public void hide() {
-        if (musicOn)
-            this.music.stop();
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
