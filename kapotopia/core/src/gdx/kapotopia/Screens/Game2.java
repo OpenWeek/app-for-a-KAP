@@ -6,27 +6,31 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
+import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 
-import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_BOLD_NORMAL_BLACK;
-import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_MIDDLE_BLACK;
-import static gdx.kapotopia.AssetsManaging.UseFont.CLASSIC_SANS_NORMAL_BLACK;
+//import static gdx.kapotopia.Fonts.FontHelper.CLASSIC_SANS_MIDDLE_BLACK;
+//import static gdx.kapotopia.Fonts.FontHelper.CLASSIC_SANS_NORMAL_BLACK;
 import static java.util.Collections.shuffle;
 
 
@@ -34,18 +38,20 @@ public class Game2 implements Screen {
 
     private Kapotopia game;
     private Stage stage;
+    private Localisation loc;
+    private SpriteBatch batch;
+
+    private OrthographicCamera camera;
 
     private Sound successSound;
     private Sound nextSound;
-    private Music music;
     private Image panneau;
-
-    private boolean musicOn;
+    private Sprite basket;
 
     private Basket currentBasket;
     private Ball currentBall;
     private float screenWidth;
-    private float screenHeigth;
+    private float screenHeight;
     private float readyBalX;
     private float readyBalY;
     private float finalBalX;
@@ -71,82 +77,74 @@ public class Game2 implements Screen {
 
     final Ball[] sittingBalls = new Ball[STInbr];
 
-    private final String GAME_PATH = "World1/Game2/";
-
-    private static final String TAG = "Screens-Game2";
+    private final String TAG = this.getClass().getSimpleName();
 
     private ChangeListener[] ballClick = new ChangeListener[STInbr];
-
-    final Localisation loc = Localisation.getInstance();
-
-    /**
-     * Prepare images to fullScreen and hidden
-     * @param img the image to prepare
-     */
-    private void prepareMockup(Image img) {
-        img.setVisible(false);
-        img.setWidth(game.viewport.getWorldWidth());
-        img.setHeight(game.viewport.getWorldHeight());
-    }
 
     public Game2(final Kapotopia game){
 
         Gdx.app.log(TAG,"Entering Game2 function");
-        screenHeigth = game.viewport.getWorldHeight();
-        screenWidth = game.viewport.getWorldWidth();
-
         this.game = game;
-        Image imgBckground = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Sable.png"));
-        Image imgBckground2 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Mer.png"));
-        Image imgBckground3 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"ciel.png"));
-        Image imgBckground4 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Palmier1.png"));
-        Image imgBckground5 = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"Filet.png"));
-        panneau = new Image(AssetsManager.getInstance().getTextureByPath(GAME_PATH+"UnPANNAL.png"));
+        this.loc = game.loc;
+        screenWidth = game.viewport.getWorldWidth();
+        screenHeight = game.viewport.getWorldHeight();
+
+        batch = new SpriteBatch();
+
+        this.camera = new OrthographicCamera(screenWidth, screenHeight);
+        game.viewport.setCamera(camera);
+
+        // Allowing that the game intro can be skipped
+        game.getSettings().setIntro_2_skip(true);
+
+        loadAssets();
+
+        Image sand = new Image(game.ass.get(AssetDescriptors.SABLE));
+        Image sea = new Image(game.ass.get(AssetDescriptors.SEA));
+        Image sky = new Image(game.ass.get(AssetDescriptors.SKY));
+        Image palmier = new Image(game.ass.get(AssetDescriptors.PALMIER));
+        basket = new Sprite(game.ass.get(AssetDescriptors.BASKET));
+        basket.setSize(screenWidth, screenHeight);
+        panneau = new Image(game.ass.get(AssetDescriptors.PANNAL));
         this.stage = new Stage(game.viewport);
-        this.stage.addActor(imgBckground);
-        this.stage.addActor(imgBckground2);
-        this.stage.addActor(imgBckground3);
-        this.stage.addActor(imgBckground4);
-        this.stage.addActor(imgBckground5);
+        this.stage.addActor(sand);
+        this.stage.addActor(sea);
+        this.stage.addActor(sky);
+        this.stage.addActor(palmier);
         this.stage.addActor(panneau);
+
+
         middleX = screenWidth/3;
-        middleY = screenHeigth/2;
+        middleY = screenHeight /2;
 
-        this.musicOn = game.getSettings().isMusicOn();
-
-        // Sounds and Music
-        this.successSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/leszek-szary_success-1.wav");
-        this.nextSound = AssetsManager.getInstance().getSoundByPath("sound/bruitage/cmdrobot_videogame-jump.ogg");
-        this.music = AssetsManager.getInstance().getMusicByPath("sound/verano_sensual.mp3");
-        this.music.setPosition(0f);
-        this.music.setLooping(true);
-
-        final Image outro0 = new Image(new Texture(GAME_PATH + "20_board_1.png"));
-        prepareMockup(outro0);
+        // Sounds
+        this.successSound = game.ass.get(AssetDescriptors.SOUND_SUCCESS);
+        this.nextSound = game.ass.get(AssetDescriptors.SOUND_JUMP_V1);
 
         /*Creation of instances for game*/
         final float symptX = screenWidth/3.5f;
-        final float symptY = screenHeigth/2.25f;
+        final float symptY = screenHeight /2.25f;
         final float sitBalX = screenWidth/50;
-        final float sitBalY = screenHeigth/24;
+        final float sitBalY = screenHeight /24;
         livesX = screenWidth/1.3f;
-        livesY = screenHeigth/1.225f;
+        livesY = screenHeight /1.225f;
         readyBalX = screenWidth/2.45f;
-        readyBalY = screenHeigth/7;
+        readyBalY = screenHeight /7;
         finalBalX = screenWidth/1.2f;
-        finalBalY = screenHeigth/2.25f;
+        finalBalY = screenHeight /2.25f;
         ballDelta = screenWidth/6.5f;
         ballSize = screenWidth/(STInbr-1);
         sympTextSize = screenWidth/2;
 
-        livesLabel = new LabelBuilder(loc.getString("lives_label")+lives).withStyle(CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
+        livesLabel = new LabelBuilder(game, loc.getString("lives_label")+lives)
+                .withStyle(FontHelper.CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
         stage.addActor(livesLabel);
 
         //Symptoms creation and set up (representation of symptoms)
-        currentBasket = new Basket();
+        currentBasket = new Basket(game);
         currentBasket.setPosition(symptX,symptY);
         for(int i = 1; i< STInbr; i++){
-            Basket newBasket = new Basket();
+            Basket newBasket = new Basket(game);
             newBasket.setPosition(symptX,symptY);
             currentBasket.setNext(newBasket);
             Basket intermediate = currentBasket;
@@ -159,7 +157,7 @@ public class Game2 implements Screen {
 
         //STI's creation and set up (representation of STI)
         for(int i = 0; i < STInbr; i++) {
-            sittingBalls[i] = new Ball(i, sitBalX + i * ballDelta, sitBalY, ballSize, screenHeigth, screenWidth);
+            sittingBalls[i] = new Ball(game, i, sitBalX + i * ballDelta, sitBalY, ballSize, screenHeight, screenWidth);
         }
         for(int i = 0; i < STInbr; i++){
             final Ball temp = sittingBalls[i];
@@ -185,21 +183,37 @@ public class Game2 implements Screen {
         for(int i = 0; i < STInbr; i++) {
             stage.addActor(sittingBalls[i].getButton());
         }
+    }
 
-        AssetsManager.getInstance().addStage(stage, "game2");
+    private void loadAssets() {
+        long startTime = TimeUtils.millis();
+        // Graphics
+        game.ass.load(AssetDescriptors.BALL);
+        game.ass.load(AssetDescriptors.PALMIER);
+        game.ass.load(AssetDescriptors.BASKET);
+        game.ass.load(AssetDescriptors.PANNAL);
+        // Sounds
+        game.ass.load(AssetDescriptors.MUSIC_GAME2);
+
+        game.ass.finishLoading();
+        Gdx.app.log(TAG, game.ass.getDiagnostics());
+        Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
         setUpInputProcessor(); //Custom Input processor that allows to detect swipes
-        if (musicOn) music.play();
+        game.getMusicControl().playMusic();
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -223,6 +237,9 @@ public class Game2 implements Screen {
             }
         }
 
+        batch.begin();
+        basket.draw(batch);
+        batch.end();
     }
 
     @Override
@@ -232,25 +249,20 @@ public class Game2 implements Screen {
 
     @Override
     public void pause() {
-        if (musicOn)
-            music.pause();
+        game.getMusicControl().pauseMusic();
     }
 
     @Override
     public void resume() {
-        if (musicOn)
-            this.music.play();
+        game.getMusicControl().playMusic();
     }
 
     @Override
-    public void hide() {
-        if (musicOn)
-            this.music.stop();
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("game2");
+        stage.dispose();
     }
 
     /**
@@ -297,50 +309,50 @@ public class Game2 implements Screen {
         currentBasket.hideLabel();
         if (STIfound == STInbr) {//game has been won
             currentBasket.hideLabel();
-            Label gameWon0 = new LabelBuilder("Félicitation!")
-                    .withPosition(screenWidth / 3, middleY)
-                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+            Label gameWon0 = new LabelBuilder(game, loc.getString("game2_goodending1"))
+                    .withAlignment(Alignement.CENTER).withY(middleY)
+                    .withStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE)
                     .build();
-            Label gameWon1 = new LabelBuilder("Tu as associé tous les bons")
-                    .withPosition(screenWidth / 8, middleY - 60)
-                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+            Label gameWon1 = new LabelBuilder(game, loc.getString("game2_goodending2"))
+                    .withAlignment(Alignement.CENTER).withY(middleY - 60)
+                    .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
                     .build();
-            Label gameWon2 = new LabelBuilder("symptômes aux bonnes IST!")
-                    .withPosition(screenWidth / 8, middleY - 120)
-                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+            Label gameWon2 = new LabelBuilder(game, loc.getString("game2_goodending3"))
+                    .withAlignment(Alignement.CENTER).withY(middleY - 120)
+                    .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
                     .build();
 
             stage.addActor(gameWon0);
             stage.addActor(gameWon1);
             stage.addActor(gameWon2);
         } else if (STIfound >= (STInbr / 2)) { //game has been lost
-            Label gameWon0 = new LabelBuilder("Pas mal!")
-                    .withPosition(screenWidth / 2.5f, middleY)
-                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+            Label gameWon0 = new LabelBuilder(game, loc.getString("game2_badending1"))
+                    .withStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE)
+                    .withAlignment(Alignement.CENTER).withY(middleY)
                     .build();
-            Label gameWon1 = new LabelBuilder("Tu as les bons symptômes pour " + STIfound + " IST.")
-                    .withPosition(screenWidth / 10, middleY - 60)
-                    .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
+            Label gameWon1 = new LabelBuilder(game, loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3"))
+                    .withStyle(FontHelper.CLASSIC_SANS_SMALL_WHITE)
+                    .withAlignment(Alignement.CENTER).withY(middleY - 60)
                     .build();
-            Label gameWon2 = new LabelBuilder("Tu y es presque!")
-                    .withPosition(screenWidth / 4, middleY - 125)
-                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+            Label gameWon2 = new LabelBuilder(game, loc.getString("game2_badending4"))
+                    .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
+                    .withAlignment(Alignement.CENTER).withY(middleY - 125)
                     .build();
             stage.addActor(gameWon0);
             stage.addActor(gameWon1);
             stage.addActor(gameWon2);
         } else { //game has been lost by a lot
-            Label gameWon0 = new LabelBuilder("Bien essayé!")
-                    .withPosition(screenWidth / 2.5f, middleY)
-                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+            Label gameWon0 = new LabelBuilder(game, loc.getString("game2_badending5"))
+                    .withStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE)
+                    .withAlignment(Alignement.CENTER).withY(middleY)
                     .build();
-            Label gameWon1 = new LabelBuilder("Tu as les bons symptômes pour " + STIfound + " IST.")
-                    .withPosition(screenWidth / 10, middleY - 60)
-                    .withStyle(CLASSIC_SANS_MIDDLE_BLACK)
+            Label gameWon1 = new LabelBuilder(game, loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3"))
+                    .withStyle(FontHelper.CLASSIC_SANS_SMALL_WHITE)
+                    .withAlignment(Alignement.CENTER).withY(middleY - 60)
                     .build();
-            Label gameWon2 = new LabelBuilder("Persévère! Tu peux y arriver.")
-                    .withPosition(screenWidth / 8, middleY - 125)
-                    .withStyle(CLASSIC_SANS_NORMAL_BLACK)
+            Label gameWon2 = new LabelBuilder(game, loc.getString("game2_badending6"))
+                    .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
+                    .withAlignment(Alignement.CENTER).withY(middleY - 125)
                     .build();
             stage.addActor(gameWon0);
             stage.addActor(gameWon1);
@@ -353,19 +365,20 @@ public class Game2 implements Screen {
      */
     private void setUpSTI(Basket firstbasket){
         String[] stiNames = {
-                loc.getStiName("hiv"),
-                loc.getStiName("c_hepatitis"),
-                loc.getStiName("hpv"),
-                loc.getStiName("gonorrhea"),
-                loc.getStiName("chlamydia"),
-                loc.getStiName("herpes")};
+                loc.getString("hiv_name"),
+                loc.getString("c_hepatitis_name"),
+                loc.getString("hpv_name").replaceAll("\\s","\n"),
+                loc.getString("gonorrhea_name"),
+                loc.getString("chlamydia_name"),
+                loc.getString("herpes_name").replaceAll("\\s","\n")
+        };
         String[] symptoms = {
-                loc.getStiSymptom("hiv"),
-                loc.getStiSymptom("c_hepatitis"),
-                loc.getStiSymptom("hpv"),
-                loc.getStiSymptom("gonorrhea"),
-                loc.getStiSymptom("chlamydia"),
-                loc.getStiSymptom("herpes")};
+                loc.getString("hiv_symp"),
+                loc.getString("c_hepatitis_symp"),
+                loc.getString("hpv_symp"),
+                loc.getString("gonorrhea_symp"),
+                loc.getString("chlamydia_symp"),
+                loc.getString("herpes_symp")};
         ArrayList<Integer>numbers = new ArrayList<Integer>();
         ArrayList<Integer>ids = new ArrayList<Integer>();
         for(int i = 0; i < STInbr; i++){
@@ -462,15 +475,17 @@ public class Game2 implements Screen {
                         currentBall = null;
                         lives--;
                         livesLabel.setVisible(false);
-                        livesLabel = new LabelBuilder(loc.getString("lives_label") + lives).withStyle(CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX, livesY).build();
+                        livesLabel = new LabelBuilder(game, loc.getString("lives_label") + lives).withStyle(FontHelper.CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX, livesY).build();
                         stage.addActor(livesLabel);
                         if (lives == 0) {//Game is lost
                             //remove the listeners and hide the symptom
                             for (int i = 0; i < STInbr; i++) {
                                 sittingBalls[i].getButton().removeListener(ballClick[i]);
                             }
+
                             //Ask for display of end of game message
                             endTextFlag = true;
+
                         }
                     } else {//right STI and symptom have been connected
                         currentBall.win(finalBalX, finalBalY - STIfound * ballDelta);
@@ -481,12 +496,14 @@ public class Game2 implements Screen {
                             changeBasketFlag = true;
                             //IMPROVEMENT maybe add a success message (with a label) here
                         } else if (STIfound == STInbr) {//game has been won
+
                             //Ask for display of end of game message
                             endTextFlag = true;
+
+                            //TODO check if there is no memory leak
                         } else {//STIfound is greater than STInbr. This situation should never happen
                             Gdx.app.log(TAG, "ERROR: Number of STI found is greater than number of total STI");
                         }
-
                     }
             }
 

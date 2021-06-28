@@ -3,8 +3,6 @@ package gdx.kapotopia.DialogsScreen;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-
 public class DialogueElement {
     private int seqNumber;
     private Image[] imageList;
@@ -14,16 +12,6 @@ public class DialogueElement {
         this.seqNumber = seqNumber;
 
         imageList = imgSeq;
-        labelList = labSeq;
-    }
-
-    public DialogueElement(int seqNumber, String[] imagePaths, Label[] labSeq) {
-        this.seqNumber = seqNumber;
-
-        imageList = new Image[imagePaths.length];
-        for (int i = 0; i < imagePaths.length; i++) {
-            imageList[i] = new Image(AssetsManager.getInstance().getTextureByPath(imagePaths[i]));
-        }
         labelList = labSeq;
     }
 

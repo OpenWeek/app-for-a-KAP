@@ -5,33 +5,26 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.SoundHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
-import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Bilan1.BilanController;
+import gdx.kapotopia.Bilan1.RenderController;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Game1.VirusContainer;
-import gdx.kapotopia.Helpers.Builders.ImageBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
+import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
-import gdx.kapotopia.Helpers.StandardInputAdapter;
 
 public class BilanG1 implements Screen {
     // Basic variables
@@ -43,6 +36,7 @@ public class BilanG1 implements Screen {
     private Button next;
 
     private BilanController controller;
+    private RenderController renderController;
 
     // Labels
     private LinkedList<Label> istsToShow;
@@ -56,36 +50,20 @@ public class BilanG1 implements Screen {
     private Sound openSound;
 
     // Constants
-    private final String TAG = "BilangG1";
-    private final String IMGBACK_PATH = "World1/Game1/EcranTotal.png";
-    private final String BUBBLE_PATH = "ImagesGadgets/BulleExplicative.png";
-    private final String MIR_PATH = "MireilleImages/MireilleInstruit.png";
+    private final String TAG = this.getClass().getSimpleName();
 
     public BilanG1(final Kapotopia game) {
         this.game = game;
         this.stage = new Stage(game.viewport);
-        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.CLASSIC_SANS_NORMAL_BLACK);
 
-        this.controller = new BilanController();
+        this.controller = new BilanController(game, this);
+        this.renderController = new RenderController(game, this);
 
         final float wWidth = game.viewport.getWorldWidth();
         final float wHeight = game.viewport.getWorldHeight();
 
         /* IMAGES */
         // Images
-        Image imgFond = new Image(AssetsManager.getInstance().getTextureByPath(IMGBACK_PATH));
-        imgFond.setVisible(true);
-        final Image bubble = new Image(AssetsManager.getInstance().getTextureByPath(BUBBLE_PATH));
-        bubble.setVisible(true);
-        final Texture mireille = AssetsManager.getInstance().getTextureByPath(MIR_PATH);
-        Image mireilleUni = new ImageBuilder().withTexture(mireille).isVisible(true).withPosition(0, 0 - (wHeight / 20))
-                .withWidth(mireille.getWidth() / 2f)
-                .withHeight(mireille.getHeight() / 2f).build();
-
-
-        stage.addActor(imgFond);
-        stage.addActor(bubble);
-        stage.addActor(mireilleUni);
 
         this.missedIsts = game.getGame1().getMissedIST();
         if(missedIsts == null) {
@@ -106,15 +84,15 @@ public class BilanG1 implements Screen {
         pointeur = 0;
 
         // Intro text
-        intro = new LabelBuilder(Localisation.getInstance().getString("intro_text"))
-                .withStyle(style).withPosition(wWidth / 9f,wHeight / 1.2f).isWrapped(true).withWidth(wWidth / 1.3f).build();
+        intro = new LabelBuilder(game, game.loc.getString("intro_text"))
+                .withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK).withPosition(wWidth / 9f,wHeight / 1.2f).isWrapped(true).withWidth(wWidth / 1.3f).build();
         stage.addActor(intro);
 
         // Button
-        final float xNext = wWidth / 2.5f;
-        final float yNext = wHeight / 8f;
-        next = new TextButtonBuilder(Localisation.getInstance().getString("next_button"))
-                .withStyle(style).withPosition(xNext, yNext)
+        final float xNext = wWidth * 0.4f;
+        final float yNext = wHeight * 0.125f;
+        next = new TextButtonBuilder(game, game.loc.getString("next_button"))
+                .withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK).withPosition(xNext, yNext)
                 .withListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -128,6 +106,7 @@ public class BilanG1 implements Screen {
                                 final Label ld = descrToShow.getFirst();
                                 ld.setVisible(true);
                                 intro.setVisible(false);
+                                renderController.setShowStiSprites();
                             } else {
                                 istsToShow.get(pointeur-1).setVisible(false);
                                 final Label ln = istsToShow.get(pointeur);
@@ -135,6 +114,7 @@ public class BilanG1 implements Screen {
                                 descrToShow.get(pointeur-1).setVisible(false);
                                 final Label ld = descrToShow.get(pointeur);
                                 ld.setVisible(true);
+                                renderController.dequeueStiSprite();
                             }
                             openSound.play();
                             pointeur++;
@@ -145,11 +125,10 @@ public class BilanG1 implements Screen {
         stage.addActor(next);
 
         // Sounds
-        this.fail = SoundHelper.getSound(UseSound.FAIL);
-        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
-        this.openSound = SoundHelper.getSound(UseSound.JUMP_V1);
 
-        AssetsManager.getInstance().addStage(stage, TAG);
+        this.fail = game.ass.get(AssetDescriptors.SOUND_FAIL);
+        this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
+        this.openSound = game.ass.get(AssetDescriptors.SOUND_JUMP_V1);
     }
 
     private void comeBackToG1() {
@@ -175,13 +154,14 @@ public class BilanG1 implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        renderController.update();
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        game.viewport.update(width, height, true);
+        game.viewport.update(width, height,true);
     }
 
     @Override
@@ -201,6 +181,10 @@ public class BilanG1 implements Screen {
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage(TAG);
+        stage.dispose();
+    }
+
+    public RenderController getRenderController() {
+        return renderController;
     }
 }

@@ -23,8 +23,12 @@ public enum Languages {
     }
 
     public static Languages convert(String lang) {
+        // Here we compare with languages names (in plain words)
         if (lang.equals(FR_KEY)) return FRENCH;
         if (lang.equals(NL_KEY)) return DUTCH;
+        // Here we compare with locale.tostrings
+        if (lang.equals(Locale.FRENCH.toString()) || lang.equals(Locale.FRANCE.toString()) || lang.equals(Locale.CANADA_FRENCH.toString()))
+            return FRENCH;
         return ENGLISH;
     }
 
@@ -45,14 +49,11 @@ public enum Languages {
         return res;
     }
 
-    /**
-     * Convert from the locale language format to a longer format (e.g. "fr" -> "french")
-     * @param lang the Locale language
-     * @return the complete name of the language
-     */
-    public static String convertFromLocale(String lang) {
-        if (lang.equals(new Locale("fr"))) return convert(Languages.FRENCH);
-        if (lang.equals(new Locale("nl"))) return convert(Languages.DUTCH);
-        return convert(Languages.ENGLISH);
+    public static Languages convertFromLocale(Locale locale) {
+        if(locale.equals(Locale.FRENCH) || locale.equals(Locale.FRANCE) || locale.equals(Locale.CANADA_FRENCH)) {
+            return Languages.FRENCH;
+        } else {
+            return Languages.ENGLISH;
+        }
     }
 }

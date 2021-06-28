@@ -1,6 +1,7 @@
 package gdx.kapotopia;
 
 public enum ScreenType {
+    INTROCUTSCENE,
     MAINMENU,
     GAME1,
     GAME2,
@@ -12,7 +13,7 @@ public enum ScreenType {
     WORLD1,
     WORLD2,
     WORLD3,
-    WORLD4,
+    STIDEX,
     DIF,
     OPTIONS
 }

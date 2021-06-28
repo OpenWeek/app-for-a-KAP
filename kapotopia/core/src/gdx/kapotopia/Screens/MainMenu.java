@@ -10,24 +10,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import gdx.kapotopia.Animations.NeonDoorAnimation;
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.SoundHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
-import gdx.kapotopia.AssetsManaging.UseSound;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.Font;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.GameConfig;
+import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Kapotopia;
-import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 
 public class MainMenu implements Screen {
@@ -36,9 +32,6 @@ public class MainMenu implements Screen {
     private Stage stage;
 
     private Sound pauseSound;
-    private Music music;
-
-    private boolean musicOn;
 
     // Background
     private OrthographicCamera camera;
@@ -56,7 +49,10 @@ public class MainMenu implements Screen {
         this.game = game;
         stage = new Stage(game.viewport);
 
-        this.musicOn = game.getSettings().isMusicOn();
+        // If we're here, it means that the player already saw the intro
+        if (!game.getSettings().isFirstCinematicShowed()) {
+            game.getSettings().setFirstCinematicShowed(true);
+        }
 
         // Background
         this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
@@ -65,39 +61,38 @@ public class MainMenu implements Screen {
         this.backgroundBatch = new SpriteBatch();
         stateTime = 0f;
 
-        this.part_1 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre1.png");
-        this.part_2 = new NeonDoorAnimation(Animation.PlayMode.LOOP_RANDOM).getAnimation();
-        this.part_3 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalCadre3.png");
-        this.part_4 = AssetsManager.getInstance().getTextureByPath("EcranMenu/MenuPrincipalBoutons.png");
+        this.part_1 = game.ass.get(AssetDescriptors.MM_PART1);
+        this.part_2 = new NeonDoorAnimation(game, Animation.PlayMode.LOOP_RANDOM).getAnimation();
+        this.part_3 = game.ass.get(AssetDescriptors.MM_PART3);
+        this.part_4 = game.ass.get(AssetDescriptors.MM_PART4);
 
         // Import sounds
-        this.pauseSound = SoundHelper.getSound(UseSound.PAUSE);
-        final Sound blocked = SoundHelper.getSound(UseSound.HINT);
-        this.music = AssetsManager.getInstance().getMusicByPath("sound/breaktime.mp3");
-        music.setPosition(0f);
-        music.setLooping(true);
+        this.pauseSound = game.ass.get(AssetDescriptors.SOUND_PAUSE);
 
         //Import fonts
-        TextButton.TextButtonStyle style = FontHelper.getStyleFont(UseFont.AESTHETIC_NORMAL_WHITE);
+        Font style = FontHelper.AESTHETIC_NORMAL_WHITE;
 
         //setup Button
         final float x = game.viewport.getWorldWidth() / 2.6f;
         final float y = game.viewport.getWorldHeight();
-        final TextButton world1 = new TextButtonBuilder(Localisation.getInstance().getString("text_world1"))
-                .withStyle(style).withPosition(x*0.7f, y * 0.75f)
+        final TextButton world1 = new TextButtonBuilder(game, game.loc.getString("text_world1"))
+                .withStyle(style)
+                .withY(y * 0.75f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD1)).build();
-        final TextButton world2 = new TextButtonBuilder(Localisation.getInstance().getString("text_world2"))
-                .withStyle(style).withPosition(x*0.82f, y * 0.43f)
+        final TextButton world2 = new TextButtonBuilder(game, game.loc.getString("text_world2"))
+                .withStyle(style)
+                .withY(y * 0.43f).withAlignment(Alignement.CENTER)
                 .withListener(new ChangeScreenListener(game, ScreenType.WORLD2)).build();
-        final TextButton world4 = new TextButtonBuilder(Localisation.getInstance().getString("text_istdex"))
-                .withStyle(style).withPosition(x, y * 0.2f)
-                .withListener(new ChangeScreenListener(game, ScreenType.WORLD4))
+        final TextButton world4 = new TextButtonBuilder(game, game.loc.getString("text_istdex"))
+                .withStyle(style)
+                .withY(y * 0.2f).withAlignment(Alignement.CENTER)
+                .withListener(new ChangeScreenListener(game, ScreenType.STIDEX))
                 .build();
-        final TextButton optionsBtn = new TextButtonBuilder("Options").withStyle(style).withPosition(x / 3, y * 0.01f)
+        final TextButton optionsBtn = new TextButtonBuilder(game, "Options").withStyle(style).withPosition(x / 3, y * 0.01f)
                 .withListener(new ChangeScreenListener(game, ScreenType.OPTIONS)).build();
 
-        Label version = new LabelBuilder("v:" + GameConfig.VERSION_NAME + " | code:" + GameConfig.VERSION_CODE)
-                .withStyle(UseFont.AESTHETIC_TINY_BLACK).withPosition(15, 0).build();
+        Label version = new LabelBuilder(game, "v:" + GameConfig.VERSION_NAME + " | code:" + GameConfig.VERSION_CODE)
+                .withStyle(FontHelper.AESTHETIC_TINY_BLACK).withPosition(15, 0).build();
 
         //stage.addActor(imgFond);
         //add button to the scene
@@ -106,8 +101,6 @@ public class MainMenu implements Screen {
         stage.addActor(world4);
         stage.addActor(optionsBtn);
         stage.addActor(version);
-
-        AssetsManager.getInstance().addStage(stage, "mainmenu");
     }
 
     @Override
@@ -115,8 +108,11 @@ public class MainMenu implements Screen {
         Gdx.app.log(TAG,"Entering show function");
         Gdx.input.setInputProcessor(stage);
 
-        if (musicOn)
-            music.play();
+        Music music = game.ass.get(AssetDescriptors.MUSIC_MM);
+        if (!game.getMusicControl().musicIsEquals(music)) {
+            game.getMusicControl().changeMusic(music, 0f, true);
+        }
+        game.getMusicControl().playMusic();
     }
 
     @Override
@@ -148,24 +144,20 @@ public class MainMenu implements Screen {
     @Override
     public void pause() {
         this.pauseSound.play();
-        if (musicOn)
-            this.music.pause();
+        game.getMusicControl().pauseMusic();
     }
 
     @Override
     public void resume() {
-        if (musicOn)
-            this.music.play();
+        game.getMusicControl().playMusic();
     }
 
     @Override
-    public void hide() {
-        if (musicOn)
-            this.music.stop();
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
-        AssetsManager.getInstance().disposeStage("mainmenu");
+        stage.dispose();
+        backgroundBatch.dispose();
     }
 }

@@ -2,61 +2,207 @@ package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Animations.EvilTomAnimation;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.Font;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.GameConfig;
+import gdx.kapotopia.Helpers.Align;
+import gdx.kapotopia.Helpers.Alignement;
+import gdx.kapotopia.Helpers.Bounds;
 import gdx.kapotopia.Helpers.Builders.ImageBuilder;
+import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.ImageHelper;
+import gdx.kapotopia.Helpers.Padding;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 import gdx.kapotopia.ScreenType;
 
 public class mockupG3 extends CinematicScreen {
 
-    public mockupG3(final Kapotopia game) {
-        super(game, new Stage(game.viewport), "mockupG3");
+    private final float scalling_factor = 0.6f;
 
-        Localisation loc = Localisation.getInstance();
+    private OrthographicCamera camera;
+    private SpriteBatch batch;
+
+    private Animation<TextureRegion> evilTom;
+    private float stateTime;
+
+    private ImageTextButton skipBtn;
+
+    public mockupG3(final Kapotopia game) {
+        super(game, new Stage(game.viewport));
+
+        final float ww = GameConfig.GAME_WIDTH;
+        final float wh = GameConfig.GAME_HEIGHT;
+
+        Localisation loc = game.loc;
+
+        Font font = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
+        Bounds dialogBubbleBounds = Align.getDialogBubbleBounds();
+        Bounds explicativeBubbleBounds = Align.getExplicativeBubbleBounds();
 
         final Label[][] labels = new Label[][] {
                 {
-
+                        new LabelBuilder(game, loc.getString("game3_diag1"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
                 },
                 {
-                    new LabelBuilder(loc.getString("game3_instr"))
-                            .withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK)
-                            .withPosition(GameConfig.ONE_CHAR_STD_WIDTH, (game.viewport.getWorldHeight() / 2))
-                            .withWidth(game.viewport.getWorldWidth() - (2 * GameConfig.ONE_CHAR_STD_WIDTH))
-                            .withHeight(GameConfig.ONE_CHAR_STD_HEIGHT * 10).isWrapped(true)
-                            .build()
+                        new LabelBuilder(game, loc.getString("game3_diag2"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(game, loc.getString("game3_diag3"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(game, loc.getString("game3_diag4"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(game, loc.getString("game3_diag5"))
+                                .withStyle(font).withBounds(dialogBubbleBounds)
+                                .isWrapped(true)
+                                .build()
+                },
+                {
+                        new LabelBuilder(game, loc.getString("rules_title"))
+                                .withStyle(FontHelper.CLASSIC_BOLD_BIG_BLACK).withAlignment(Alignement.CENTER)
+                                .withY(wh - explicativeBubbleBounds.getTopPad())
+                                .build(),
+                        new LabelBuilder(game, loc.getString("game3_instr"))
+                                .withStyle(font).withBounds(explicativeBubbleBounds)
+                                .isWrapped(true)
+                                .build()
                 }
         };
 
-        final Image tom = new ImageBuilder().withTexture("game3/Thomas Godiva.png").withPosition(50, 50)
+        // Backgrounds
+        final Image house = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.I3_HOUSE));
+        final Image inside = ImageHelper.getBackground(game.viewport, game.ass.get(AssetDescriptors.I3_INSIDE));
+        // Bubbles
+        final Image bigBubble = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_EXPL)).build();
+        final Image bubbleLeft = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_MID_LEFT)).build();
+        final Image bubbleLeft2 = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_RIGHT)).build();
+        final Image bubbleRight = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.BUBBLE_MID_RIGHT)).build();
+        // Characters
+        final Image tom = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.GODIVA))
+                .withPosition(ww * 0.075f, wh * 0.04f)
                 .build();
-        final float scale_factor = 0.75f;
-        tom.setScale(scale_factor);
+        tom.setScale(scalling_factor);
+        final Image mireille = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_NORMAL))
+                .withPosition(ww / 4f, 0)
+                .build();
+        mireille.setScale(scalling_factor);
+
+        final Image mireilleWorried = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_WORRIED))
+                .withPosition(ww / 4f, 0)
+                .build();
+        mireilleWorried.setScale(scalling_factor);
+
+        final Image mireilleScared = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_SCARED))
+                .withPosition(ww / 4f, 0)
+                .build();
+        mireilleScared.setScale(scalling_factor);
+
+        final Image mireilleSurprised = new ImageBuilder().withTexture(game.ass.get(AssetDescriptors.MI_SURPRISED))
+                .withPosition(ww / 4f, 0)
+                .build();
+        mireilleSurprised.setScale(scalling_factor);
 
         final Image[][] images = new Image[][] {
                 {
-                    new ImageBuilder().withTexture("game3/Monde2Ecran2.png").build(),
-                        tom
+                    house,
+                        mireilleWorried,
+                        bubbleLeft
                 },
                 {
-                    new ImageBuilder().withTexture("game3/Monde2Ecran3.png").build()
+                    house,
+                        mireilleSurprised,
+                        bubbleLeft
+                },
+                {
+                    house,
+                        mireille,
+                        bubbleLeft
+                },
+                {
+                    inside,
+                        mireilleScared,
+                        bubbleLeft2
+                },
+                {
+                    inside,
+                        //tom,
+                        bubbleRight
+                },
+                {
+                    inside,
+                        tom,
+                        bigBubble
                 }
         };
 
+        /* EXTRAS */
+        // Camera
+        this.camera = new OrthographicCamera(game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+        game.viewport.setCamera(camera);
+        // Making Animations
+        batch = new SpriteBatch();
+        evilTom = new EvilTomAnimation(game, Animation.PlayMode.NORMAL).getAnimation();
+        stateTime = 0f;
+        // Skip Button
+        skipBtn = new ImageTextButtonBuilder(game, game.loc.getString("skip_button"))
+                .withFontStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
+                .withPosition(game.viewport.getWorldWidth() * 0.75f, this.game.viewport.getWorldHeight() / 30f)
+                .withImageStyle(game.ass.get(AssetDescriptors.BTN_ROCK)).isVisible(true)
+                .withPadding(Padding.STANDARD)
+                .withListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        resetScreen();
+                        game.changeScreen(ScreenType.GAME3);
+                    }
+                })
+                .build();
+
+        /* ENDING */
+
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME3)
-        .withImages(images).withLabels(labels).withFinishBtn(false).withNextBtnStyle(UseFont.CLASSIC_BOLD_NORMAL_WHITE));
+        .withImages(images).withLabels(labels).withFinishBtn(false).withNextBtnStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE));
+
+        getStage().addActor(skipBtn);
+
+        // Music
+        game.getMusicControl().changeMusic(game.ass.get(AssetDescriptors.MUSIC_GAME3), 0f, true);
+        game.getMusicControl().playMusic();
     }
 
     @Override
     public void show() {
         setUpInputProcessor();
+
+        skipBtn.setVisible(game.getSettings().isIntro_3_skip());
     }
 
     @Override
@@ -64,7 +210,21 @@ public class mockupG3 extends CinematicScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+
+
+
+        getStage().act(Gdx.graphics.getDeltaTime());
+        getStage().draw();
+
+        if (getCurrentSeqIndex() == 4) {
+            stateTime += delta;
+            batch.begin();
+            final TextureRegion t = evilTom.getKeyFrame(stateTime, false);
+            batch.draw(t, camera.viewportWidth * 0.075f, camera.viewportHeight * 0.04f,
+                    0, 0, t.getRegionWidth(), t.getRegionHeight(), scalling_factor, scalling_factor, 0);
+            batch.end();
+        }
     }
 }

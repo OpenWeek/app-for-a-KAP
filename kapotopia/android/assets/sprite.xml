@@ -1,106 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sprites>
     <ist-l>
-        <ist texture="IST/Gonorrhee.png" name="Gonorrhée">
+        <ist texture="IST/Gonorrhee.png" name="gonorrhea_name">
             <explanation>
-              Bactérie le plus souvent sans symptômes. Quand ils sont présents, on observe des
-              écoulements (pénis ou vagin), des irritations et des brûlures en urinant. Elle mène à la stérilité.
+                gonorrhee_descr
             </explanation>
         </ist>
-        <ist texture="IST/Chlamydia.png" name="Chlamydia">
-            <explanation>Bactérie le plus souvent sans symptômes, elle peut notamment mener à des infections
-                sérieuses, des ulcères, un rétrécissement anormal de l’anus ainsi qu’à la stérilité.
+        <ist texture="IST/Chlamydia.png" name="chlamydia_name">
+            <explanation>
+                chlamydia_descr
             </explanation>
         </ist>
-        <ist texture="IST/HepatiteB.png" name="Hepatite B">
+        <ist texture="IST/Herpes.png" name="herpes_name">
             <explanation>
-              Virus le plus souvent sans symptômes, il peut causer une affection aiguë ou chronique
-              du fois, cirrhose, cancer et décès.
+                herpes_descr
             </explanation>
         </ist>
-        <ist texture="IST/HepatiteC.png" name="Hepatite C">
+        <ist texture="IST/VIH.png" name="hiv_name">
             <explanation>
-              Virus le plus souvent sans symptômes, elle se soigne naturellement dans la majorité des
-              cas. Les autres évoluent en maladie du foie, cirrhose et décès.
+                vih_descr
             </explanation>
         </ist>
-        <ist texture="IST/Herpes.png" name=" Herpes">
+        <ist texture="IST/Papillomavirus.png" name="hpv_name">
             <explanation>
-                Virus causant des boutons. Un fois infecté, on le porte à vie.
+                papillomavirus_descr
             </explanation>
         </ist>
-        <ist texture="IST/VIH.png" name="VIH">
+        <ist texture="IST/Syphilis.png" name="syphilis_name">
             <explanation>
-              Virus le plus souvent sans symptômes, il provoque des infections multiples liés à une
-              baisse de l’immunité. Les traitements actuels permettent d’arrêter l’évolution du virus.
+                syphilis_descr
             </explanation>
         </ist>
-        <ist texture="IST/Papillomavirus.png" name="Papillomavirus">
+        <ist texture="IST/Trichomonas.png" name="trichomonas_name">
             <explanation>
-              Virus le plus souvent sans symptômes, il peut causer des verrues génitales et des
-              lésions pouvant évoluer en cancer (du vol de l’utérus, vulve, gorge, pénis, anus)
+                trichonomas_descr
             </explanation>
         </ist>
-        <ist texture="IST/Syphillis.png" name="Syphillis">
+        <ist texture="IST/HepatiteA.png" name="a_hepatitis_name">
             <explanation>
-               Bactérie pouvant causer des complications articulaires, cardiovasculaires et neurologiques.
-              Dépistée, elle se soigne en une piqûre.
+                hepatiteA_descr
             </explanation>
         </ist>
-        <ist texture="IST/Trichomonas.png" name="Trichomonas">
+        <ist texture="IST/HepatiteB.png" name="b_hepatitis_name">
             <explanation>
-              Parasite causant des pertes vaginales odorantes et colorées. Sans symptômes dans
-              20% des cas au niveau vaginal, 90% au niveau du pénis. Facilite largement l’apparition d’autres IST.
+                hepatiteB_descr
             </explanation>
         </ist>
-        <ist texture="IST/HepatiteA.png" name="Hepatite A">
+        <ist texture="IST/HepatiteC.png" name="c_hepatitis_name">
             <explanation>
-               Virus le plus souvent sans symptôme, on en guérit naturellement dans la grande
-               majorité des cas. Les autres évoluent en hépatites fulminantes (40% de mortalité).
+                hepatiteC_descr
             </explanation>
         </ist>
     </ist-l>
 
     <maybeist-l>
-        <maybeist texture="IST/ChancreMou.png" name="Chancre Mou">
+        <maybeist texture="IST/ChancreMou.png" name="chancremou_name">
             <explanation>
-                Explication à venir 
+                chancremou_descr
             </explanation>
         </maybeist>
-        <maybeist texture="IST/MycoplasmaGenitalium.png" name="Mycoplasma Genitalium">
+        <maybeist texture="IST/MycoplasmaGenitalium.png" name="mycoplasma_name">
             <explanation>
-                Explication à venir
+                mycoplasmagenitalium_descr
             </explanation>
         </maybeist>
-        <maybeist texture="IST/Gale.png" name="Gale">
+        <maybeist texture="IST/Gale.png" name="gale_name">
             <explanation>
-                Explication à venir
+                gale_descr
             </explanation>
         </maybeist>
-        <maybeist texture="IST/Mycose.png" name="Mycose">
+        <maybeist texture="IST/Morpion.png" name="morpion_name">
             <explanation>
-                Explication à venir
-            </explanation>
-        </maybeist>
-        <maybeist texture="IST/Morpion.png" name="Morpion">
-            <explanation>
-                Explication à venir
+                morpion_descr
             </explanation>
         </maybeist>
     </maybeist-l>
 
     <fakeist-l>
-        <fakeist texture="IST/Alternariose.png" name="Alternariose"/>
-        <fakeist texture="IST/FroidePisse.png" name="Froide pisse"/>
-        <fakeist texture="IST/Lycanthropie.png" name="Lycanthropie"/>
-        <fakeist texture="IST/Mononucleose.png" name="Mononucléose"/>
-        <fakeist texture="IST/Depression.png" name=" Dépression"/>
-        <fakeist texture="IST/Tetanos.png" name="Tétanos"/>
-        <fakeist texture="IST/Cancer.png" name="Cancer"/>
-        <fakeist texture="IST/PesteBubonique.png" name="Peste bubonique"/>
-        <fakeist texture="IST/Variole.png" name="Variole"/>
-        <fakeist texture="IST/Diabete.png" name="Diabète"/>
-        <fakeist texture="IST/Lyme.png" name="Lyme"/>
-        <fakeist texture="IST/Conjonctivite.png" name="Conjonctivite"/>
+        <fakeist texture="IST/Alternariose.png" name="alternariose_name">
+            <explanation>
+                alternariose_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/FroidePisse.png" name="froidepisse_name">
+            <explanation>
+                froidepisse_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/Lycanthropie.png" name="lycanthropie_name">
+            <explanation>
+                lycanthropie_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/Mononucleose.png" name="mononucleose_name">
+            <explanation>
+                mononucleose_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/Depression.png" name="depression_name">
+            <explanation>
+                depression_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/Tetanos.png" name="tetanos_name">
+            <explanation>
+                tetanos_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/Cancer.png" name="cancer_name">
+            <explanation>
+                cancer_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/PesteBubonique.png" name="pestebubo_name">
+            <explanation>
+                pestebubonique_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/Variole.png" name="variole_name">
+            <explanation>
+                variole_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/Diabete.png" name="diabete_name">
+            <explanation>
+                diabete_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/Lyme.png" name="lyme_name">
+            <explanation>
+                lyme_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/Conjonctivite.png" name="conjonctivite_name">
+            <explanation>
+                conjonctivite_descr
+            </explanation>
+        </fakeist>
+        <fakeist texture="IST/Mycose.png" name="mycose_name">
+            <explanation>
+                mycose_descr
+            </explanation>
+        </fakeist>
     </fakeist-l>
 </sprites>

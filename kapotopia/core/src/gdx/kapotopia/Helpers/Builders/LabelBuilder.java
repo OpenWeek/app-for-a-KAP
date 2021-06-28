@@ -1,18 +1,16 @@
 package gdx.kapotopia.Helpers.Builders;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Fonts.Font;
+import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Bounds;
-import gdx.kapotopia.Utils;
+import gdx.kapotopia.Kapotopia;
 
 /**
  * A class to help build Labels. A mandatory argument is the text displayed in the label
@@ -20,6 +18,7 @@ import gdx.kapotopia.Utils;
  * provided methods and build it's label following these values with the build() method
  */
 public class LabelBuilder {
+    private Kapotopia game;
     // Actor common attributes
     private ArrayList<EventListener> eventListeners;
     private ArrayList<EventListener> captureListeners;
@@ -29,10 +28,7 @@ public class LabelBuilder {
     private Alignement alignment;
     private boolean visible;
     // Font style
-    private TextButton.TextButtonStyle style;
-    private String path;
-    private Color color;
-    private int size;
+    private Font font;
     // Label
     private String text;
     private int textAlignement;
@@ -42,7 +38,8 @@ public class LabelBuilder {
      * Constructor of LabelBuilder, initialize variables
      * @param text the label text (mandatory)
      */
-    public LabelBuilder(String text) {
+    public LabelBuilder(Kapotopia game, String text) {
+        this.game = game;
         // Actor attributes
         this.eventListeners = new ArrayList<EventListener>();
         this.captureListeners = new ArrayList<EventListener>();
@@ -57,10 +54,7 @@ public class LabelBuilder {
         this.alignment = Alignement.NONE;
         this.visible = true;
         // Label attributes
-        this.style = null;
-        this.path = "COMMS.ttf";
-        this.color = Color.BLACK;
-        this.size = 60;
+        this.font = null;
         this.text = text;
         this.textAlignement = Align.left;
         this.wrap = false;
@@ -155,34 +149,8 @@ public class LabelBuilder {
 
     // Font style
 
-    public LabelBuilder withStyle(TextButton.TextButtonStyle style) {
-        this.style = style;
-        return this;
-    }
-
-    public LabelBuilder withStyle(UseFont type) {
-        this.style = FontHelper.getStyleFont(type);
-        return this;
-    }
-
-    public LabelBuilder withFontPath(String path) {
-        this.path = path;
-        return this;
-    }
-
-    /**
-     * Set up a personalized style, if this method is used, the style provided by withStyle method
-     * is not taken in count
-     * @param path of the font file
-     * @param color of the font
-     * @param size of the font
-     * @return this builder
-     */
-    public LabelBuilder withPersonalizedStyle(String path, Color color, int size) {
-        this.path = path;
-        this.color = color;
-        this.size = size;
-        this.style = null;
+    public LabelBuilder withStyle(Font font) {
+        this.font = font;
         return this;
     }
 
@@ -208,22 +176,28 @@ public class LabelBuilder {
     /**
      * Call this function in last position to get your label
      * @return a label with all the specified options
+     * @throws IllegalArgumentException if no font are provided
      */
-    public Label build() {
+    public Label build() throws IllegalArgumentException {
         //final Label label = (Label) super.buildActor();
 
-        TextButton.TextButtonStyle theStyle;
-        if(style == null) {
-            theStyle = Utils.getStyleFont(path, size, color);
+        final Label l;
+        if (font == null) {
+            throw new IllegalArgumentException("No font provided");
         } else {
-            theStyle = style;
+            Label.LabelStyle style = new Label.LabelStyle();
+            style.font = game.ass.get(font.getFont());
+            l = new Label(text, style);
         }
-        Label l = new Label(text, new Label.LabelStyle(theStyle.font, theStyle.fontColor));
 
         // Actor Attributes
 
         if (alignment != Alignement.NONE) {
-            this.x = gdx.kapotopia.Helpers.Align.getX(alignment, text.length());
+            if (font == null) {
+                this.x = gdx.kapotopia.Helpers.Align.getX(alignment, text.length());
+            } else {
+                this.x = gdx.kapotopia.Helpers.Align.getX(alignment, text.length(), font.getSize());
+            }
         }
         l.setPosition(x, y);
         // It shouldn't be possible to have a negative height or weight
@@ -275,11 +249,11 @@ public class LabelBuilder {
      * @param size the size of the new matrix
      * @return a new matrix of size Label[size][1]
      */
-    public static Label[][] createEmptyMatrix(int size) {
+    public static Label[][] createEmptyMatrix(Kapotopia game, int size) {
         if (size <= 0) throw new IllegalArgumentException("LabelBuilder - createEmptyMatrix(int)\nsize is equal or smaller than 0");
         Label[][] labelMatrix = new Label[size][1];
         for (int i=0; i<size; i++)
-            labelMatrix[i][0] = new LabelBuilder("").withStyle(UseFont.CLASSIC_SANS_NORMAL_BLACK).build();
+            labelMatrix[i][0] = new LabelBuilder(game, "").withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK).build();
         return labelMatrix;
     }
 }

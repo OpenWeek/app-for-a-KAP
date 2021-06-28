@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-
 public class AnimationBuilder {
     private ArrayList<TextureRegion> framesArrayList;
     private Animation.PlayMode playMode;
@@ -20,22 +18,8 @@ public class AnimationBuilder {
         this.frameDuration = frameDuration;
     }
 
-    public AnimationBuilder addNewFrame(String framePath) {
-        AssetsManager man = AssetsManager.getInstance();
-        framesArrayList.add(new TextureRegion(man.getTextureByPath(framePath)));
-        return this;
-    }
-
     public AnimationBuilder addNewFrame(TextureRegion frame) {
         framesArrayList.add(frame);
-        return this;
-    }
-
-    public AnimationBuilder addFrames(String[] framePaths) {
-        AssetsManager man = AssetsManager.getInstance();
-        for (String path : framePaths) {
-            framesArrayList.add(new TextureRegion(man.getTextureByPath(path)));
-        }
         return this;
     }
 

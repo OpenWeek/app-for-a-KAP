@@ -1,10 +1,11 @@
 package gdx.kapotopia.Helpers.Builders;
 
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.Kapotopia;
 
 public class ImageBuilder {
 
@@ -53,11 +54,6 @@ public class ImageBuilder {
         return this;
     }
 
-    public ImageBuilder withTexture(String path) {
-        texture = AssetsManager.getInstance().getTextureByPath(path);
-        return this;
-    }
-
     public ImageBuilder withTexture(Texture texture) {
         this.texture = texture;
         return this;
@@ -98,11 +94,11 @@ public class ImageBuilder {
      * @param imagesPaths must be != null
      * @return a new matrix of size Image[imagesPaths.length][1]
      */
-    public static Image[][] convert(String[] imagesPaths) {
+    public static Image[][] convert(Kapotopia game, String[] imagesPaths) {
         if (imagesPaths == null) throw new NullPointerException("ImageBuilder - convert(String[])\nimagesPaths is null");
         Image[][] imgMatrix = new Image[imagesPaths.length][1];
         for (int i=0; i<imagesPaths.length; i++)
-            imgMatrix[i][0] = new Image(AssetsManager.getInstance().getTextureByPath(imagesPaths[i]));
+            imgMatrix[i][0] = new Image(game.ass.get(new AssetDescriptor<Texture>(imagesPaths[i], Texture.class)));
         return imgMatrix;
     }
 }

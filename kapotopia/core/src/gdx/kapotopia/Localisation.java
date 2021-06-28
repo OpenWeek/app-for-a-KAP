@@ -1,40 +1,56 @@
 package gdx.kapotopia;
 
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.badlogic.gdx.Gdx;
+
+import gdx.kapotopia.AssetsManaging.AssetPaths;
+
+import static gdx.kapotopia.AssetsManaging.AssetDescriptors.I18N_BUNDLE_FR;
+import static gdx.kapotopia.AssetsManaging.AssetDescriptors.I18N_BUNDLE_ROOT;
 
 
 public class Localisation {
 
-    private I18NBundle languageStrings = I18NBundle.createBundle(Gdx.files.internal("strings/strings"));
-    private I18NBundle stiStrings = I18NBundle.createBundle(Gdx.files.internal("strings/stiNames"));
-    private I18NBundle symptomsStrings = I18NBundle.createBundle(Gdx.files.internal("strings/stiSymptoms"));
-    private I18NBundle practices = I18NBundle.createBundle(Gdx.files.internal("strings/practices"));
-    private static Localisation instance = new Localisation();
-    public Localisation()
-    {
+    private final String TAG = this.getClass().getSimpleName();
 
+    private AssetManager ass;
+
+    private I18NBundle bundle;
+
+    private Languages chosenLanguage;
+
+    public Localisation(AssetManager ass) {
+        this.ass = ass;
     }
 
-    public static Localisation getInstance()
-    {
-        return instance;
+    private void setBundle(AssetDescriptor<I18NBundle> assetDescriptor) {
+        this.ass.load(assetDescriptor);
+        this.ass.finishLoadingAsset(assetDescriptor);
+        this.bundle = this.ass.get(assetDescriptor);
     }
 
-    public String getString(String key)
-    {
-        return languageStrings.get(key);
+    public void changeLanguage(Languages newLang) {
+        // Why do we have to unload the previous bundle ? Here is the explanation : https://javadoc.io/static/com.badlogicgames.gdx/gdx/1.2.0/com/badlogic/gdx/assets/loaders/I18NBundleLoader.html
+        if (ass.contains(AssetPaths.I18N_BUNDLE))
+            ass.unload(AssetPaths.I18N_BUNDLE);
+
+        switch (newLang) {
+            case FRENCH:
+                chosenLanguage = Languages.FRENCH;
+                setBundle(I18N_BUNDLE_FR);
+                break;
+            default:
+                chosenLanguage = Languages.ENGLISH;
+                setBundle(I18N_BUNDLE_ROOT);
+        }
     }
 
-    public String getStiName(String key){
-        return stiStrings.get(key);
+    public String getString(String key) {
+        return this.bundle.get(key);
     }
 
-    public String getStiSymptom(String key){
-        return symptomsStrings.get(key);
-    }
-
-    public String getPractice(String key){
-        return practices.get(key);
+    public Languages getChosenLanguage() {
+        return chosenLanguage;
     }
 }

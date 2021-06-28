@@ -7,8 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
-
 public class FixedDialogueSequence implements Iterable {
     private int size;
     private DialogueElement[] sequence;
@@ -36,26 +34,6 @@ public class FixedDialogueSequence implements Iterable {
             Image[] imgSeq = new Image[1];
             Label[] labSeq = new Label[1];
             imgSeq[0] = cinematicListImages[i];
-            labSeq[0] = labelList[i];
-            sequence[i] = new DialogueElement(i, imgSeq, labSeq);
-        }
-    }
-
-    /**
-     * Constructor of a fixed sequence with a list of Image paths and a list of labels
-     * Note: cinnematicListPaths and labelList must have the same size,
-     * @param cinematicListPaths a list of Image Paths, or more precisely textures that will be loaded
-     *                           with the assetManager
-     * @param labelList a list of labels
-     */
-    public FixedDialogueSequence(String[] cinematicListPaths, Label[] labelList) {
-        if (cinematicListPaths.length != labelList.length) throw new AssertionError();
-        this.size = cinematicListPaths.length;
-        this.sequence = new DialogueElement[size];
-        for (int i=0; i < size; i++) {
-            Image[] imgSeq = new Image[1];
-            Label[] labSeq = new Label[1];
-            imgSeq[0] = new Image(AssetsManager.getInstance().getTextureByPath(cinematicListPaths[i]));
             labSeq[0] = labelList[i];
             sequence[i] = new DialogueElement(i, imgSeq, labSeq);
         }

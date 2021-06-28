@@ -8,10 +8,12 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Fonts.Font;
+import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Kapotopia;
 
 public class SelectBoxBuilder<T> {
+    private Kapotopia game;
     // Actor Common Attributes
 
     // SelectBox
@@ -21,19 +23,21 @@ public class SelectBoxBuilder<T> {
     private float x, y;
     private float width, height;
     private boolean isVisible;
-    private TextButton.TextButtonStyle titleFont;
-    private TextButton.TextButtonStyle elemsFont;
+    private Font titleFont;
+    private Font elemsFont;
     private T selectedItem;
+    private int selectedItemIndex;
     private Array<T> items;
     private ArrayList<EventListener> eventListeners;
 
-    public SelectBoxBuilder() {
+    public SelectBoxBuilder(Kapotopia game) {
+        this.game = game;
         skin = null; styleName = null; style = null;
         x = 0; y = 0;
         width = -1; height = -1;
         isVisible = true;
         titleFont = null; elemsFont = null;
-        selectedItem = null;
+        selectedItem = null; selectedItemIndex = -1;
         items = null;
         eventListeners = new ArrayList<EventListener>();
     }
@@ -71,18 +75,23 @@ public class SelectBoxBuilder<T> {
         return this;
     }
 
-    public SelectBoxBuilder withTitleFont(UseFont font) {
-        titleFont = FontHelper.getStyleFont(font);
+    public SelectBoxBuilder withTitleFont(Font font) {
+        titleFont = font;
         return this;
     }
 
-    public SelectBoxBuilder withElemsFont(UseFont font) {
-        elemsFont = FontHelper.getStyleFont(font);
+    public SelectBoxBuilder withElemsFont(Font font) {
+        elemsFont = font;
         return this;
     }
 
     public SelectBoxBuilder withSelectedItem(T item) {
         this.selectedItem = item;
+        return this;
+    }
+
+    public SelectBoxBuilder withSelectedItemIndex(int index) {
+        this.selectedItemIndex = index;
         return this;
     }
 
@@ -111,15 +120,17 @@ public class SelectBoxBuilder<T> {
         selectBox.setVisible(isVisible);
 
         if (titleFont != null) {
-            selectBox.getStyle().font = titleFont.font;
+            selectBox.getStyle().font = game.ass.get(titleFont.getFont());
         }
         if (elemsFont != null) {
-            selectBox.getStyle().listStyle.font = elemsFont.font;
+            selectBox.getStyle().listStyle.font = game.ass.get(elemsFont.getFont());
         }
-        if (selectedItem != null) selectBox.setSelected(selectedItem);
 
         if (items != null)
             selectBox.setItems(items);
+
+        if (selectedItem != null) selectBox.setSelected(selectedItem);
+        if (selectedItemIndex >= 0) selectBox.setSelectedIndex(selectedItemIndex);
 
         for (EventListener listener : eventListeners)
             selectBox.addListener(listener);

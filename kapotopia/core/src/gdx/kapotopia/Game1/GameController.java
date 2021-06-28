@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.XmlReader;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,10 +18,10 @@ import gdx.kapotopia.GameDifficulty;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.STIDex.STI;
 import gdx.kapotopia.ScreenType;
 import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.UnlockedLevel;
-import gdx.kapotopia.Utils;
 
 import static gdx.kapotopia.GameDifficulty.HARD;
 import static gdx.kapotopia.GameDifficulty.MEDIUM;
@@ -52,8 +51,6 @@ public class GameController {
     private boolean isFinish;
     private boolean didGameOverScreenAppeared;
     private boolean isPaused;   // To check if the game is paused or not
-    private boolean musicOn;    // If this is true, the music will play
-    private boolean musicJOn;
     private boolean victory;
     private byte mireilleLife;
     private int totalScore;
@@ -93,19 +90,16 @@ public class GameController {
         this.isFinish = false;
         this.didGameOverScreenAppeared = false;
         this.isPaused = true;
-        this.musicOn = game.getSettings().isMusicOn();
         this.victory = false;
         this.totalScore = 0;
         this.istsCatched = 0;
         this.bounds = new Rectangle(0,0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
-        this.musicOn = game.getSettings().isMusicOn();
 
         // JOJO
         Jcount = 0;
         jojoAppears = false;
         jojoHasAppeared = false;
         jojoTimerLaunched = false;
-        musicJOn = false;
 
 
         // Lists
@@ -120,7 +114,6 @@ public class GameController {
         this.difficulty = game.vars.getChoosenDifficultyG1();
         if(this.difficulty == null)
             this.difficulty = GameDifficulty.MEDIUM;
-        configureGame(this.difficulty);
     }
 
     private void setConstants(float worldW, float worldH) {
@@ -135,6 +128,7 @@ public class GameController {
 
     public void init() {
         this.ennemi = new Virus(this.bounds, game1);
+        configureGame(this.difficulty);
     }
 
     // STANDARD SCREEN CALLS
@@ -143,8 +137,6 @@ public class GameController {
      * Method called when show() method is called in the base screen
      */
     public void updateOnShow(Stage stage) {
-        // in the case when the player come back after changed preferences by using back button
-        this.musicOn = game.getSettings().isMusicOn();
 
         //In case there are problems to restart the game where it was left after going to another screen and returning, it could maybe be solved by setting the Input Processor (Gdx.input.setInputProcessor(im);) here and not when the game is first created
         // We ensure that after the animation has played, the game really start
@@ -206,7 +198,6 @@ public class GameController {
             game1.getRenderController().jojo(delta);
             if (!jojoTimerLaunched) {
                 game1.getSoundController().startJojo();
-                musicJOn = true;
                 // We upgrade the difficulty => NIGHTMARE MODE
                 ennemi.setAccAddFactor(0.09f);
                 ennemi.setAccMaxLim(12f);
@@ -262,7 +253,7 @@ public class GameController {
     }
 
     private MireilleBasic prepareMireille() {
-        final MireilleBasic mireille = new MireilleBasic(MIN_X, MIN_Y);
+        final MireilleBasic mireille = new MireilleBasic(game, MIN_X, MIN_Y);
         mireille.updateCollision(MIN_X, MIN_Y);
         mireille.addListener(new ChangeListener() {
             @Override
@@ -301,7 +292,7 @@ public class GameController {
     private void gameOver(Stage stage) {
         game1.getSoundController().playAtGameOver();
 
-        EventListener continueEvent = new ChangeListener() {
+        final EventListener continueEvent = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game1.getSoundController().stopMusics();
@@ -323,7 +314,7 @@ public class GameController {
             }
         };
 
-        EventListener restartEvent = new ChangeListener() {
+        final EventListener restartEvent = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game1.getSoundController().stopMusics();
@@ -365,28 +356,24 @@ public class GameController {
      * and by saving them into ArrayLists
      */
     private void initVirusTextures() {
-        XmlReader xml = new XmlReader();
-        XmlReader.Element root = xml.parse(Gdx.files.internal("sprite.xml"));
-        XmlReader.Element ist_xml = root.getChildByName("ist-l");
-        XmlReader.Element fake_xml = root.getChildByName("fakeist-l");
-        XmlReader.Element maybe_xml = root.getChildByName("maybeist-l");
+        STI[] s1 = game.vars.getStiData().getIsts();
+        STI[] s2 = game.vars.getStiData().getFakeists();
+        STI[] s3 = game.vars.getStiData().getMaybeists();
 
         List<VirusContainer> ist = new ArrayList<VirusContainer>();
         List<VirusContainer> fake = new ArrayList<VirusContainer>();
         List<VirusContainer> maybe = new ArrayList<VirusContainer>();
 
-        for (XmlReader.Element el : ist_xml.getChildrenByName("ist")) {
-            final String description = el.getChildByName("explanation").getText();
-            ist.add(new VirusContainer(el.get("texture"),el.get("name"), true, false, description));
+        for (STI sti : s1) {
+            ist.add(new VirusContainer(sti.getTexture(), sti.getName(), true, false, sti.getDescription()));
         }
 
-        for (XmlReader.Element el : fake_xml.getChildrenByName("fakeist")) {
-            fake.add(new VirusContainer(el.get("texture"),el.get("name"), false, false, ""));
+        for (STI sti : s2) {
+            fake.add(new VirusContainer(sti.getTexture(), sti.getName(), false, false, sti.getDescription()));
         }
 
-        for (XmlReader.Element el : maybe_xml.getChildrenByName("maybeist")) {
-            final String description = el.getChildByName("explanation").getText();
-            maybe.add(new VirusContainer(el.get("texture"), el.get("name"),true, true, description));
+        for (STI sti : s3) {
+            maybe.add(new VirusContainer(sti.getTexture(), sti.getName(),true, true, sti.getDescription()));
         }
 
         this.ist = ist;
@@ -526,10 +513,6 @@ public class GameController {
         return difficulty;
     }
 
-    public boolean isMusicOn() {
-        return musicOn;
-    }
-
     public boolean isFinish() {
         return isFinish;
     }
@@ -550,10 +533,6 @@ public class GameController {
         return missedIsts;
     }
 
-    public boolean isMusicJOn() {
-        return musicJOn;
-    }
-
     public boolean isVictory() {
         return victory;
     }
@@ -572,5 +551,17 @@ public class GameController {
 
     public float getMOVE_VALUE_X() {
         return MOVE_VALUE_X;
+    }
+
+    public List<VirusContainer> getIst() {
+        return ist;
+    }
+
+    public List<VirusContainer> getFake() {
+        return fake;
+    }
+
+    public List<VirusContainer> getMaybeIst() {
+        return maybeIst;
     }
 }

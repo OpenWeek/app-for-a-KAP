@@ -2,20 +2,31 @@ package gdx.kapotopia;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import gdx.kapotopia.AssetsManaging.AssetsManager;
+import gdx.kapotopia.AssetsManaging.AssetDescriptors;
+import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Music.MusicController;
 import gdx.kapotopia.Screens.BilanG1;
 import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
 import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.Screens.Game2;
 import gdx.kapotopia.Screens.Game3;
+import gdx.kapotopia.Screens.IntroCutscene;
 import gdx.kapotopia.Screens.MainMenu;
 import gdx.kapotopia.Screens.Options;
 import gdx.kapotopia.Screens.World1;
 import gdx.kapotopia.Screens.World2;
-import gdx.kapotopia.Screens.World4;
 import gdx.kapotopia.Screens.World3;
+import gdx.kapotopia.Screens.STIDex;
 import gdx.kapotopia.Screens.mockupG1;
 import gdx.kapotopia.Screens.mockupG2;
 import gdx.kapotopia.Screens.mockupG3;
@@ -30,12 +41,16 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	// COMPLEX OBJECTS
 
+	public final AssetManager ass = new AssetManager();
+	public Localisation loc;
+
     public FitViewport viewport;
-    // The value Gateway
-    private ValueGateway gate; 		//TODO remove this
+    // GlobalVariables
 	public GlobalVariables vars;
     // Settings
     private Settings settings;
+    // Music Controller
+	private MusicController musicControl;
 
     /* INNER VARIABLES */
 
@@ -51,32 +66,114 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private World1 world1;
 	private World2 world2;
 	private World3 world3;
-	private World4 world4;
+	private STIDex STIDex;
 	private ChoosingDifficultyScreen dif;
 	private Options options;
-
+	private IntroCutscene introCutscene;
 
 
 	@Override
 	public void create () {
+		Gdx.app.setLogLevel(GameConfig.debugLvl);
+
+		// AssetManager
+		// We set up the AssetManager so it accepts FreeType Fonts
+		FileHandleResolver resolver = new InternalFileHandleResolver();
+		this.ass.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+		this.ass.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+		// Loading every assets here, loadInitialTextures must come AFTER every call
+        FontHelper.buildAllFonts(ass);
+        this.musicControl = new MusicController(this);
+		loadInitialTextures();
+
 		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
-		this.gate = new ValueGateway();
-		this.vars = new GlobalVariables();
-		this.settings = new Settings();
-		changeScreen(ScreenType.MAINMENU);
-		Gdx.app.setLogLevel(GameConfig.debugLvl);
+		this.loc = new Localisation(ass);
+		this.settings = new Settings(this);
+		this.vars = new GlobalVariables(loc);
+
+		// If the first cutscene has already been showed, we go to the main menu directly
+		if (settings.isFirstCinematicShowed()) {
+			changeScreen(ScreenType.MAINMENU);
+		} else {
+			changeScreen(ScreenType.INTROCUTSCENE);
+		}
 	}
 
 	@Override
 	public void dispose () {
 	    Gdx.app.log(TAG, "Disposing every game resources");
-		AssetsManager.getInstance().disposeAllResources();
+		this.ass.dispose();
 	}
 
-	public ValueGateway getTheValueGateway() {
-		return this.gate;
+	private void loadInitialTextures() {
+		long startTime = TimeUtils.millis();
+		/* Graphics */
+		this.ass.load(AssetDescriptors.BLANK_BACK);
+		// Main Menu
+		this.ass.load(AssetDescriptors.MM_PART1);
+		this.ass.load(AssetDescriptors.ANIM_NEON_DOOR);
+		this.ass.load(AssetDescriptors.MM_PART3);
+		this.ass.load(AssetDescriptors.MM_PART4);
+		// Options
+		this.ass.load(AssetDescriptors.SKIN_COMIC_UI);
+		this.ass.load(AssetDescriptors.OP_BACK);
+		this.ass.load(AssetDescriptors.OP_MUTE);
+		this.ass.load(AssetDescriptors.OP_SPEAKER);
+		// Game 1
+		this.ass.load(AssetDescriptors.B1_BACK);
+		// IntroG1
+		this.ass.load(AssetDescriptors.DIF_PART1);
+        this.ass.load(AssetDescriptors.JUNGLE);
+        this.ass.load(AssetDescriptors.NIGHT_SKY);
+        this.ass.load(AssetDescriptors.LEAVES);
+        this.ass.load(AssetDescriptors.CROQUIS);
+        this.ass.load(AssetDescriptors.MM_W1);
+        // IntroG2
+		this.ass.load(AssetDescriptors.SABLE);
+		this.ass.load(AssetDescriptors.SEA);
+		this.ass.load(AssetDescriptors.SKY);
+		this.ass.load(AssetDescriptors.ALYX_OPEN);
+		this.ass.load(AssetDescriptors.ALYX_NORMAL);
+        this.ass.load(AssetDescriptors.MM_W2);
+        // IntroG3
+		this.ass.load(AssetDescriptors.I3_HOUSE);
+		this.ass.load(AssetDescriptors.I3_INSIDE);
+        // Characters
+        this.ass.load(AssetDescriptors.MI_HAPPY);
+		this.ass.load(AssetDescriptors.MI_NORMAL);
+		this.ass.load(AssetDescriptors.MI_WORRIED);
+		this.ass.load(AssetDescriptors.MI_SURPRISED);
+		this.ass.load(AssetDescriptors.MI_SCARED);
+        this.ass.load(AssetDescriptors.MI_CRY);
+        this.ass.load(AssetDescriptors.MI_TIRED);
+        this.ass.load(AssetDescriptors.SERGENT1);
+        this.ass.load(AssetDescriptors.SERGENT2);
+        this.ass.load(AssetDescriptors.GODIVA);
+        // Gadgets
+		this.ass.load(AssetDescriptors.BTN_LEAF);
+		this.ass.load(AssetDescriptors.BTN_ROCK);
+		this.ass.load(AssetDescriptors.BTN_SAND);
+		this.ass.load(AssetDescriptors.BTN_WOOD);
+        this.ass.load(AssetDescriptors.BUBBLE_EXPL);
+		this.ass.load(AssetDescriptors.BUBBLE_LEFT);
+        this.ass.load(AssetDescriptors.BUBBLE_MID_LEFT);
+		this.ass.load(AssetDescriptors.BUBBLE_RIGHT);
+        this.ass.load(AssetDescriptors.BUBBLE_MID_RIGHT);
+		/* Sounds */
+		this.ass.load(AssetDescriptors.SOUND_PAUSE);
+		this.ass.load(AssetDescriptors.SOUND_GAMESTART);
+		this.ass.load(AssetDescriptors.SOUND_BOUP1);
+		this.ass.load(AssetDescriptors.SOUND_BOUP9);
+		this.ass.load(AssetDescriptors.SOUND_CLICKED_BTN);
+		this.ass.load(AssetDescriptors.SOUND_HINT);
+		this.ass.load(AssetDescriptors.SOUND_SUCCESS);
+
+		this.ass.finishLoading();
+		Gdx.app.log(TAG, this.ass.getDiagnostics());
+		Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
 	}
 
 	public Settings getSettings() {
@@ -89,7 +186,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 * @return true if the operation succeeded, false otherwise
 	 */
 	public boolean changeScreen(ScreenType TYPE) {
-	    Gdx.app.debug(TAG, "Changing screen to ZA " + TYPE.name());
+	    Gdx.app.debug(TAG, "Changing screen to " + TYPE.name());
 		return selectScreen(ScreenAction.CHANGE, TYPE);
 	}
 
@@ -129,15 +226,40 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 			return destroyScreen(ScreenType.WORLD2);
 		} else if(sc == world3) {
 			return destroyScreen(ScreenType.WORLD3);
-		} else if(sc == world4) {
-			return destroyScreen(ScreenType.WORLD4);
+		} else if(sc == STIDex) {
+			return destroyScreen(ScreenType.STIDEX);
 		} else if(sc == dif) {
 			return destroyScreen(ScreenType.DIF);
 		} else if(sc == options) {
 		    return destroyScreen(ScreenType.OPTIONS);
-        }
+        } else if(sc == introCutscene) {
+			return destroyScreen(ScreenType.INTROCUTSCENE);
+		}
 
 		return false;
+	}
+
+	/**
+	 * This method will reset everyScreen, so setting their reference to null and dispose every ressources
+	 * (beside AssetManager ones) and will redirect to
+	 * @param nextScreen
+	 */
+	public void resetEveryScreen(ScreenType nextScreen) {
+		destroyScreen(ScreenType.GAME1);
+		destroyScreen(ScreenType.GAME2);
+		destroyScreen(ScreenType.GAME3);
+		destroyScreen(ScreenType.MAINMENU);
+		destroyScreen(ScreenType.MOCKUPG1);
+		destroyScreen(ScreenType.MOCKUPG2);
+		destroyScreen(ScreenType.BILANG1);
+		destroyScreen(ScreenType.WORLD1);
+		destroyScreen(ScreenType.WORLD2);
+		destroyScreen(ScreenType.WORLD3);
+		destroyScreen(ScreenType.STIDEX);
+		destroyScreen(ScreenType.DIF);
+		destroyScreen(ScreenType.OPTIONS);
+		destroyScreen(ScreenType.INTROCUTSCENE);
+		changeScreen(nextScreen);
 	}
 
 	/**
@@ -245,17 +367,17 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 						break;
 				}
 				break;
-			case WORLD4:
+			case STIDEX:
 				switch (ACTION) {
 					case CHANGE:
-						if (world4 == null) world4 = new World4(this);
-						setScreen(world4);
+						if (STIDex == null) STIDex = new STIDex(this);
+						setScreen(STIDex);
 						succeeded = true;
 						break;
 					case DESTROY:
-						if (world4 != null) {
-							world4.dispose();
-							world4 = null;
+						if (STIDex != null) {
+							STIDex.dispose();
+							STIDex = null;
 							succeeded = true;
 						}
 						break;
@@ -373,6 +495,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
                         break;
                 }
                 break;
+			case INTROCUTSCENE:
+				switch (ACTION) {
+					case CHANGE:
+						if (introCutscene == null) introCutscene = new IntroCutscene(this);
+						setScreen(introCutscene);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (introCutscene != null) {
+							introCutscene.dispose();
+							introCutscene = null;
+							succeeded = true;
+						}
+						break;
+				}
+				break;
 		}
 		return succeeded;
 	}
@@ -421,8 +559,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		return world3;
 	}
 
-	public World4 getWorld4() {
-		return world4;
+	public STIDex getSTIDex() {
+		return STIDex;
 	}
 
 	public ChoosingDifficultyScreen getDif() {
@@ -431,6 +569,14 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	public Options getOptions() {
 		return options;
+	}
+
+	public IntroCutscene getIntroCutscene() {
+		return introCutscene;
+	}
+
+	public MusicController getMusicControl() {
+		return musicControl;
 	}
 
 	private enum ScreenAction {

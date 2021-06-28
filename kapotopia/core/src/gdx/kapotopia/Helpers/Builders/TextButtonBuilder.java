@@ -6,10 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import java.util.ArrayList;
 
-import gdx.kapotopia.AssetsManaging.FontHelper;
-import gdx.kapotopia.AssetsManaging.UseFont;
+import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
+import gdx.kapotopia.Kapotopia;
 
 /**
  * A class to help build TextButton. A mandatory argument is the text displayed in the TextButton
@@ -17,6 +17,7 @@ import gdx.kapotopia.Helpers.Alignement;
  * provided methods and build it's label following these values with the build() method
  */
 public class TextButtonBuilder {
+    private Kapotopia game;
     // Actor common attributes
     private ArrayList<EventListener> eventListeners;
     private ArrayList<EventListener> captureListeners;
@@ -26,7 +27,7 @@ public class TextButtonBuilder {
     private Alignement alignement;
     private boolean visible;
     // TextButton attributes
-    private TextButton.TextButtonStyle style;
+    private Font font;
     private Skin skin;
     private String text;
     private boolean disable;
@@ -35,7 +36,8 @@ public class TextButtonBuilder {
      * Constructor of TextButtonBuilder, initialize variables
      * @param text the TextButton text (mandatory)
      */
-    public TextButtonBuilder(String text) {
+    public TextButtonBuilder(Kapotopia game, String text) {
+        this.game = game;
         // Actor attributes
         this.eventListeners = new ArrayList<EventListener>();
         this.captureListeners = new ArrayList<EventListener>();
@@ -51,7 +53,7 @@ public class TextButtonBuilder {
         this.visible = true;
 
         // TextButton attributes
-        this.style = null;
+        this.font = null;
         this.skin = null;
         this.text = text;
         this.disable = false;
@@ -138,13 +140,8 @@ public class TextButtonBuilder {
 
     // TextButton attributes
 
-    public TextButtonBuilder withStyle(TextButton.TextButtonStyle style) {
-        this.style = style;
-        return this;
-    }
-
-    public TextButtonBuilder withStyle(UseFont type) {
-        this.style = FontHelper.getStyleFont(type);
+    public TextButtonBuilder withStyle(Font font) {
+        this.font = font;
         return this;
     }
 
@@ -164,24 +161,30 @@ public class TextButtonBuilder {
      * Note: If both a style and a skin are set, the style
      *
      * @return the textButton given the TextButtonBuilder arguments
-     * @throws IllegalArgumentException if no skin or no style are set
+     * @throws IllegalArgumentException if no skin or no style are provided
      */
-    public TextButton build() throws IllegalArgumentException{
+    public TextButton build() throws IllegalArgumentException {
         final TextButton tb;
-        if (style != null) {
-            tb = new TextButton(text, style);
-        }else{
+        if (font == null) {
             if (skin != null) {
                 tb = new TextButton(text, skin);
             } else {
-                throw new IllegalArgumentException("No style or Skin set");
+                throw new IllegalArgumentException("No font or Skin provided");
             }
+        } else {
+            final TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+            style.font = game.ass.get(font.getFont());
+            tb = new TextButton(text, style);
         }
 
         // Actor attributes
 
         if (alignement != Alignement.NONE) {
-            x = Align.getX(alignement, text.length());
+            if (font == null) {
+                x = Align.getX(alignement, text.length());
+            } else {
+                x = Align.getX(alignement, text.length(), font.getSize());
+            }
         }
         tb.setPosition(x, y);
         // It shouldn't be possible to have a negative height or weight
