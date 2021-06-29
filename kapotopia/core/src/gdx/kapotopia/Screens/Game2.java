@@ -3,7 +3,6 @@ package gdx.kapotopia.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,9 +28,10 @@ import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 
+import static java.util.Collections.shuffle;
+
 //import static gdx.kapotopia.Fonts.FontHelper.CLASSIC_SANS_MIDDLE_BLACK;
 //import static gdx.kapotopia.Fonts.FontHelper.CLASSIC_SANS_NORMAL_BLACK;
-import static java.util.Collections.shuffle;
 
 
 public class Game2 implements Screen {
@@ -307,57 +307,39 @@ public class Game2 implements Screen {
 
     private void displayEndText(){
         currentBasket.hideLabel();
+        String txt1;
+        String txt2;
+        String txt3;
         if (STIfound == STInbr) {//game has been won
-            currentBasket.hideLabel();
-            Label gameWon0 = new LabelBuilder(game, loc.getString("game2_goodending1"))
-                    .withAlignment(Alignement.CENTER).withY(middleY)
-                    .withStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE)
-                    .build();
-            Label gameWon1 = new LabelBuilder(game, loc.getString("game2_goodending2"))
-                    .withAlignment(Alignement.CENTER).withY(middleY - 60)
-                    .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
-                    .build();
-            Label gameWon2 = new LabelBuilder(game, loc.getString("game2_goodending3"))
-                    .withAlignment(Alignement.CENTER).withY(middleY - 120)
-                    .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
-                    .build();
-
-            stage.addActor(gameWon0);
-            stage.addActor(gameWon1);
-            stage.addActor(gameWon2);
-        } else if (STIfound >= (STInbr / 2)) { //game has been lost
-            Label gameWon0 = new LabelBuilder(game, loc.getString("game2_badending1"))
-                    .withStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE)
-                    .withAlignment(Alignement.CENTER).withY(middleY)
-                    .build();
-            Label gameWon1 = new LabelBuilder(game, loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3"))
-                    .withStyle(FontHelper.CLASSIC_SANS_SMALL_WHITE)
-                    .withAlignment(Alignement.CENTER).withY(middleY - 60)
-                    .build();
-            Label gameWon2 = new LabelBuilder(game, loc.getString("game2_badending4"))
-                    .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
-                    .withAlignment(Alignement.CENTER).withY(middleY - 125)
-                    .build();
-            stage.addActor(gameWon0);
-            stage.addActor(gameWon1);
-            stage.addActor(gameWon2);
+            txt1 = loc.getString("game2_goodending1");
+            txt2 = loc.getString("game2_goodending2");
+            txt3 = loc.getString("game2_goodending3");
+        } else if (STIfound >= (STInbr / 2)) { //game has been lost by not too much
+            txt1 = loc.getString("game2_badending1");
+            txt2 = loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3");
+            txt3 = loc.getString("game2_badending4");
         } else { //game has been lost by a lot
-            Label gameWon0 = new LabelBuilder(game, loc.getString("game2_badending5"))
-                    .withStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE)
-                    .withAlignment(Alignement.CENTER).withY(middleY)
-                    .build();
-            Label gameWon1 = new LabelBuilder(game, loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3"))
-                    .withStyle(FontHelper.CLASSIC_SANS_SMALL_WHITE)
-                    .withAlignment(Alignement.CENTER).withY(middleY - 60)
-                    .build();
-            Label gameWon2 = new LabelBuilder(game, loc.getString("game2_badending6"))
-                    .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
-                    .withAlignment(Alignement.CENTER).withY(middleY - 125)
-                    .build();
-            stage.addActor(gameWon0);
-            stage.addActor(gameWon1);
-            stage.addActor(gameWon2);
+            txt1 = loc.getString("game2_badending5");
+            txt2 = loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3");
+            txt3 = loc.getString("game2_badending6");
         }
+
+        Label gameWon0 = new LabelBuilder(game, txt1)
+                .withAlignment(Alignement.CENTER).withY(middleY)
+                .withStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE)
+                .build();
+        Label gameWon1 = new LabelBuilder(game, txt2)
+                .withAlignment(Alignement.CENTER).withY(middleY - 60)
+                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
+                .build();
+        Label gameWon2 = new LabelBuilder(game, txt3)
+                .withAlignment(Alignement.CENTER).withY(middleY - 120)
+                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
+                .build();
+        stage.addActor(gameWon0);
+        stage.addActor(gameWon1);
+        stage.addActor(gameWon2);
+        
     }
 
     /**
