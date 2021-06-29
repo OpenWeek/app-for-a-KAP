@@ -46,7 +46,6 @@ public class LoadingScreen implements Screen {
                 this.game.viewport.getWorldHeight() /2
         );
         this.stage.addActor(mireille);
-        Gdx.app.error("LOADINGSCREEN", "finished building the loading screen.");
 
     }
     @Override
@@ -55,7 +54,6 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.app.error("LOADINGSCREEN", "rendering loading screen.");
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(this.game.ass.isFinished()) {
             this.game.changeScreen(this.nextScreenType[0]);

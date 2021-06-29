@@ -90,7 +90,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.ass.finishLoading();
 
 
-		Gdx.app.error(TAG, "Launching loading screen");
 		this.setScreen(new LoadingScreen(this, nextScreenType));
 		// Loading every assets here, loadInitialTextures must come AFTER every call
         FontHelper.buildAllFonts(ass);
@@ -105,7 +104,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		// If the first cutscene has already been showed, we go to the main menu directly
 
 		nextScreenType[0] = settings.isFirstCinematicShowed() ? ScreenType.MAINMENU:ScreenType.INTROCUTSCENE;
-		Gdx.app.error(TAG, "Launching loading assets");
 		loadInitialTextures();
 
 	}
@@ -233,8 +231,6 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		// Sounds
 		this.ass.load(AssetDescriptors.MUSIC_GAME3);
 
-		this.ass.update(17);
-		Gdx.app.error(TAG, "Finished loading.");
 
 	}
 
