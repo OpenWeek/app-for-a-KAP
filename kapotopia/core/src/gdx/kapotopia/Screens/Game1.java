@@ -70,43 +70,13 @@ public class Game1 implements Screen, MireilleListener {
 
     private void loadAssets() {
         long startTime = TimeUtils.millis();
-        // Graphics
-        game.ass.load(AssetDescriptors.ANIM_ACTIONTEXT);
-        game.ass.load(AssetDescriptors.ANIM_SKY);
-        game.ass.load(AssetDescriptors.ANIM_MIREILLU);
-        game.ass.load(AssetDescriptors.MI_HAPPY);
-        game.ass.load(AssetDescriptors.MI_UNI);
-        game.ass.load(AssetDescriptors.MI_JOJO_FACE);
-        game.ass.load(AssetDescriptors.MI_JOJO_POSE);
-        game.ass.load(AssetDescriptors.MI_JOJO_KANJI);
-        game.ass.load(AssetDescriptors.PAUSE_LOGO);
-        // Musics
-        game.ass.load(AssetDescriptors.MUSIC_GAME1);
-        game.ass.load(AssetDescriptors.MUSIC_J);
-        // Sounds
-        game.ass.load(AssetDescriptors.SOUND_FAIL);
-        game.ass.load(AssetDescriptors.SOUND_JUMP_V1);
-        game.ass.load(AssetDescriptors.SOUND_JUMP_V2);
-        game.ass.load(AssetDescriptors.SOUND_PUNCH);
-        game.ass.load(AssetDescriptors.SOUND_FAIL);
-        game.ass.load(AssetDescriptors.SOUND_COIN);
 
-        game.ass.finishLoading();
         Gdx.app.log(TAG, game.ass.getDiagnostics());
         Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
     }
 
     private void loadSTIAssets(List<VirusContainer> ist, List<VirusContainer> fake, List<VirusContainer> maybeist) {
-        for (VirusContainer v : ist) {
-            game.ass.load(v.getTexture());
-        }
-        for (VirusContainer v : fake) {
-            game.ass.load(v.getTexture());
-        }
-        for (VirusContainer v : maybeist) {
-            game.ass.load(v.getTexture());
-        }
-        game.ass.finishLoading();
+
         Gdx.app.log(TAG, game.ass.getDiagnostics());
     }
 

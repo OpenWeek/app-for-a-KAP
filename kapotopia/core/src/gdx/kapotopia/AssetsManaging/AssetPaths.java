@@ -7,6 +7,8 @@ public class AssetPaths {
     /* ********** *
      *  TEXTURES  *
      * ********** */
+    // Loading screen
+    public static final String MI_LOADING = "MireilleImages/MireilleChargement.png";
     public static final String BLANK_BACK = "FondNiveauBlanc2.png";
     // Main Menu
     public static final String MM_PART1 = "EcranMenu/MenuPrincipalCadre1.png";
@@ -75,6 +77,7 @@ public class AssetPaths {
     public static final String GODIVA = "game3/intro/Thomas Godiva.png";
     public static final String ALYX_OPEN = "World1/Game2/DigueDentaire.png";
     public static final String ALYX_NORMAL = "World1/Game2/DigueDentaire2.png";
+
     /*------------------
             Gadgets
      -------------------*/

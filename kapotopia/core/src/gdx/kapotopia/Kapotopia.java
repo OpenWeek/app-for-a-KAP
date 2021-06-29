@@ -15,12 +15,14 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Music.MusicController;
+import gdx.kapotopia.STIDex.STI;
 import gdx.kapotopia.Screens.BilanG1;
 import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
 import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.Screens.Game2;
 import gdx.kapotopia.Screens.Game3;
 import gdx.kapotopia.Screens.IntroCutscene;
+import gdx.kapotopia.Screens.LoadingScreen;
 import gdx.kapotopia.Screens.MainMenu;
 import gdx.kapotopia.Screens.Options;
 import gdx.kapotopia.Screens.World1;
@@ -41,7 +43,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	// COMPLEX OBJECTS
 
-	public final AssetManager ass = new AssetManager();
+	public AssetManager ass = new AssetManager();
 	public Localisation loc;
 
     public FitViewport viewport;
@@ -78,16 +80,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 		// AssetManager
 		// We set up the AssetManager so it accepts FreeType Fonts
+		ScreenType[] nextScreenType = {null};
 		FileHandleResolver resolver = new InternalFileHandleResolver();
 		this.ass.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		this.ass.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 
+		this.ass.load(AssetDescriptors.MI_LOADING);
+		this.ass.finishLoading();
+
+
+		Gdx.app.error(TAG, "Launching loading screen");
+		this.setScreen(new LoadingScreen(this, nextScreenType));
 		// Loading every assets here, loadInitialTextures must come AFTER every call
         FontHelper.buildAllFonts(ass);
         this.musicControl = new MusicController(this);
-		loadInitialTextures();
 
-		viewport = new FitViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT);
 		//We activate the BACK button for the whole app
 		Gdx.input.setCatchBackKey(true);
 		this.loc = new Localisation(ass);
@@ -95,11 +103,11 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.vars = new GlobalVariables(loc);
 
 		// If the first cutscene has already been showed, we go to the main menu directly
-		if (settings.isFirstCinematicShowed()) {
-			changeScreen(ScreenType.MAINMENU);
-		} else {
-			changeScreen(ScreenType.INTROCUTSCENE);
-		}
+
+		nextScreenType[0] = settings.isFirstCinematicShowed() ? ScreenType.MAINMENU:ScreenType.INTROCUTSCENE;
+		Gdx.app.error(TAG, "Launching loading assets");
+		loadInitialTextures();
+
 	}
 
 	@Override
@@ -109,7 +117,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	}
 
 	private void loadInitialTextures() {
-		long startTime = TimeUtils.millis();
+		//loading
 		/* Graphics */
 		this.ass.load(AssetDescriptors.BLANK_BACK);
 		// Main Menu
@@ -170,10 +178,64 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.ass.load(AssetDescriptors.SOUND_CLICKED_BTN);
 		this.ass.load(AssetDescriptors.SOUND_HINT);
 		this.ass.load(AssetDescriptors.SOUND_SUCCESS);
+		//STI ASSETS
+		for (STI sti: vars.getStiData().getAllISTs()) {
+			this.ass.load(sti.getTexture());
+		}
+		//ASSETS FOR GAME 1
+		// Graphics
+		this.ass.load(AssetDescriptors.ANIM_ACTIONTEXT);
+		this.ass.load(AssetDescriptors.ANIM_SKY);
+		this.ass.load(AssetDescriptors.ANIM_MIREILLU);
+		this.ass.load(AssetDescriptors.MI_HAPPY);
+		this.ass.load(AssetDescriptors.MI_UNI);
+		this.ass.load(AssetDescriptors.MI_JOJO_FACE);
+		this.ass.load(AssetDescriptors.MI_JOJO_POSE);
+		this.ass.load(AssetDescriptors.MI_JOJO_KANJI);
+		this.ass.load(AssetDescriptors.PAUSE_LOGO);
+		// Musics
+		this.ass.load(AssetDescriptors.MUSIC_GAME1);
+		this.ass.load(AssetDescriptors.MUSIC_J);
+		// Sounds
+		this.ass.load(AssetDescriptors.SOUND_FAIL);
+		this.ass.load(AssetDescriptors.SOUND_JUMP_V1);
+		this.ass.load(AssetDescriptors.SOUND_JUMP_V2);
+		this.ass.load(AssetDescriptors.SOUND_PUNCH);
+		this.ass.load(AssetDescriptors.SOUND_FAIL);
+		this.ass.load(AssetDescriptors.SOUND_COIN);
 
-		this.ass.finishLoading();
-		Gdx.app.log(TAG, this.ass.getDiagnostics());
-		Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
+		//ASSETS FOR GAME 2
+		// Graphics
+		this.ass.load(AssetDescriptors.BALL);
+		this.ass.load(AssetDescriptors.PALMIER);
+		this.ass.load(AssetDescriptors.BASKET);
+		this.ass.load(AssetDescriptors.PANNAL);
+		// Sounds
+		this.ass.load(AssetDescriptors.MUSIC_GAME2);
+		//GAME 3 ASSETS
+		this.ass.load(AssetDescriptors.NEON_ROSE);
+		this.ass.load(AssetDescriptors.NEON_RED);
+		this.ass.load(AssetDescriptors.NEON_TURQUOISE);
+		this.ass.load(AssetDescriptors.NEON_GREEN);
+		this.ass.load(AssetDescriptors.NEON_VIOLET);
+		this.ass.load(AssetDescriptors.DOOR);
+		this.ass.load(AssetDescriptors.DOOR_LOCK);
+		this.ass.load(AssetDescriptors.BATTERY);
+		this.ass.load(AssetDescriptors.CLOSED_LOCK1);
+		this.ass.load(AssetDescriptors.CLOSED_LOCK2);
+		this.ass.load(AssetDescriptors.OPENED_LOCK1);
+		this.ass.load(AssetDescriptors.OPENED_LOCK2);
+		this.ass.load(AssetDescriptors.CROSS_T);
+		this.ass.load(AssetDescriptors.TCROSS_T);
+		this.ass.load(AssetDescriptors.LINE_T);
+		this.ass.load(AssetDescriptors.HALF_LINE_T);
+		this.ass.load(AssetDescriptors.TURN_T);
+		// Sounds
+		this.ass.load(AssetDescriptors.MUSIC_GAME3);
+
+		this.ass.update(17);
+		Gdx.app.error(TAG, "Finished loading.");
+
 	}
 
 	public Settings getSettings() {
