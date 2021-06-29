@@ -194,6 +194,7 @@ public class Settings {
     /* GAME 1 */
 
     public void setG1UnlockedLvl(UnlockedLevel level) {
+        if(level.ordinal()<prefs_game1.getInteger(PREF_UNLOCKED_LEVEL)) return;
         prefs_game1.putInteger(PREF_UNLOCKED_LEVEL, level.ordinal());
         prefs_game1.flush();
         this.unlockedLevel = level;
