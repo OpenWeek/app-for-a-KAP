@@ -105,15 +105,20 @@ public class RenderController {
         this.jojo = new MireilleJojo(game);
 
         // Buttons
+        final RenderController dis = this;
         this.pauseIcon = new ImageButtonBuilder().withImageUp(game.ass.get(AssetDescriptors.PAUSE_LOGO))
+                .withImageChecked(game.ass.get(AssetDescriptors.PLAY_LOGO))
+                .withImageDown(game.ass.get(AssetDescriptors.PLAY_LOGO))
                 .withBounds(game1.getGameController().getBounds().width - (ww / 5f),
                         game1.getGameController().getBounds().height - (wh / 10f), ww / 7.2f, wh / 25f)
                 .withListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(game1.getGameController().isPaused()) {
+                            dis.pauseIcon.setChecked(false);
                             game1.resumeFromPause();
                         }else{
+                            dis.pauseIcon.setChecked(true);
                             game1.pause();
                         }
                     }

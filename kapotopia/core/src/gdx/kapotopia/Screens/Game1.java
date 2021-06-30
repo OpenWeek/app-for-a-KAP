@@ -80,6 +80,7 @@ public class Game1 implements Screen, MireilleListener {
         game.ass.load(AssetDescriptors.MI_JOJO_POSE);
         game.ass.load(AssetDescriptors.MI_JOJO_KANJI);
         game.ass.load(AssetDescriptors.PAUSE_LOGO);
+        game.ass.load(AssetDescriptors.PLAY_LOGO);
         // Musics
         game.ass.load(AssetDescriptors.MUSIC_GAME1);
         game.ass.load(AssetDescriptors.MUSIC_J);

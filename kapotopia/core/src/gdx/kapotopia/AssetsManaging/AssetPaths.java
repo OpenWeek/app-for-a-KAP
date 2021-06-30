@@ -93,6 +93,7 @@ public class AssetPaths {
     public static final String BUBBLE_RIGHT = "ImagesGadgets/dialog/bubble_right.png";
     // Others
     public static final String PAUSE_LOGO = "pause_logo_2.png";
+    public static final String PLAY_LOGO = "play_logo_2.png";
 
     /* ************ *
      *  ANIMATIONS  *
