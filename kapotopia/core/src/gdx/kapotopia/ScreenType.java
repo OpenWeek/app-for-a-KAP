@@ -14,6 +14,6 @@ public enum ScreenType {
     WORLD2,
     WORLD3,
     STIDEX,
-    DIF,
+    DIFGAME1,
     OPTIONS
 }

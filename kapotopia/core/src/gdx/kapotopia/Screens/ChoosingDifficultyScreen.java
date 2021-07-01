@@ -182,7 +182,7 @@ public class ChoosingDifficultyScreen implements Screen {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                game.destroyScreen(ScreenType.DIF);
+                game.destroyScreen(ScreenType.DIFGAME1);
                 game.changeScreen(nextScreen);
             }
         },0.5f);

@@ -1,7 +1,6 @@
 package gdx.kapotopia.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -13,8 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 
 import gdx.kapotopia.Animations.MireilleBlinkingAnimation;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
@@ -220,14 +217,14 @@ public class mockupG1 extends CinematicScreen {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         resetScreen();
-                        game.changeScreen(ScreenType.DIF);
+                        game.changeScreen(ScreenType.DIFGAME1);
                     }
                 })
                 .build();
 
 
         /* ENDING */
-        applyBundle(new ParameterBundleBuilder(ScreenType.DIF)
+        applyBundle(new ParameterBundleBuilder(ScreenType.DIFGAME1)
                 .withImages(images).withFinishBtn(false)
                 .withNextBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE).withTimerScheduleTime(0).withLabels(labels));
         getStage().addActor(skipBtn);

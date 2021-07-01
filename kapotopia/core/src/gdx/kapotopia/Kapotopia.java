@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
@@ -73,6 +72,11 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private Options options;
 	private IntroCutscene introCutscene;
 
+	public ReturnButtonManager getReturnButtonManager() {
+		return returnButtonManager;
+	}
+
+	private ReturnButtonManager returnButtonManager;
 
 	@Override
 	public void create () {
@@ -100,6 +104,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.loc = new Localisation(ass);
 		this.settings = new Settings(this);
 		this.vars = new GlobalVariables(loc);
+		this.returnButtonManager = new ReturnButtonManager(this);
 
 		// If the first cutscene has already been showed, we go to the main menu directly
 
@@ -245,6 +250,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	 */
 	public boolean changeScreen(ScreenType TYPE) {
 	    Gdx.app.debug(TAG, "Changing screen to " + TYPE.name());
+	    this.returnButtonManager.updateReturn(TYPE);
 		return selectScreen(ScreenAction.CHANGE, TYPE);
 	}
 
@@ -287,7 +293,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		} else if(sc == STIDex) {
 			return destroyScreen(ScreenType.STIDEX);
 		} else if(sc == dif) {
-			return destroyScreen(ScreenType.DIF);
+			return destroyScreen(ScreenType.DIFGAME1);
 		} else if(sc == options) {
 		    return destroyScreen(ScreenType.OPTIONS);
         } else if(sc == introCutscene) {
@@ -314,7 +320,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		destroyScreen(ScreenType.WORLD2);
 		destroyScreen(ScreenType.WORLD3);
 		destroyScreen(ScreenType.STIDEX);
-		destroyScreen(ScreenType.DIF);
+		destroyScreen(ScreenType.DIFGAME1);
 		destroyScreen(ScreenType.OPTIONS);
 		destroyScreen(ScreenType.INTROCUTSCENE);
 		changeScreen(nextScreen);
@@ -521,7 +527,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 						break;
 				}
 				break;
-			case DIF:
+			case DIFGAME1:
 				switch (ACTION) {
 					case CHANGE:
 						if (dif == null) dif = new ChoosingDifficultyScreen(this);

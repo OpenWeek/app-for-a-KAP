@@ -43,7 +43,7 @@ public class StandardInputAdapter extends InputAdapter {
             if(destroyOnChange) {
                 game.destroyScreen(current);
             }
-            game.changeScreen(ScreenType.MAINMENU);
+            game.getReturnButtonManager().goBack();
             return true;
         }
         return false;
