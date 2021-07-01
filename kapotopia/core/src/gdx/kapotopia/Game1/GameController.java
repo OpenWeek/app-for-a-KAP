@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
@@ -76,6 +77,7 @@ public class GameController {
     private List<VirusContainer> maybeIst;
     private HashSet<VirusContainer> missedIsts;
 
+
     /* *******************************************************
      *                      M E T H O D S                   *
      ******************************************************* */
@@ -95,7 +97,6 @@ public class GameController {
         this.totalScore = 0;
         this.istsCatched = 0;
         this.bounds = new Rectangle(0,0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
-
         // JOJO
         Jcount = 0;
         jojoAppears = false;
