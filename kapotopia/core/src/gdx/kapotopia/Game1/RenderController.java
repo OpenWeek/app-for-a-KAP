@@ -108,7 +108,7 @@ public class RenderController {
         final RenderController dis = this;
         this.pauseIcon = new ImageButtonBuilder().withImageUp(game.ass.get(AssetDescriptors.PAUSE_LOGO))
                 .withImageChecked(game.ass.get(AssetDescriptors.PLAY_LOGO))
-                .withImageDown(game.ass.get(AssetDescriptors.PLAY_LOGO))
+                .withImageDown(game.ass.get(AssetDescriptors.PAUSE_LOGO))
                 .withBounds(game1.getGameController().getBounds().width - (ww / 5f),
                         game1.getGameController().getBounds().height - (wh / 10f), ww / 7.2f, wh / 25f)
                 .withListener(new ClickListener() {
@@ -275,6 +275,20 @@ public class RenderController {
         final Button title = new TextButtonBuilder(game, titleText).withStyle(FontHelper.CLASSIC_REG_BIG_WHITE)
                 .withY((game1.getGameController().getBounds().getHeight() / 2) + (game.viewport.getWorldHeight() / 48f))
                 .withAlignment(Alignement.CENTER).build();
+
+        final ImageTextButton nextBtn = new ImageTextButtonBuilder(game, game.loc.getString("continue_button"))
+                .withFontStyle(normalFont)
+                .withY( (game1.getGameController().getBounds().getHeight() / 4) + BTN_SPACING )
+                .withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
+                .withListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        title.getClickListener().clicked(event, x, y);
+                    }
+                }).withImageStyle(game.ass.get(AssetDescriptors.BTN_LEAF)).build();
+
+        stage.addActor(nextBtn);
+
         title.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -293,7 +307,7 @@ public class RenderController {
 
             // Only if the player won we display the continue button
             if (game1.getGameController().isVictory()) {
-                final ImageTextButton continueBtn = new ImageTextButtonBuilder(game, "Continuer")
+                final ImageTextButton continueBtn = new ImageTextButtonBuilder(game, game.loc.getString("continue_button"))
                         .withFontStyle(normalFont)
                         .withY( (game1.getGameController().getBounds().getHeight() / 2) + BTN_SPACING )
                         .withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
@@ -301,7 +315,7 @@ public class RenderController {
 
                 stage.addActor(continueBtn);
             }
-            final ImageTextButton restartBtn = new ImageTextButtonBuilder(game, "Recommencer")
+            final ImageTextButton restartBtn = new ImageTextButtonBuilder(game, game.loc.getString("restart_button"))
                     .withFontStyle(normalFont)
                     .withY((game1.getGameController().getBounds().getHeight() / 2))
                     .withAlignment(Alignement.CENTER).withPadding(Padding.STANDARD)
@@ -309,6 +323,7 @@ public class RenderController {
 
             stage.addActor(restartBtn);
             quitBtn.setVisible(true);
+            nextBtn.setVisible(false);
             }
         });
         stage.addActor(title);
