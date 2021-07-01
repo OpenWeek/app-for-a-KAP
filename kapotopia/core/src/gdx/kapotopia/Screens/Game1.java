@@ -71,7 +71,6 @@ public class Game1 implements Screen, MireilleListener {
 
     private void loadAssets() {
         long startTime = TimeUtils.millis();
-
         Gdx.app.log(TAG, game.ass.getDiagnostics());
         Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
     }
