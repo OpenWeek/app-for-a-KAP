@@ -123,6 +123,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		//loading
 		/* Graphics */
 		this.ass.load(AssetDescriptors.BLANK_BACK);
+		this.ass.load(AssetDescriptors.PLAY_LOGO);
 		// Main Menu
 		this.ass.load(AssetDescriptors.MM_PART1);
 		this.ass.load(AssetDescriptors.ANIM_NEON_DOOR);
