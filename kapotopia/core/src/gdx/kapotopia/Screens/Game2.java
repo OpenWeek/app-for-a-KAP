@@ -6,11 +6,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -22,6 +24,7 @@ import gdx.kapotopia.Fonts.FontHelper;
 import gdx.kapotopia.Game2.Ball;
 import gdx.kapotopia.Game2.Basket;
 import gdx.kapotopia.Helpers.Alignement;
+import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
@@ -29,10 +32,6 @@ import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
 
 import static java.util.Collections.shuffle;
-
-//import static gdx.kapotopia.Fonts.FontHelper.CLASSIC_SANS_MIDDLE_BLACK;
-//import static gdx.kapotopia.Fonts.FontHelper.CLASSIC_SANS_NORMAL_BLACK;
-
 
 public class Game2 implements Screen {
 
@@ -179,6 +178,7 @@ public class Game2 implements Screen {
         panneau.setX(-panneau.getPrefWidth()*delta/2);
         panneau.setY(-panneau.getPrefHeight()*delta/2);
 
+
         //Adding ball actors to stage (they have to be added after symptoms to be in front)
         for(int i = 0; i < STInbr; i++) {
             stage.addActor(sittingBalls[i].getButton());
@@ -302,7 +302,6 @@ public class Game2 implements Screen {
             }
             currentBasket.showLabel();
         }
-        //TODO check if this doesn't lead to any memory leak because the old previous basket has not been explicitly deleted
     }
 
     private void displayEndText(){
@@ -311,35 +310,51 @@ public class Game2 implements Screen {
         String txt2;
         String txt3;
         if (STIfound == STInbr) {//game has been won
-            txt1 = loc.getString("game2_goodending1");
-            txt2 = loc.getString("game2_goodending2");
+            txt1 = loc.getString("game2_goodending1") + "\n";
+            txt2 = loc.getString("game2_goodending2") + "\n";
             txt3 = loc.getString("game2_goodending3");
         } else if (STIfound >= (STInbr / 2)) { //game has been lost by not too much
-            txt1 = loc.getString("game2_badending1");
-            txt2 = loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3");
+            txt1 = loc.getString("game2_badending1") + "\n";
+            txt2 = loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3") + "\n";
             txt3 = loc.getString("game2_badending4");
         } else { //game has been lost by a lot
-            txt1 = loc.getString("game2_badending5");
-            txt2 = loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3");
+            txt1 = loc.getString("game2_badending5") + "\n";
+            txt2 = loc.getString("game2_badending2") + STIfound + " " + loc.getString("game2_badending3") + "\n";
             txt3 = loc.getString("game2_badending6");
         }
 
         Label gameWon0 = new LabelBuilder(game, txt1)
                 .withAlignment(Alignement.CENTER).withY(middleY)
-                .withStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE)
+                .withStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK)
                 .build();
         Label gameWon1 = new LabelBuilder(game, txt2)
                 .withAlignment(Alignement.CENTER).withY(middleY - 60)
-                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
+                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
                 .build();
+
         Label gameWon2 = new LabelBuilder(game, txt3)
                 .withAlignment(Alignement.CENTER).withY(middleY - 120)
-                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE)
+                .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
                 .build();
         stage.addActor(gameWon0);
         stage.addActor(gameWon1);
         stage.addActor(gameWon2);
-        
+
+        panneau.setVisible(false);
+
+        //Button used to display text in front of an image, not meant to be clicked on
+        Texture btnTexture = game.ass.get(AssetDescriptors.BTN_LEAF);
+        //ImageTextButton endTxtButton = new ImageTextButtonBuilder(game, loc.getString("infinite_button"))
+        ImageTextButton endTxtButton = new ImageTextButtonBuilder(game, txt1 + txt2 + txt3)
+                .withPosition(0, screenHeight/4)
+                .withY(screenHeight/4)
+                //.withAlignment(Alignement.CENTER)
+                .withWidth(screenWidth)
+                //.withPadding(Padding.STANDARD)
+                .withFontStyle(FontHelper.CLASSIC_SANS_MIDDLE_WHITE).withImageStyle(btnTexture).isVisible(true)
+                .build();
+        stage.addActor(endTxtButton);
+
     }
 
     /**
@@ -481,8 +496,6 @@ public class Game2 implements Screen {
 
                             //Ask for display of end of game message
                             endTextFlag = true;
-
-                            //TODO check if there is no memory leak
                         } else {//STIfound is greater than STInbr. This situation should never happen
                             Gdx.app.log(TAG, "ERROR: Number of STI found is greater than number of total STI");
                         }
