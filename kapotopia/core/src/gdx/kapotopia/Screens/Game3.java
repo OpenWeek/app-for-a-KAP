@@ -100,27 +100,7 @@ public class Game3 implements Screen {
     private void loadAssets() {
         long startTime = TimeUtils.millis();
         // Graphics
-        game.ass.load(AssetDescriptors.NEON_ROSE);
-        game.ass.load(AssetDescriptors.NEON_RED);
-        game.ass.load(AssetDescriptors.NEON_TURQUOISE);
-        game.ass.load(AssetDescriptors.NEON_GREEN);
-        game.ass.load(AssetDescriptors.NEON_VIOLET);
-        game.ass.load(AssetDescriptors.DOOR);
-        game.ass.load(AssetDescriptors.DOOR_LOCK);
-        game.ass.load(AssetDescriptors.BATTERY);
-        game.ass.load(AssetDescriptors.CLOSED_LOCK1);
-        game.ass.load(AssetDescriptors.CLOSED_LOCK2);
-        game.ass.load(AssetDescriptors.OPENED_LOCK1);
-        game.ass.load(AssetDescriptors.OPENED_LOCK2);
-        game.ass.load(AssetDescriptors.CROSS_T);
-        game.ass.load(AssetDescriptors.TCROSS_T);
-        game.ass.load(AssetDescriptors.LINE_T);
-        game.ass.load(AssetDescriptors.HALF_LINE_T);
-        game.ass.load(AssetDescriptors.TURN_T);
-        // Sounds
-        game.ass.load(AssetDescriptors.MUSIC_GAME3);
 
-        game.ass.finishLoading();
         Gdx.app.log(TAG, game.ass.getDiagnostics());
         Gdx.app.log(TAG, "Elapsed time for loading assets : " + TimeUtils.timeSinceMillis(startTime) + " ms");
     }
