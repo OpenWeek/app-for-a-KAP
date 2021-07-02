@@ -26,6 +26,9 @@ public class AssetDescriptors {
     /* ********** *
      *  TEXTURES  *
      * ********** */
+    // loading screen
+    public static final AssetDescriptor<Texture> MI_LOADING =
+            new AssetDescriptor<Texture>(AssetPaths.MI_LOADING, Texture.class);
     public static final AssetDescriptor<Texture> BLANK_BACK =
             new AssetDescriptor<Texture>(AssetPaths.BLANK_BACK, Texture.class);
     // Main Menu
@@ -183,6 +186,8 @@ public class AssetDescriptors {
     // Others
     public static final AssetDescriptor<Texture> PAUSE_LOGO =
             new AssetDescriptor<Texture>(AssetPaths.PAUSE_LOGO, Texture.class);
+    public static final AssetDescriptor<Texture> PLAY_LOGO =
+            new AssetDescriptor<Texture>(AssetPaths.PLAY_LOGO, Texture.class);
 
     /* ******* *
      *  ATLAS  *

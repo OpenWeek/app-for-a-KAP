@@ -93,7 +93,7 @@ public class STIData {
         }
     }
 
-    public STI[] getData() {
+    public STI[] getAllISTs() {
         return data.toArray(new STI[0]);
     }
 
@@ -116,4 +116,5 @@ public class STIData {
         Collections.sort(tmp);
         return tmp.toArray(new STI[0]);
     }
+
 }

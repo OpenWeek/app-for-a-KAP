@@ -217,14 +217,14 @@ public class mockupG1 extends CinematicScreen {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         resetScreen();
-                        game.changeScreen(ScreenType.DIF);
+                        game.changeScreen(ScreenType.DIFGAME1);
                     }
                 })
                 .build();
 
 
         /* ENDING */
-        applyBundle(new ParameterBundleBuilder(ScreenType.DIF)
+        applyBundle(new ParameterBundleBuilder(ScreenType.DIFGAME1)
                 .withImages(images).withFinishBtn(false)
                 .withNextBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE).withTimerScheduleTime(0).withLabels(labels));
         getStage().addActor(skipBtn);

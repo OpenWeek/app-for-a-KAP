@@ -187,13 +187,6 @@ public class Game2 implements Screen {
 
     private void loadAssets() {
         long startTime = TimeUtils.millis();
-        // Graphics
-        game.ass.load(AssetDescriptors.BALL);
-        game.ass.load(AssetDescriptors.PALMIER);
-        game.ass.load(AssetDescriptors.BASKET);
-        game.ass.load(AssetDescriptors.PANNAL);
-        // Sounds
-        game.ass.load(AssetDescriptors.MUSIC_GAME2);
 
         game.ass.finishLoading();
         Gdx.app.log(TAG, game.ass.getDiagnostics());
