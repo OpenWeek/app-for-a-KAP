@@ -186,6 +186,8 @@ public class AssetDescriptors {
     // Others
     public static final AssetDescriptor<Texture> PAUSE_LOGO =
             new AssetDescriptor<Texture>(AssetPaths.PAUSE_LOGO, Texture.class);
+    public static final AssetDescriptor<Texture> PLAY_LOGO =
+            new AssetDescriptor<Texture>(AssetPaths.PLAY_LOGO, Texture.class);
 
     /* ******* *
      *  ATLAS  *
