@@ -11,6 +11,7 @@ public class GlobalVariables {
     private GameDifficulty choosenDifficultyG1;
     private UnlockedLevel game1UnlockedLevels;
     private ScreenType nextScreenOfChoosingDifScreen;
+    private int chosenSTD;
 
     public GlobalVariables(Localisation loc) {
         // We define the default value of variables
@@ -18,6 +19,7 @@ public class GlobalVariables {
         choosenDifficultyG1 = GameDifficulty.EASY;
         game1UnlockedLevels = UnlockedLevel.EASY_UNLOCKED;
         nextScreenOfChoosingDifScreen = ScreenType.MAINMENU;
+        chosenSTD = 0; // default
     }
 
     public GameDifficulty getChoosenDifficultyG1() {
@@ -46,5 +48,13 @@ public class GlobalVariables {
 
     public STIData getStiData() {
         return stiData;
+    }
+
+    public int getChosenSTD() {
+        return chosenSTD;
+    }
+
+    public void setChosenSTD(int chosenSTD) {
+        this.chosenSTD = chosenSTD;
     }
 }

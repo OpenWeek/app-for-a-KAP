@@ -63,7 +63,7 @@ public class PopUpBuilder {
         if(title != null){
             dialog.getContentTable().removeActor(this.title);
         }
-        this.title = new LabelBuilder(game, title).withStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE).build();
+        this.title = new LabelBuilder(game, title).withStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE).build();
         this.title.setAlignment(Align.center);
         dialog.getContentTable().add(this.title).padTop(40f);
     }

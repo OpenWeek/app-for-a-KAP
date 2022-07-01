@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.I18NBundle;
 
+import org.w3c.dom.Text;
+
 import java.util.Locale;
 
 public class AssetDescriptors {
@@ -34,14 +36,28 @@ public class AssetDescriptors {
     // Main Menu
     public static final AssetDescriptor<Texture> MM_PART1 =
             new AssetDescriptor<Texture>(AssetPaths.MM_PART1, Texture.class); // % loaded at the start
+    public static final AssetDescriptor<Texture> MM_PART1_CUT =
+            new AssetDescriptor<Texture>(AssetPaths.MM_PART1_CUT, Texture.class); // % loaded at the start
     public static final AssetDescriptor<Texture> MM_PART3 =
             new AssetDescriptor<Texture>(AssetPaths.MM_PART3, Texture.class); // % loaded at the start
+    public static final AssetDescriptor<Texture> MM_PART3_CUT =
+            new AssetDescriptor<Texture>(AssetPaths.MM_PART3_CUT, Texture.class); // % loaded at the start
     public static final AssetDescriptor<Texture> MM_PART4 =
-            new AssetDescriptor<Texture>(AssetPaths.MM_PART4, Texture.class); // % loaded at the start
+            new AssetDescriptor<Texture>(AssetPaths.MM_PART4_CUT, Texture.class); // % loaded at the start
+    public static final AssetDescriptor<Texture> MM_PART4_CUT =
+            new AssetDescriptor<Texture>(AssetPaths.MM_PART4_CUT, Texture.class); // % loaded at the start
     public static final AssetDescriptor<Texture> MM_W1 =
             new AssetDescriptor<Texture>(AssetPaths.MM_W1, Texture.class); // % loaded at the start
+    public static final AssetDescriptor<Texture> WORLD1_GAME1 =
+            new AssetDescriptor<Texture>(AssetPaths.WORLD1_GAME1, Texture.class); // % loaded at the start
+    public static final AssetDescriptor<Texture> WORLD1_GAME2 =
+            new AssetDescriptor<Texture>(AssetPaths.WORLD1_GAME2, Texture.class); // % loaded at the start
     public static final AssetDescriptor<Texture> MM_W2 =
             new AssetDescriptor<Texture>(AssetPaths.MM_W2, Texture.class); // % loaded at the start
+    public static final AssetDescriptor<Texture> MM1_W2 =
+            new AssetDescriptor<Texture>(AssetPaths.MM1_W2, Texture.class); // % loaded at the start
+    public static final AssetDescriptor<Texture> MM2_W2 =
+            new AssetDescriptor<Texture>(AssetPaths.MM2_W2, Texture.class); // % loaded at the start
     // Options
     public static final AssetDescriptor<Texture> OP_BACK =
             new AssetDescriptor<Texture>(AssetPaths.OP_BACK, Texture.class); // % loaded at the start
@@ -52,6 +68,8 @@ public class AssetDescriptors {
     // Game1
     public static final AssetDescriptor<Texture> B1_BACK =
             new AssetDescriptor<Texture>(AssetPaths.B1_BACK, Texture.class);
+    public static final AssetDescriptor<Texture> Failed =
+            new AssetDescriptor<Texture>(AssetPaths.Failed, Texture.class);
     // Game2
     public static final AssetDescriptor<Texture> BALL =
             new AssetDescriptor<Texture>(AssetPaths.BALL, Texture.class);
@@ -102,11 +120,90 @@ public class AssetDescriptors {
             new AssetDescriptor<Texture>(AssetPaths.NEON_GREEN, Texture.class);
     public static final AssetDescriptor<Texture> NEON_VIOLET =
             new AssetDescriptor<Texture>(AssetPaths.NEON_VIOLET, Texture.class);
+    //Game4
+    public static final AssetDescriptor<Texture> BACKGROUND_DISC =
+            new AssetDescriptor<Texture>(AssetPaths.BACKGROUND_DISC,Texture.class);
+    public static final AssetDescriptor<Texture> COVER_GAME4 =
+            new AssetDescriptor<Texture>(AssetPaths.COVER_GAME4, Texture.class);
+    public static final AssetDescriptor<Texture> BACKGROUND_GAME4 =
+            new AssetDescriptor<Texture>(AssetPaths.BACKGROUND_GAME4, Texture.class);
+    public static final AssetDescriptor<Texture> DOWN_ARROW4 =
+            new AssetDescriptor<Texture>(AssetPaths.DOWN_ARROW4, Texture.class);
+    public static final AssetDescriptor<Texture> UP_ARROW4 =
+            new AssetDescriptor<Texture>(AssetPaths.UP_ARROW4, Texture.class);
+    public static final AssetDescriptor<Texture> LEFT_ARROW4 =
+            new AssetDescriptor<Texture>(AssetPaths.LEFT_ARROW4, Texture.class);
+    public static final AssetDescriptor<Texture> RIGHT_ARROW4 =
+            new AssetDescriptor<Texture>(AssetPaths.RIGHT_ARROW4, Texture.class);
+    public static final AssetDescriptor<Texture> PAUSE_LOGO4 =
+            new AssetDescriptor<Texture>(AssetPaths.PAUSE_LOGO4, Texture.class);
+    public static final AssetDescriptor<Texture> PLAY_LOGO4 =
+            new AssetDescriptor<Texture>(AssetPaths.PLAY_LOGO4, Texture.class);
+    public static final AssetDescriptor<Texture> YELLOW_BACK =
+            new AssetDescriptor<Texture>(AssetPaths.YELLOW_BACK, Texture.class);
+    public static final AssetDescriptor<Texture> PALEBLUE_BACK =
+            new AssetDescriptor<Texture>(AssetPaths.PALEBLUE_BACK, Texture.class);
+    public static final AssetDescriptor<Texture> ANULINGUS =
+            new AssetDescriptor<Texture>(AssetPaths.ANULINGUS, Texture.class);
+    public static final AssetDescriptor<Texture> CARESSES =
+            new AssetDescriptor<Texture>(AssetPaths.CARESSES, Texture.class);
+    public static final AssetDescriptor<Texture> CUNNI =
+            new AssetDescriptor<Texture>(AssetPaths.CUNNI, Texture.class);
+    public static final AssetDescriptor<Texture> SERINGUE_CHANGE =
+            new AssetDescriptor<Texture>(AssetPaths.SERINGUE_CHANGE, Texture.class);
+    public static final AssetDescriptor<Texture> EMBRASSADE =
+            new AssetDescriptor<Texture>(AssetPaths.EMBRASSADE, Texture.class);
+    public static final AssetDescriptor<Texture> FELLATION =
+            new AssetDescriptor<Texture>(AssetPaths.FELLATION, Texture.class);
+    public static final AssetDescriptor<Texture> GANT =
+            new AssetDescriptor<Texture>(AssetPaths.GANT, Texture.class);
+    public static final AssetDescriptor<Texture> PENE_VAGINALE =
+            new AssetDescriptor<Texture>(AssetPaths.PENE_VAGINALE, Texture.class);
+    public static final AssetDescriptor<Texture> PENE_ANALE =
+            new AssetDescriptor<Texture>(AssetPaths.PENE_ANALE, Texture.class);
+    public static final AssetDescriptor<Texture> ISTCHOICE =
+            new AssetDescriptor<Texture>(AssetPaths.ISTCHOICE, Texture.class);
+    public static final AssetDescriptor<Texture> VIH =
+            new AssetDescriptor<Texture>(AssetPaths.VIH, Texture.class);
+    public static final AssetDescriptor<Texture> HEPA =
+            new AssetDescriptor<Texture>(AssetPaths.HEPA, Texture.class);
+    public static final AssetDescriptor<Texture> HEPB =
+            new AssetDescriptor<Texture>(AssetPaths.HEPB, Texture.class);
+    public static final AssetDescriptor<Texture> HEPC =
+            new AssetDescriptor<Texture>(AssetPaths.HEPC, Texture.class);
+    public static final AssetDescriptor<Texture> SYPHILIS =
+            new AssetDescriptor<Texture>(AssetPaths.SYPHILIS, Texture.class);
+    public static final AssetDescriptor<Texture> HERPES =
+            new AssetDescriptor<Texture>(AssetPaths.HERPES, Texture.class);
+    public static final AssetDescriptor<Texture> PAPILLO =
+            new AssetDescriptor<Texture>(AssetPaths.PAPILLO, Texture.class);
+    public static final AssetDescriptor<Texture> CHLAMYDIA =
+            new AssetDescriptor<Texture>(AssetPaths.CHLAMYDIA, Texture.class);
+    public static final AssetDescriptor<Texture> GONORRHEE =
+            new AssetDescriptor<Texture>(AssetPaths.GONORRHEE, Texture.class);
+    public static final AssetDescriptor<Texture> TRICHOMONAS =
+            new AssetDescriptor<Texture>(AssetPaths.TRICHOMONAS, Texture.class);
+    public static final AssetDescriptor<Texture> MIREILLE_FOOD =
+            new AssetDescriptor<Texture>(AssetPaths.MIREILLE_FOOD, Texture.class);
+
+    public static final AssetDescriptor<Texture> RED_SQUARE =
+            new AssetDescriptor<Texture>(AssetPaths.RED_SQUARE, Texture.class);
+    public static final AssetDescriptor<Texture> GREEN_SQUARE =
+            new AssetDescriptor<Texture>(AssetPaths.GREEN_SQUARE, Texture.class);
+    public static final AssetDescriptor<Texture> BLUE_SQUARE =
+            new AssetDescriptor<Texture>(AssetPaths.BLUE_SQUARE, Texture.class);
+
+    public static final AssetDescriptor<Texture> LEGEND_FR =
+            new AssetDescriptor<Texture>(AssetPaths.LEGEND_FR, Texture.class);
+    public static final AssetDescriptor<Texture> LEGEND_EN =
+            new AssetDescriptor<Texture>(AssetPaths.LEGEND_EN, Texture.class);
     // STIDex
     public static final AssetDescriptor<Texture> DEX_BACK =
             new AssetDescriptor<Texture>(AssetPaths.DEX_BACK, Texture.class);
     public static final AssetDescriptor<Texture> ARROW =
             new AssetDescriptor<Texture>(AssetPaths.ARROW, Texture.class);
+    public static final AssetDescriptor<Texture> CLOSE =
+            new AssetDescriptor<Texture>(AssetPaths.CLOSE, Texture.class);
     // IntroG1
     public static final AssetDescriptor<Texture> DIF_PART1 =
             new AssetDescriptor<Texture>(AssetPaths.DIF_PART1, Texture.class); // % loaded at the start

@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.Font;
 import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
@@ -99,7 +100,7 @@ public class STIDex implements Screen {
 
         // Computing gameboy downscreen coordinates
         final float x1_x = ww * 0.075f;
-        final float x1_y = wh * 0.282f;
+        final float x1_y = wh * 0.255f;
         final float w1 = ww * 0.85f;
         //final float h1 = wh * 0.15f;
 
@@ -116,6 +117,15 @@ public class STIDex implements Screen {
         displayedIstSprite.setTouchable(Touchable.enabled);
         stage.addActor(displayedIstSprite);
 
+        // Close button
+        Texture close = game.ass.get(AssetDescriptors.CLOSE);
+        final ImageButton imageButtonToOptions = new ImageButtonBuilder()
+                .withImageUp(close)
+                .withPosition(0, wh - close.getHeight())
+                .withListener(new ChangeScreenListener(game, ScreenType.MAINMENU))
+                .build();
+        stage.addActor(imageButtonToOptions);
+
         //right arrow
 
         ImageButton rightArrow = new ImageButtonBuilder().withImageUp(rightArrowT)
@@ -124,7 +134,7 @@ public class STIDex implements Screen {
                     public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                         istIndex = (istIndex + 1) % data.length;
                         nameLab.setText(data[istIndex].getName());
-                        Align.centerLabel(nameLab, Alignement.CENTER);
+                        nameLab.setX(ww * 0.5f - nameLab.getText().length * GameConfig.ONE_CHAR_SMALL_WIDTH *0.75f);
                         descriptionLab.setText(data[istIndex].getDescription());
                         updateSti();
                         return true;
@@ -143,7 +153,7 @@ public class STIDex implements Screen {
                         istIndex = (istIndex - 1) % data.length;
                         if (istIndex < 0) istIndex = data.length-1; // Circular list
                         nameLab.setText(data[istIndex].getName());
-                        Align.centerLabel(nameLab, Alignement.CENTER);
+                        nameLab.setX(ww * 0.5f - nameLab.getText().length * GameConfig.ONE_CHAR_SMALL_WIDTH *0.75f);
                         descriptionLab.setText(data[istIndex].getDescription());
                         updateSti();
                         return true;
@@ -155,7 +165,7 @@ public class STIDex implements Screen {
         // label containing STI name
         nameLab = new LabelBuilder(game, data[istIndex].getName()).withY(wh * 0.625f)
                 .withStyle(FontHelper.CLASSIC_SANS_MIDDLE_BLACK)
-                .withAlignment(Alignement.CENTER).build();
+                .withX(ww * 0.5f - data[istIndex].getName().length() * GameConfig.ONE_CHAR_SMALL_WIDTH *0.75f).build();
         stage.addActor(nameLab);
 
         // label containing the STI descriptionLab

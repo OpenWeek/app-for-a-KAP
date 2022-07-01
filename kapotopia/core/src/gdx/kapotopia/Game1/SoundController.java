@@ -99,6 +99,6 @@ public class SoundController {
     }
 
     public void playWhenMireilleMove() {
-        jumpSound.play();
+
     }
 }

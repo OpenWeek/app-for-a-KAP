@@ -12,16 +12,25 @@ public class AssetPaths {
     public static final String BLANK_BACK = "FondNiveauBlanc2.png";
     // Main Menu
     public static final String MM_PART1 = "EcranMenu/MenuPrincipalCadre1.png";
+    public static final String MM_PART1_CUT = "EcranMenu/MenuPrincipalCadre1_cut.png";
     public static final String MM_PART3 = "EcranMenu/MenuPrincipalCadre3.png";
+    public static final String MM_PART3_CUT = "EcranMenu/MenuPrincipalCadre3_cut.png";
+
     public static final String MM_PART4 = "EcranMenu/MenuPrincipalBoutons.png";
+    public static final String MM_PART4_CUT = "EcranMenu/MenuPrincipalBoutons_cut.png";
     public static final String MM_W1 = "EcranMenu/World1EcranMenu.png";
+    public static final String WORLD1_GAME1 = "EcranMenu/World1EcranMenuCadre1_cut.png";
+    public static final String WORLD1_GAME2 = "EcranMenu/World1EcranMenuCadre2_cut.png";
     public static final String MM_W2 = "game3/intro/Monde2Ecran1.png";
+    public static final String MM1_W2 = "game3/intro/Monde2Ecran1_cut.png";
+    public static final String MM2_W2 = "game4/game_cover.png";
     // Options
     public static final String OP_BACK = "EcranMenu/EcranOption.png";
     public static final String OP_SPEAKER = "icons/speaker.png";
     public static final String OP_MUTE = "icons/mute.png";
     // Game1
     public static final String B1_BACK = "World1/Game1/EcranTotal.png";
+    public static final String Failed = "World1/Game1/Failed.png";
     // Game2
     public static final String BALL = "World1/Game2/Ballon.png";
     public static final String SABLE = "World1/Game2/Sable.png";
@@ -48,9 +57,49 @@ public class AssetPaths {
     public static final String NEON_TURQUOISE = "game3/NeonsTurquoises.png";
     public static final String NEON_GREEN = "game3/NeonsVerts.png";
     public static final String NEON_VIOLET = "game3/NeonsViolets.png";
+    // Game 4
+    public static final String COVER_GAME4 = "game4/game_cover.png";
+    public static final String BACKGROUND_GAME4 = "game4/background_game.png";
+    public static final String DOWN_ARROW4 = "game4/down_arrow.png";
+    public static final String UP_ARROW4 = "game4/up_arrow.png";
+    public static final String LEFT_ARROW4 = "game4/left_arrow.png";
+    public static final String RIGHT_ARROW4 = "game4/right_arrow.png";
+    public static final String PAUSE_LOGO4 = "game4/pause_logo.png";
+    public static final String PLAY_LOGO4 = "game4/play_logo.png";
+    public static final String YELLOW_BACK = "ISTback/yellow.png";
+    public static final String PALEBLUE_BACK = "ISTback/paleBlue.png";
+    public static final String ANULINGUS = "game4/annulingus.png";
+    public static final String CARESSES = "game4/caresses.png";
+    public static final String CUNNI = "game4/cunni.png";
+    public static final String SERINGUE_CHANGE = "game4/echange_seringue.png";
+    public static final String EMBRASSADE = "game4/Embrassade.png";
+    public static final String FELLATION = "game4/fellation.png";
+    public static final String GANT = "game4/gant.png";
+    public static final String PENE_VAGINALE = "game4/pene_vaginal.png";
+    public static final String PENE_ANALE = "game4/pene_anale.png";
+    public static final String ISTCHOICE = "game4/ISTChoice.png";
+    public static final String VIH = "IST/VIH.png";
+    public static final String HEPA = "IST/HepatiteA.png";
+    public static final String HEPB = "IST/HepatiteB.png";
+    public static final String HEPC = "IST/HepatiteC.png";
+    public static final String SYPHILIS = "IST/Syphilis.png";
+    public static final String HERPES = "IST/Herpes.png";
+    public static final String PAPILLO = "IST/Papillomavirus.png";
+    public static final String CHLAMYDIA = "IST/Chlamydia.png";
+    public static final String GONORRHEE= "IST/Gonorrhee.png";
+    public static final String TRICHOMONAS = "IST/Trichomonas.png";
+    public static final String MIREILLE_FOOD = "game4/Mireille.png";
+
+    public static final String RED_SQUARE= "game4/red_square.png";
+    public static final String BLUE_SQUARE = "game4/blue_square.png";
+    public static final String GREEN_SQUARE = "game4/green_square.png";
+
+    public static final String LEGEND_FR = "game4/legend_fr.png";
+    public static final String LEGEND_EN = "game4/legend_en.png";
     // STIDex
     public static final String DEX_BACK = "Pokedex.png";
     public static final String ARROW = "ui_arrow.png";
+    public static final String CLOSE = "close.png";
     // Intro G1
     public static final String DIF_PART1 = "EcranMenu/EcranJeu1Haut.png";
     public static final String JUNGLE = "World1/Game1/Jungle.png";
@@ -60,6 +109,8 @@ public class AssetPaths {
     // IntroG3
     public static final String I3_HOUSE = "game3/intro/Monde2Ecran1.png";
     public static final String I3_INSIDE = "game3/intro/Monde2Ecran2.png";
+    //IntroG4
+    public static final String BACKGROUND_DISC = "game4/background_discussion.png";
     // Characters
     public static final String MI_NORMAL = "MireilleImages/Mireille.png";
     public static final String MI_HAPPY = "MireilleImages/MireilleBoucheOuverte.png";

@@ -115,7 +115,7 @@ public class mockupG2 extends CinematicScreen {
         };
         // Skip button
         skipBtn = new ImageTextButtonBuilder(game, game.loc.getString("skip_button"))
-                .withFontStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
+                .withFontStyle(FontHelper.AESTHETIC_NORMAL_BLACK)
                 .withPosition(game.viewport.getWorldWidth() * 0.75f, this.game.viewport.getWorldHeight() / 30f)
                 .withImageStyle(game.ass.get(AssetDescriptors.BTN_SAND)).isVisible(true)
                 .withPadding(Padding.STANDARD)
@@ -132,9 +132,12 @@ public class mockupG2 extends CinematicScreen {
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME2)
                 .withImages(images)
                 .withNextBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK)
+                .withFinishBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK)
+                .withPreviousBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_BLACK)
                 .withTimerScheduleTime(0)
                 .withLabels(labels)
-                .withFinishBtn(false));
+                .withFinishBtn(true)
+                );
 
         getStage().addActor(skipBtn);
 

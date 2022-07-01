@@ -5,16 +5,21 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
 import gdx.kapotopia.Fonts.FontHelper;
+import gdx.kapotopia.Helpers.Alignement;
+import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
+import gdx.kapotopia.Helpers.ChangeScreenListener;
 import gdx.kapotopia.Helpers.ImageHelper;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
@@ -31,31 +36,40 @@ public class World2 implements Screen {
     public World2(final Kapotopia game) {
 
         this.game = game;
-        Image imgFond = ImageHelper.getBackground(game.viewport,game.ass.get(AssetDescriptors.MM_W2));
-        stage = new Stage(game.viewport);
+        Texture imgFondGame1 = game.ass.get(AssetDescriptors.MM1_W2);
+        Texture imgFondGame2 = game.ass.get(AssetDescriptors.COVER_GAME4);
 
-        stage.addActor(imgFond);
+        final Localisation loc = game.loc;
 
         this.gameStart = game.ass.get(AssetDescriptors.SOUND_GAMESTART);
 
-        float x = game.viewport.getWorldWidth() / 2.5f;
-        float y = game.viewport.getWorldHeight() / 4;
-        final Button play = new TextButtonBuilder(game, game.loc.getString("play_button"))
-                .withStyle(FontHelper.AESTHETIC_NORMAL_WHITE).withPosition(x,y).withListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        gameStart.play();
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                game.destroyScreen(ScreenType.WORLD2);
-                                game.changeScreen(ScreenType.MOCKUPG3);
-                            }
-                        },0.1f);
-                    }
-                }).build();
+        float x = game.viewport.getWorldWidth();
+        float y = game.viewport.getWorldHeight();
 
-        stage.addActor(play);
+        final ImageButton imgButtonGame1 = new ImageButtonBuilder()
+                .withImageUp(imgFondGame1)
+                .withBounds(0, game.viewport.getWorldHeight()/2, game.viewport.getWorldWidth(), game.viewport.getWorldHeight()/2)
+                .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG3) {}).build();
+        final Button btnGame1 = new TextButtonBuilder(game, loc.getString("game3_button"))
+                .withStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
+                .withY(y*0.57f).withAlignment(Alignement.CENTER)
+                .withListener(new ChangeScreenListener(game,ScreenType.MOCKUPG3) {}).build();
+
+        final ImageButton imgButtonGame2 = new ImageButtonBuilder()
+                .withImageUp(imgFondGame2)
+                .withBounds(0,0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight()/2)
+                .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG4) {}).build();
+        final Button btnGame2 = new TextButtonBuilder(game, loc.getString("game4_button"))
+                .withStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
+                .withY(y*0.1f).withAlignment(Alignement.CENTER)
+                .withListener(new ChangeScreenListener(game, ScreenType.MOCKUPG4) {}).build();
+
+        stage = new Stage(game.viewport);
+
+        stage.addActor(imgButtonGame1);
+        stage.addActor(btnGame1);
+        stage.addActor(imgButtonGame2);
+        stage.addActor(btnGame2);
     }
 
     @Override

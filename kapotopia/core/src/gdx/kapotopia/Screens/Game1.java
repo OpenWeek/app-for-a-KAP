@@ -3,9 +3,13 @@ package gdx.kapotopia.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +20,8 @@ import gdx.kapotopia.Game1.MireilleListener;
 import gdx.kapotopia.Game1.RenderController;
 import gdx.kapotopia.Game1.SoundController;
 import gdx.kapotopia.Game1.VirusContainer;
+import gdx.kapotopia.Helpers.Builders.ImageBuilder;
+import gdx.kapotopia.Helpers.Builders.ImageButtonBuilder;
 import gdx.kapotopia.Kapotopia;
 
 public class Game1 implements Screen, MireilleListener {
@@ -177,6 +183,21 @@ public class Game1 implements Screen, MireilleListener {
     @Override
     public void scoreChanged(int score) {
         gameController.scoreChanged(score);
+    }
+
+    @Override
+    public void caughtNotSTD(boolean c) {
+        if (c) {
+            Texture red = game.ass.get(AssetDescriptors.Failed);
+            final Image r = new ImageBuilder().withTexture(red).build();
+            stage.addActor(r);
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    r.remove();
+                }
+            }, 0.15f); //Manon Lost
+        }
     }
 
     /* ********************************************
