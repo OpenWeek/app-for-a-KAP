@@ -52,7 +52,7 @@ public class Food {
         this.yOffset = yOffset;
         this.game = game;
         practices = new Texture[]{game.ass.get(AssetDescriptors.PENE_VAGINALE), game.ass.get(AssetDescriptors.PENE_ANALE), game.ass.get(AssetDescriptors.FELLATION), game.ass.get(AssetDescriptors.CUNNI), game.ass.get(AssetDescriptors.ANULINGUS), game.ass.get(AssetDescriptors.CARESSES), game.ass.get(AssetDescriptors.EMBRASSADE), game.ass.get(AssetDescriptors.SERINGUE_CHANGE)};
-        safe = new Texture[]{game.ass.get(AssetDescriptors.MIREILLE_FOOD), game.ass.get(AssetDescriptors.ALYX_OPEN)};
+        safe = new Texture[]{game.ass.get(AssetDescriptors.MIREILLE_FOOD), game.ass.get(AssetDescriptors.ALYX_OPEN), game.ass.get(AssetDescriptors.GANT)};
         fillRisks();
         randomise(boardSize);
     }
