@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Helpers.Alignement;
+import gdx.kapotopia.Kapotopia;
 
 /**
  * A class to help build ImageButton. A mandatory argument is the text displayed in the ImageButton

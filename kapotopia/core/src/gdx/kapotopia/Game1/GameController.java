@@ -5,8 +5,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
@@ -122,7 +122,7 @@ public class GameController {
         float z = 21 * x;
         float y = (worldW - x - z) / 3;
         this.MIN_X = x;
-        this.MAX_X = worldW - z;
+        this.MAX_X = worldW - z + 20;
         this.MIN_Y = 25;
         this.MOVE_VALUE_X = y;
     }
@@ -143,12 +143,14 @@ public class GameController {
         // We ensure that after the animation has played, the game really start
         if(!letsGoAppeared) {
             final float delay = game1.getRenderController().getFirstAnimationTimeLeft();
+            game1.getRenderController().getPauseIcon().setVisible(false);
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     letsGoAppeared = true;
                     isPaused = false;
                     Gdx.app.debug(TAG, "LetsGoAppeared - isPaused is false");
+                    game1.getRenderController().getPauseIcon().setVisible(true);
                 }
             }, delay);
         }
@@ -198,6 +200,7 @@ public class GameController {
         if (jojoAppears && !jojoHasAppeared) {
             game1.getRenderController().jojo(delta);
             if (!jojoTimerLaunched) {
+                game1.getRenderController().getPauseIcon().setVisible(false);
                 game1.getSoundController().startJojo();
                 // We upgrade the difficulty => NIGHTMARE MODE
                 ennemi.setAccAddFactor(0.09f);
@@ -212,6 +215,7 @@ public class GameController {
                         isPaused = false;
                         Gdx.app.debug(TAG, "Jojo has appeared - isPaused is false");
                         mireille.resetPosition();
+                        game1.getRenderController().getPauseIcon().setVisible(true);
                     }
                 }, 6f);
                 jojoTimerLaunched = true;
@@ -274,6 +278,7 @@ public class GameController {
         missedIsts.add(vc);
 
         game1.getRenderController().playMissedLabelAnim();
+        mireille.decreaseScore();
     }
 
     /**
@@ -309,7 +314,7 @@ public class GameController {
                         break;
                     case HARD:
                         // We send the player to the next game, so GAME 2
-                        game.changeScreen(ScreenType.MOCKUPG2);
+                        game.changeScreen(ScreenType.GAME1);
                         break;
                 }
             }
@@ -433,40 +438,76 @@ public class GameController {
         im.addProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
             @Override
             public void onLeft() {
-                Jcount = 0;
+                /////USED WITH OLD MOVE CONTROLS
+               /* Jcount = 0;
                 Gdx.app.debug(TAG, "swipe left - isPaused is " + isPaused);
                 if(!isPaused) {
                     final float newX = Math.max(mireille.getX() - MOVE_VALUE_X, MIN_X);
                     updateMireille(newX);
-                }
+                }*/
             }
 
             @Override
             public void onRight() {
-                Jcount = 0;
+                /*Jcount = 0;
                 Gdx.app.debug(TAG, "swipe right - isPaused is " + isPaused);
                 if(!isPaused) {
                     final float xAndMoveValue = mireille.getX() + MOVE_VALUE_X;
                     final float newX = Math.min(xAndMoveValue, MAX_X);
                     Gdx.app.log(TAG, "Math.min( " + xAndMoveValue + " , " + MAX_X + " )");
                     updateMireille(newX);
-                }
+                }*/
             }
 
             @Override
             public void onUp() {
-                Jcount++;
+                /*Jcount++;
                 Gdx.app.debug(TAG , "swipe up - isPaused is " + isPaused);
                 if (Jcount >= 3) {
                     isPaused = true;
                     jojoAppears = true;
-                }
+                }*/
             }
 
             @Override
             public void onDown() {
+                /*Jcount = 0;
+                Gdx.app.debug(TAG, "swipe down - isPaused is " + isPaused);*/
+            }
+
+            @Override
+            public void onTouch() {
+                if (!isPaused && Gdx.input.getY() > game.viewport.getWorldHeight()*0.3f) {
+                    Jcount += 1;
+                    if (Jcount >= 50 && !jojoAppears) {
+                        isPaused = true;
+                        jojoAppears = true;
+                        Jcount = 0;
+                    }
+                    int x = Gdx.input.getX();
+                    float newX = x - mireille.getWidth();
+                    if (newX > MAX_X) {
+                        newX = MAX_X;
+                    } else if (newX < MIN_X) {
+                        newX = MIN_X;
+                    }
+                    updateMireille(newX);
+                }
+            }
+
+            @Override
+            public void onPan() {
                 Jcount = 0;
-                Gdx.app.debug(TAG, "swipe down - isPaused is " + isPaused);
+                if (!isPaused && Gdx.input.getY() > game.viewport.getWorldHeight()*0.3f) {
+                    int x = Gdx.input.getX();
+                    float newX = x - mireille.getWidth() - 15;
+                    if (newX > MAX_X) {
+                        newX = MAX_X;
+                    } else if (newX < MIN_X) {
+                        newX = MIN_X;
+                    }
+                    updateMireille(newX);
+                }
             }
 
             private void updateMireille(float newX) {

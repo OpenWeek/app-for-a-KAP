@@ -26,6 +26,7 @@ public class Settings {
     private boolean intro_1_skip;
     private boolean intro_2_skip;
     private boolean intro_3_skip;
+    private boolean intro_4_skip;
     /* CONSTANTES */
     private final String TAG = "k" + this.getClass().getSimpleName();
     private final String GENERAL_SETTINGS_NAME = "general_settings";
@@ -38,6 +39,7 @@ public class Settings {
     private final String PREF_INTRO_1_SKIP = "intro_1_skip";
     private final String PREF_INTRO_2_SKIP = "intro_2_skip";
     private final String PREF_INTRO_3_SKIP = "intro_3_skip";
+    private final String PREF_INTRO_4_SKIP = "intro_4_skip";
     // Game 1
     private final String PREF_UNLOCKED_LEVEL = "lvl-unlocked";
     private final String PREF_HIGHSCORE = "highscore"; //TODO make an elaborate highscore system that can save and load multiple highscores instead of a single one
@@ -129,6 +131,15 @@ public class Settings {
         } else {
             this.intro_3_skip = prefs_gen.getBoolean(PREF_INTRO_3_SKIP, false);
         }
+
+        if (!prefs_gen.contains(PREF_INTRO_4_SKIP)) {
+            prefs_gen.putBoolean(PREF_INTRO_4_SKIP, false);
+            intro_4_skip = false;
+            needChange = true;
+        } else {
+            this.intro_4_skip = prefs_gen.getBoolean(PREF_INTRO_4_SKIP, false);
+        }
+
 
         if(needChange) {
             prefs_gen.flush();
@@ -278,6 +289,14 @@ public class Settings {
         prefs_gen.putBoolean(PREF_INTRO_3_SKIP, intro_3_skip);
         prefs_gen.flush();
         this.intro_3_skip = intro_3_skip;
+    }
+
+    public boolean isIntro_4_skip(){ return intro_4_skip; }
+
+    public void setIntro_4_skip(boolean intro_4_skip){
+        prefs_gen.putBoolean(PREF_INTRO_4_SKIP, intro_4_skip);
+        prefs_gen.flush();
+        this.intro_4_skip = intro_4_skip;
     }
 
     public boolean isFirstCinematicShowed() {

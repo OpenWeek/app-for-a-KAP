@@ -44,11 +44,12 @@ public class mockupG3 extends CinematicScreen {
 
     public mockupG3(final Kapotopia game) {
         super(game, new Stage(game.viewport));
+        Localisation loc = game.loc;
 
         final float ww = GameConfig.GAME_WIDTH;
         final float wh = GameConfig.GAME_HEIGHT;
 
-        Localisation loc = game.loc;
+
 
         Font font = FontHelper.CLASSIC_SANS_NORMAL_BLACK;
         Bounds dialogBubbleBounds = Align.getDialogBubbleBounds();
@@ -189,7 +190,10 @@ public class mockupG3 extends CinematicScreen {
         /* ENDING */
 
         this.applyBundle(new ParameterBundleBuilder(ScreenType.GAME3)
-        .withImages(images).withLabels(labels).withFinishBtn(false).withNextBtnStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE));
+                .withImages(images).withLabels(labels)
+                .withFinishBtn(true).withNextBtnStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE)
+                .withFinishBtnStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE)
+                .withPreviousBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE));
 
         getStage().addActor(skipBtn);
 

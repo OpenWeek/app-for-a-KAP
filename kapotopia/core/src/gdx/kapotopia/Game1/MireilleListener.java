@@ -6,4 +6,5 @@ package gdx.kapotopia.Game1;
 public interface MireilleListener {
     void lifeChanged(byte life);
     void scoreChanged(int score);
+    void caughtNotSTD(boolean c);
 }

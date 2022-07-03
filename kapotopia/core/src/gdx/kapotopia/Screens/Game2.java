@@ -10,10 +10,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -26,10 +29,12 @@ import gdx.kapotopia.Game2.Basket;
 import gdx.kapotopia.Helpers.Alignement;
 import gdx.kapotopia.Helpers.Builders.ImageTextButtonBuilder;
 import gdx.kapotopia.Helpers.Builders.LabelBuilder;
+import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Helpers.SimpleDirectionGestureDetector;
 import gdx.kapotopia.Helpers.StandardInputAdapter;
 import gdx.kapotopia.Kapotopia;
 import gdx.kapotopia.Localisation;
+import gdx.kapotopia.ScreenType;
 
 import static java.util.Collections.shuffle;
 
@@ -112,6 +117,24 @@ public class Game2 implements Screen {
         this.stage.addActor(palmier);
         this.stage.addActor(panneau);
 
+        final TextButton quitBtn = new TextButtonBuilder(game, game.loc.getString("exit_button"))
+                .withStyle(FontHelper.AESTHETIC_NORMAL_WHITE)
+                .withPosition(game.viewport.getWorldWidth() * 0.02f, this.game.viewport.getWorldHeight()*0.9f)
+                .build();
+        quitBtn.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+
+                game.changeScreen(ScreenType.WORLD1);
+                game.destroyScreen(ScreenType.GAME2);
+
+                return true;
+            }
+
+        });
+
+        this.stage.addActor(quitBtn);
 
         middleX = screenWidth/3;
         middleY = screenHeight /2;
@@ -136,7 +159,7 @@ public class Game2 implements Screen {
         sympTextSize = screenWidth/2;
 
         livesLabel = new LabelBuilder(game, loc.getString("lives_label")+lives)
-                .withStyle(FontHelper.CLASSIC_BOLD_NORMAL_BLACK).isVisible(true).withPosition(livesX,livesY).build();
+                .withStyle(FontHelper.CLASSIC_BOLD_NORMAL_WHITE).isVisible(true).withPosition(livesX,livesY).build();
         stage.addActor(livesLabel);
 
         //Symptoms creation and set up (representation of symptoms)
@@ -417,6 +440,16 @@ public class Game2 implements Screen {
 
             @Override
             public void onDown() {
+
+            }
+
+            @Override
+            public void onTouch() {
+
+            }
+
+            @Override
+            public void onPan() {
 
             }
 

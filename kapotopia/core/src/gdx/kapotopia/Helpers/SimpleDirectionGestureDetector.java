@@ -11,6 +11,10 @@ public class SimpleDirectionGestureDetector extends GestureDetector {
         void onUp();
 
         void onDown();
+
+        void onTouch();
+
+        void onPan();
     }
 
     public SimpleDirectionGestureDetector(DirectionListener directionListener) {
@@ -40,6 +44,18 @@ public class SimpleDirectionGestureDetector extends GestureDetector {
                 }
             }
             return super.fling(velocityX, velocityY, button);
+        }
+
+        @Override
+        public boolean touchDown (float x, float y, int pointer, int button) {
+            directionListener.onTouch();
+            return super.touchDown(x, y, pointer, button);
+        }
+
+        @Override
+        public boolean pan (float x, float y, float deltaX, float deltaY) {
+            directionListener.onPan();
+            return super.pan(x, y, deltaX, deltaY);
         }
 
     }

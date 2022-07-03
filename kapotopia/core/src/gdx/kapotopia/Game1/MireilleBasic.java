@@ -3,8 +3,10 @@ package gdx.kapotopia.Game1;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,6 +35,7 @@ public class MireilleBasic extends EntityAbstract {
     private Random random;
     private byte lifes;
     private int score;
+    private boolean caughtNotSTD;
     private boolean jojoActivated;
 
     /*
@@ -92,6 +95,11 @@ public class MireilleBasic extends EntityAbstract {
         increaseScore(SCORE_UP);
     }
 
+    public void decreaseScore(){
+        int SCORE_DOWN = -10;
+        increaseScore(SCORE_DOWN);
+    }
+
     public void increaseScore(int add) {
         this.score += add;
         notifyScoreChanged(this.score);
@@ -104,6 +112,13 @@ public class MireilleBasic extends EntityAbstract {
     public void decreaseLife() {
         if(this.lifes > 0) {
             this.lifes--;
+            this.caughtNotSTD = true;
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    caughtNotSTD = false;
+                }
+            }, 1f);
             System.out.println("Mireille a été touchée !");
         } else {
             hide();
@@ -116,6 +131,7 @@ public class MireilleBasic extends EntityAbstract {
 
         this.score -= 15;
         notifyScoreChanged(this.score);
+        notifySTDChanged(caughtNotSTD);
 
         this.updateCollision(this.getX(),this.getY());
 
@@ -134,6 +150,12 @@ public class MireilleBasic extends EntityAbstract {
     private void notifyScoreChanged(final int score) {
         for(MireilleListener l : listeners) {
             l.scoreChanged(score);
+        }
+    }
+
+    private void notifySTDChanged(final boolean c) {
+        for(MireilleListener l : listeners) {
+            l.caughtNotSTD(c);
         }
     }
 

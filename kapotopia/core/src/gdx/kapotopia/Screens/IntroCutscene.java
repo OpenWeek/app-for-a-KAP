@@ -109,7 +109,7 @@ public class IntroCutscene extends CinematicScreen {
         stateTime = 0f;
 
         applyBundle(new ParameterBundleBuilder(ScreenType.MAINMENU).withImages(images).withLabels(labels)
-                .withFinishBtn(false).withNextBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE));
+                .withFinishBtn(false).withNextBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE).withFinishBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE).withPreviousBtnStyle(FontHelper.CLASSIC_SANS_NORMAL_WHITE));
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import java.util.Random;
 
+import gdx.kapotopia.GameConfig;
 import gdx.kapotopia.Helpers.Align;
 import gdx.kapotopia.Screens.Game1;
 
@@ -80,10 +81,22 @@ public class Virus extends VirusAbstract {
     public void changeVirusType() {
         this.setTexture(new TextureRegion(updateNewVirus()));
         updateRealUnits();
-        game.changeEnnemiLabel(this.getName());
+        String label = this.getName();
+        final float labelLength = this.getName().length() * GameConfig.ONE_CHAR_SMALL_WIDTH;
+        String newLabel;
+        if (labelLength >= 1.1*this.getRealWidth()){
+            newLabel = label.substring(0,this.getName().length()/2) + "-\n" + label.substring(this.getName().length()/2, this.getName().length());
+        }
+        else{
+            newLabel = this.getName();
+        }
+
+        game.changeEnnemiLabel(newLabel);
         setNewRandPosition();
+
+
         // We update the X position of the name label to make it fit right
-        this.nameLabX = Align.getXCenteredWithElement(this.getX(), this.getRealWidth(), this.getName().length());
+        this.nameLabX = Align.getXCenteredWithElement(this.getX(), this.getRealWidth(), newLabel.length());
     }
 
     /**

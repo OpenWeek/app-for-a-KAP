@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import gdx.kapotopia.AssetsManaging.AssetDescriptors;
@@ -27,6 +28,7 @@ import gdx.kapotopia.Game3.EventHandlerGame3;
 import gdx.kapotopia.Helpers.Builders.PopUpBuilder;
 import gdx.kapotopia.Helpers.Builders.TextButtonBuilder;
 import gdx.kapotopia.Kapotopia;
+import gdx.kapotopia.Languages;
 import gdx.kapotopia.ScreenType;
 
 public class Game3 implements Screen {
@@ -107,11 +109,11 @@ public class Game3 implements Screen {
 
     public Core getCore(){return core;}
 
-    public void back(){
+    public void back(ArrayList<String> list){
         if(core.playerSucceeded()) {
             this.successSound.play();
         }
-        quitGameConfirm();
+        quitGameConfirm(list);
     }
     public final Kapotopia getGame(){
         return game;
@@ -174,13 +176,40 @@ public class Game3 implements Screen {
         stage.dispose();
     }
 
-    public void quitGameConfirm() {
+    public void quitGameConfirm(ArrayList<String> list) {
 
         final PopUpBuilder popup = new  PopUpBuilder(game, popStage);
 
-        popup.setTitle("Congratulations!");
+        String title = game.loc.getString("congrats_msg");
+        if (!list.isEmpty()){
+            title += "\n" + game.loc.getString("mistake_msg");
+            for (String e : list){
+                title += "\n"+ game.loc.getString(e);
+            }
+        }
 
-        TextButton btnYes = new TextButtonBuilder(game, "Exit").withStyle(FontHelper.AESTHETIC_NORMAL_BLACK).build();
+        popup.setTitle(title);
+
+
+
+        TextButton btnReplay = new TextButtonBuilder(game, game.loc.getString("restart_button")).withStyle(FontHelper.AESTHETIC_NORMAL_WHITE).build();
+        btnReplay.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+
+                // Do whatever here for exit button
+                popup.close();
+
+                game.destroyScreen(ScreenType.GAME3);
+                game.changeScreen(ScreenType.GAME3);
+
+                return true;
+            }
+
+        });
+
+        TextButton btnYes = new TextButtonBuilder(game, game.loc.getString("exit_button")).withStyle(FontHelper.AESTHETIC_NORMAL_WHITE).build();
         btnYes.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
@@ -196,7 +225,8 @@ public class Game3 implements Screen {
             }
 
         });
-
+        
+        popup.addButton(btnReplay);
         popup.addButton(btnYes);
         popup.setPosition(0,50);
         popup.show();
@@ -207,7 +237,7 @@ public class Game3 implements Screen {
 
         popup.setTitle(description);
 
-        TextButton btnYes = new TextButtonBuilder(game, "back").withStyle(FontHelper.AESTHETIC_NORMAL_BLACK).build();
+        TextButton btnYes = new TextButtonBuilder(game, game.loc.getString("back_button")).withStyle(FontHelper.AESTHETIC_NORMAL_WHITE).build();
         btnYes.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
@@ -224,5 +254,6 @@ public class Game3 implements Screen {
         popup.setPosition(0,50);
         popup.show();
     }
+
 
 }

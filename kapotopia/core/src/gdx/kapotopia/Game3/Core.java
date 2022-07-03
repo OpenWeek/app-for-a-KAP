@@ -30,6 +30,7 @@ public class Core {
 
     private Game3 parent;
     private boolean succeeded;
+    private ArrayList<String> names;
 
     private Pair [][] tiles;
     private int sizex;
@@ -121,6 +122,7 @@ public class Core {
         createPath(correctGoal, sizey-1);
 
         updatePath(tiles[0][0]);
+        this.names = names;
     }
 
     private void addLine(int x, int y){
@@ -392,6 +394,15 @@ public class Core {
         return  false;
     }
 
+    private boolean checkWrongConnection(Goal g){
+        Tile t = tiles[g.pos][sizey-1].connection(0);
+        if(t != null && t.isLit() && g.pos != correctGoal){
+            g.open();
+            return true;
+        }
+        return  false;
+    }
+
     /**
      * Colors the whole path that's connected to the input.
      * @param moved Pair of tiles whose move has potentially changed the connected path
@@ -490,7 +501,22 @@ public class Core {
                 if(checkGoal()){
                     // Game Over
                     this.succeeded = true;
-                    parent.back();
+
+                    int c = 0;
+                    int i = 0;
+                    ArrayList<String> unsafeUnlocked = new ArrayList<String>();
+                    for (Goal g : goals){
+                        if(checkWrongConnection(g)){
+                            c++;
+                            String s = this.names.get(i);
+                            unsafeUnlocked.add(s);
+                            Gdx.app.debug(this.getClass().getSimpleName(), "string key : "+ s);
+                        }
+                        i++;
+                    }
+                    Gdx.app.debug(this.getClass().getSimpleName(), "number of wrong locks unlocked : " + c);
+
+                    parent.back(unsafeUnlocked);
                 }
             }
         }
@@ -757,7 +783,7 @@ class Goal{
 
         popup = new PopUpBuilder(game, stage);
         popup.setTitle("TEMPLATE");
-        TextButton btnYes = new TextButtonBuilder(game, "CANCEL").withStyle(FontHelper.AESTHETIC_NORMAL_BLACK).build();
+        TextButton btnYes = new TextButtonBuilder(game, game.loc.getString("cancel_button")).withStyle(FontHelper.AESTHETIC_NORMAL_WHITE).build();
         btnYes.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

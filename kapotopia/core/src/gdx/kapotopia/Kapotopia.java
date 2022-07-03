@@ -17,9 +17,11 @@ import gdx.kapotopia.Music.MusicController;
 import gdx.kapotopia.STIDex.STI;
 import gdx.kapotopia.Screens.BilanG1;
 import gdx.kapotopia.Screens.ChoosingDifficultyScreen;
+import gdx.kapotopia.Screens.ChoosingSTDScreen;
 import gdx.kapotopia.Screens.Game1;
 import gdx.kapotopia.Screens.Game2;
 import gdx.kapotopia.Screens.Game3;
+import gdx.kapotopia.Screens.Game4;
 import gdx.kapotopia.Screens.IntroCutscene;
 import gdx.kapotopia.Screens.LoadingScreen;
 import gdx.kapotopia.Screens.MainMenu;
@@ -31,6 +33,7 @@ import gdx.kapotopia.Screens.STIDex;
 import gdx.kapotopia.Screens.mockupG1;
 import gdx.kapotopia.Screens.mockupG2;
 import gdx.kapotopia.Screens.mockupG3;
+import gdx.kapotopia.Screens.mockupG4;
 
 public class Kapotopia extends com.badlogic.gdx.Game {
 
@@ -59,16 +62,19 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 	private Game1 game1;
 	private Game2 game2;
 	private Game3 game3;
+	private Game4 game4;
 	private MainMenu mainMenu;
 	private mockupG1 mockupG1;
 	private mockupG2 mockupG2;
 	private mockupG3 mockupG3;
+	private mockupG4 mockupG4;
 	private BilanG1 bilanG1;
 	private World1 world1;
 	private World2 world2;
 	private World3 world3;
 	private STIDex STIDex;
 	private ChoosingDifficultyScreen dif;
+	private ChoosingSTDScreen STDGAME4;
 	private Options options;
 	private IntroCutscene introCutscene;
 
@@ -126,16 +132,26 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.ass.load(AssetDescriptors.PLAY_LOGO);
 		// Main Menu
 		this.ass.load(AssetDescriptors.MM_PART1);
+		this.ass.load(AssetDescriptors.MM_PART1_CUT);
 		this.ass.load(AssetDescriptors.ANIM_NEON_DOOR);
 		this.ass.load(AssetDescriptors.MM_PART3);
+		this.ass.load(AssetDescriptors.MM_PART3_CUT);
 		this.ass.load(AssetDescriptors.MM_PART4);
+		this.ass.load(AssetDescriptors.MM_PART4_CUT);
 		// Options
 		this.ass.load(AssetDescriptors.SKIN_COMIC_UI);
 		this.ass.load(AssetDescriptors.OP_BACK);
 		this.ass.load(AssetDescriptors.OP_MUTE);
 		this.ass.load(AssetDescriptors.OP_SPEAKER);
+		// World 2
+		this.ass.load(AssetDescriptors.MM1_W2);
+		this.ass.load(AssetDescriptors.MM2_W2);
 		// Game 1
 		this.ass.load(AssetDescriptors.B1_BACK);
+		// Game 4
+		this.ass.load(AssetDescriptors.YELLOW_BACK);
+		this.ass.load(AssetDescriptors.PALEBLUE_BACK);
+
 		// IntroG1
 		this.ass.load(AssetDescriptors.DIF_PART1);
         this.ass.load(AssetDescriptors.JUNGLE);
@@ -143,6 +159,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
         this.ass.load(AssetDescriptors.LEAVES);
         this.ass.load(AssetDescriptors.CROQUIS);
         this.ass.load(AssetDescriptors.MM_W1);
+        this.ass.load(AssetDescriptors.WORLD1_GAME1);
+        this.ass.load(AssetDescriptors.WORLD1_GAME2);
         // IntroG2
 		this.ass.load(AssetDescriptors.SABLE);
 		this.ass.load(AssetDescriptors.SEA);
@@ -197,6 +215,7 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		this.ass.load(AssetDescriptors.MI_JOJO_POSE);
 		this.ass.load(AssetDescriptors.MI_JOJO_KANJI);
 		this.ass.load(AssetDescriptors.PAUSE_LOGO);
+		this.ass.load(AssetDescriptors.Failed);
 		// Musics
 		this.ass.load(AssetDescriptors.MUSIC_GAME1);
 		this.ass.load(AssetDescriptors.MUSIC_J);
@@ -237,6 +256,46 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		// Sounds
 		this.ass.load(AssetDescriptors.MUSIC_GAME3);
 
+		//ASSETS FOR GAME 4
+		this.ass.load(AssetDescriptors.BACKGROUND_GAME4);
+		this.ass.load(AssetDescriptors.BACKGROUND_DISC);
+		this.ass.load(AssetDescriptors.COVER_GAME4);
+		this.ass.load(AssetDescriptors.DOWN_ARROW4);
+		this.ass.load(AssetDescriptors.UP_ARROW4);
+		this.ass.load(AssetDescriptors.LEFT_ARROW4);
+		this.ass.load(AssetDescriptors.RIGHT_ARROW4);
+		this.ass.load(AssetDescriptors.PAUSE_LOGO4);
+		this.ass.load(AssetDescriptors.PLAY_LOGO4);
+		this.ass.load(AssetDescriptors.ANULINGUS);
+		this.ass.load(AssetDescriptors.CARESSES);
+		this.ass.load(AssetDescriptors.CUNNI);
+		this.ass.load(AssetDescriptors.SERINGUE_CHANGE);
+		this.ass.load(AssetDescriptors.EMBRASSADE);
+		this.ass.load(AssetDescriptors.FELLATION);
+		this.ass.load(AssetDescriptors.GANT);
+		this.ass.load(AssetDescriptors.PENE_VAGINALE);
+		this.ass.load(AssetDescriptors.PENE_ANALE);
+		this.ass.load(AssetDescriptors.ISTCHOICE);
+
+		this.ass.load(AssetDescriptors.VIH);
+		this.ass.load(AssetDescriptors.HEPA);
+		this.ass.load(AssetDescriptors.HEPB);
+		this.ass.load(AssetDescriptors.HEPC);
+		this.ass.load(AssetDescriptors.SYPHILIS);
+		this.ass.load(AssetDescriptors.HERPES);
+		this.ass.load(AssetDescriptors.PAPILLO);
+		this.ass.load(AssetDescriptors.CHLAMYDIA);
+		this.ass.load(AssetDescriptors.GONORRHEE);
+		this.ass.load(AssetDescriptors.TRICHOMONAS);
+		this.ass.load(AssetDescriptors.MIREILLE_FOOD);
+		this.ass.load(AssetDescriptors.LEGEND_EN);
+		this.ass.load(AssetDescriptors.LEGEND_FR);
+
+		this.ass.load(AssetDescriptors.RED_SQUARE);
+		this.ass.load(AssetDescriptors.GREEN_SQUARE);
+		this.ass.load(AssetDescriptors.BLUE_SQUARE);
+		// IST-INDEX
+		this.ass.load(AssetDescriptors.CLOSE);
 
 	}
 
@@ -277,12 +336,18 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 			return destroyScreen(ScreenType.GAME2);
 		} else if(sc == game3) {
 			return destroyScreen(ScreenType.GAME3);
+		} else if (sc == game4) {
+			return destroyScreen(ScreenType.GAME4);
 		} else if(sc == mainMenu) {
 			return destroyScreen(ScreenType.MAINMENU);
 		} else if(sc == mockupG1) {
 			return destroyScreen(ScreenType.MOCKUPG1);
 		} else if(sc == mockupG2) {
 			return destroyScreen(ScreenType.MOCKUPG2);
+		} else if(sc == mockupG3) {
+			return destroyScreen(ScreenType.MOCKUPG3);
+		} else if(sc == mockupG4) {
+			return destroyScreen(ScreenType.MOCKUPG4);
 		} else if(sc == bilanG1) {
 			return destroyScreen(ScreenType.BILANG1);
 		} else if(sc == world1) {
@@ -299,6 +364,8 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		    return destroyScreen(ScreenType.OPTIONS);
         } else if(sc == introCutscene) {
 			return destroyScreen(ScreenType.INTROCUTSCENE);
+		} else if (sc == STDGAME4) {
+			return destroyScreen(ScreenType.STDGAME4);
 		}
 
 		return false;
@@ -313,15 +380,19 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 		destroyScreen(ScreenType.GAME1);
 		destroyScreen(ScreenType.GAME2);
 		destroyScreen(ScreenType.GAME3);
+		destroyScreen(ScreenType.GAME4);
 		destroyScreen(ScreenType.MAINMENU);
 		destroyScreen(ScreenType.MOCKUPG1);
 		destroyScreen(ScreenType.MOCKUPG2);
+		destroyScreen(ScreenType.MOCKUPG3);
+		destroyScreen(ScreenType.MOCKUPG4);
 		destroyScreen(ScreenType.BILANG1);
 		destroyScreen(ScreenType.WORLD1);
 		destroyScreen(ScreenType.WORLD2);
 		destroyScreen(ScreenType.WORLD3);
 		destroyScreen(ScreenType.STIDEX);
 		destroyScreen(ScreenType.DIFGAME1);
+		destroyScreen(ScreenType.STDGAME4);
 		destroyScreen(ScreenType.OPTIONS);
 		destroyScreen(ScreenType.INTROCUTSCENE);
 		changeScreen(nextScreen);
@@ -379,6 +450,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 						if (game3 != null) {
 							game3.dispose();
 							game3 = null;
+							succeeded = true;
+						}
+						break;
+				}
+				break;
+			case GAME4:
+				switch (ACTION) {
+					case CHANGE:
+						if (game4 == null) game4 = new Game4(this);
+						setScreen(game4);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (game4 != null) {
+							game4.dispose();
+							game4 = null;
 							succeeded = true;
 						}
 						break;
@@ -512,6 +599,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 						break;
 				}
 				break;
+			case MOCKUPG4:
+				switch (ACTION) {
+					case CHANGE:
+						if (mockupG4 == null) mockupG4 = new mockupG4(this);
+						setScreen(mockupG4);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (mockupG4 != null) {
+							mockupG4.dispose();
+							mockupG4 = null;
+							succeeded = true;
+						}
+						break;
+				}
+				break;
 			case BILANG1:
 				switch (ACTION) {
 					case CHANGE:
@@ -539,6 +642,22 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 						if (dif != null) {
 							dif.dispose();
 							dif = null;
+							succeeded = true;
+						}
+						break;
+				}
+				break;
+			case STDGAME4:
+				switch (ACTION) {
+					case CHANGE:
+						if (STDGAME4 == null) STDGAME4 = new ChoosingSTDScreen(this);
+						setScreen(STDGAME4);
+						succeeded = true;
+						break;
+					case DESTROY:
+						if (STDGAME4 != null) {
+							STDGAME4.dispose();
+							STDGAME4 = null;
 							succeeded = true;
 						}
 						break;
@@ -642,6 +761,10 @@ public class Kapotopia extends com.badlogic.gdx.Game {
 
 	public MusicController getMusicControl() {
 		return musicControl;
+	}
+
+	public ChoosingSTDScreen getChoosingSTDScreen() {
+		return STDGAME4;
 	}
 
 	private enum ScreenAction {
